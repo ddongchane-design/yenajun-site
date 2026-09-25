@@ -1043,6 +1043,13 @@
     var cw = $("outChecks"); cw.innerHTML = "";
     var tally = [0, 0, 0, 0, 0];
     var grades = res.hasName ? checkGrades(res) : {};
+    var GUIDE_LINK = {
+      "발음오행": ["sound", "사이트마다 결과가 다른 이유 →"],
+      "사격수리": ["suri", "획수 결과, 얼마나 신경 써야 할까? →"],
+      "수리오행": ["suri", "획수 결과, 얼마나 신경 써야 할까? →"],
+      "수리음양": ["suri", "획수 결과, 얼마나 신경 써야 할까? →"],
+      "자원오행": ["sound", "자원오행도 작명가마다 달라요 →"]
+    };
     function add(title, g, chainHtml, note) {
       tally[g.lv]++;
       var c = el("div", "check"), top = el("div", "check-top");
@@ -1057,6 +1064,8 @@
       c.appendChild(el("p", "grade-why", g.why));
       if (chainHtml) c.appendChild(el("div", "chain", chainHtml));
       if (note) c.appendChild(el("p", null, note));
+      var gl = GUIDE_LINK[title];
+      if (gl && g.lv <= 2) c.appendChild(el("a", "guide-link", gl[1])).href = "/baby-name/guide/#" + gl[0];
       cw.appendChild(c);
     }
     function chainHTML(items, rels) {

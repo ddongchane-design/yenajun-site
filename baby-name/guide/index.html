@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>아기 이름 짓기 가이드 — 출생신고 전 확인할 것과 작명 결과 읽는 법 | 예나준</title>
+  <meta name="description" content="출생신고 기한, 이름 규칙, 인명용 한자, 개명 절차부터 획수·발음오행을 얼마나 믿어야 하는지, 태어난 시각 기준까지. 아기 이름 짓기 전에 알아둘 것을 정리했어요.">
+  <link rel="canonical" href="https://yenajun.com/baby-name/guide/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="예나준">
+  <meta property="og:title" content="아기 이름 짓기 가이드 — 출생신고 전 확인할 것">
+  <meta property="og:description" content="법으로 꼭 지켜야 할 것과 참고만 하면 되는 작명 이론을 나눠서 정리했어요.">
+  <meta property="og:url" content="https://yenajun.com/baby-name/guide/">
+  <meta property="og:image" content="https://yenajun.com/assets/og-image.jpg">
+
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .guide-doc { max-width: 760px; margin: 0 auto; padding: 40px 20px 80px; }
+    .guide-doc h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.3; margin-top: 10px; }
+    .guide-doc .lead { font-size: 17px; color: var(--muted); line-height: 1.8; margin: 16px 0 0; }
+    .guide-doc h2 { font-size: clamp(21px, 3vw, 26px); margin: 56px 0 14px; padding-top: 22px; border-top: 1px solid var(--line); scroll-margin-top: 96px; display: flex; gap: 10px; align-items: baseline; }
+    .guide-doc h2 .no { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--coral); flex: none; }
+    .guide-doc h3 { font-size: 17px; margin: 28px 0 8px; }
+    .guide-doc p, .guide-doc li { font-size: 16px; color: var(--muted); line-height: 1.85; }
+    .guide-doc p { margin: 12px 0 0; }
+    .guide-doc strong { color: var(--text); }
+    .guide-doc ul, .guide-doc ol { padding-left: 22px; margin: 12px 0 0; }
+
+    .layers { display: grid; gap: 12px; margin-top: 24px; }
+    @media (min-width: 640px) { .layers { grid-template-columns: 1fr 1fr; } }
+    .layer { border-radius: 16px; padding: 18px 20px; }
+    .layer b { display: block; font-size: 16px; color: var(--text); margin-bottom: 6px; }
+    .layer span { font-size: 14.5px; color: var(--muted); line-height: 1.7; }
+    .layer.must { background: #FBEDE8; border: 1px solid #F2C9BC; }
+    .layer.ref { background: var(--sage-bg); border: 1px solid #C9D9C6; }
+
+    .toc { margin-top: 28px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+    .toc p { margin: 0 0 8px; font-size: 13px; font-weight: 600; letter-spacing: 1px; color: var(--coral); }
+    .toc ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+    .toc li { font-size: 15px; line-height: 1.6; }
+    .toc a { text-decoration: none; color: var(--text); }
+    .toc a:hover { color: var(--coral); }
+    .toc .tag-must, .toc .tag-ref { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; margin-left: 6px; vertical-align: 1px; }
+    .tag-must { background: #FBEDE8; color: var(--coral); }
+    .tag-ref { background: var(--sage-bg); color: var(--sage-text); }
+
+    .tbl { margin-top: 16px; overflow-x: auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+    .tbl table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    .tbl th, .tbl td { padding: 11px 14px; text-align: left; vertical-align: top; line-height: 1.6; }
+    .tbl th { background: var(--cream-2); color: var(--muted-2); font-size: 13px; font-weight: 600; white-space: nowrap; }
+    .tbl td { border-top: 1px solid var(--line); color: var(--text); }
+    .tbl td:first-child { white-space: nowrap; font-weight: 500; }
+    .src { font-size: 13px !important; color: var(--muted-2) !important; margin-top: 8px !important; }
+
+    blockquote { margin: 16px 0 0; padding: 14px 18px; background: #fff; border-left: 3px solid var(--coral); border-radius: 0 12px 12px 0; }
+    blockquote p { margin: 0 !important; font-family: var(--serif); font-size: 16px !important; color: var(--text) !important; line-height: 1.8 !important; }
+    blockquote cite { display: block; margin-top: 8px; font-size: 13px; font-style: normal; color: var(--muted-2); }
+
+    .point { margin-top: 18px; background: var(--navy); color: var(--cream); border-radius: 14px; padding: 16px 20px; font-size: 15.5px; line-height: 1.75; }
+    .point b { color: #F2B8A5; }
+
+    .cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 12px 18px; border-radius: 12px; background: var(--navy); color: var(--cream) !important; font-weight: 600; font-size: 15px; text-decoration: none; }
+    .cta:hover { background: #151D32; color: var(--cream) !important; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .legend span { font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 999px; border: 1.5px solid; }
+    .lg-best { color: #2E7D5B; background: #EAF3EE; }
+    .lg-good { color: #24406E; background: #EDF1F7; }
+    .lg-fair { color: #8A6A14; background: #FDF8EE; }
+    .lg-bad { color: #B33A2B; background: #FBEEEC; }
+    .meter { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-top: 14px; max-width: 420px; }
+    .meter span { font-size: 12px; text-align: center; padding-top: 10px; color: var(--muted-2); position: relative; }
+    .meter span::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; border-radius: 2px; }
+    .meter span:nth-child(1)::before { background: #B33A2B; }
+    .meter span:nth-child(2)::before { background: #C2692A; }
+    .meter span:nth-child(3)::before { background: #9C8419; }
+    .meter span:nth-child(4)::before { background: #5B9446; }
+    .meter span:nth-child(5)::before { background: #2E7D5B; }
+
+    .sources { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .sources h2 { margin-top: 0; border: 0; padding: 0; font-size: 18px; }
+    .sources ol { font-size: 13px; }
+    .sources li { font-size: 13px !important; line-height: 1.7 !important; word-break: break-all; }
+    .sources a { color: var(--muted-2); }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="예나준 홈"><img src="/assets/logo.svg" alt="" width="32" height="32"><span>예나준</span></a>
+    <a class="pill-link" href="/baby-name/" style="text-decoration:none;font-weight:600;font-size:15px">이름짓기 도구 →</a>
+  </div>
+</header>
+
+<main class="guide-doc">
+  <p class="eyebrow">NAMING GUIDE</p>
+  <h1>아기 이름 짓기 전에<br>알아둘 것</h1>
+  <p class="lead">이름을 지을 때 알아둘 것은 두 종류예요. <strong>어기면 실제로 불이익이 생기는 법과 제도</strong>, 그리고 <strong>학파마다 결과가 갈리는 작명 이론</strong>이에요. 둘을 나눠서 보면 훨씬 덜 헷갈려요.</p>
+
+  <div class="layers">
+    <div class="layer must"><b>꼭 지켜야 할 것</b><span>출생신고 기한, 이름 글자 수, 인명용 한자, 부모와 같은 이름 금지. 틀리면 과태료가 나오거나 한자가 빠진 채 등록돼요.</span></div>
+    <div class="layer ref"><b>참고하면 좋은 것</b><span>획수(81수리), 발음오행, 사주 보완. 학파마다 판정이 다르고, 과학적으로 검증된 방법은 아니에요.</span></div>
+  </div>
+
+  <nav class="toc" aria-label="목차">
+    <p>목차</p>
+    <ol>
+      <li><a href="#deadline">출생신고, 언제까지 해야 하나요?</a><span class="tag-must">법</span></li>
+      <li><a href="#rules">이름을 정할 때 지켜야 할 규칙</a><span class="tag-must">법</span></li>
+      <li><a href="#hanja">인명용 한자가 아니면 어떻게 되나요?</a><span class="tag-must">법</span></li>
+      <li><a href="#rename">출생신고한 이름, 나중에 바꿀 수 있나요?</a><span class="tag-must">법</span></li>
+      <li><a href="#suri">획수가 나쁘게 나왔는데, 얼마나 신경 써야 하나요?</a><span class="tag-ref">참고</span></li>
+      <li><a href="#sound">같은 이름인데 사이트마다 점수가 다른 이유</a><span class="tag-ref">참고</span></li>
+      <li><a href="#time">태어난 시각, 표준시 그대로 넣어야 하나요?</a><span class="tag-ref">참고</span></li>
+      <li><a href="#howto">이름짓기 도구 결과, 이렇게 읽으세요</a></li>
+      <li><a href="#cost">작명에 돈은 얼마나 들까요?</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <h2 id="deadline"><span class="no">01</span>출생신고, 언제까지 해야 하나요?</h2>
+  <p>출생신고는 <strong>태어난 날부터 1개월 안에</strong> 해야 해요. 기한을 넘기면 5만 원 이하의 과태료가 나와요. 출생신고서에 이름을 적어야 하니, 이름도 사실상 한 달 안에 정해야 하는 셈이에요.</p>
+  <p>2024년 7월 19일부터 <strong>출생통보제</strong>가 시행돼서 병원이 출생 사실을 14일 안에 알려요. 하지만 병원이 하는 건 "태어났다는 통보"까지예요. <strong>부모가 1개월 안에 신고할 의무는 그대로</strong> 남아 있어요.</p>
+  <p>2024년 7월 19일 이후 태어난 아기는 어느 병원에서 태어났든 대법원 전자가족관계등록시스템에서 인터넷으로 출생신고를 할 수 있어요.</p>
+  <p class="src">근거: 가족관계의 등록 등에 관한 법률 제44조, 제122조 · 대법원 보도자료(2024-07-17)</p>
+
+  <!-- 2 -->
+  <h2 id="rules"><span class="no">02</span>이름을 정할 때 지켜야 할 규칙</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>확인할 것</th><th>기준</th></tr></thead>
+    <tbody>
+      <tr><td>이름 글자 수</td><td>성을 뺀 <strong>5자 이내</strong>. 넘으면 출생신고가 받아들여지지 않아요.</td></tr>
+      <tr><td>한자</td><td>대법원이 정한 <strong>인명용 한자</strong>만 한자로 기록돼요.</td></tr>
+      <tr><td>같은 이름</td><td>부모나 조부모 등 <strong>직계존속과 같은 이름은 법적으로 쓸 수 없어요.</strong></td></tr>
+      <tr><td>한글 이름</td><td>한자 없이 한글만으로도 신고할 수 있어요.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">출처: 가족관계의 등록 등에 관한 법률 · 찾기쉬운 생활법령정보(법제처)</p>
+  <p>부모나 조상 이름에 쓰인 글자를 피하는 <strong>기휘(忌諱)</strong>는 이와 다른 이야기예요. 기휘는 한자문화권에 내려오는 <strong>관습</strong>이고, 같은 이름을 못 쓰는 건 출생신고 자체가 안 되는 <strong>법</strong>이에요. 이름짓기 도구의 "가족 글자" 검사는 이 기휘 관습을 확인해 줘요.</p>
+
+  <!-- 3 -->
+  <h2 id="hanja"><span class="no">03</span>인명용 한자가 아니면 어떻게 되나요?</h2>
+  <p>신고가 반려되지는 않아요. 대신 <strong>한자가 빠지고 이름이 한글로만 기록</strong>돼요. 인명용 한자는 교육용 기초한자 1,800자와 대법원규칙이 추가로 정한 한자로 이루어져 있어요.</p>
+  <p>이 제한을 두고 헌법소원까지 간 사건도 있어요. 딸 이름에 '예쁠 래(婡)'를 쓰려다 한글로만 기록된 부모가 낸 사건인데, 헌법재판소는 2026년 4월 29일 <strong>5 대 4로 합헌</strong> 결정을 내렸어요. 의견이 거의 반반으로 갈린 만큼, 한자를 쓸 계획이라면 미리 확인하는 게 가장 확실해요.</p>
+  <ul>
+    <li>한자는 <strong>정해진 발음으로만</strong> 쓸 수 있어요. 같은 한자라도 원하는 음으로는 못 쓸 수 있어요.</li>
+    <li>동자, 속자, 약자는 조회되는 것만 쓸 수 있어요.</li>
+    <li>최종 확인은 <strong>대법원 전자가족관계등록시스템의 인명용 한자 조회</strong>(무료)에서 하세요.</li>
+  </ul>
+  <p>이름짓기 도구에는 대법원 인명용 한자 9,729자가 들어 있어서 음절, 획수, 자원오행으로 찾아보고 뜻을 확인할 수 있어요.</p>
+  <p class="src">근거: 가족관계의 등록 등에 관한 규칙 제37조 · 헌재 2023헌마282(2026-04-29)</p>
+
+  <!-- 4 -->
+  <h2 id="rename"><span class="no">04</span>출생신고한 이름, 나중에 바꿀 수 있나요?</h2>
+  <p>바꿀 수는 있지만 간단하지는 않아요. 개명은 주민센터 신고만으로 되지 않고 <strong>가정법원의 허가</strong>가 먼저 필요해요. 허가를 받은 뒤에도 1개월 안에 신고해야 하고, 늦으면 5만 원 이하 과태료가 나와요. 처리에는 보통 몇 달이 걸려요.</p>
+  <blockquote>
+    <p>개명을 허가할 만한 상당한 이유가 있고 신청권 남용이 아니라면, 원칙적으로 개명을 허가함이 상당하다.</p>
+    <cite>대법원 2005. 11. 16.자 2005스26 결정 (요지)</cite>
+  </blockquote>
+  <p>법원이 개명을 까다롭게만 보는 건 아니지만, <strong>출생신고 전에 한 번 더 들여다보는 쪽이 훨씬 수월</strong>해요.</p>
+
+  <!-- 5 -->
+  <h2 id="suri"><span class="no">05</span>획수가 나쁘게 나왔는데, 얼마나 신경 써야 하나요?</h2>
+  <p>이름 획수로 길흉을 보는 <strong>사격·81수리</strong>는 오래된 우리 전통이 아니라 <strong>1920년대 후반 일본에서 만들어진 이론</strong>이에요. 일본의 구마사키 겐오가 1929년 책에서 81수를 이름 풀이에 가져왔고, 창씨개명 시기에 우리나라로 들어왔어요.</p>
+  <blockquote>
+    <p>일본 성명학의 시조인 구마사키 겐오가 1920년대 후반에 창안한 오격부상법에 기원을 둔 수리 성명학은 현재 우리나라에서 가장 널리 활용되고 있는 작명법이다.</p>
+    <cite>김만태, 『동아시아문화연구』 제57호(2014)</cite>
+  </blockquote>
+  <p>성명학을 전공한 박사논문에서도 한계를 짚었어요. 여섯 유파로 같은 이름을 풀어 봤더니 <strong>길흉이 하나도 일치하지 않았다</strong>는 거예요.</p>
+  <blockquote>
+    <p>각 유형의 성명학이 옳다면 동일한 성명의 길흉은 전부 일치해야 하지만, 사례를 분석한 결과 4명 모두 길흉이 일치하지 않았다.</p>
+    <cite>권익기, 「한국 성명학의 작명 관련 비판적 연구」(2019)</cite>
+  </blockquote>
+  <p>다만 같은 논문은 이름이 삶에 어느 정도 영향을 줄 수 있다는 "상대적" 관점까지 부정하지는 않았어요.</p>
+  <div class="point">그래서 도구에서 <b>"사격수리 나쁨"</b>이 나와도 확정된 판정으로 받아들일 필요는 없어요. <b>마음에 걸리면 한자를 바꿔 비교해 보는 정도</b>로 쓰시면 충분해요.</div>
+
+  <!-- 6 -->
+  <h2 id="sound"><span class="no">06</span>같은 이름인데 사이트마다 점수가 다른 이유</h2>
+  <p>가장 큰 이유는 <strong>발음오행</strong>이에요. 발음오행은 이름 첫소리(초성)를 목·화·토·금·수에 나눠 서로 살리는지 보는 방식인데, 자음을 나누는 기준이 두 가지예요.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>자음</th><th>운해본 (작명소 실무)</th><th>해례본 (훈민정음 원문)</th></tr></thead>
+    <tbody>
+      <tr><td>ㄱ ㅋ</td><td>목</td><td>목</td></tr>
+      <tr><td>ㄴ ㄷ ㄹ ㅌ</td><td>화</td><td>화</td></tr>
+      <tr><td>ㅇ ㅎ</td><td><strong>토</strong></td><td><strong>수</strong></td></tr>
+      <tr><td>ㅅ ㅈ ㅊ</td><td>금</td><td>금</td></tr>
+      <tr><td>ㅁ ㅂ ㅍ</td><td><strong>수</strong></td><td><strong>토</strong></td></tr>
+    </tbody>
+  </table></div>
+  <p>ㅇ·ㅎ과 ㅁ·ㅂ·ㅍ이 두 기준에서 정반대예요. 그래서 이 자음이 들어간 이름은 <strong>어느 기준을 쓰느냐에 따라 상생도 되고 상극도 돼요.</strong> 학술 논문에서도 이 부분을 한글 발음오행의 가장 큰 난제로 꼽았어요(이재승, 2019). 한자의 자원오행도 작명가마다 다르게 보는 경우가 있어요.</p>
+  <p>그래서 이름짓기 도구는 기준을 하나로 정해 두지 않았어요. <strong>STEP 3 판정 기준</strong>에서 발음오행 기준, 수리오행 범위, 시간 기준을 바꿔 가며 결과가 어떻게 달라지는지 직접 비교할 수 있어요.</p>
+
+  <!-- 7 -->
+  <h2 id="time"><span class="no">07</span>태어난 시각, 표준시 그대로 넣어야 하나요?</h2>
+  <p>한국 표준시는 일본 아카시시를 지나는 <strong>동경 135도</strong>를 기준으로 해요. 그래서 실제 해의 움직임과 비교하면 서울은 약 <strong>32분</strong>, 부산은 약 <strong>24분</strong> 시계가 빨라요.</p>
+  <p>여기까지는 천문학적 사실이에요. 하지만 <strong>이 차이를 사주의 태어난 시(時) 계산에 반영할지는 학파마다 달라요.</strong> 명리에서는 30분 정도 보정하는 방식이 많이 쓰이지만 모두가 쓰는 기준은 아니에요.</p>
+  <ul>
+    <li>도구 기본값은 <strong>태어난 지역 경도로 보정</strong>이에요.</li>
+    <li>시(時)가 바뀌는 경계 근처에 태어났다면 <strong>"한국 표준시 그대로"로도 바꿔서</strong> 두 결과를 비교해 보세요.</li>
+    <li>정확한 태어난 시각은 출생증명서나 산모수첩에서 확인할 수 있어요.</li>
+  </ul>
+
+  <!-- 8 -->
+  <h2 id="howto"><span class="no">08</span>이름짓기 도구 결과, 이렇게 읽으세요</h2>
+  <h3>① 이름 칸에 한 글자씩 쓰기</h3>
+  <p>생년월일, 태어난 시각, 성별을 넣고 <strong>성 / 첫 글자 / 끝 글자</strong> 칸에 한 글자씩 써요. 아직 태어나기 전이면 예정일로 먼저 넣어 봐도 돼요.</p>
+  <h3>② 색깔 카드에서 한자 고르기</h3>
+  <p>글자를 쓰면 쓸 수 있는 한자가 카드로 나와요. 색이 진한 것부터 위에 있어요.</p>
+  <div class="legend"><span class="lg-best">가장 추천</span><span class="lg-good">추천</span><span class="lg-fair">보통</span><span class="lg-bad">피하기</span></div>
+  <p><strong>가장 추천</strong>은 사격수리, 수리오행, 사주 보완이 모두 맞는 한자, <strong>추천</strong>은 사격수리와 수리오행이 맞는 한자예요. 고르면 목록이 접히고, "다른 한자 보기"를 누르면 다시 펼쳐져요.</p>
+  <h3>③ 검사 결과는 5단계로</h3>
+  <div class="meter"><span>매우 나쁨</span><span>나쁨</span><span>보통</span><span>좋음</span><span>매우 좋음</span></div>
+  <p>발음오행, 발음음양, 사격수리, 수리오행, 수리음양, 자원오행, 가족 글자를 각각 5단계로 보여주고, 왜 그 등급인지 한 줄로 알려줘요.</p>
+  <div class="point">이 등급은 <b>길흉 판정이 아니라, 고른 기준으로 계산한 결과</b>예요. 위의 <a href="#suri" style="color:#F2B8A5">05번</a>, <a href="#sound" style="color:#F2B8A5">06번</a>에서 본 것처럼 기준에 따라 달라질 수 있어요. 한자의 뜻이 마음에 드는지가 가장 확실한 기준이에요.</div>
+  <a class="cta" href="/baby-name/">이름짓기 도구 열기 →</a>
+
+  <!-- 9 -->
+  <h2 id="cost"><span class="no">09</span>작명에 돈은 얼마나 들까요?</h2>
+  <p>업체들이 공개한 가격을 보면 온라인 작명은 이름 하나에 <strong>2만~8만 원</strong>, 오프라인 작명소는 <strong>5만~15만 원</strong> 선이에요. 이름 여러 개를 받는 상품은 20만~30만 원, "특별한 비법"을 내세워 수십만 원 넘게 받는 곳도 있어요.</p>
+  <p>예나준 이름짓기 도구는 <strong>무료이고 로그인도 필요 없어요.</strong> 입력한 내용은 저장하지 않아요. 작명소에 가더라도 도구로 먼저 후보를 추려 가면 상담이 훨씬 수월해요.</p>
+  <p>참고로 연도별 인기 이름 순위는 대법원 통계의 <strong>출생신고 접수일 기준</strong> 잠정치예요. "그해 태어난 아기 이름 1위"가 아니라 "그해 출생신고된 이름 1위"라고 보는 게 정확해요.</p>
+
+  <div class="point" style="margin-top:32px">이름이 운명을 결정하지는 않아요. <b>법과 제도는 정확히 지키고</b>, 획수나 오행은 <b>마음에 걸리는 부분을 확인하는 정도</b>로 쓰세요. 마지막 판단은 결국 엄마 아빠의 몫이에요.</div>
+  <a class="cta" href="/baby-name/">우리 아기 이름 지어 보기 →</a>
+
+  <section class="sources">
+    <h2>참고한 자료</h2>
+    <ol>
+      <li><a href="https://www.law.go.kr/LSW/lsInfoP.do?lsId=010444" rel="noopener" target="_blank">가족관계의 등록 등에 관한 법률</a> — 제44조 신고 기한, 제99조 개명, 제122조 과태료</li>
+      <li><a href="https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=105591" rel="noopener" target="_blank">가족관계의 등록 등에 관한 규칙 제37조</a> — 인명용 한자의 범위</li>
+      <li><a href="https://www.easylaw.go.kr/CSP/CnpClsMain.laf?csmSeq=1830&ccfNo=2&cciNo=1&cnpClsNo=2" rel="noopener" target="_blank">찾기쉬운 생활법령정보 — 자녀의 이름</a> — 법제처</li>
+      <li><a href="https://www.easylaw.go.kr/CSP/CnpClsMainBtr.laf?popMenu=ov&csmSeq=707&ccfNo=7&cciNo=1&cnpClsNo=1" rel="noopener" target="_blank">찾기쉬운 생활법령정보 — 개명신고 방법</a> — 법제처 (대법원 2005스26)</li>
+      <li><a href="https://efamily.scourt.go.kr/cs/CsBltnWrtList.do?bltnbordId=0000010" rel="noopener" target="_blank">대법원 전자가족관계등록시스템 — 인명용 한자 조회 안내</a></li>
+      <li><a href="https://stfamily.scourt.go.kr/st/StFrrStatcsView.do?pgmId=090000000025" rel="noopener" target="_blank">대법원 가족관계등록 통계 — 상위 출생신고 이름 현황</a></li>
+      <li><a href="https://www.scourt.go.kr/portal/news/NewsViewAction.work?pageIndex=1&seqnum=2665&gubun=6" rel="noopener" target="_blank">대법원 보도자료 — 출생통보제 및 보호출산제 시행</a> (2024-07-17)</li>
+      <li><a href="https://lawsociety.or.kr/board/legalNews/article/276480" rel="noopener" target="_blank">헌재 2023헌마282 결정 요지</a> — 대한변호사협회 (선고 2026-04-29)</li>
+      <li>권익기, 「한국 성명학의 작명 관련 비판적 연구」, 박사학위논문, 2019 — <a href="https://scienceon.kisti.re.kr/srch/selectPORSrchArticle.do?cn=DIKO0015099947" rel="noopener" target="_blank">KISTI ScienceON</a></li>
+      <li>김만태, 「창씨개명 시기에 전파된 일본 성명학의 영향」, 『동아시아문화연구』 제57호, 2014 — <a href="https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART001877942" rel="noopener" target="_blank">KCI</a></li>
+      <li>이재승, 「성명학에서 한글오행 적용의 난제에 대한 해결적 고찰」, 『인문사회 21』 제10권 제1호, 2019 — <a href="https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART002439179" rel="noopener" target="_blank">KCI</a></li>
+      <li>이재승·김만태, 「한국 성씨한자의 자원오행에 대한 고찰」, 『문화와융합』 제40권 제3호, 2018 — <a href="https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002360488" rel="noopener" target="_blank">KCI</a></li>
+      <li><a href="http://aedl.csbr.re.kr/wp-content/uploads/sites/2/2018/02/standard_time.pdf" rel="noopener" target="_blank">「우리나라는 왜 표준시를 동경 135°의 지방평균시를 사용하고 있는가?」</a> — 서울 약 32분, 부산 약 24분 차이</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-brand"><img src="/assets/logo.svg" alt="" width="28" height="28"><b>예나준</b><span>© 2026 yenajun.com</span></div>
+    <nav class="footer-nav" aria-label="하단 메뉴">
+      <a href="/#story">소개</a><a href="/privacy.html">개인정보처리방침</a><a href="/terms.html">이용약관</a><a href="mailto:[문의 이메일]">문의</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

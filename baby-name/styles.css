@@ -602,3 +602,26 @@ body.sheet-view .sheet-foot span { display: block; margin-bottom: 3px; }
 .grade-meter i { height: 7px; border-radius: 2px; background: var(--line); }
 .grade-meter i.on { background: var(--gc); }
 .check p.grade-why { font-size: 12.5px; color: var(--ink-2); font-weight: 500; }
+
+/* 작명 가이드로 가는 길 */
+.guide-banner {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-top: 18px;
+  padding: 12px 16px; border: 1px solid var(--accent-line); border-left: 4px solid var(--seal);
+  background: var(--surface); color: var(--ink); text-decoration: none; border-radius: 4px;
+}
+.guide-banner:hover { background: var(--accent-soft); }
+.gb-tag { font-size: 11.5px; font-weight: 700; color: var(--seal); border: 1px solid var(--seal); padding: 1px 8px; border-radius: 999px; flex: none; }
+.gb-text { font-size: 13.5px; color: var(--ink-2); flex: 1 1 220px; line-height: 1.6; }
+.gb-go { font-size: 13px; font-weight: 700; color: var(--accent); flex: none; }
+.guide-links { display: grid; gap: 4px; }
+.guide-links a, .guide-link { color: var(--accent); font-weight: 500; text-decoration: none; }
+.guide-link { font-size: 12.5px; justify-self: start; }
+.guide-links a:hover, .guide-link:hover { text-decoration: underline; }
+.howto-steps { margin: 0; padding: 0; list-style: none; counter-reset: hs; display: grid; gap: 10px; }
+.howto-steps li { counter-increment: hs; position: relative; padding-left: 34px; font-size: 13.5px; color: var(--ink-2); line-height: 1.75; }
+.howto-steps li::before {
+  content: counter(hs); position: absolute; left: 0; top: 1px; width: 22px; height: 22px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 12px; font-weight: 700; background: var(--accent-soft); color: var(--accent);
+}
+.howto-steps b { display: block; color: var(--ink); font-size: 14px; }
+.howto-more { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
