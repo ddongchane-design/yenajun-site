@@ -95,6 +95,33 @@ summary::-webkit-details-marker{display:none}
 summary::before{content:"＋";color:var(--gold);font-weight:800}
 details[open] summary::before{content:"－"}
 @media (max-width:420px){ h1{font-size:26px} .grid{grid-template-columns:1fr} }
+
+/* 설명 글 */
+.guide{margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
+.guide p{font-size:15px;color:var(--sub);line-height:1.8;margin-top:12px}
+.guide strong{color:var(--fg)}
+.g-h2{font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--fg)}
+.g-h3{font-size:17px;font-weight:800;color:var(--fg);margin-top:32px}
+.g-steps{margin:14px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.g-steps li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14.5px;color:var(--sub);line-height:1.6}
+.g-steps b{color:var(--gold)}
+.g-table{margin-top:14px;overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.g-table table{width:100%;border-collapse:collapse;font-size:14px}
+.g-table th,.g-table td{padding:11px 14px;text-align:left;vertical-align:top;line-height:1.5}
+.g-table th{background:var(--card);color:var(--sub);font-weight:700;font-size:13px}
+.g-table td{border-top:1px solid var(--line);color:var(--fg)}
+.g-table td:last-child{white-space:normal}
+.guide p.g-src{font-size:12px;color:var(--faint);margin-top:8px;line-height:1.6}
+.g-ex{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.g-ex > div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--sub);line-height:1.6}
+.g-ex b{color:var(--fg);font-size:15px}
+.g-ex em{font-style:normal;font-weight:800}
+.g-ex em.hit{color:var(--red)} .g-ex em.safe{color:var(--green)}
+.guide details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:10px}
+.guide details summary{font-size:15px;color:var(--fg)}
+.guide details p{font-size:14px;margin-top:10px}
+.guide .g-more{margin-top:28px}
+.guide .g-more a{color:var(--gold);font-weight:700;text-decoration:none}
 </style>
 </head>
 <body>
@@ -177,6 +204,68 @@ details[open] summary::before{content:"－"}
   </div>
 
   <p class="disc">※ 참고용 단순 계산기입니다. 실제 대출 한도는 규제지역 지정, 대출 상품, 상환 방식(여기서는 원리금균등 가정), 개인 신용·기존 대출에 따라 달라집니다. LTV·DSR·방공제 값은 입력한 가정에 기반하며, 최우선변제금은 2026년 7월 1일 시행 시행령 기준입니다. 실제 실행 전 반드시 은행·주택도시기금·한국주택금융공사(HF)에서 최신 조건을 확인하세요.</p>
+
+  <section class="guide" aria-labelledby="g-title">
+    <h2 class="g-h2" id="g-title">방공제 한도 계산기, 이렇게 보세요</h2>
+    <p>결과 카드의 ①~④는 은행이 한도를 정하는 순서를 그대로 따라갑니다. 집값으로 먼저 한도를 잡고, 거기서 방공제를 뺀 뒤, 소득으로 계산한 한도와 비교해 <strong>더 낮은 쪽</strong>이 최종 한도가 됩니다.</p>
+    <ol class="g-steps">
+      <li><b>① 집값 기준 한도</b> — 집값 × LTV 비율. 담보로 빌릴 수 있는 최대치예요.</li>
+      <li><b>② 방공제</b> — 지역별 최우선변제금. 면제 대상이면 0원이에요.</li>
+      <li><b>③ 방공제 후 집값 기준 한도</b> — ① − ②</li>
+      <li><b>④ 소득 기준 한도</b> — 연소득과 DSR, 금리·기간으로 역산한 금액이에요.</li>
+    </ol>
+    <p>그래서 ③이 ④보다 크면 방공제가 빠져도 최종 한도는 그대로이고, ③이 ④보다 작으면 방공제만큼 한도가 줄어듭니다. 결과 아래의 초록/빨강 표시가 바로 이 차이를 알려줘요.</p>
+
+    <h3 class="g-h3">방공제란?</h3>
+    <p>주택담보대출 한도를 정할 때, 나중에 그 집에 들어올 수 있는 소액 세입자의 보증금 일부를 한도에서 미리 빼두는 은행 실무 관행입니다. 집이 경매로 넘어가면 소액 세입자는 은행보다 먼저 보증금 일부를 돌려받을 권리(최우선변제권, 주택임대차보호법 제8조)가 있어서, 은행은 그만큼을 담보가치에서 빼고 계산해요. 법에 있는 용어는 아니고, 정식 명칭은 소액임차보증금 공제입니다.</p>
+
+    <h3 class="g-h3">지역별 방공제 금액</h3>
+    <div class="g-table"><table>
+      <thead><tr><th>지역</th><th>방공제 (최우선변제금)</th></tr></thead>
+      <tbody>
+        <tr><td>서울특별시</td><td>5,500만원</td></tr>
+        <tr><td>과밀억제권역(서울 제외)·세종·용인·화성·김포</td><td>4,800만원</td></tr>
+        <tr><td>광역시(군 제외)·안산·광주·파주·이천·평택</td><td>2,800만원</td></tr>
+        <tr><td>그 밖의 지역</td><td>2,500만원</td></tr>
+      </tbody>
+    </table></div>
+    <p class="g-src">2026년 7월 1일 시행 주택임대차보호법 시행령 제10조 기준. 이전에 실행된 대출이나 이후 개정에는 다른 금액이 적용될 수 있어요.</p>
+
+    <h3 class="g-h3">계산 예시 — 서울 아파트, LTV 70%</h3>
+    <div class="g-ex">
+      <div><b>집값 5억 원 · 소득 기준 한도 3억 5천만 원</b>
+        <span>① 3억 5,000만 → ③ 2억 9,500만 (방공제 5,500만 차감)</span>
+        <span>③이 ④보다 작으므로 최종 한도 <em class="hit">2억 9,500만 원</em> — 방공제만큼 줄어듦</span></div>
+      <div><b>집값 10억 원 · 소득 기준 한도 4억 원</b>
+        <span>① 7억 → ③ 6억 4,500만 (방공제 5,500만 차감)</span>
+        <span>③이 ④보다 크므로 최종 한도 <em class="safe">4억 원</em> — 방공제 영향 없음</span></div>
+    </div>
+    <p>이렇게 <strong>집값이 높고 소득 기준 한도가 먼저 걸리는 경우</strong>에는 방공제가 실제 한도에 영향을 주지 않을 수 있어요. 직접 숫자를 넣어 내 경우를 확인해 보세요.</p>
+
+    <h3 class="g-h3">대출 상품별 방공제 적용</h3>
+    <div class="g-table"><table>
+      <thead><tr><th>대출 상품</th><th>방공제</th></tr></thead>
+      <tbody>
+        <tr><td>보금자리론 (아파트)</td><td>적용 안 함</td></tr>
+        <tr><td>디딤돌 (수도권 아파트)</td><td>적용 — 생애최초·연소득 4천만 원 이하·주택 3억 원 이하면 면제</td></tr>
+        <tr><td>신생아 특례 (수도권 3억 원 이하)</td><td>적용 안 함</td></tr>
+        <tr><td>신생아 특례 (3억 초과~6억 원 이하)</td><td>생애최초면 면제 가능 (은행별 확인)</td></tr>
+        <tr><td>신생아 특례 (6억 초과~9억 원 이하)</td><td>적용</td></tr>
+        <tr><td>시중은행 일반 주택담보대출</td><td>대부분 적용 — MCI·MCG 면제는 2026년 7월 주요 은행에서 신규 중단</td></tr>
+      </tbody>
+    </table></div>
+    <p class="g-src">2024년 11월 국토교통부 디딤돌대출 관리방안, 2026년 7월 은행권 모기지보험 취급 중단 보도 기준. 상품 조건은 수시로 바뀌니 신청 전 꼭 확인하세요.</p>
+
+    <h3 class="g-h3">자주 묻는 질문</h3>
+    <details><summary>MCI·MCG가 뭔가요?</summary>
+      <p>방공제로 빠지는 금액을 보험(MCI, 서울보증보험)이나 보증(MCG, 한국주택금융공사)으로 메워 방공제를 면제받는 상품입니다. 가입할 수 있다면 계산기에서 '면제'를 선택하세요. 다만 2026년 7월 기준 주요 시중은행 대부분이 신규 취급을 멈춘 상태예요.</p></details>
+    <details><summary>방 개수만큼 빠지나요?</summary>
+      <p>아파트는 보통 1개 분(지역별 최우선변제금 1회)만 빠집니다. 다가구·다세대처럼 방마다 세입자가 있을 수 있는 주택은 방 개수만큼 빠질 수 있어서 이 계산기 결과보다 한도가 더 줄어들 수 있어요.</p></details>
+    <details><summary>계산기 결과와 은행 한도가 다를 수 있나요?</summary>
+      <p>네. 이 계산기는 원리금균등 상환을 가정한 단순 계산이에요. 규제지역 여부, 스트레스 DSR, 신용 점수, 기존 대출, 은행별 내부 기준에 따라 실제 한도는 달라집니다. 대략적인 감을 잡는 용도로 쓰시고, 최종 한도는 은행 상담으로 확인하세요.</p></details>
+
+    <p class="g-more"><a href="/">← 예나준의 다른 도구 보기</a></p>
+  </section>
 
   <div class="foot">
     <span class="brand">포모의 쉬운경제</span>

@@ -353,6 +353,36 @@ body {
   .result-grid { grid-template-columns: 1fr; }
   .age-btn { padding: 7px 11px; font-size: 12px; }
 }
+
+/* 설명 글 */
+.guide { margin: 40px 0 48px; padding-top: 32px; border-top: 1px solid var(--border); }
+.guide p { font-size: 14.5px; color: var(--text-muted); line-height: 1.8; margin-top: 12px; }
+.guide strong { color: var(--text); }
+.g-h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
+.g-h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-top: 32px; }
+.g-steps { margin: 14px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.g-steps li { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+.g-steps b { color: var(--accent); margin-right: 4px; }
+.g-table { margin-top: 14px; overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.g-table table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.g-table th, .g-table td { padding: 10px 12px; text-align: left; line-height: 1.5; }
+.g-table th { background: var(--accent-light); color: var(--text); font-weight: 500; font-size: 12.5px; white-space: nowrap; }
+.g-table td { border-top: 1px solid var(--border); color: var(--text); }
+.guide p.g-src { font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.g-ex { margin-top: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--text-muted); }
+.g-ex b { color: var(--text); }
+.g-ex b.accent { color: var(--accent); font-size: 16px; }
+.g-cards { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.g-cards > div { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+.g-cards b { font-size: 15px; color: var(--text); }
+.g-cards span { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+.g-list { margin: 12px 0 0; padding-left: 20px; font-size: 14.5px; color: var(--text-muted); line-height: 1.9; }
+.guide details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-top: 10px; }
+.guide summary { font-size: 14.5px; font-weight: 500; color: var(--text); cursor: pointer; }
+.guide details p { font-size: 14px; margin-top: 10px; }
+.guide p.g-note { font-size: 12.5px; background: var(--coral-light); border-radius: 12px; padding: 12px 14px; margin-top: 28px; }
+.guide .g-more { margin-top: 20px; }
+.guide .g-more a { color: var(--accent); font-weight: 500; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -407,6 +437,62 @@ body {
     체중과 월령을 입력하면<br>바로 계산 결과가 나와요
   </div>
 </div>
+
+<section class="guide" aria-labelledby="g-title">
+  <h2 class="g-h2" id="g-title">혼합수유 보충량 계산기, 이렇게 계산해요</h2>
+  <p>이 계산기는 세 단계로 보충량을 구합니다.</p>
+  <ol class="g-steps">
+    <li><b>1. 1회 수유량</b> 아기 체중과 월령으로 한 번에 먹어야 할 양을 구해요.</li>
+    <li><b>2. 모유 추정량</b> 모유 수유 시간(분) × 약 2.5ml로 대략 잡아요. 적게 잡는 쪽으로 계산해서 보충이 모자라지 않게 했어요.</li>
+    <li><b>3. 분유 보충량</b> 1회 수유량 − 모유 추정량</li>
+  </ol>
+  <p>모유를 얼마나 먹었는지는 정확히 잴 수 없어서 2번은 <strong>대략적인 추정</strong>이에요. 결과는 출발점으로 삼고, 아기 반응을 보면서 10ml 단위로 조절해 주세요.</p>
+
+  <h3 class="g-h3">월령별 수유량 공식</h3>
+  <div class="g-table"><table>
+    <thead><tr><th>월령</th><th>1회 수유량</th><th>하루 횟수</th><th>간격</th></tr></thead>
+    <tbody>
+      <tr><td>신생아~50일</td><td>체중 × 150 ÷ 8</td><td>8회</td><td>2~3시간</td></tr>
+      <tr><td>50~100일</td><td>체중 × 150 ÷ 7 + 20ml</td><td>7회</td><td>2.5~3.5시간</td></tr>
+      <tr><td>100일 이후</td><td>체중 × 150 ÷ 6 + 20ml</td><td>6회</td><td>3~4시간</td></tr>
+      <tr><td>4개월 이상</td><td>하루 총량(최대 1,000ml) ÷ 5</td><td>4~5회</td><td>3.5~5시간</td></tr>
+    </tbody>
+  </table></div>
+  <p class="g-src">체중은 kg, 결과는 ml. 체중 1kg당 하루 150ml를 기준으로 한 일반적인 가이드예요. 아기마다 먹는 양은 다를 수 있어요.</p>
+
+  <h3 class="g-h3">예시: 체중 3.5kg, 생후 3주</h3>
+  <div class="g-ex">
+    <span>1회 수유량 3.5 × 150 ÷ 8 = <b>약 66ml</b></span>
+    <span>모유를 양쪽 합쳐 16분 먹었다면 16 × 2.5 = <b>약 40ml</b></span>
+    <span>분유 보충량 66 − 40 = <b class="accent">약 26ml</b></span>
+  </div>
+
+  <h3 class="g-h3">보충할 때 지키면 좋은 세 가지</h3>
+  <div class="g-cards">
+    <div><b>모유를 먼저</b><span>아기가 젖을 빨아야 모유를 만드는 호르몬(프로락틴)이 나와요. 분유를 먼저 주면 배가 불러 덜 빨게 되고, 모유량이 줄어들 수 있어요.</span></div>
+    <div><b>밤에는 가능하면 직수</b><span>프로락틴은 밤에 더 많이 나와요. 보충은 하루 2~3회 정도, 낮 시간에 몰아 주는 방법이 많이 쓰여요.</span></div>
+    <div><b>천천히 나오는 젖꼭지</b><span>젖병이 너무 편하면 아기가 엄마 젖을 거부할 수 있어요(유두혼동). 느린 속도 젖꼭지를 쓰고, 젖병을 수평에 가깝게 눕혀 천천히 먹여 주세요.</span></div>
+  </div>
+
+  <h3 class="g-h3">보충량이 맞는지 확인하는 법</h3>
+  <ul class="g-list">
+    <li>젖은 기저귀가 하루 <strong>6~8개 이상</strong></li>
+    <li>체중이 일주일에 <strong>150~200g</strong>씩 늘어요</li>
+    <li>수유 후 아기가 편안하게 잠들거나 놀아요</li>
+  </ul>
+  <p>하나라도 해당하지 않으면 보충량을 늘리기 전에 소아청소년과나 수유 전문가와 먼저 상담해 주세요.</p>
+
+  <h3 class="g-h3">자주 묻는 질문</h3>
+  <details><summary>혼합수유하다가 완전 모유수유로 바꿀 수 있나요?</summary>
+    <p>가능해요. 2~3일마다 1회 보충량을 10~20ml씩 줄이고, 직수 횟수를 하루 8~12회로 늘리는 방법이 흔히 쓰여요. 보통 2~3주 정도 걸립니다. 체중이 잘 늘고 기저귀 횟수가 정상일 때 천천히 진행하세요.</p></details>
+  <details><summary>분유를 탈 때 주의할 점은요?</summary>
+    <p>물은 70도 이상으로 끓였다 식혀서 쓰고, 먹다 남긴 분유는 1시간 안에 버려 주세요. 분유 브랜드는 자주 바꾸지 않는 게 좋아요.</p></details>
+  <details><summary>계산 결과보다 더 먹으려고 하거나 덜 먹어요.</summary>
+    <p>공식은 평균값이라 아기마다 차이가 있어요. 아기가 배고픈 신호를 보이면 조금 더 주고, 고개를 돌리면 멈추면 됩니다. 성장곡선과 기저귀 횟수가 정상이면 크게 걱정하지 않으셔도 돼요.</p></details>
+
+  <p class="g-note">이 계산기와 설명은 일반적인 가이드예요. 미숙아, 저체중아, 질환이 있는 아기는 반드시 의료진의 안내를 따라 주세요.</p>
+  <p class="g-more"><a href="/">← 예나준의 다른 도구 보기</a></p>
+</section>
 
 <script>
 (function() {
