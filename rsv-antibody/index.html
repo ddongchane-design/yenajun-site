@@ -111,6 +111,18 @@ footer{border-top:1px solid var(--rule);padding-top:16px;display:flex;flex-direc
 footer ol{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
 footer a{color:var(--ink-2);word-break:break-all}
 @media (prefers-reduced-motion:no-preference){#result{transition:opacity .2s}}
+
+/* 설명 글 */
+.guide{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:22px 18px;display:flex;flex-direction:column;gap:12px}
+.guide h2{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,25px);color:var(--teal)}
+.guide h3{margin-top:14px}
+.guide p{font-size:15px}
+.guide .tbl table{min-width:0}
+.guide details{border:1px solid var(--rule);border-radius:10px;padding:12px 14px}
+.guide details p{margin-top:8px;font-size:14.5px}
+.guide-note{background:var(--amber-soft);border-left:4px solid var(--amber);padding:12px 14px;font-size:14px!important;border-radius:0 6px 6px 0;margin-top:10px!important}
+.guide-note b{color:var(--amber)}
+.guide-more a{color:var(--ink-2);text-decoration:none;font-size:14px}
 </style>
 </head>
 <body>
@@ -214,6 +226,67 @@ footer a{color:var(--ink-2);word-break:break-all}
 </form>
 
 <section id="result" aria-live="polite"></section>
+
+<section class="guide" aria-labelledby="g-title">
+  <h2 id="g-title">베이포투스와 엔플론시아, 뭐가 다를까요?</h2>
+  <p>결론부터 말하면 두 주사의 선택은 "어느 약이 더 좋은가"보다 <b>우리 아이 조건</b>에서 갈려요. 개월 수, 체중, 기저질환, 엄마의 임신 중 RSV 백신 접종 여부가 기준이에요. 위 도우미에 이 조건을 넣으면 해당하는 제품이 정리돼요.</p>
+
+  <h3>RSV와 항체주사</h3>
+  <p>RSV(호흡기세포융합바이러스)는 국내에서 보통 10월부터 이듬해 3월까지 유행하고, 11월~1월에 가장 많이 퍼져요. 항체주사는 완성된 항체를 바로 넣어 주는 방식이라 <b>맞자마자 보호가 시작</b>되고, 시간이 지나면서 서서히 사라져요. 한 시즌만 잘 넘기면 되는 RSV에 잘 맞는 방식이에요.</p>
+
+  <h3>두 주사 한눈에 비교</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>구분</th><th>베이포투스</th><th>엔플론시아</th></tr></thead>
+    <tbody>
+      <tr><td>성분</td><td>니르세비맙</td><td>클레스로비맙</td></tr>
+      <tr><td>국내 출시</td><td>2025년 2월</td><td>2026년 9월</td></tr>
+      <tr><td>용량</td><td>5kg 미만 50mg · 5kg 이상 100mg</td><td>체중 상관없이 105mg</td></tr>
+      <tr><td>보호 기간</td><td>최소 5개월</td><td>최소 5개월</td></tr>
+      <tr><td>두 번째 시즌</td><td>고위험군 200mg 재투여 허가</td><td>첫 시즌만 허가</td></tr>
+    </tbody>
+  </table></div>
+  <p class="basis">출처: FDA 허가사항, 약학정보원, 데일리팜</p>
+
+  <h3>조건별로 정리하면</h3>
+  <ul class="notes">
+    <li><b>첫 시즌, 건강한 아기 (시즌 시작 때 8개월 미만)</b>: 둘 중 어느 쪽이든 괜찮아요. 미국 CDC 지침(2025년 8월)은 두 제품 사이에 우선순위를 두지 않아요.</li>
+    <li><b>두 번째 시즌, 고위험군</b>: 베이포투스만 허가돼 있어요. 엔플론시아는 첫 시즌 아기에게만 쓸 수 있어요.</li>
+    <li><b>미숙아, 심장질환 등 건강보험 급여 대상</b>: 시나지스(매달 1회, 최대 5회)를 급여로 맞을 수 있어요. 대한신생아학회는 이 경우 시나지스를 권고하고, 베이포투스로 대신할지는 주치의와 상의해요.</li>
+    <li><b>엄마가 임신 중 아브리스보를 맞고 14일 이상 지나 태어난 아기</b>: 미국 CDC 기준으로 아기 항체주사는 원칙적으로 필요 없어요.</li>
+    <li><b>시즌 시작 때 8개월 이상, 건강한 아기</b>: 두 번째 시즌 접종은 보통 권고 대상이 아니에요.</li>
+  </ul>
+
+  <h3>언제 맞나요?</h3>
+  <ul class="notes">
+    <li><b>10월~3월에 태어난 아기</b>: 퇴원 전, 늦어도 생후 1주 안에 맞아요.</li>
+    <li><b>4월~9월에 태어난 아기</b>: 시즌 직전인 9월 말~10월, 늦어도 11월 안에 맞아요.</li>
+  </ul>
+
+  <h3>효과는 어느 쪽이 더 좋나요?</h3>
+  <p>입원을 줄인 효과는 베이포투스가 83.2%(HARMONIE 시험), 엔플론시아가 84.2%(CLEVER 시험, 150일 기준)로 <b>둘 다 높아요</b>. 다만 두 약을 직접 비교한 연구는 아직 없고 시험마다 기준이 달라서, 숫자만으로 어느 쪽이 낫다고 말할 수는 없어요.</p>
+  <p>국내에서는 베이포투스 도입 첫 시즌(2025-26)에 0세 RSV 입원이 약 25% 줄었다는 보도가 있었어요.</p>
+
+  <h3>둘 다 가능하다면 무엇을 볼까요?</h3>
+  <ul class="notes">
+    <li><b>가격</b>: 둘 다 비급여라 병원마다 달라요. 2026년 기준 안내된 금액은 45만~70만 원 정도예요. 두 제품 가격을 함께 문의해 보세요.</li>
+    <li><b>실사용 데이터</b>: 베이포투스는 2023년부터 프랑스, 스페인 등에서 여러 시즌 쓰여 자료가 많아요. 엔플론시아는 2025년 미국 허가라 아직 쌓이는 중이에요.</li>
+    <li><b>부작용</b>: 두 약 모두 임상시험에서 위약과 큰 차이가 없었어요.</li>
+  </ul>
+
+  <h3>자주 묻는 질문</h3>
+  <details><summary>작년에 베이포투스를 맞았는데 올해도 효과가 있나요?</summary>
+    <p>아니요. 2026년 8월 JAMA Pediatrics에 실린 프랑스 대규모 연구에서 첫해 입원은 크게 줄었지만, 두 번째 해에는 보호 효과가 확인되지 않았어요. 두 번째 시즌에 고위험군이 다시 맞는 것은 효과가 남아서가 아니라 재투여가 허가돼 있기 때문이에요.</p></details>
+  <details><summary>이미 RSV에 걸렸던 아기도 맞아도 되나요?</summary>
+    <p>네. 미국 CDC와 AAP 기준 권고는 같아요. RSV는 여러 형이 있어 다시 걸릴 수 있어요.</p></details>
+  <details><summary>독감 예방접종과 같은 날 맞아도 되나요?</summary>
+    <p>네. 같은 날 동시에 맞을 수 있고, 주사 부위만 나누면 돼요.</p></details>
+  <details><summary>실손보험 청구가 되나요?</summary>
+    <p>예방 목적의 비급여 접종이라 보통 청구가 어려워요. 가입한 보험사에 한 번 확인해 보세요.</p></details>
+
+  <p class="guide-note"><b>의료 조언이 아닙니다.</b> 2026년 9월 기준 공개된 지침과 허가사항을 정리한 내용이에요. 접종 여부와 제품은 꼭 소아청소년과 주치의와 상의해 정하세요.</p>
+  <p class="guide-more"><a href="/">← 예나준의 다른 도구 보기</a></p>
+</section>
+
 
 <details>
   <summary>도우미가 쓰는 판정 기준 (출처 포함)</summary>
@@ -401,6 +474,5 @@ footer a{color:var(--ink-2);word-break:break-all}
 })();
 </script>
 
-<p style="text-align:center;margin:40px 0 0;font-size:14px"><a href="/" style="color:var(--ink-2);text-decoration:none">← 예나준의 다른 도구 보기</a></p>
 </body>
 </html>
