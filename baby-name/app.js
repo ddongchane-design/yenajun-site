@@ -51,8 +51,8 @@
   ];
 
 
-  // 부모가 아이에게 바라는 마음. 한자의 훈(뜻)에서 찾아 맞춥니다.
-  var WISHES = [
+  // 뜻이 좋은 글자를 목록 위로 올리는 데 쓰는 낱말 묶음입니다. 화면에는 나오지 않습니다.
+  var GOOD_MEANINGS = [
     { key: "health", label: "건강하게", phrase: "몸과 마음이 튼튼하고",
       words: ["편안", "굳셀", "굳을", "목숨", "튼튼", "성할", "자랄", "기를", "무성", "온전", "평안", "강할", "편할", "보전", "오랠", "왕성"] },
     { key: "wisdom", label: "슬기롭게", phrase: "슬기롭고 배움을 즐기며",
@@ -79,14 +79,14 @@
       return tokens.length > 1 ? tokens.slice(0, -1).join(" ") : tokens.join(" ");
     }).join(" ") + " ";
   }
-  function wishMatch(wish, mean) {
+  function meaningMatch(group, mean) {
     var text = meaningOnly(mean).trim();
     if (!text) return false;
     var tokens = text.split(/\s+/);
     for (var i = 0; i < tokens.length; i++) {
-      for (var j = 0; j < wish.words.length; j++) {
+      for (var j = 0; j < group.words.length; j++) {
         // 낱말 앞에서부터 맞을 때만 인정합니다. "비웃을"이 "웃을"에 걸리지 않도록 합니다.
-        if (tokens[i].indexOf(wish.words[j]) === 0) return true;
+        if (tokens[i].indexOf(group.words[j]) === 0) return true;
       }
     }
     return false;
@@ -321,7 +321,7 @@
   var state = {
     date: "2026-09-09", time: "11:47", gender: "male", len: 2,
     surKor: "이", surHanja: null, nameKor: "예준", chars: [],
-    school: "unhae", scope: "4", timeBase: "true", region: "서울", customLon: 127, wishes: [], family: [], popYear: POP_YEARS[0]
+    school: "unhae", scope: "4", timeBase: "true", region: "서울", customLon: 127, family: [], popYear: POP_YEARS[0]
   };
 
   function regionLon(name) {
@@ -478,12 +478,12 @@
       var m = markOf(gradeChar(c, isFirst, res));
       // 뜻을 알 수 없는 글자는 수리가 맞아도 추천하지 않습니다.
       if (!c.mean && m.rank < 3) m = { icon: "·", rank: 3, why: "수리는 맞지만 뜻 정보가 없는 글자입니다" };
-      var wish = WISHES.some(function (wv) { return wishMatch(wv, c.mean); });
-      return { c: c, m: m, wish: wish };
+      var good = GOOD_MEANINGS.some(function (wv) { return meaningMatch(wv, c.mean); });
+      return { c: c, m: m, good: good };
     });
     rows.sort(function (a, b) {
       if (a.m.rank !== b.m.rank) return a.m.rank - b.m.rank;
-      if (a.wish !== b.wish) return a.wish ? -1 : 1;              // 좋은 뜻을 가진 글자를 먼저
+      if (a.good !== b.good) return a.good ? -1 : 1;              // 좋은 뜻을 가진 글자를 먼저
       if (!!b.c.mean !== !!a.c.mean) return b.c.mean ? 1 : -1;
       return a.c.strokes - b.c.strokes;
     });
@@ -497,6 +497,7 @@
       o.textContent = (r.m.icon ? r.m.icon + " " : "") + r.c.char + " " + (r.c.mean || "뜻 정보 없음")
         + " · " + r.c.strokes + "획 · " + r.c.el;
       o.title = r.m.why;
+      o.dataset.icon = r.m.icon;
       sel.appendChild(o);
     });
     // 고르지 않았다면 가장 잘 맞는 글자를 먼저 보여줍니다. 목록도 그 글자에서 열립니다.
@@ -508,13 +509,13 @@
     var best = rows.filter(function (r) { return r.m.rank === 0; }).length;
     var good = rows.filter(function (r) { return r.m.rank === 1; }).length;
     var note = $(isFirst ? "n1Note" : "n2Note");
-    if (note) note.textContent = arr.length + "자 중 ★ " + best + "자, ◎ " + good + "자";
+    if (note) note.textContent = arr.length + "자 중 가장 추천 " + best + " · 추천 " + good;
   }
 
   function annotateHanja(res) {
     if (!state.surHanja) {
       ["n1Note", "n2Note"].forEach(function (id) {
-        if ($(id)) $(id).textContent = "성 한자를 고르면 어울리는 한자에 표시가 붙습니다";
+        if ($(id)) $(id).textContent = "성 한자를 고르면 추천 색이 표시돼요";
       });
       return;
     }
@@ -566,17 +567,6 @@
         ok: nameEls.some(function (e) { return need.indexOf(e) >= 0; })
       };
     }
-
-    var selected = WISHES.filter(function (w) { return state.wishes.indexOf(w.key) >= 0; });
-    out.wish = {
-      selected: selected,
-      rows: selected.map(function (w) {
-        var hit = chars.filter(function (c) { return c && wishMatch(w, c.mean); });
-        return { wish: w, chars: hit, ok: hit.length > 0 };
-      })
-    };
-    out.wish.matched = out.wish.rows.filter(function (r) { return r.ok; }).length;
-    out.wishScore = selected.length ? Math.round(out.wish.matched / selected.length * 100) : null;
 
     var clash = [], shared = [];
     state.family.forEach(function (f) {
@@ -708,7 +698,7 @@
       $("askWrap").hidden = true;
       return;
     }
-    $("askWrap").hidden = false;
+    $("askWrap").hidden = !sampleApi;
     var list = el("div", "reading-parts");
     r.parts.forEach(function (part) {
       var item = el("div", "reading-part");
@@ -734,13 +724,13 @@
       sampleApi = api;
       var btn = $("askBtn");
       if (btn) btn.hidden = false;
+      if (lastResult) renderReading(lastResult);   // 묻기 영역을 뒤늦게라도 보여줍니다
     }).catch(function () { /* 이 화면에서는 쓸 수 없습니다 */ });
   })();
 
   function buildAskPrompt(res) {
     var chars = state.chars.filter(Boolean);
     var p = res.saju.pillars;
-    var wishes = res.wish.selected.map(function (w) { return w.label; }).join(", ");
     var fam = state.family.filter(function (f) { return f.name; })
       .map(function (f) { return f.label + " " + f.name; }).join(", ");
     return [
@@ -755,7 +745,6 @@
       "사주가 필요로 하는 오행: " + res.need.join(", "),
       "사격수리: " + (res.suri ? [res.suri.won, res.suri.hyeong, res.suri.i, res.suri.jeong].join("/") : "-"),
       fam ? "가족: " + fam : "",
-      wishes ? "부모가 바라는 것: " + wishes : "",
       "",
       "요청:",
       "1) 글자마다 무슨 뜻인지, 어떤 부수로 이루어졌는지 쉽게 풀어 주세요.",
@@ -801,7 +790,6 @@
       : (res.hasName ? "한글 이름" : "\u2014");
     $("outKor").textContent = res.hasName ? res.korName.split("").join(" ") : "이름을 입력하세요";
     $("outScore").textContent = res.score === null ? "\u2014" : res.score;
-    $("outWishScore").textContent = res.wishScore === null ? "—" : res.wishScore;
 
     $("outSaju").firstChild.nodeValue = p.year.kor + "년 " + p.month.kor + "월 " + p.day.kor + "일 " + p.hour.kor + "시 ";
     $("outSajuSub").textContent = p.year.han + " " + p.month.han + " " + p.day.han + " " + p.hour.han
@@ -876,7 +864,6 @@
     });
 
     renderReading(res);
-    renderWish(res);
     renderAdvice(s, res.need);
     renderChecks(res);
     renderSuri(res);
@@ -884,99 +871,50 @@
     renderPopularity(res);
     renderCandidates(res);
     annotateHanja(res);
+    renderChips("n1Han", "n1Chips", "n1Kor");
+    if (state.len === 2) renderChips("n2Han", "n2Chips", "n2Kor");
   }
 
-  function renderWish(res) {
-    var box = $("outWish"); box.innerHTML = "";
-    var chars = state.chars.filter(Boolean);
-
-    var bless = el("p", "bless");
-    if (!res.hasName) {
-      bless.textContent = "성과 이름을 입력하면, 그 이름이 품은 뜻을 한 문장으로 정리해 드립니다.";
-      box.appendChild(bless);
-      box.appendChild(el("p", "empty", "왼쪽 '부모의 마음'에서 아이에게 바라는 것을 먼저 골라두셔도 됩니다. 이름을 넣는 순간 그 마음이 담겼는지 함께 확인합니다."));
+  // 한자 목록을 색깔 카드로 보여줍니다. 실제 값은 숨겨 둔 select에 담깁니다.
+  var RANK_STYLE = {
+    "★": ["r-best", "가장 추천"], "◎": ["r-good", "추천"], "○": ["r-fair", "보통"], "×": ["r-bad", "피하기"]
+  };
+  function renderChips(selectId, boxId, korId) {
+    var sel = $(selectId), box = $(boxId);
+    if (!sel || !box) return;
+    var kor = ($(korId).value || "").slice(0, 1);
+    var scroll = box.scrollTop;
+    box.innerHTML = "";
+    if (!kor) {
+      box.appendChild(el("p", "chips-empty", "위 칸에 글자를 쓰면 쓸 수 있는 한자가 여기에 나와요"));
       return;
     }
-    if (res.hasHanja) {
-      var parts = chars.map(function (c) { return c.char + "은 '" + pureMeaning(c.mean) + "'"; }).join(", ");
-      var tail = res.wish.selected.length
-        ? res.wish.selected.map(function (w) { return w.phrase; }).join(" ") + " 아이로 자라기를 바라는 이름입니다."
-        : "아이가 이 뜻처럼 자라기를 바라는 이름입니다.";
-      bless.innerHTML = "<b>" + state.surHanja.char + chars.map(function (c) { return c.char; }).join("") + "</b> \u2014 "
-        + parts + "이라는 뜻입니다. " + tail;
-    } else {
-      bless.textContent = "한자를 고르면 이름에 담긴 뜻을 문장으로 보여드립니다.";
-    }
-    box.appendChild(bless);
-
-    if (!res.wish.selected.length) {
-      box.appendChild(el("p", "empty", "왼쪽 '부모의 마음'에서 바라는 것을 고르면, 그 마음이 이름에 담겼는지 확인하고 어울리는 글자를 찾아드립니다."));
+    if (!listFor(kor).length) {
+      box.appendChild(el("p", "chips-empty", "'" + kor + "' 음의 인명용 한자가 없어요. 한글 이름으로 봅니다."));
       return;
     }
-
-    var list = el("div", "wish-rows");
-    res.wish.rows.forEach(function (row) {
-      var item = el("div", "wish-row");
-      var head = el("div", "wish-head");
-      head.innerHTML = "<h3>" + row.wish.label + "</h3>"
-        + '<span class="pill ' + (row.ok ? "good" : "warn") + '">' + (row.ok ? "담겼어요" : "아직 없어요") + "</span>";
-      item.appendChild(head);
-
-      if (row.ok) {
-        item.appendChild(el("p", null, row.chars.map(function (c) {
-          return "<b>" + c.char + "</b> " + pureMeaning(c.mean);
-        }).join(", ") + " \u2014 이 글자가 그 마음을 담고 있습니다."));
-      } else {
-        item.appendChild(el("p", null, "지금 이름에는 이 뜻을 가진 글자가 없습니다. 아래는 수리와 발음이 맞으면서 이 마음을 담은 글자입니다. 누르면 끝 글자로 바꿔 봅니다."));
-        var picks = suggestForWish(row.wish, res);
-        var picksBox = el("div", "wish-picks");
-        if (!picks.length) {
-          picksBox.appendChild(el("span", "mini", "조건을 만족하는 글자를 찾지 못했습니다. 첫 글자나 기준을 바꿔 보세요."));
-        }
-        picks.forEach(function (c) {
-          var b = el("button", "wish-pick");
-          b.type = "button";
-          b.innerHTML = '<span class="han-sm el-' + c.el + '">' + c.char + "</span><span>" + c.kor + " · " + pureMeaning(c.mean)
-            + (res.need.indexOf(c.el) >= 0 ? ' <i class="ok">사주 보완</i>' : "") + "</span>";
-          b.addEventListener("click", function () {
-            $("n2Kor").value = c.kor;
-            fillSelect($("n2Han"), c.kor, c.char);
-            update();
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          });
-          picksBox.appendChild(b);
-        });
-        item.appendChild(picksBox);
-      }
-      list.appendChild(item);
-    });
-    box.appendChild(list);
-  }
-
-  function suggestForWish(wish, res) {
-    if (!state.surHanja || state.len !== 2 || !state.chars[0]) return [];
-    var allowed = allowedSecondStrokes(state.surHanja.strokes, state.chars[0].strokes, true);
-    var famChars = avoidChars();
-    var out = [];
-    allowed.forEach(function (sx) {
-      (BY_STROKE[sx] || []).forEach(function (c) {
-        if (!c.mean || !wishMatch(wish, c.mean)) return;
-        if (famChars[c.kor] || c.kor === state.surKor || c.kor === state.chars[0].kor) return;
-        var full = state.surKor + state.chars[0].kor + c.kor;
-        var se = soundElements(full, state.school), ok = true;
-        for (var i = 0; i < se.length - 1; i++) if (!relation(se[i].el, se[i + 1].el).ok) ok = false;
-        if (!ok) return;
-        out.push(c);
+    var opts = Array.prototype.filter.call(sel.options, function (o) { return o.value; });
+    opts.sort(function (a, b) { return (b.value === sel.value) - (a.value === sel.value); });
+    opts.forEach(function (o) {
+      var c = lookup(kor, o.value);
+      if (!c) return;
+      var st = RANK_STYLE[o.dataset.icon] || ["r-none", ""];
+      var on = o.value === sel.value;
+      var b = el("button", "han-chip " + st[0] + (on ? " is-on" : ""));
+      b.type = "button";
+      b.title = o.title || "";
+      b.setAttribute("aria-pressed", String(on));
+      b.innerHTML = '<span class="hc-c">' + c.char + "</span>"
+        + '<span class="hc-m"><b>' + (pureMeaning(c.mean) || "뜻 정보 없음") + "</b><small>" + c.strokes + "획 · " + c.el + "</small></span>"
+        + (st[1] ? '<span class="hc-r">' + st[1] + "</span>" : "");
+      b.addEventListener("click", function () {
+        sel.value = on ? "" : o.value;   // 고른 카드를 한 번 더 누르면 선택을 풉니다
+        sel.dataset.touched = "1";
+        sel.dispatchEvent(new Event("change"));
       });
+      box.appendChild(b);
     });
-    out.sort(function (a, b) {
-      var an = res.need.indexOf(a.el) >= 0 ? 0 : 1, bn = res.need.indexOf(b.el) >= 0 ? 0 : 1;
-      if (an !== bn) return an - bn;
-      var ap = POP_NAMESET[state.chars[0].kor + a.kor] ? 0 : 1, bp = POP_NAMESET[state.chars[0].kor + b.kor] ? 0 : 1;
-      if (ap !== bp) return ap - bp;
-      return a.strokes - b.strokes;
-    });
-    return out.slice(0, 10);
+    box.scrollTop = scroll;
   }
 
   function renderAdvice(s, need) {
@@ -1314,7 +1252,6 @@
     var wantSound = $("optSound").checked, wantYin = $("optYinYang").checked;
     var wantEl = $("optElement").checked, wantFam = $("optFamily").checked;
     var wantPop = $("optPopular").checked, wantMean = $("optMeaning").checked;
-    var wantWish = $("optWish").checked;
 
     var firstPool = keepFirst ? [state.chars[0]] : listFor(state.nameKor.slice(0, 1)).map(function (e) {
       return { char: e[0], kor: state.nameKor.slice(0, 1), mean: e[1] || "", strokes: e[2], radical: e[3], el: e[4] };
@@ -1350,11 +1287,6 @@
           var matched = [c1.el, c2.el].filter(function (e) { return res.need.indexOf(e) >= 0; }).length;
           if (wantEl && !matched) return;
 
-          var wishHits = res.wish.selected.filter(function (w) {
-            return wishMatch(w, c1.mean) || wishMatch(w, c2.mean);
-          });
-          if (wantWish && res.wish.selected.length && wishHits.length < res.wish.selected.length) return;
-
           var sg2 = suri(S, c1.strokes, c2.strokes);
           var verdicts = ["won", "hyeong", "i", "jeong"].map(function (k) { return numVerdict(sg2[k]); });
           var elChain = suriChainOk(sg2, state.scope);
@@ -1363,8 +1295,8 @@
           var score = verdicts.reduce(function (a, v) { return a + (v === "길" ? 10 : v === "반길" ? 5 : 0); }, 0)
             + (elChain.ok ? 15 : 0) + matched * 9 + (sOk ? 10 : 0) + (vOk ? 5 : 0)
             + ((c1.strokes % 2) !== (c2.strokes % 2) ? 5 : 0)
-            + (popRank ? 14 : 0) + (c1.mean && c2.mean ? 3 : 0) + wishHits.length * 8
-            + (WISHES.some(function (w) { return wishMatch(w, c2.mean); }) ? 4 : 0);
+            + (popRank ? 14 : 0) + (c1.mean && c2.mean ? 3 : 0)
+            + (GOOD_MEANINGS.some(function (w) { return meaningMatch(w, c2.mean); }) ? 4 : 0);
           var key = full + c1.char + c2.char;
           if (seenName[key]) return;
           seenName[key] = 1;
@@ -1373,7 +1305,6 @@
             mean: (c1.mean || "뜻 정보 없음") + " · " + (c2.mean || "뜻 정보 없음"),
             e1: c1.el, e2: c2.el, c1: c1, c2: c2,
             nums: [sg2.won, sg2.hyeong, sg2.i, sg2.jeong].join("/"),
-            wishes: wishHits.map(function (w) { return w.label; }),
             pop: popRank, score: score,
             current: !!(state.chars[0] && state.chars[1] && c1.char === state.chars[0].char && c2.char === state.chars[1].char)
           });
@@ -1392,12 +1323,11 @@
     if (!rows.length) empty.innerHTML = diagnoseEmpty();
     $("candSub").textContent = rows.length.toLocaleString() + "개 조합 중 상위 40개 · 행을 누르면 그 이름으로 바꿔 봅니다";
 
-    tb.appendChild(el("tr", null, "<th>이름</th><th>한자</th><th>뜻</th><th>부모의 마음</th><th>자원오행</th><th>원/형/이/정</th><th>인기</th><th>점수</th>"));
+    tb.appendChild(el("tr", null, "<th>이름</th><th>한자</th><th>뜻</th><th>자원오행</th><th>원/형/이/정</th><th>인기</th><th>점수</th>"));
     rows.slice(0, 40).forEach(function (r) {
       var tr = el("tr", "clickable" + (r.current ? " is-current" : ""),
         "<td><b class='han-sm'>" + r.kor + "</b>" + (r.current ? " <span class='mini'>현재</span>" : "") + "</td>"
         + "<td class='han-sm'>" + r.han + "</td><td>" + r.mean + "</td>"
-        + "<td>" + (r.wishes.length ? r.wishes.map(function (w) { return '<span class="wish-tag">' + w + "</span>"; }).join(" ") : "<span class='mini'>—</span>") + "</td>"
         + "<td>" + chip(r.e1, r.e1) + " " + chip(r.e2, r.e2) + "</td>"
         + "<td class='num'>" + r.nums + "</td>"
         + "<td class='num'>" + (r.pop ? r.pop + "위" : "<span class='mini'>순위 밖</span>") + "</td>"
@@ -1419,7 +1349,7 @@
       ["optSound", "발음오행 상생"], ["optYinYang", "발음음양 조화"],
       ["optElement", "사주 보완 오행"], ["optFamily", "가족 글자 회피"],
       ["optPopular", "인기 TOP 100 이름만"], ["optMeaning", "뜻이 있는 한자만"],
-      ["optWish", "고른 마음이 모두 담긴 이름만"], ["optKeepFirst", "첫 글자 고정"]
+      ["optKeepFirst", "첫 글자 고정"]
     ].filter(function (b) { return $(b[0]).checked; });
 
     var hints = [];
@@ -1459,10 +1389,7 @@
     }).join("");
     if (strokes.indexOf(+prev) >= 0) sel.value = prev; else strokeFilter = "";
 
-    var wishKey = $("expWish").value;
-    var wish = WISHES.filter(function (w) { return w.key === wishKey; })[0];
     var list = arr.filter(function (e) {
-      if (wish && !wishMatch(wish, e.mean)) return false;
       if (elFilter && e.el !== elFilter) return false;
       if (strokeFilter && e.strokes !== +strokeFilter) return false;
       if (q && e.mean.indexOf(q) < 0) return false;
@@ -1516,8 +1443,6 @@
     state.chars = state.len === 2
       ? [lookup(n1, $("n1Han").value), lookup(n2, $("n2Han").value)]
       : [lookup(n1, $("n1Han").value)];
-    state.wishes = Array.prototype.filter.call(document.querySelectorAll("#wishGrid input"), function (b) { return b.checked; })
-      .map(function (b) { return b.value; });
     state.family = [
       { label: "아버지", name: $("fam1").value.trim(), kind: "parent" },
       { label: "어머니", name: $("fam2").value.trim(), kind: "parent" },
@@ -1552,7 +1477,7 @@
   Array.prototype.forEach.call(document.querySelectorAll("#searchOpts input"), function (box) {
     box.addEventListener("change", update);
   });
-  ["expKor", "expEl", "expStroke", "expQuery", "expWish"].forEach(function (id) {
+  ["expKor", "expEl", "expStroke", "expQuery"].forEach(function (id) {
     $(id).addEventListener("input", renderExplorer);
     $(id).addEventListener("change", renderExplorer);
   });
@@ -1570,6 +1495,7 @@
     Array.prototype.forEach.call(this.children, function (b) { b.setAttribute("aria-pressed", String(b === btn)); });
     state.len = +btn.dataset.v;
     $("n2Wrap").hidden = state.len === 1;
+    $("n2Box").hidden = state.len === 1;
     update();
   });
   $("themeBtn").addEventListener("click", function () {
@@ -1863,10 +1789,9 @@
   var FORM_IDS = ["birthDate", "birthTime", "surKor", "n1Kor", "n2Kor", "fam1", "fam2", "fam3",
     "soundSchool", "suriScope", "timeBase", "region", "customLon", "popYear"];
   function stateUrl(openSheet) {
-    var s = { v: {}, h: {}, g: state.gender, l: state.len, w: [], o: {} };
+    var s = { v: {}, h: {}, g: state.gender, l: state.len, o: {} };
     FORM_IDS.forEach(function (id) { s.v[id] = $(id).value; });
     ["surHan", "n1Han", "n2Han"].forEach(function (id) { s.h[id] = $(id).value; });
-    Array.prototype.forEach.call(document.querySelectorAll("#wishGrid input:checked"), function (b) { s.w.push(b.value); });
     Array.prototype.forEach.call(document.querySelectorAll("#searchOpts input"), function (b) { s.o[b.id] = b.checked; });
     if (openSheet) s.sheet = 1;
     return location.href.split("#")[0] + "#s=" + encodeURIComponent(JSON.stringify(s));
@@ -1894,10 +1819,6 @@
       if (!Array.prototype.some.call(sel.options, function (o) { return o.value === s.h[id]; })) return;
       sel.value = s.h[id];
       fire(sel, "change");
-    });
-    Array.prototype.forEach.call(document.querySelectorAll("#wishGrid input"), function (b) {
-      var on = (s.w || []).indexOf(b.value) >= 0;
-      if (b.checked !== on) { b.checked = on; fire(b, "change"); }
     });
     Object.keys(s.o || {}).forEach(function (id) {
       var b = $(id);
@@ -2057,11 +1978,6 @@
     }
     var hist = POP_INDEX[state.gender + "|" + state.nameKor];
     lines.push("인기 순위 " + (hist && hist[state.popYear] ? state.popYear + "년 " + hist[state.popYear].rank + "위" : "TOP 100 밖"));
-    if (res.wish.selected.length) {
-      lines.push("부모의 마음 " + res.wish.rows.map(function (r) {
-        return r.wish.label + (r.ok ? "(담김: " + r.chars.map(function (c) { return c.char; }).join("") + ")" : "(미반영)");
-      }).join(", "));
-    }
     lines.push("가족 글자 " + (res.family.ok ? "겹침 없음" : res.family.clash.map(function (c) { return c.ch + "(" + c.who + ")"; }).join(", ")));
     lines.push("종합 " + res.score + "점 · 인명용 한자 여부는 대법원 조회로 확인하세요.");
     var text = lines.join("\n"), done = function () { toast("결과를 복사했습니다"); };
@@ -2078,16 +1994,6 @@
   } catch (err) { /* 저장 불가 환경 */ }
   document.documentElement.setAttribute("data-theme", startTheme);
   $("themeBtn").textContent = startTheme === "dark" ? "주간" : "야간";
-
-  $("wishGrid").innerHTML = WISHES.map(function (w) {
-    return '<label class="wish-chip"><input type="checkbox" value="' + w.key + '"> ' + w.label + "</label>";
-  }).join("");
-  Array.prototype.forEach.call(document.querySelectorAll("#wishGrid input"), function (b) {
-    b.addEventListener("change", update);
-  });
-  $("expWish").innerHTML = '<option value="">전체</option>' + WISHES.map(function (w) {
-    return '<option value="' + w.key + '">' + w.label + "</option>";
-  }).join("");
 
   $("region").innerHTML = REGIONS.map(function (r) {
     return '<option value="' + r[0] + '">' + r[0] + " (동경 " + r[1].toFixed(1) + "도 · " + Math.round((r[1] - 135) * 4) + "분)</option>";
