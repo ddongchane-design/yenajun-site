@@ -589,3 +589,16 @@ body.sheet-view .sheet-foot span { display: block; margin-bottom: 3px; }
 .chips-toggle small { font-size: 10.5px; font-weight: 400; color: var(--muted); }
 .chips-toggle:hover { background: var(--accent-soft); }
 .han-chips:not(.is-folded) > .chips-toggle { grid-column: 1 / -1; min-height: 40px; position: sticky; top: 0; z-index: 1; border-style: solid; }
+
+/* 이름 검사 5단계 */
+:root { --g0: #B33A2B; --g1: #C2692A; --g2: #9C8419; --g3: #5B9446; --g4: #2E7D5B; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --g0: #E08476; --g1: #E3A06A; --g2: #D6C35C; --g3: #A6CF7E; --g4: #7CC19A; }
+}
+:root[data-theme="dark"] { --g0: #E08476; --g1: #E3A06A; --g2: #D6C35C; --g3: #A6CF7E; --g4: #7CC19A; }
+.g0 { --gc: var(--g0); } .g1 { --gc: var(--g1); } .g2 { --gc: var(--g2); } .g3 { --gc: var(--g3); } .g4 { --gc: var(--g4); }
+.grade-pill { font-size: 11.5px; font-weight: 700; white-space: nowrap; padding: 3px 10px; border-radius: 999px; color: var(--gc); border: 1.5px solid var(--gc); }
+.grade-meter { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+.grade-meter i { height: 7px; border-radius: 2px; background: var(--line); }
+.grade-meter i.on { background: var(--gc); }
+.check p.grade-why { font-size: 12.5px; color: var(--ink-2); font-weight: 500; }

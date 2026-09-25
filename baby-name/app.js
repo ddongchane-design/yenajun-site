@@ -995,15 +995,66 @@
     aw.appendChild(i3);
   }
 
+  // 검사마다 다섯 단계로 매깁니다. 0 매우 나쁨 · 1 나쁨 · 2 보통 · 3 좋음 · 4 매우 좋음
+  var GRADE_LABEL = ["매우 나쁨", "나쁨", "보통", "좋음", "매우 좋음"];
+  function relGrade(rels) {
+    var n = rels.length, kuk = 0, gen = 0;
+    rels.forEach(function (r) { if (!r.ok) kuk++; else if (r.mark === "상생") gen++; });
+    var why = "상생 " + gen + " · 비화 " + (n - kuk - gen) + " · 상극 " + kuk;
+    var lv;
+    if (!kuk) lv = gen === n ? 4 : gen ? 3 : 2;
+    else if (kuk === n) lv = 0;
+    else lv = kuk / n <= 1 / 3 ? 2 : 1;
+    return { lv: lv, why: why };
+  }
+  function checkGrades(res) {
+    var g = {};
+    g.sound = relGrade(res.sound.rels);
+    var yins = res.vowel.parts.map(function (x) { return x.yin; });
+    g.vowel = res.vowel.ok ? { lv: 4, why: "양성·음성 모음이 함께 있음" }
+      : yins.indexOf("중") >= 0 ? { lv: 2, why: "중성 모음(ㅣ)이 섞여 한쪽만 있음" }
+      : { lv: 1, why: "모음이 모두 " + yins[0] + "성으로 치우침" };
+    if (res.hasHanja) {
+      var names = ["원격", "형격", "이격", "정격"], keys = ["won", "hyeong", "i", "jeong"];
+      var bad = [], half = 0;
+      res.suriVerdicts.forEach(function (v, i) {
+        if (v === "흉") bad.push(names[i] + " " + res.suri[keys[i]]);
+        else if (v === "반길") half++;
+      });
+      g.suri = {
+        lv: bad.length >= 2 ? 0 : bad.length === 1 ? 1 : half >= 2 ? 2 : half === 1 ? 3 : 4,
+        why: bad.length ? "흉수 " + bad.length + "개 (" + bad.join(", ") + ")"
+          : half ? "흉수 없음 · 반길수 " + half + "개" : "네 격 모두 길수"
+      };
+      g.suriEl = relGrade(res.suriEl.rels.slice(0, state.scope === "3" ? 2 : 3));
+      g.strokeYin = res.strokeYinOk ? { lv: 4, why: "획수 홀짝이 섞임" } : { lv: 1, why: "획수가 모두 " + (res.strokeYin[0].yin === "양" ? "홀수" : "짝수") };
+      var m = res.resource.els.length, mt = res.resource.matched.length, cl = res.resource.clashed.length;
+      g.resource = {
+        lv: mt === m ? 4 : mt && !cl ? 3 : mt ? 2 : !cl ? 1 : 0,
+        why: "보완 오행 " + mt + "자 · 과다한 기운과 겹침 " + cl + "자"
+      };
+    }
+    var fc = res.family.clash.length;
+    g.family = { lv: fc >= 2 ? 0 : fc === 1 ? 1 : 4, why: fc ? "부모 이름과 겹치는 글자 " + fc + "자" : "부모 이름과 겹치는 글자 없음" };
+    return g;
+  }
+
   function renderChecks(res) {
     var cw = $("outChecks"); cw.innerHTML = "";
-    var pass = 0, total = 0;
-    function add(title, ok, chainHtml, note, soft) {
-      total++; if (ok) pass++;
+    var tally = [0, 0, 0, 0, 0];
+    var grades = res.hasName ? checkGrades(res) : {};
+    function add(title, g, chainHtml, note) {
+      tally[g.lv]++;
       var c = el("div", "check"), top = el("div", "check-top");
       top.appendChild(el("h3", null, title));
-      top.appendChild(el("span", "pill " + (ok ? "good" : soft ? "warn" : "bad"), ok ? "양호" : soft ? "참고" : "주의"));
+      top.appendChild(el("span", "grade-pill g" + g.lv, GRADE_LABEL[g.lv]));
       c.appendChild(top);
+      var meter = el("div", "grade-meter g" + g.lv);
+      meter.setAttribute("role", "img");
+      meter.setAttribute("aria-label", "5단계 중 " + GRADE_LABEL[g.lv]);
+      meter.innerHTML = [0, 1, 2, 3, 4].map(function (i) { return "<i" + (i <= g.lv ? ' class="on"' : "") + "></i>"; }).join("");
+      c.appendChild(meter);
+      c.appendChild(el("p", "grade-why", g.why));
       if (chainHtml) c.appendChild(el("div", "chain", chainHtml));
       if (note) c.appendChild(el("p", null, note));
       cw.appendChild(c);
@@ -1027,18 +1078,18 @@
       return;
     }
 
-    add("발음오행", res.sound.ok,
+    add("발음오행", grades.sound,
       chainHTML(res.sound.parts.map(function (x) { return { el: x.el, label: x.ch + " " + x.el }; }), res.sound.rels),
       res.sound.ok ? "초성 오행이 서로 살리거나 같은 기운입니다." : "초성 오행에 상극이 있습니다. 왼쪽에서 기준(운해본·해례본)을 바꿔 비교해 보세요.");
 
-    add("발음음양", res.vowel.ok,
+    add("발음음양", grades.vowel,
       res.vowel.parts.map(function (x) { return '<b class="chip" style="background:var(--surface-2)">' + x.ch + " " + x.yin + "</b>"; }).join(""),
       res.vowel.ok ? "밝은 모음(양)과 어두운 모음(음)이 함께 있어 균형이 맞습니다."
-        : "양성 모음(ㅏ ㅗ ㅑ ㅛ 등)이 없어 한쪽으로 치우쳤습니다. ㅣ는 중성이라 어느 쪽도 채우지 못합니다. 가중치가 낮은 항목이라 한자 획수 음양이 맞으면 보완됩니다.", !res.vowel.ok);
+        : "양성 모음(ㅏ ㅗ ㅑ ㅛ 등)과 음성 모음이 함께 있어야 조화로 봅니다. ㅣ는 중성이라 어느 쪽도 채우지 못합니다. 가중치가 낮은 항목이라 한자 획수 음양이 맞으면 보완됩니다.");
 
     if (res.hasHanja) {
       var labels = ["원", "형", "이", "정"], order = ["won", "hyeong", "i", "jeong"];
-      add("사격수리", res.suriOk,
+      add("사격수리", grades.suri,
         order.map(function (k, i) {
           var v = numVerdict(res.suri[k]);
           var bg = v === "길" ? "var(--good-soft)" : v === "흉" ? "var(--bad-soft)" : "var(--warn-soft)";
@@ -1047,11 +1098,11 @@
         }).join(""),
         res.suriOk ? "네 격이 모두 길수입니다. 아래에서 시기별 풀이를 보세요." : "흉수가 섞여 있습니다. 아래 풀이에서 어느 시기인지 확인하세요.");
 
-      add("수리오행", res.suriEl.ok,
+      add("수리오행", grades.suriEl,
         chainHTML(res.suriEl.els.map(function (e, i) { return { el: e, label: labels[i] + " " + e }; }), res.suriEl.rels),
         res.suriEl.ok ? "격과 격이 서로 살립니다." : "격 사이에 상극이 있습니다. 범위를 세 격으로 바꾸면 달라질 수 있습니다.");
 
-      add("수리음양", res.strokeYinOk,
+      add("수리음양", grades.strokeYin,
         res.strokeYin.map(function (x) { return '<b class="chip" style="background:var(--surface-2)">' + x.char + " " + x.strokes + "획 " + x.yin + "</b>"; }).join(""),
         res.strokeYinOk ? "획수의 홀짝이 섞여 음양이 조화롭습니다." : "획수가 모두 홀수이거나 모두 짝수로 치우쳤습니다.");
 
@@ -1059,13 +1110,12 @@
       if (res.resource.matched.length === res.resource.els.length) note = "이름 글자가 모두 보완 오행입니다.";
       else if (res.resource.matched.length) note = res.resource.matched.join(", ") + "이(가) 사주를 보완합니다. 나머지 글자는 중립이거나 과다한 기운 쪽입니다.";
       else note = "보완 오행이 없습니다. 뜻을 우선한 선택이라면 그대로 가도 되지만, 한 글자는 보완 오행으로 바꾸는 편이 좋습니다.";
-      add("자원오행", res.resource.ok,
+      add("자원오행", grades.resource,
         res.resource.els.map(function (e, i) { return chip(state.chars[i].char + " " + e, e); }).join("")
           + '<span class="rel">필요: ' + res.need.join(", ") + "</span>", note);
     } else {
       [["사격수리", "원·형·이·정 네 격의 길흉"], ["수리오행", "격과 격의 상생 관계"],
        ["수리음양", "획수 홀짝의 균형"], ["자원오행", "한자가 품은 오행"]].forEach(function (pair) {
-        total--; // 한자 없이 판정할 수 없는 항목은 통과 여부에서 빼고 안내만 합니다
         var c = el("div", "check"), top = el("div", "check-top");
         top.appendChild(el("h3", null, pair[0]));
         top.appendChild(el("span", "pill warn", "한자 필요"));
@@ -1085,9 +1135,10 @@
     else if (res.family.shared.length) famNote = res.family.shared.map(function (c) { return c.name; }).join(", ")
       + "와(과) '" + res.family.shared[0].ch + "'을(를) 나눠 쓰는 돌림자입니다. 형제끼리 글자를 공유하는 것은 기휘에 어긋나지 않습니다.";
     else famNote = "부모·형제 이름과 겹치는 글자가 없습니다.";
-    add("가족 글자 (기휘)", res.family.ok, famChips, famNote);
+    add("가족 글자 (기휘)", grades.family, famChips, famNote);
 
-    $("checkSummary").textContent = pass + " / " + total + " 항목 통과";
+    $("checkSummary").textContent = [4, 3, 2, 1, 0].filter(function (lv) { return tally[lv]; })
+      .map(function (lv) { return GRADE_LABEL[lv] + " " + tally[lv]; }).join(" · ");
   }
 
   function renderSuri(res) {
@@ -1582,25 +1633,26 @@
 
     // 검사 요약
     var ct = $("sheetChecks").querySelector("tbody"); ct.innerHTML = "";
-    function addRow(label, value, ok) {
+    var gr = checkGrades(res);
+    function addRow(label, value, g) {
       var tr = document.createElement("tr");
       tr.innerHTML = "<th>" + label + "</th><td>" + value + "</td>"
-        + '<td class="v ' + (ok ? "ok" : "care") + '">' + (ok ? "양호" : "참고") + "</td>";
+        + '<td class="v ' + (g.lv >= 3 ? "ok" : "care") + '">' + GRADE_LABEL[g.lv] + "</td>";
       ct.appendChild(tr);
     }
-    addRow("발음오행", res.sound.parts.map(function (x) { return x.ch + " " + x.el; }).join(" · "), res.sound.ok);
-    addRow("발음음양", res.vowel.parts.map(function (x) { return x.ch + " " + x.yin; }).join(" · "), res.vowel.ok);
+    addRow("발음오행", res.sound.parts.map(function (x) { return x.ch + " " + x.el; }).join(" · "), gr.sound);
+    addRow("발음음양", res.vowel.parts.map(function (x) { return x.ch + " " + x.yin; }).join(" · "), gr.vowel);
     if (res.hasHanja) {
       var labels = ["원", "형", "이", "정"], keys = ["won", "hyeong", "i", "jeong"];
-      addRow("사격수리", keys.map(function (k, i) { return labels[i] + " " + res.suri[k]; }).join(" · "), res.suriOk);
-      addRow("수리오행", res.suriEl.els.join(" → "), res.suriEl.ok);
-      addRow("수리음양", res.strokeYin.map(function (x) { return x.char + " " + x.yin; }).join(" · "), res.strokeYinOk);
-      addRow("자원오행", res.resource.els.join(" · ") + (res.need.length ? " (필요 " + res.need.join(", ") + ")" : ""), res.resource.ok);
+      addRow("사격수리", keys.map(function (k, i) { return labels[i] + " " + res.suri[k]; }).join(" · "), gr.suri);
+      addRow("수리오행", res.suriEl.els.join(" → "), gr.suriEl);
+      addRow("수리음양", res.strokeYin.map(function (x) { return x.char + " " + x.yin; }).join(" · "), gr.strokeYin);
+      addRow("자원오행", res.resource.els.join(" · ") + (res.need.length ? " (필요 " + res.need.join(", ") + ")" : ""), gr.resource);
       SURI_STAGE_ROWS(res, ct);
     }
     addRow("가족 글자", res.family.ok
       ? (res.family.shared.length ? res.family.shared[0].ch + " 돌림자" : "겹침 없음")
-      : res.family.clash.map(function (c) { return c.ch + " " + c.who; }).join(", "), res.family.ok);
+      : res.family.clash.map(function (c) { return c.ch + " " + c.who; }).join(", "), gr.family);
 
     $("sheetBirth").textContent = state.date + " " + state.time + " 출생"
       + (state.timeBase === "kst" ? " · 한국 표준시" : " · " + state.region + " 경도 보정 " + currentShift() + "분")
