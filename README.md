@@ -13,6 +13,8 @@
 ├── baby-name/          아기 이름짓기 (원본: 작명/아기이름짓기 NEW/site)
 ├── mixed-feeding/      혼합수유 보충량 계산기
 ├── room-deduction/     방공제 한도 계산기
+├── rsv-antibody/       RSV 항체주사 도우미
+├── wedding-gift/       축의금 계산기
 ├── assets/
 │   ├── style.css       공통 스타일 (색·글꼴은 맨 위 :root에서 한 번에 변경)
 │   ├── logo.svg

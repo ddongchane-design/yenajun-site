@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="관계, 예식장, 내 월급을 고르면 현실적인 축의금을 계산해 드려요. 2026년 축의금 참고표 포함.">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>축의금 계산기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Gowun+Batang:wght@400;700&display=swap">
+<style>
+  :root {
+    --bg: #FAF8F5;
+    --surface: #FFFFFF;
+    --surface-alt: #F2EDE7;
+    --text: #2C2420;
+    --text-mid: #6B5E54;
+    --text-light: #9E9189;
+    --accent: #D4564E;
+    --accent-light: #FCEEED;
+    --accent-dark: #B8403A;
+    --green: #3A8A6E;
+    --green-light: #E8F5EF;
+    --gold: #C4952D;
+    --gold-light: #FFF8EB;
+    --border: #E8E0D8;
+    --shadow: rgba(44, 36, 32, 0.06);
+    --radius: 12px;
+    --font-display: 'Gowun Batang', serif;
+    --font-body: 'Noto Sans KR', sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1A1614;
+      --surface: #252120;
+      --surface-alt: #302A27;
+      --text: #EDE8E4;
+      --text-mid: #A89E96;
+      --text-light: #7A6F67;
+      --accent: #E8706A;
+      --accent-light: #3A2222;
+      --accent-dark: #F09E99;
+      --green: #5CB896;
+      --green-light: #1E2E28;
+      --gold: #DAA840;
+      --gold-light: #2E2818;
+      --border: #3D3530;
+      --shadow: rgba(0,0,0,0.2);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1A1614;
+    --surface: #252120;
+    --surface-alt: #302A27;
+    --text: #EDE8E4;
+    --text-mid: #A89E96;
+    --text-light: #7A6F67;
+    --accent: #E8706A;
+    --accent-light: #3A2222;
+    --accent-dark: #F09E99;
+    --green: #5CB896;
+    --green-light: #1E2E28;
+    --gold: #DAA840;
+    --gold-light: #2E2818;
+    --border: #3D3530;
+    --shadow: rgba(0,0,0,0.2);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+
+  * { box-sizing: border-box; }
+
+  .hero {
+    text-align: center;
+    padding: 40px 0 32px;
+  }
+  .hero-envelope {
+    font-size: 56px;
+    line-height: 1;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .hero p {
+    color: var(--text-mid);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .section {
+    margin-top: 28px;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-light);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: 0 1px 3px var(--shadow);
+  }
+
+  .option-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .option-grid.three-col {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .option-btn {
+    background: var(--surface-alt);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 12px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    font-family: var(--font-body);
+    color: var(--text);
+  }
+  .option-btn:hover {
+    border-color: var(--border);
+    background: var(--surface);
+  }
+  .option-btn.selected {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+  .option-btn .emoji {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .option-btn .label {
+    font-size: 13px;
+    font-weight: 500;
+    display: block;
+    line-height: 1.3;
+  }
+  .option-btn .sub {
+    font-size: 11px;
+    color: var(--text-light);
+    display: block;
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+  .option-btn.selected .sub {
+    color: var(--accent);
+  }
+
+  .salary-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface-alt);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 8px;
+  }
+  .salary-input-wrap input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    font-weight: 700;
+    font-family: var(--font-body);
+    color: var(--text);
+    outline: none;
+    text-align: right;
+    width: 100%;
+    min-width: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .salary-input-wrap input::placeholder {
+    color: var(--text-light);
+    font-weight: 400;
+    font-size: 15px;
+  }
+  .salary-input-wrap .unit {
+    font-size: 14px;
+    color: var(--text-mid);
+    white-space: nowrap;
+  }
+
+  .result-area {
+    margin-top: 32px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .result-area.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .result-card {
+    background: var(--surface);
+    border: 2px solid var(--accent);
+    border-radius: 16px;
+    padding: 28px 20px;
+    box-shadow: 0 4px 20px var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+  }
+
+  .result-comment {
+    font-size: 14px;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+    font-family: var(--font-display);
+  }
+  .result-amount {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 4px;
+  }
+  .result-amount .won {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .result-verdict {
+    font-family: var(--font-display);
+    font-size: 16px;
+    color: var(--text);
+    margin-top: 12px;
+    line-height: 1.5;
+    padding: 12px;
+    background: var(--surface-alt);
+    border-radius: 8px;
+  }
+
+  .result-breakdown {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+  }
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    padding: 6px 0;
+    color: var(--text-mid);
+  }
+  .breakdown-row .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .tag.plus { background: var(--accent-light); color: var(--accent); }
+  .tag.minus { background: var(--green-light); color: var(--green); }
+  .tag.neutral { background: var(--gold-light); color: var(--gold); }
+
+  .special-msg {
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: var(--font-display);
+  }
+  .special-msg.run { background: var(--green-light); color: var(--green); }
+  .special-msg.warning { background: var(--gold-light); color: var(--gold); }
+  .special-msg.danger { background: var(--accent-light); color: var(--accent); }
+
+  .ref-table {
+    margin-top: 28px;
+  }
+  .ref-table h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: var(--text-mid);
+  }
+  .ref-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+  .ref-table th {
+    text-align: left;
+    padding: 8px 10px;
+    background: var(--surface-alt);
+    color: var(--text-mid);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  .ref-table th:first-child { border-radius: 8px 0 0 0; }
+  .ref-table th:last-child { border-radius: 0 8px 0 0; }
+  .ref-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .ref-table tr:last-child td { border-bottom: none; }
+
+  .footer-note {
+    margin-top: 36px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 400px) {
+    .option-grid.three-col { grid-template-columns: 1fr 1fr; }
+    .result-amount { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="hero">
+  <span class="hero-envelope">💌</span>
+  <h1>축의금 얼마 내지?</h1>
+  <p>관계 + 장소 + 내 월급 = 현실 축의금 계산기</p>
+</div>
+
+<div class="section">
+  <div class="section-label">어디서 하는 결혼식?</div>
+  <div class="card">
+    <div class="option-grid" id="venue-grid">
+      <button class="option-btn" data-venue="local" onclick="selectVenue(this)">
+        <span class="emoji">🏛️</span>
+        <span class="label">지방 예식장</span>
+        <span class="sub">식대 ~5만</span>
+      </button>
+      <button class="option-btn" data-venue="metro" onclick="selectVenue(this)">
+        <span class="emoji">🏢</span>
+        <span class="label">수도권 예식장</span>
+        <span class="sub">식대 ~6.5만</span>
+      </button>
+      <button class="option-btn" data-venue="hotel" onclick="selectVenue(this)">
+        <span class="emoji">🏨</span>
+        <span class="label">호텔 웨딩</span>
+        <span class="sub">식대 ~12만</span>
+      </button>
+      <button class="option-btn" data-venue="outdoor" onclick="selectVenue(this)">
+        <span class="emoji">🌿</span>
+        <span class="label">야외/스몰</span>
+        <span class="sub">분위기값 ∞</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">이 사람이랑 얼마나 친해?</div>
+  <div class="card">
+    <div class="option-grid" id="relation-grid">
+      <button class="option-btn" data-relation="bestie" onclick="selectRelation(this)">
+        <span class="emoji">🫂</span>
+        <span class="label">찐친</span>
+        <span class="sub">내 결혼식에도 올 사이</span>
+      </button>
+      <button class="option-btn" data-relation="friend" onclick="selectRelation(this)">
+        <span class="emoji">😊</span>
+        <span class="label">친한 친구</span>
+        <span class="sub">1년에 3~4번 봄</span>
+      </button>
+      <button class="option-btn" data-relation="sometimes" onclick="selectRelation(this)">
+        <span class="emoji">🙂</span>
+        <span class="label">가끔 보는 사이</span>
+        <span class="sub">1년에 1번 정도</span>
+      </button>
+      <button class="option-btn" data-relation="coworker" onclick="selectRelation(this)">
+        <span class="emoji">💼</span>
+        <span class="label">직장 동료</span>
+        <span class="sub">매일 보긴 하는데...</span>
+      </button>
+      <button class="option-btn" data-relation="senior" onclick="selectRelation(this)">
+        <span class="emoji">🎖️</span>
+        <span class="label">선배/상사</span>
+        <span class="sub">앞으로가 중요한 사이</span>
+      </button>
+      <button class="option-btn" data-relation="ghost" onclick="selectRelation(this)">
+        <span class="emoji">👻</span>
+        <span class="label">10년만에 연락 옴</span>
+        <span class="sub">"야 나 결혼한다ㅋ"</span>
+      </button>
+      <button class="option-btn" data-relation="ex" onclick="selectRelation(this)">
+        <span class="emoji">💀</span>
+        <span class="label">전 애인의 결혼</span>
+        <span class="sub">축하해야...하나?</span>
+      </button>
+      <button class="option-btn" data-relation="family" onclick="selectRelation(this)">
+        <span class="emoji">👪</span>
+        <span class="label">친척</span>
+        <span class="sub">부모님이 정해주심</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">내 월급 (현실 반영용)</div>
+  <div class="card">
+    <div class="salary-input-wrap">
+      <input type="text" id="salary" placeholder="세후 실수령액" inputmode="numeric" oninput="formatSalary(this); calculate()">
+      <span class="unit">만원</span>
+    </div>
+  </div>
+</div>
+
+<div class="result-area" id="result-area">
+  <div class="result-card">
+    <div class="result-comment" id="result-comment"></div>
+    <div class="result-amount" id="result-amount"></div>
+    <div class="result-verdict" id="result-verdict"></div>
+    <div class="result-breakdown" id="result-breakdown"></div>
+    <div id="special-msg-area"></div>
+  </div>
+</div>
+
+<div class="ref-table">
+  <h3>2026 축의금 참고표 (평균)</h3>
+  <table>
+    <thead>
+      <tr><th>관계</th><th>일반 예식장</th><th>호텔</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>친한 친구</td><td>10~15만</td><td>15~20만</td></tr>
+      <tr><td>일반 친구</td><td>5~10만</td><td>10만</td></tr>
+      <tr><td>직장 동료</td><td>5~10만</td><td>10만</td></tr>
+      <tr><td>상사/선배</td><td>10~20만</td><td>15~20만</td></tr>
+      <tr><td>친척</td><td>10~30만</td><td>20~50만</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer-note">
+  2026년 기준 | NH농협은행 데이터 참고<br>
+  축의금은 마음입니다. 이 계산기는 재미용이에요 :)
+</div>
+
+<script>
+  let state = { venue: null, relation: null, salary: 0 };
+
+  function selectVenue(btn) {
+    document.querySelectorAll('#venue-grid .option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.venue = btn.dataset.venue;
+    calculate();
+  }
+
+  function selectRelation(btn) {
+    document.querySelectorAll('#relation-grid .option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.relation = btn.dataset.relation;
+    calculate();
+  }
+
+  function formatSalary(input) {
+    let v = input.value.replace(/[^0-9]/g, '');
+    state.salary = parseInt(v) || 0;
+    if (v) {
+      input.value = parseInt(v).toLocaleString('ko-KR');
+    }
+  }
+
+  const VENUE_SCORE = {
+    local: -1, metro: 0, hotel: 2, outdoor: 1
+  };
+
+  const RELATION_BASE = {
+    bestie: 20, friend: 10, sometimes: 5, coworker: 5,
+    senior: 15, ghost: -99, ex: -98, family: 20
+  };
+
+  const RELATION_MODIFIER = {
+    bestie: 2, friend: 1, sometimes: 0, coworker: 0,
+    senior: 1, ghost: 0, ex: 0, family: 1
+  };
+
+  const AMOUNTS = [3, 5, 10, 15, 20, 25, 30, 50, 100];
+
+  function snapToAmount(raw) {
+    let best = AMOUNTS[0];
+    let bestDiff = Math.abs(raw - best);
+    for (const a of AMOUNTS) {
+      const diff = Math.abs(raw - a);
+      if (diff < bestDiff) { best = a; bestDiff = diff; }
+    }
+    return best;
+  }
+
+  function calculate() {
+    if (!state.venue || !state.relation) return;
+
+    const area = document.getElementById('result-area');
+    const amountEl = document.getElementById('result-amount');
+    const commentEl = document.getElementById('result-comment');
+    const verdictEl = document.getElementById('result-verdict');
+    const breakdownEl = document.getElementById('result-breakdown');
+    const specialEl = document.getElementById('special-msg-area');
+
+    // Special cases
+    if (state.relation === 'ghost') {
+      area.classList.add('visible');
+      commentEl.textContent = '10년만에 연락이 왔다고?';
+      amountEl.innerHTML = '0 <span class="won">원</span>';
+      verdictEl.textContent = '안 가도 됩니다. 진심으로요. 그 시간에 치킨이나 시키세요.';
+      breakdownEl.innerHTML = '';
+      specialEl.innerHTML = '<div class="special-msg run">💡 10년간 연락 안 했으면 그건 이미 남입니다. 청첩장이 아니라 인원수 채우기예요. 읽씹하세요.</div>';
+      return;
+    }
+
+    if (state.relation === 'ex') {
+      area.classList.add('visible');
+      commentEl.textContent = '전 애인의 결혼식이라니...';
+      amountEl.innerHTML = '0 <span class="won">원</span>';
+      verdictEl.textContent = '가지 마세요. 보내줬으면 진짜 보내주는 겁니다.';
+      breakdownEl.innerHTML = '';
+      specialEl.innerHTML = '<div class="special-msg danger">🚨 축하한다고 카톡 한 통이면 충분합니다. 가서 웃고 있을 자신 있으면 말리진 않지만... 추천은 안 합니다.</div>';
+      return;
+    }
+
+    // Normal calculation
+    let base = RELATION_BASE[state.relation];
+    let venueAdj = VENUE_SCORE[state.venue] * (RELATION_MODIFIER[state.relation] + 1);
+    let salaryAdj = 0;
+
+    if (state.salary > 0) {
+      if (state.salary >= 500) salaryAdj = 5;
+      else if (state.salary >= 400) salaryAdj = 3;
+      else if (state.salary >= 300) salaryAdj = 1;
+      else if (state.salary >= 200) salaryAdj = 0;
+      else salaryAdj = -2;
+    }
+
+    let rawAmount = base + venueAdj + salaryAdj;
+    if (rawAmount < 3) rawAmount = 3;
+    let finalAmount = snapToAmount(rawAmount);
+
+    // Family special
+    if (state.relation === 'family') {
+      if (state.venue === 'hotel') finalAmount = Math.max(finalAmount, 30);
+      else finalAmount = Math.max(finalAmount, 20);
+    }
+
+    // Comments by relation
+    const comments = {
+      bestie: '찐친이면 많이 내는 게 국룰이긴 한데...',
+      friend: '적당히, 부담 없이, 그래도 성의 있게',
+      sometimes: '봉투 안에 마음을 담아서...',
+      coworker: '직장생활의 세금 같은 거죠',
+      senior: '여기는 좀 신경 써야 합니다...',
+      family: '이건 부모님한테 물어보세요 (진심)'
+    };
+
+    const verdicts = {
+      bestie: `찐친한테 ${finalAmount}만원이면 나중에 네 결혼식 때 돌려받을 수 있는 적정선이에요.`,
+      friend: finalAmount >= 15 ? '좋은 친구네요. 우정에 투자하는 겁니다.' : '부담 없는 선에서 마음 전하기 딱 좋아요.',
+      sometimes: finalAmount >= 10 ? '1년에 한 번 보는 사이치곤 넉넉하네요!' : '이 정도면 예의도 지키고 지갑도 지킵니다.',
+      coworker: '내일 회사에서 만나야 하니까... 적정선이에요.',
+      senior: '사회생활이란 게 그렇습니다. 미래를 위한 투자라고 생각하세요.',
+      family: '솔직히 친척 축의금은 부모님 의견이 제일 중요해요. 여쭤보시는 걸 추천합니다.'
+    };
+
+    // Venue labels
+    const venueLabels = {
+      local: '지방 예식장', metro: '수도권 예식장', hotel: '호텔 웨딩', outdoor: '야외/스몰 웨딩'
+    };
+    const relationLabels = {
+      bestie: '찐친', friend: '친한 친구', sometimes: '가끔 보는 사이',
+      coworker: '직장 동료', senior: '선배/상사', family: '친척'
+    };
+
+    // Build breakdown
+    let breakdownHTML = '';
+    breakdownHTML += `<div class="breakdown-row"><span>${relationLabels[state.relation]} 기본</span><span class="tag ${base >= 15 ? 'plus' : 'neutral'}">${base}만원</span></div>`;
+
+    if (venueAdj > 0) {
+      breakdownHTML += `<div class="breakdown-row"><span>${venueLabels[state.venue]} 보정</span><span class="tag plus">+${venueAdj}만원</span></div>`;
+    } else if (venueAdj < 0) {
+      breakdownHTML += `<div class="breakdown-row"><span>${venueLabels[state.venue]} 보정</span><span class="tag minus">${venueAdj}만원</span></div>`;
+    }
+
+    if (state.salary > 0) {
+      if (salaryAdj > 0) {
+        breakdownHTML += `<div class="breakdown-row"><span>월급 여유 보정</span><span class="tag plus">+${salaryAdj}만원</span></div>`;
+      } else if (salaryAdj < 0) {
+        breakdownHTML += `<div class="breakdown-row"><span>월급 빡빡 보정</span><span class="tag minus">${salaryAdj}만원</span></div>`;
+      } else {
+        breakdownHTML += `<div class="breakdown-row"><span>월급 보정</span><span class="tag neutral">±0</span></div>`;
+      }
+    }
+
+    area.classList.add('visible');
+    commentEl.textContent = comments[state.relation];
+    amountEl.innerHTML = `${finalAmount} <span class="won">만원</span>`;
+    verdictEl.textContent = verdicts[state.relation];
+    breakdownEl.innerHTML = breakdownHTML;
+
+    // Special messages
+    let specialHTML = '';
+    if (state.salary > 0 && state.salary < 200 && finalAmount >= 15) {
+      specialHTML = '<div class="special-msg warning">💡 월급 대비 좀 부담될 수 있어요. 마음이 중요하지, 금액이 중요한 건 아닙니다. 5만원 줄여도 괜찮아요.</div>';
+    }
+    if (state.venue === 'hotel' && state.relation === 'sometimes') {
+      specialHTML = '<div class="special-msg warning">💡 호텔 결혼식에 1년에 1번 보는 사이? 솔직히 축전 보내고 빠져도 됩니다.</div>';
+    }
+    if (state.relation === 'coworker' && finalAmount <= 5) {
+      specialHTML = '<div class="special-msg danger">⚠️ 직장 동료한테 5만원은... 내일 눈 마주칠 때 살짝 어색할 수 있어요. 10만원 추천합니다.</div>';
+    }
+    if (state.relation === 'bestie' && finalAmount < 20) {
+      specialHTML = '<div class="special-msg warning">💡 찐친이면 좀 더 쓰는 게 맞긴 한데... 사정이 있으면 선물을 추가하는 것도 방법이에요.</div>';
+    }
+    specialEl.innerHTML = specialHTML;
+  }
+</script>
+
+<p style="text-align:center;margin:40px 0 0;font-size:14px"><a href="/" style="color:var(--text-mid);text-decoration:none">← 예나준의 다른 도구 보기</a></p>
+</body>
+</html>

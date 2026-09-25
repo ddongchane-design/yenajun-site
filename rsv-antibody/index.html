@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="아기 생년월일과 조건을 넣으면 베이포투스·엔플론시아·시나지스 중 해당되는 RSV 항체주사와 용량·시점을 정리해 드려요.">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>우리 아기 RSV 항체주사 도우미</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{
+  --ground:#F6F8F7;
+  --panel:#FFFFFF;
+  --ink:#1E2A2E;
+  --ink-2:#5B6A70;
+  --rule:#D9E1E1;
+  --field:#F0F4F3;
+  --teal:#1E6F7A;
+  --teal-soft:#DDEDEF;
+  --coral:#B8503C;
+  --coral-soft:#F6E2DD;
+  --sage:#4E7C5B;
+  --sage-soft:#E1EEE4;
+  --amber:#9A6A12;
+  --amber-soft:#F4E9D2;
+  --display:"Gowun Dodum","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#121A1C;--panel:#1A2426;--ink:#E6ECEC;--ink-2:#A3B1B4;--rule:#2E3B3E;--field:#22302F;
+    --teal:#6FC0CB;--teal-soft:#1B3438;--coral:#E48B78;--coral-soft:#3C2420;--sage:#8FC49C;--sage-soft:#1F3226;
+    --amber:#E1B65E;--amber-soft:#3A2F17;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#121A1C;--panel:#1A2426;--ink:#E6ECEC;--ink-2:#A3B1B4;--rule:#2E3B3E;--field:#22302F;
+  --teal:#6FC0CB;--teal-soft:#1B3438;--coral:#E48B78;--coral-soft:#3C2420;--sage:#8FC49C;--sage-soft:#1F3226;
+  --amber:#E1B65E;--amber-soft:#3A2F17;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;padding-inline:18px;padding-block:32px 64px;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.3}
+h1{font-family:var(--display);font-size:clamp(26px,5vw,34px);font-weight:400;color:var(--teal)}
+h2{font-size:17px;font-weight:700}
+h3{font-size:15px;font-weight:700}
+p{margin:0;max-width:62ch}
+.muted{color:var(--ink-2);font-size:14px}
+a{color:var(--teal)}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+
+header{display:flex;flex-direction:column;gap:12px}
+.notice{background:var(--amber-soft);border-left:4px solid var(--amber);padding:12px 14px;font-size:14px;border-radius:0 6px 6px 0}
+.notice b{color:var(--amber)}
+
+/* form */
+form{display:flex;flex-direction:column;gap:14px}
+fieldset{border:1px solid var(--rule);background:var(--panel);border-radius:10px;padding:16px 16px 18px;margin:0;display:flex;flex-direction:column;gap:12px}
+legend{font-weight:700;font-size:15px;padding:0 6px}
+.q{display:flex;flex-direction:column;gap:6px}
+.q > label, .q > .lbl{font-weight:500;font-size:15px}
+.hint{font-size:13px;color:var(--ink-2)}
+input[type=date],input[type=number],select{
+  font:inherit;font-size:16px;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:8px;padding:10px 12px;width:100%;max-width:320px;
+  font-variant-numeric:tabular-nums;
+}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:8px 14px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--field);border:1px solid var(--rule);border-radius:999px;padding:7px 14px 7px 10px;font-size:14px;cursor:pointer}
+.chip input{margin:0;accent-color:var(--teal);width:16px;height:16px}
+.chip:has(input:checked){background:var(--teal-soft);border-color:var(--teal)}
+.sub{display:none;padding-left:4px;border-left:2px solid var(--rule);margin-left:6px;padding:6px 0 2px 12px}
+.sub.show{display:flex;flex-direction:column;gap:6px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button{font:inherit;font-size:15px;font-weight:700;border:0;border-radius:8px;padding:11px 20px;cursor:pointer}
+.primary{background:var(--teal);color:#fff}
+.ghost{background:transparent;color:var(--ink-2);border:1px solid var(--rule);font-weight:500}
+
+/* result */
+#result{display:flex;flex-direction:column;gap:14px;scroll-margin-top:16px}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.card.main{border-color:var(--teal);border-width:2px}
+.card.warn{border-color:var(--coral)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;padding:2px 9px;border-radius:999px}
+.tag.teal{background:var(--teal-soft);color:var(--teal)}
+.tag.sage{background:var(--sage-soft);color:var(--sage)}
+.tag.coral{background:var(--coral-soft);color:var(--coral)}
+.tag.amber{background:var(--amber-soft);color:var(--amber)}
+.verdict{font-family:var(--display);font-size:clamp(21px,4vw,26px);line-height:1.35;color:var(--ink)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
+.kv dt{color:var(--ink-2);white-space:nowrap}
+.kv dd{margin:0;font-weight:500}
+.kv .num{font-variant-numeric:tabular-nums}
+ul.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.basis{font-size:13px;color:var(--ink-2)}
+.basis a{color:var(--ink-2)}
+.summary{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:13px;color:var(--ink-2)}
+.summary span{background:var(--field);border-radius:6px;padding:2px 8px}
+
+/* reference */
+details{border-top:1px solid var(--rule);padding-top:12px}
+summary{cursor:pointer;font-weight:700;font-size:15px}
+.tbl{overflow-x:auto;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th,td{text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:500;color:var(--ink-2);font-size:12px}
+footer{border-top:1px solid var(--rule);padding-top:16px;display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--ink-2)}
+footer ol{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+footer a{color:var(--ink-2);word-break:break-all}
+@media (prefers-reduced-motion:no-preference){#result{transition:opacity .2s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">2026–27 RSV 시즌 · 영아용 항체주사 선택 도우미</div>
+  <h1>우리 아기는 어떤 RSV 항체주사가 해당될까요?</h1>
+  <p>아기의 생년월일과 몇 가지 조건을 넣으면, 허가·지침(미국 CDC, 국내 급여 고시, 제품 라벨) 기준으로 <b>어떤 제품·용량·시점이 해당되는지</b> 정리해 드립니다. 베이포투스(니르세비맙), 엔플론시아(클레스로비맙), 시나지스(팔리비주맙) 세 가지를 다룹니다.</p>
+  <div class="notice"><b>의료 조언이 아닙니다.</b> 이 도우미는 공개된 지침을 아기 조건에 맞춰 정리해 보여줄 뿐, 접종 여부와 제품은 소아청소년과 주치의와 상의해 정하세요. 병원 사정(재고·가격)에 따라 달라질 수 있습니다.</div>
+</header>
+
+<form id="f" autocomplete="off">
+  <fieldset>
+    <legend>1. 아기 정보</legend>
+    <div class="q">
+      <label for="dob">생년월일 (출산 예정이면 예정일)</label>
+      <input type="date" id="dob" required>
+      <span class="hint">시즌 시작일(10월 1일) 기준 개월 수와 "몇 번째 시즌인지"를 자동으로 계산합니다.</span>
+    </div>
+    <div class="q">
+      <label for="wt">현재 체중 (kg)</label>
+      <input type="number" id="wt" step="0.1" min="0.5" max="30" placeholder="예: 4.2">
+      <span class="hint">베이포투스는 5kg을 기준으로 용량이 달라집니다. 모르면 비워두세요.</span>
+    </div>
+    <div class="q">
+      <label for="ga">태어날 때 재태 주수</label>
+      <input type="number" id="ga" min="22" max="44" placeholder="예: 38">
+      <span class="hint">시나지스 건강보험 급여 기준(32주·36주)에 쓰입니다. 만삭이면 38~40으로 넣으세요.</span>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>2. 건강 상태</legend>
+    <div class="q">
+      <span class="lbl">해당되는 것이 있으면 모두 체크하세요</span>
+      <div class="row">
+        <label class="chip"><input type="checkbox" id="c-bpd"> 최근 6개월 내 기관지폐이형성증(BPD) 치료</label>
+        <label class="chip"><input type="checkbox" id="c-chd"> 혈류역학적으로 의미 있는 선천성 심장질환</label>
+        <label class="chip"><input type="checkbox" id="c-imm"> 중증 면역저하</label>
+        <label class="chip"><input type="checkbox" id="c-cf"> 중증 폐 증상이 있는 낭성섬유증</label>
+        <label class="chip"><input type="checkbox" id="c-etc"> 그 밖의 고위험 (주치의가 판단한 경우)</label>
+      </div>
+      <span class="hint">선천성 심장질환은 심부전 약물치료 중, 중등도 이상 폐동맥고혈압, 청색성 심질환을 뜻합니다.</span>
+    </div>
+    <div class="q">
+      <span class="lbl">이번 시즌에 이미 RSV에 걸린 적이 있나요?</span>
+      <div class="row">
+        <label class="chip"><input type="radio" name="inf" value="no" id="inf-no" checked> 아니오</label>
+        <label class="chip"><input type="radio" name="inf" value="yes" id="inf-yes"> 예</label>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>3. 엄마의 임신 중 RSV 백신 (아브리스보)</legend>
+    <div class="q">
+      <span class="lbl">임신 중에 아브리스보를 맞았나요?</span>
+      <div class="row">
+        <label class="chip"><input type="radio" name="mat" value="no" id="mat-no" checked> 아니오 / 모름</label>
+        <label class="chip"><input type="radio" name="mat" value="yes" id="mat-yes"> 예</label>
+      </div>
+      <div class="sub" id="mat-sub">
+        <label for="matdate">접종한 날짜</label>
+        <input type="date" id="matdate">
+        <span class="hint">접종 후 14일 이상 지나서 태어났으면 아기 항체주사는 원칙적으로 필요 없습니다(CDC).</span>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>4. 접종 계획</legend>
+    <div class="q">
+      <span class="lbl">이번 시즌에 이미 항체주사를 맞았나요?</span>
+      <div class="row">
+        <label class="chip"><input type="radio" name="done" value="no" id="done-no" checked> 아니오</label>
+        <label class="chip"><input type="radio" name="done" value="yes" id="done-yes"> 예</label>
+      </div>
+    </div>
+    <div class="q">
+      <span class="lbl">독감 예방접종도 할 예정인가요?</span>
+      <div class="row">
+        <label class="chip"><input type="radio" name="flu" value="no" id="flu-no" checked> 아니오</label>
+        <label class="chip"><input type="radio" name="flu" value="yes" id="flu-yes"> 예</label>
+      </div>
+    </div>
+    <div class="q">
+      <span class="lbl">두 제품이 모두 가능할 때, 무엇을 더 중요하게 보나요?</span>
+      <div class="row">
+        <label class="chip"><input type="radio" name="pref" value="none" id="pref-none" checked> 상관없음</label>
+        <label class="chip"><input type="radio" name="pref" value="price" id="pref-price"> 가격</label>
+        <label class="chip"><input type="radio" name="pref" value="data" id="pref-data"> 실사용 데이터가 많은 쪽</label>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="actions">
+    <button type="submit" class="primary" id="go">결과 보기</button>
+    <button type="button" class="ghost" id="reset">처음부터</button>
+    <span class="hint" id="err" role="alert"></span>
+  </div>
+</form>
+
+<section id="result" aria-live="polite"></section>
+
+<details>
+  <summary>도우미가 쓰는 판정 기준 (출처 포함)</summary>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>조건</th><th>해당 제품</th><th>용량 · 시점</th><th>출처</th></tr></thead>
+    <tbody>
+      <tr><td>시즌 중(10~3월) 출생, 첫 시즌</td><td>베이포투스 또는 엔플론시아 (동등)</td><td>베이포투스 5kg 미만 50mg / 이상 100mg · 엔플론시아 105mg · 출생 직후~1주 이내</td><td>CDC, MMWR 2025</td></tr>
+      <tr><td>4~9월 출생, 시즌 시작 시 8개월 미만, 첫 시즌</td><td>베이포투스 또는 엔플론시아 (동등)</td><td>체중 기준 동일 · 시즌 직전(9월 말~10월, 늦어도 11월)</td><td>CDC, 약학정보원</td></tr>
+      <tr><td>시즌 시작 시 8개월 이상, 고위험 아님, 두 번째 시즌</td><td>통상 권고 대상 아님</td><td>—</td><td>CDC</td></tr>
+      <tr><td>두 번째 시즌 + 고위험군 (국내 허가 24개월 이하)</td><td>베이포투스만 (엔플론시아는 첫 시즌만 허가)</td><td>200mg (100mg × 2부위) · 시즌 직전</td><td>CDC, 약학정보원</td></tr>
+      <tr><td>시나지스 급여 기준 해당 (재태 32주 미만·당해 4/1 이후 출생 / 36주 미만·시즌 중 출생 / 2세 미만 BPD 6개월 내 치료 / 2세 미만 혈류역학적 CHD)</td><td>시나지스 (급여) — 대한신생아학회 권고. 베이포투스는 주치의와 상의</td><td>15mg/kg 매달, 시즌 내 최대 5회</td><td>급여 고시 2024-178호</td></tr>
+      <tr><td>엄마 아브리스보 접종 후 14일 이상 지나 출생</td><td>아기 항체주사 원칙적 불필요</td><td>예외(엄마 면역저하 등)는 주치의</td><td>CDC</td></tr>
+      <tr><td>이번 시즌 RSV 이미 앓음</td><td>권고 동일 (접종 가능)</td><td>—</td><td>CDC·AAP FAQ</td></tr>
+      <tr><td>독감 접종 예정</td><td>같은 날 동시접종 가능</td><td>—</td><td>CDC</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="muted" style="margin-top:10px">넣지 않은 것: "베이포투스는 1년 넘게 방어력 유지"(2026년 8월 JAMA Pediatrics 프랑스 코호트에서 2년차 효과 없음으로 확인), 확정 가격(병원별 상이), 신경근육·기도 이상 항목(CDC 목록에 없음).</p>
+</details>
+
+<footer>
+  <span>기준일 2026년 9월 20일 · 이 페이지는 접종 결정을 대신하지 않습니다.</span>
+  <ol>
+    <li><a href="https://www.cdc.gov/rsv/hcp/vaccine-clinical-guidance/infants-young-children.html">CDC — RSV Immunization Guidance for Infants and Young Children (2025-08-18)</a></li>
+    <li><a href="https://www.cdc.gov/mmwr/volumes/74/wr/mm7432a3.htm">MMWR — Use of Clesrovimab: ACIP Recommendations (2025-08)</a></li>
+    <li><a href="https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/761328s000lbl.pdf">FDA — Beyfortus Prescribing Information</a> · <a href="https://www.accessdata.fda.gov/drugsatfda_docs/label/2025/761432s000lbl.pdf">Enflonsia Prescribing Information</a></li>
+    <li><a href="https://common.health.kr/shared/healthkr/pharmreview/%EC%98%81%EC%9C%A0%EC%95%84%20%ED%98%B8%ED%9D%A1%EA%B8%B0%EC%84%B8%ED%8F%AC%EC%9C%B5%ED%95%A9%EB%B0%94%EC%9D%B4%EB%9F%AC%EC%8A%A4(RSV)%EA%B0%90%EC%97%BC%20%EC%B5%9C%EC%A2%85.pdf">약학정보원 — 영유아 RSV 감염 (급여 고시 2024-178호 인용)</a></li>
+    <li><a href="https://jamanetwork.com/journals/jamapediatrics/article-abstract/2852670">JAMA Pediatrics — First- and Second-Year Outcomes After Nirsevimab Immunization (2026-08-10)</a></li>
+    <li><a href="https://www.stanfordchildrens.org/content-public/pdf/antimicrobial-stewardship-program/nirsevimab-faq.pdf">Stanford Children's — Nirsevimab FAQ (CDC·AAP 편집)</a></li>
+    <li><a href="https://youtu.be/N0gjweg0C7M">산소형제TV — RSV 항체주사 베이포투스 vs 엔플론시아 (2026-09-18)</a></li>
+  </ol>
+</footer>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var form = $('f'), out = $('result'), err = $('err');
+
+  // 시즌: 10월 1일 ~ 다음 해 3월 31일
+  function seasonStartFor(d){
+    var y = d.getFullYear();
+    return (d.getMonth() >= 3) ? new Date(y, 9, 1) : new Date(y - 1, 9, 1); // 4~12월 → 올해 10/1, 1~3월 → 작년 10/1
+  }
+  function monthsBetween(a, b){ // a → b, 만 개월
+    var m = (b.getFullYear() - a.getFullYear()) * 12 + (b.getMonth() - a.getMonth());
+    if (b.getDate() < a.getDate()) m--;
+    return m;
+  }
+  function daysBetween(a, b){ return Math.floor((b - a) / 86400000); }
+  function fmt(d){ return d.getFullYear() + '년 ' + (d.getMonth()+1) + '월 ' + d.getDate() + '일'; }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  $('mat-yes').addEventListener('change', function(){ $('mat-sub').classList.toggle('show', this.checked); });
+  $('mat-no').addEventListener('change', function(){ $('mat-sub').classList.remove('show'); });
+  $('reset').addEventListener('click', function(){ form.reset(); $('mat-sub').classList.remove('show'); out.innerHTML=''; err.textContent=''; });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    err.textContent = '';
+    var dobv = $('dob').value;
+    if (!dobv){ err.textContent = '생년월일(또는 출산 예정일)을 넣어주세요.'; $('dob').focus(); return; }
+    var dob = new Date(dobv + 'T00:00:00');
+    var today = new Date(); today.setHours(0,0,0,0);
+    var wt = parseFloat($('wt').value); if (isNaN(wt)) wt = null;
+    var ga = parseInt($('ga').value, 10); if (isNaN(ga)) ga = null;
+    var bpd = $('c-bpd').checked, chd = $('c-chd').checked, imm = $('c-imm').checked, cf = $('c-cf').checked, etc = $('c-etc').checked;
+    var highRisk = bpd || chd || imm || cf || etc;
+    var infected = $('inf-yes').checked;
+    var matYes = $('mat-yes').checked;
+    var matDate = $('matdate').value ? new Date($('matdate').value + 'T00:00:00') : null;
+    var done = $('done-yes').checked;
+    var flu = $('flu-yes').checked;
+    var pref = document.querySelector('input[name=pref]:checked').value;
+
+    // 시즌 판정 — 아직 태어나지 않았으면 예정일 기준
+    var ref = (dob > today) ? dob : today;
+    var ss = seasonStartFor(ref);                 // 이번 시즌 시작일
+    var seasonEnd = new Date(ss.getFullYear()+1, 2, 31);
+    var bornInSeason = dob >= ss && dob <= seasonEnd;
+    var ageAtStart = bornInSeason ? 0 : monthsBetween(dob, ss); // 시즌 시작 시 개월
+    var prevSeasonStart = new Date(ss.getFullYear()-1, 9, 1);
+    var seasonNo = (dob < prevSeasonStart) ? 3 : (dob < new Date(ss.getFullYear(), 3, 1) ? 2 : 1);
+    // seasonNo: 작년 4/1 이전 출생 → 이미 한 시즌을 지났으니 두 번째(그 이전이면 세 번째 이상)
+    var ageMonthsNow = dob > today ? 0 : monthsBetween(dob, today);
+    var under2AtStart = ageAtStart < 24;
+
+    var cards = [];
+    var summary = [
+      '시즌 시작 ' + fmt(ss),
+      bornInSeason ? '시즌 중 출생' : '시즌 시작 시 ' + ageAtStart + '개월',
+      seasonNo === 1 ? '첫 번째 시즌' : (seasonNo === 2 ? '두 번째 시즌' : '세 번째 이상')
+    ];
+    if (wt !== null) summary.push('체중 ' + wt.toFixed(1) + 'kg');
+    if (ga !== null) summary.push('재태 ' + ga + '주');
+
+    // ── 규칙 1: 엄마 아브리스보 ≥14일
+    var maternalCovered = false;
+    if (matYes && matDate){
+      var gap = daysBetween(matDate, dob);
+      if (gap >= 14) maternalCovered = true;
+      summary.push('엄마 접종 후 ' + gap + '일 뒤 출생');
+    } else if (matYes && !matDate){
+      summary.push('엄마 접종일 미입력');
+    }
+
+    // ── 규칙 2: 시나지스 급여 기준
+    var synagis = false, synagisWhy = [];
+    if (ageAtStart <= 6 && ga !== null){
+      var aprilCut = new Date(ss.getFullYear(), 3, 1);
+      if (ga < 32 && dob >= aprilCut){ synagis = true; synagisWhy.push('재태 32주 미만 + 올해 4월 1일 이후 출생'); }
+      if (ga < 36 && bornInSeason){ synagis = true; synagisWhy.push('재태 36주 미만 + 시즌 중 출생'); }
+    }
+    if (under2AtStart && bpd){ synagis = true; synagisWhy.push('2세 미만 + 최근 6개월 내 BPD 치료'); }
+    if (under2AtStart && chd){ synagis = true; synagisWhy.push('2세 미만 + 혈류역학적 선천성 심장질환'); }
+
+    // ── 본 판정
+    var doseB = (wt === null) ? '5kg 미만 50mg · 5kg 이상 100mg (체중을 넣으면 확정)' : (wt < 5 ? '50mg (5kg 미만)' : '100mg (5kg 이상)');
+
+    if (maternalCovered){
+      cards.push({cls:'main', tag:['sage','원칙적 불필요'], verdict:'엄마가 임신 중 맞은 아브리스보로 이미 보호되는 조건입니다.',
+        kv:[['이유','접종 후 14일 이상 지나 출생하면 태반을 통해 넘어온 항체가 첫 시즌을 덮는다고 봅니다 (CDC)'],['예외','엄마가 중증 면역저하이거나 항체 전달이 부족했다고 판단되면 주치의가 항체주사를 권할 수 있습니다']],
+        basis:'CDC 2025-08-18'});
+    } else if (synagis){
+      cards.push({cls:'main', tag:['teal','건강보험 급여 대상'], verdict:'시나지스(팔리비주맙) 급여 기준에 해당합니다.',
+        kv:[['해당 기준', synagisWhy.join(' / ')],['용량','15mg/kg 근육주사, 매달 1회'],['횟수','시즌 내 최대 5회 (9월 시작분 포함)'],['시점','시즌 시작 전 첫 회, 이후 매달']],
+        notes:['대한신생아학회는 급여 대상 고위험군에 시나지스를 권고합니다. 베이포투스(1회 접종)로 대신할지는 주치의와 상의하세요.','시즌 총비용은 체중에 따라 달라지므로 병원에서 확인이 필요합니다.'],
+        basis:'급여 고시 2024-178호(약학정보원) · 헬스오 2025-11'});
+    } else if (seasonNo >= 2 && ageAtStart >= 8){
+      if (highRisk && ageAtStart <= 24){
+        cards.push({cls:'main', tag:['teal','두 번째 시즌 · 고위험군'], verdict:'베이포투스만 해당됩니다. 엔플론시아는 첫 시즌 아기에게만 허가돼 있어요.',
+          kv:[['용량','200mg (100mg씩 두 부위)'],['시점','시즌 직전 (9월 말~10월)'],['국내 허가','24개월 이하 고위험 영유아']],
+          notes:['두 번째 시즌에 다시 맞는 이유는 "작년 효과가 남아서"가 아니라 재투여가 허가돼 있기 때문입니다. 2026년 8월 JAMA Pediatrics 프랑스 코호트에서 첫해 접종의 2년차 보호 효과는 확인되지 않았습니다.', etc && !(bpd||chd||imm||cf) ? '"그 밖의 고위험"만 체크한 경우 CDC 목록(미숙아 만성폐질환·중증 면역저하·중증 낭성섬유증 등)에 해당하는지는 주치의 확인이 필요합니다.' : null].filter(Boolean),
+          basis:'CDC 2025-08-18 · 약학정보원 · JAMA Pediatrics 2026-08-10'});
+      } else if (highRisk){
+        cards.push({cls:'warn', tag:['coral','허가 범위 밖'], verdict:'시즌 시작 시 24개월을 넘어 국내 허가 범위(24개월 이하)를 벗어납니다.',
+          kv:[['시즌 시작 시 나이', ageAtStart + '개월']], notes:['고위험군이라면 다른 예방 방법을 주치의와 상의하세요.'], basis:'약학정보원(국내 허가)'});
+      } else {
+        cards.push({cls:'main', tag:['sage','통상 권고 대상 아님'], verdict:'건강한 아기의 두 번째 시즌은 항체주사 권고 대상이 아닙니다.',
+          kv:[['시즌 시작 시 나이', ageAtStart + '개월'],['이유','두 번째 시즌 접종은 고위험군(미숙아 만성폐질환·혈류역학적 심질환·중증 면역저하·중증 낭성섬유증 등)에만 권고됩니다']],
+          notes:['작년에 맞았더라도 올해까지 효과가 이어진다는 근거는 없습니다(JAMA Pediatrics 2026). 다만 건강한 아기는 두 번째 시즌 중증 위험 자체가 낮아 권고 대상에서 빠집니다.'],
+          basis:'CDC 2025-08-18 · JAMA Pediatrics 2026-08-10'});
+      }
+    } else if (seasonNo === 1 || ageAtStart < 8){
+      var when = bornInSeason ? '출생 직후~생후 1주 이내 (퇴원 전 권장)' : '시즌 직전 (9월 말~10월, 늦어도 11월)';
+      var prefNote = null;
+      if (pref === 'price') prefNote = '가격 우선: 병원별 가격 차이가 크니 두 제품 가격을 함께 문의하세요. 2026년 9월 기준 언론·병원 게시 가격은 45만~70만 원 범위이며, 엔플론시아 공식 가격은 확인되지 않았습니다.';
+      if (pref === 'data') prefNote = '실사용 데이터 우선: 베이포투스는 2023년부터 프랑스·스페인 국가 캠페인을 거쳐 수십만 명 규모의 실사용 자료가 있습니다. 엔플론시아는 2025년 6월 미국 허가로 축적 기간이 짧습니다.';
+      cards.push({cls:'main', tag:['teal', bornInSeason ? '시즌 중 출생' : '시즌 시작 시 ' + ageAtStart + '개월 (8개월 미만)'],
+        verdict:'베이포투스와 엔플론시아 둘 다 해당됩니다. 지침은 둘 사이에 우선순위를 두지 않습니다.',
+        kv:[['베이포투스', doseB],['엔플론시아','105mg (체중 무관 단일 용량)'],['시점', when]],
+        notes:[ '효과는 지표가 달라 직접 비교가 어렵습니다. 니르세비맙 입원 감소 83.2%(HARMONIE), 클레스로비맙 입원 감소 84.2~90.9%(CLEVER)로 둘 다 높은 편입니다.', prefNote ].filter(Boolean),
+        basis:'CDC 2025-08-18 · MMWR 2025-08 · FDA 라벨'});
+    } else {
+      cards.push({cls:'warn', tag:['coral','판정 보류'], verdict:'입력 조건으로는 지침상 해당 항목을 특정하기 어렵습니다.', notes:['생년월일과 재태 주수를 확인한 뒤 주치의와 상의하세요.'], basis:'—'});
+    }
+
+    // ── 부가 안내
+    var extra = [];
+    if (done) extra.push({tag:['amber','이미 접종함'], text:'이번 시즌에 이미 항체주사를 맞았다면 같은 시즌 안에 다시 맞을 필요는 통상 없습니다. 특별한 사정(예: 접종 후 큰 수술)이 있으면 주치의가 판단합니다.'});
+    if (infected) extra.push({tag:['sage','기감염'], text:'이번 시즌에 RSV를 이미 앓았어도 권고는 같습니다. 접종해도 됩니다(CDC·AAP FAQ). 공급이 부족할 때는 후순위가 될 수 있습니다.'});
+    if (flu) extra.push({tag:['sage','동시접종 가능'], text:'독감 예방접종과 같은 날 함께 맞아도 됩니다(CDC). 주사 부위만 나눕니다.'});
+    if (matYes && !matDate) extra.push({tag:['amber','확인 필요'], text:'엄마의 아브리스보 접종일을 넣으면 14일 기준을 판정할 수 있습니다. 접종 후 14일 미만에 출산했다면 아기 항체주사가 권고됩니다.'});
+    if (matYes && matDate && !maternalCovered) extra.push({tag:['amber','엄마 접종 14일 미만'], text:'접종 후 14일이 지나기 전에 태어나 항체가 충분히 넘어가지 않았을 수 있습니다. 이 경우 아기 항체주사가 권고됩니다(CDC).'});
+    if (dob > today) extra.push({tag:['teal','출산 예정'], text:'예정일 기준으로 계산했습니다. 실제 출생일이 바뀌면 다시 확인하세요.'});
+
+    // ── 렌더
+    var html = '<div class="summary">' + summary.map(function(s){ return '<span>' + esc(s) + '</span>'; }).join('') + '</div>';
+    cards.forEach(function(c){
+      html += '<div class="card ' + c.cls + '">';
+      html += '<span class="tag ' + c.tag[0] + '">' + esc(c.tag[1]) + '</span>';
+      html += '<div class="verdict">' + esc(c.verdict) + '</div>';
+      if (c.kv){ html += '<dl class="kv">' + c.kv.map(function(p){ return '<dt>' + esc(p[0]) + '</dt><dd class="num">' + esc(p[1]) + '</dd>'; }).join('') + '</dl>'; }
+      if (c.notes && c.notes.length){ html += '<ul class="notes">' + c.notes.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>'; }
+      html += '<div class="basis">근거: ' + esc(c.basis) + '</div></div>';
+    });
+    extra.forEach(function(x){
+      html += '<div class="card"><span class="tag ' + x.tag[0] + '">' + esc(x.tag[1]) + '</span><p>' + esc(x.text) + '</p></div>';
+    });
+    html += '<p class="muted">결과는 공개 지침을 조건에 맞춰 정리한 것입니다. 최종 결정은 소아청소년과 주치의와 상의하세요.</p>';
+    out.innerHTML = html;
+    out.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'});
+  });
+})();
+</script>
+
+<p style="text-align:center;margin:40px 0 0;font-size:14px"><a href="/" style="color:var(--ink-2);text-decoration:none">← 예나준의 다른 도구 보기</a></p>
+</body>
+</html>
