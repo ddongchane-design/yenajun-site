@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14161A">
+<meta property="og:type" content="website">
+<meta property="og:title" content="사주 작명 노트">
+<meta property="og:description" content="사주팔자와 대법원 인명용 한자 9,729자로 아기 이름을 검토합니다.">
+<meta property="og:locale" content="ko_KR">
+<title>사주 작명 노트</title>
+<meta name="description" content="사주팔자와 인명용 한자 9,700여 자로 아기 이름을 검토하는 도구">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="seal han">名</div>
+    <div>
+      <h1>사주 작명 노트</h1>
+      <p>태어난 시각으로 사주팔자를 세우고, 대법원 인명용 한자 9,729자로 이름을 검토합니다. 발음오행·발음음양·사격수리·수리오행·수리음양·사주오행을 한 화면에서 봅니다.</p>
+    </div>
+    <div class="right">
+      <button class="btn" id="themeBtn" type="button">야간</button>
+      <button class="btn" id="copyBtn" type="button">결과 복사</button>
+      <button class="btn" id="pdfBtn" type="button">PDF로 저장</button>
+    </div>
+  </header>
+
+  <div class="cols">
+    <aside class="rail">
+      <section class="panel">
+        <h2>아기 정보</h2>
+        <div class="stack">
+          <div class="row">
+            <label class="field" for="birthDate">생년월일 (양력)
+              <input type="date" id="birthDate" value="2026-09-09">
+            </label>
+            <label class="field" for="birthTime">태어난 시각
+              <input type="time" id="birthTime" value="11:47">
+            </label>
+          </div>
+          <label class="field">성별
+            <div class="seg" id="genderSeg">
+              <button type="button" data-v="male" aria-pressed="true">남</button>
+              <button type="button" data-v="female" aria-pressed="false">여</button>
+            </div>
+          </label>
+          <div class="hanja-pick">
+            <label class="field" for="surKor">성
+              <input type="text" id="surKor" value="" maxlength="1" placeholder="이">
+            </label>
+            <label class="field" for="surHan">성 한자
+              <select id="surHan"></select>
+            </label>
+          </div>
+          <label class="field">이름 글자 수
+            <div class="seg" id="lenSeg">
+              <button type="button" data-v="2" aria-pressed="true">두 글자</button>
+              <button type="button" data-v="1" aria-pressed="false">외자</button>
+            </div>
+          </label>
+          <div class="hanja-pick">
+            <label class="field" for="n1Kor">첫 글자
+              <input type="text" id="n1Kor" value="" maxlength="1" placeholder="예">
+            </label>
+            <label class="field" for="n1Han">한자
+              <select id="n1Han"></select>
+            </label>
+          </div>
+          <p class="hint" id="n1Note"></p>
+          <div class="hanja-pick" id="n2Wrap">
+            <label class="field" for="n2Kor">끝 글자
+              <input type="text" id="n2Kor" value="" maxlength="1" placeholder="준">
+            </label>
+            <label class="field" for="n2Han">한자
+              <select id="n2Han"></select>
+            </label>
+          </div>
+          <p class="hint" id="n2Note"></p>
+          <p class="hint"><b>★</b> 사격·수리오행·사주 보완까지 맞음 &nbsp; <b>◎</b> 사격과 수리오행이 맞음 &nbsp; <b>○</b> 사격만 맞음 &nbsp; <b>×</b> 흉수 포함<br>목록에 마우스를 올리면 이유가 나옵니다. 좋은 순서로 정렬됩니다.</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>가족 이름</h2>
+        <div class="stack">
+          <div class="row-3">
+            <label class="field" for="fam1">아버지
+              <input type="text" id="fam1" value="" placeholder="예: 김동수">
+            </label>
+            <label class="field" for="fam2">어머니
+              <input type="text" id="fam2" value="" placeholder="예: 박지영">
+            </label>
+            <label class="field" for="fam3">형제
+              <input type="text" id="fam3" value="" placeholder="예: 김서연">
+            </label>
+          </div>
+          <p class="hint">가족과 같은 글자를 쓰지 않는 <b>기휘(忌諱)</b> 풍습을 검사합니다. 성은 빼고 이름 글자만 봅니다.</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>부모의 마음</h2>
+        <div class="stack">
+          <p class="hint">아이가 어떤 사람으로 자라면 좋을지 고르세요. 이름 한자의 뜻과 맞춰보고, 그 마음을 담은 글자를 찾아드립니다.</p>
+          <div class="wish-grid" id="wishGrid"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>판정 기준</h2>
+        <div class="stack">
+          <label class="field" for="soundSchool">
+            <span>발음오행 기준 <span class="tip"><button type="button" class="tip-btn" aria-label="발음오행 기준 설명">?</button><span class="tip-body" role="tooltip">
+              자음을 오행에 배속하는 방식이 두 갈래입니다.<br><br>
+              <b>운해본</b>은 ㅇ·ㅎ을 토, ㅁ·ㅂ·ㅍ를 수로 봅니다. 조선 후기 신경준의 훈민정음운해를 따르며, 오늘날 작명소에서 쓰는 기준입니다.<br><br>
+              <b>해례본</b>은 ㅇ·ㅎ을 수, ㅁ·ㅂ·ㅍ를 토로 봅니다. 세종의 훈민정음 해례본 원문 그대로입니다.<br><br>
+              같은 이름이 한쪽에서는 상생, 다른 쪽에서는 상극으로 갈리기도 합니다.
+              <span class="usage" aria-hidden="true">
+                <span class="usage-row"><span>작명소 실무</span><span class="usage-bar"><i style="width:82%"></i></span></span>
+                <span class="usage-row"><span>학술 근거</span><span class="usage-bar"><i style="width:30%"></i></span></span>
+              </span>
+              <span style="display:block;margin-top:6px;font-size:11px;opacity:.8">막대는 공식 통계가 아니라 두 기준의 쓰임새 차이를 나타낸 표시입니다.</span>
+            </span></span></span>
+            <select id="soundSchool">
+              <option value="unhae">운해본 — ㅇㅎ 토, ㅁㅂㅍ 수 (작명 실무)</option>
+              <option value="haerye">해례본 — ㅇㅎ 수, ㅁㅂㅍ 토 (훈민정음 원문)</option>
+            </select>
+          </label>
+          <label class="field" for="suriScope">
+            <span>수리오행 범위 <span class="tip"><button type="button" class="tip-btn" aria-label="수리오행 범위 설명">?</button><span class="tip-body" role="tooltip">
+              사격의 끝자리를 오행으로 바꿔(1·2 목, 3·4 화, 5·6 토, 7·8 금, 9·0 수) 격과 격이 서로 살리는지 봅니다.<br><br>
+              <b>네 격 모두</b>는 원격부터 정격까지 세 연결을 모두 따집니다. 조건이 까다로워 통과하는 조합이 적습니다.<br><br>
+              <b>세 격만</b>은 정격을 인생 전체의 총합으로 따로 보고, 원·형·이 사이만 따집니다.<br><br>
+              수리오행 자체를 보지 않고 81수리 길흉과 자원오행만 따지는 작명가도 많습니다.
+              <span class="usage" aria-hidden="true">
+                <span class="usage-row"><span>네 격 모두</span><span class="usage-bar"><i style="width:55%"></i></span></span>
+                <span class="usage-row"><span>세 격만</span><span class="usage-bar"><i style="width:45%"></i></span></span>
+              </span>
+              <span style="display:block;margin-top:6px;font-size:11px;opacity:.8">막대는 공식 통계가 아니라 문파가 갈리는 정도를 나타낸 표시입니다.</span>
+            </span></span></span>
+            <select id="suriScope">
+              <option value="4">원·형·이·정 네 격 모두</option>
+              <option value="3">원·형·이 세 격만</option>
+            </select>
+          </label>
+          <label class="field" for="timeBase">
+            <span>시간 기준 <span class="tip"><button type="button" class="tip-btn" aria-label="시간 기준 설명">?</button><span class="tip-body" role="tooltip">
+              한국 표준시는 동경 135도(일본 아카시) 기준이라, 한국에서는 태양이 시계보다 늦게 남중합니다. 경도 1도마다 4분씩 차이가 납니다.<br><br>
+              <b>지역 경도 보정</b>은 태어난 곳의 경도로 이 차이를 빼고 봅니다. 서울은 32분, 부산은 24분이 줄어듭니다.<br><br>
+              <b>표준시 그대로</b>는 시계 시각을 그대로 씁니다.<br><br>
+              시 경계 가까이에서 태어났다면 두 기준의 시주가 달라집니다. 둘 다 확인해 보세요.
+              <span class="usage" aria-hidden="true">
+                <span class="usage-row"><span>경도 보정</span><span class="usage-bar"><i style="width:70%"></i></span></span>
+                <span class="usage-row"><span>표준시 그대로</span><span class="usage-bar"><i style="width:50%"></i></span></span>
+              </span>
+              <span style="display:block;margin-top:6px;font-size:11px;opacity:.8">막대는 공식 통계가 아니라 두 기준의 쓰임새 차이를 나타낸 표시입니다.</span>
+            </span></span></span>
+            <select id="timeBase">
+              <option value="true">태어난 지역 경도로 보정 (명리 실무)</option>
+              <option value="kst">한국 표준시 그대로</option>
+            </select>
+          </label>
+          <label class="field" for="region" id="regionWrap">태어난 지역
+            <select id="region"></select>
+          </label>
+          <label class="field" for="customLon" id="customLonWrap" hidden>경도 (동경, 도 단위)
+            <input type="number" id="customLon" value="127" min="120" max="145" step="0.01">
+          </label>
+          <p class="hint">기준을 바꾸면 아래 검사 결과와 후보 목록이 즉시 다시 계산됩니다.</p>
+        </div>
+      </section>
+    </aside>
+
+    <main class="results">
+      <section class="card">
+        <div class="card-body">
+          <div class="headline">
+            <div>
+              <div class="full-han han" id="outHan">—</div>
+              <div class="full-kor" id="outKor">이름을 입력하세요</div>
+            </div>
+            <div class="scores">
+              <div class="score">
+                <b id="outWishScore">—</b>
+                <span>부모 마음</span>
+              </div>
+              <div class="score">
+                <b id="outScore">—</b>
+                <span>전통 기준</span>
+              </div>
+            </div>
+          </div>
+          <div class="saju-line han" id="outSaju">—<small id="outSajuSub"></small></div>
+          <table class="pillars" id="outPillars"><tbody></tbody></table>
+          <div class="element-bar" id="outBars"></div>
+          <div class="element-legend" id="outLegend"></div>
+        </div>
+      </section>
+
+      <section class="card wish-card">
+        <div class="card-head">
+          <h2>이름에 담은 마음</h2>
+          <span class="sub">이름이 품은 뜻과 부모가 바라는 것</span>
+        </div>
+        <div class="card-body">
+          <div id="outReading"></div>
+          <div id="askWrap" class="ask-wrap" hidden>
+            <button class="btn" type="button" id="askBtn" hidden>Claude에게 이름 뜻 물어보기</button>
+            <p class="mini">규칙으로 만든 위 풀이와 달리, 문장으로 자세히 설명해 줍니다. claude.ai에서 열었을 때만 쓸 수 있고, 처음 누르면 허용 여부를 묻습니다.</p>
+            <p id="askOut" class="ask-out" hidden></p>
+          </div>
+          <div id="outWish"></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>사주 풀이와 보완 방향</h2>
+          <span class="sub">과다한 기운은 누르기보다 흘려보냅니다</span>
+        </div>
+        <div class="card-body"><div class="advice" id="outAdvice"></div></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>이름 여섯 가지 검사</h2>
+          <span class="sub" id="checkSummary"></span>
+        </div>
+        <div class="card-body"><div class="checks" id="outChecks"></div></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>사격수리 풀이</h2>
+          <span class="sub">81수리로 보는 네 시기</span>
+        </div>
+        <div class="card-body"><div class="suri-list" id="outSuri"></div></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>대운 — 10년마다 바뀌는 흐름</h2>
+          <span class="sub" id="daeunSub"></span>
+        </div>
+        <div class="card-body scroll"><table id="outDaeun"><tbody></tbody></table></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>출생신고 이름 순위</h2>
+          <span class="sub" id="popSub">2015 ~ 2026년 · 해마다 TOP 100</span>
+          <span class="spacer"></span>
+          <label class="field" for="popYear" style="width:110px">
+            <select id="popYear"></select>
+          </label>
+        </div>
+        <div class="card-body">
+          <div class="rank-top">
+            <div class="rank-hero">
+              <span class="lab">내 후보 이름</span>
+              <b id="myRank">—</b>
+              <p id="myRankNote"></p>
+            </div>
+            <figure class="chart-figure">
+              <figcaption id="trendCaption">연도별 순위 추세</figcaption>
+              <div id="trendChart"></div>
+            </figure>
+          </div>
+          <div class="rank-lists">
+            <div class="rank-list">
+              <h4>남자 이름 TOP 20</h4>
+              <div id="rankMale"></div>
+            </div>
+            <div class="rank-list">
+              <h4>여자 이름 TOP 20</h4>
+              <div id="rankFemale"></div>
+            </div>
+          </div>
+          <p class="mini" style="margin-top:14px">출처: 대법원 전자가족관계등록시스템 출생신고 집계를 정리한 <a href="https://baby-name.kr/" target="_blank" rel="noreferrer">아기이름(baby-name.kr)</a> 연도별 순위. 2026년은 집계가 진행 중이라 수치가 적습니다.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>다른 후보 찾기</h2>
+          <span class="sub" id="candSub">인명용 한자 전체에서 조건을 만족하는 조합만 골라냅니다</span>
+        </div>
+        <div class="card-body">
+          <div class="opts" id="searchOpts">
+            <label><input type="checkbox" id="optKeepFirst" checked> 첫 글자(돌림자) 고정</label>
+            <label><input type="checkbox" id="optSuri" checked> 사격 네 격 모두 길수</label>
+            <label><input type="checkbox" id="optSuriEl" checked> 수리오행 상생</label>
+            <label><input type="checkbox" id="optSound" checked> 발음오행 상생</label>
+            <label><input type="checkbox" id="optYinYang"> 발음음양 조화</label>
+            <label><input type="checkbox" id="optElement" checked> 사주 보완 오행</label>
+            <label><input type="checkbox" id="optFamily" checked> 가족 글자 회피</label>
+            <label><input type="checkbox" id="optPopular"> 인기 TOP 100 이름만</label>
+            <label><input type="checkbox" id="optMeaning" checked> 뜻이 있는 한자만</label>
+            <label><input type="checkbox" id="optWish"> 고른 마음이 모두 담긴 이름만</label>
+          </div>
+          <div class="scroll"><table id="outCands"><tbody></tbody></table></div>
+          <p class="empty" id="candEmpty" hidden></p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>한자 찾아보기</h2>
+          <span class="sub" id="explorerSub"></span>
+        </div>
+        <div class="card-body">
+          <div class="filters">
+            <label class="field" for="expKor">음절
+              <input type="text" id="expKor" value="" maxlength="1" placeholder="예">
+            </label>
+            <label class="field" for="expWish">부모의 마음
+              <select id="expWish"></select>
+            </label>
+            <label class="field" for="expEl">자원오행
+              <select id="expEl">
+                <option value="">전체</option>
+                <option value="목">목</option><option value="화">화</option>
+                <option value="토">토</option><option value="금">금</option><option value="수">수</option>
+              </select>
+            </label>
+            <label class="field" for="expStroke">획수
+              <select id="expStroke"><option value="">전체</option></select>
+            </label>
+            <label class="field" for="expQuery" style="width:180px">뜻 검색
+              <input type="search" id="expQuery" placeholder="예: 맑을, 슬기">
+            </label>
+            <button class="btn btn-sm" type="button" id="expApplyFirst">첫 글자로 적용</button>
+            <button class="btn btn-sm" type="button" id="expApplyLast">끝 글자로 적용</button>
+          </div>
+          <div class="explorer-grid" id="expGrid"></div>
+          <p class="mini" id="expSelected" style="margin-top:10px"></p>
+        </div>
+      </section>
+
+      <div class="footnote">
+        <b>데이터와 한계</b>
+        <ul>
+          <li>한자: 대법원 인명용 한자 9,729자. 획수는 강희자전 부수 원획법(氵는 水 4획)으로 계산했습니다.</li>
+          <li>자원오행은 부수를 기준으로 자동 분류한 값이라 작명가마다 다르게 볼 수 있습니다. 카드에 부수를 함께 표시하니 확인에 쓰세요.</li>
+          <li>월주와 대운은 1900~2060년의 24절기 절입 시각(한국 표준시, 분 단위)을 계산해 넣었습니다. 절입일 당일에 태어나도 정확합니다. 그 밖의 해는 근삿값으로 계산합니다.</li>
+          <li>오행 개수는 겉으로 드러난 여덟 글자만 셉니다. 지장간은 사령 일수(정기 약 18일, 중기·여기 각 7일 남짓)가 달라 겉 글자와 똑같이 더하면 없는 기운이 있는 것처럼 보이므로, 기둥 아래에 표시만 하고 합산에서 뺐습니다.</li>
+          <li>월지는 태어난 계절이라 사주 전체 힘의 30~50%를 차지한다고 봅니다. 개수와 별개로 따로 표시합니다.</li>
+          <li>기둥마다 천간이 지지 속에 뿌리를 두었는지(통근) 함께 보여줍니다. 뿌리가 없는 천간은 힘이 약하다고 봅니다.</li>
+          <li>81수리와 발음오행 해석은 전통적인 참고 기준이며 검증된 과학적 근거는 없습니다. 이 도구에서 가장 확실한 것은 한자의 뜻이고, 그 뜻에 부모의 마음을 담는 일입니다.</li>
+          <li>출생신고 전에 대법원 인명용 한자 조회로 사용 가능 여부를 반드시 확인하세요.</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<div id="sheetBar" hidden>
+  <span id="sheetBarMsg">작명 기록 한 장입니다. 저장하거나 바로 보낼 수 있어요.</span>
+  <button class="btn" type="button" id="sheetPdf">PDF 저장</button>
+  <button class="btn" type="button" id="sheetImage">이미지 저장</button>
+  <button class="btn" type="button" id="sheetShare" hidden>공유</button>
+  <button class="btn" type="button" id="sheetPrint">인쇄</button>
+  <button class="btn" type="button" id="sheetClose">닫기</button>
+</div>
+
+<section id="printSheet" aria-hidden="true">
+  <div class="sheet-top">
+    <span class="sheet-label">작명 기록</span>
+    <span class="sheet-date" id="sheetDate"></span>
+  </div>
+
+  <div class="sheet-name">
+    <div class="sheet-han" id="sheetHan">—</div>
+    <div class="sheet-kor" id="sheetKor"></div>
+    <div class="sheet-seal">名</div>
+  </div>
+
+  <div class="sheet-bless">
+    <h2 id="sheetTitle"></h2>
+    <p id="sheetBody"></p>
+  </div>
+
+  <div class="sheet-chars" id="sheetChars"></div>
+
+  <div class="sheet-cols">
+    <div>
+      <h3>사주팔자</h3>
+      <table class="sheet-saju" id="sheetSaju"><tbody></tbody></table>
+      <p class="sheet-note" id="sheetSajuNote"></p>
+    </div>
+    <div>
+      <h3>이름 검사</h3>
+      <table class="sheet-checks" id="sheetChecks"><tbody></tbody></table>
+    </div>
+  </div>
+
+  <div class="sheet-foot">
+    <span id="sheetBirth"></span>
+    <span>출생신고 전에 대법원 인명용 한자 조회로 사용 가능 여부를 확인하세요. 이 기록은 참고용이며 이름이 운명을 결정하지 않습니다.</span>
+    <span>사주 작명 노트 · korean-naming-note.ddongchane.workers.dev</span>
+  </div>
+</section>
+
+<script src="data/solar-terms.js"></script>
+<script src="data/meaning-phrases.js"></script>
+<script src="data/hanja.js"></script>
+<script src="data/popularity.js"></script>
+<script src="data/suri-text.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

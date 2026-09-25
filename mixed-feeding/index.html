@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="아기 체중과 월령만 입력하면 혼합수유 때 분유 보충량을 알려드려요.">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>혼합수유 보충량 계산기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap">
+<style>
+:root {
+  --bg: #F8F5F0;
+  --surface: #FFFFFF;
+  --surface-alt: #FFF7ED;
+  --accent: #5B8A72;
+  --accent-light: #e8f0ec;
+  --coral: #E8977A;
+  --coral-light: #fdf0ec;
+  --text: #2E2E2E;
+  --text-muted: #7A7A7A;
+  --border: #E5E0DA;
+  --shadow: rgba(91, 138, 114, 0.08);
+  --input-bg: #FFFFFF;
+  --tag-bg: #f0ebe5;
+  --result-highlight: #5B8A72;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1A1D1B;
+    --surface: #242824;
+    --surface-alt: #2A2520;
+    --accent: #7BAF96;
+    --accent-light: #2a3a30;
+    --coral: #E8977A;
+    --coral-light: #332a24;
+    --text: #E8E4DF;
+    --text-muted: #9A9590;
+    --border: #3A3D38;
+    --shadow: rgba(0,0,0,0.2);
+    --input-bg: #2C302C;
+    --tag-bg: #33362f;
+    --result-highlight: #7BAF96;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1A1D1B;
+  --surface: #242824;
+  --surface-alt: #2A2520;
+  --accent: #7BAF96;
+  --accent-light: #2a3a30;
+  --coral: #E8977A;
+  --coral-light: #332a24;
+  --text: #E8E4DF;
+  --text-muted: #9A9590;
+  --border: #3A3D38;
+  --shadow: rgba(0,0,0,0.2);
+  --input-bg: #2C302C;
+  --tag-bg: #33362f;
+  --result-highlight: #7BAF96;
+}
+
+* { box-sizing: border-box; margin: 0; }
+body {
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding-inline: 20px;
+  padding-block: 0;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.header {
+  text-align: center;
+  padding: 32px 0 24px;
+}
+.header-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+  display: block;
+}
+.header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.header p {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+.input-section {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+.field label .required {
+  color: var(--coral);
+  margin-left: 2px;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.input-row input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: inherit;
+  background: var(--input-bg);
+  color: var(--text);
+  transition: border-color 0.2s;
+  font-variant-numeric: tabular-nums;
+}
+.input-row input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.input-row .unit {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.age-selector {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.age-btn {
+  padding: 8px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  background: var(--input-bg);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.age-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.age-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  font-weight: 500;
+}
+
+.feeding-type {
+  display: flex;
+  gap: 8px;
+}
+.feeding-type button {
+  flex: 1;
+  padding: 10px 8px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--input-bg);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 400;
+}
+.feeding-type button:hover {
+  border-color: var(--accent);
+}
+.feeding-type button.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent);
+  font-weight: 500;
+}
+
+.breast-field {
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  max-height: 0;
+  opacity: 0;
+}
+.breast-field.show {
+  max-height: 120px;
+  opacity: 1;
+}
+
+.results {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 40px;
+}
+
+.result-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  transition: opacity 0.3s;
+}
+.result-card.highlight {
+  background: var(--surface-alt);
+  border-color: var(--coral);
+  border-width: 1.5px;
+}
+.result-card .label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.result-card .value {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--result-highlight);
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+}
+.result-card.highlight .value {
+  color: var(--coral);
+}
+.result-card .sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-weight: 300;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.result-grid .result-card .value {
+  font-size: 24px;
+}
+
+.formula-box {
+  background: var(--tag-bg);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-top: 4px;
+}
+.formula-box code {
+  background: var(--surface);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: 'Noto Sans KR', monospace;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.checklist {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+.checklist h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.check-icon {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.tip-box {
+  background: var(--coral-light);
+  border-radius: 14px;
+  padding: 18px 20px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.tip-box strong {
+  color: var(--coral);
+  font-weight: 700;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 300;
+}
+.empty-state .icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+  display: block;
+  opacity: 0.6;
+}
+
+@media (max-width: 400px) {
+  body { padding-inline: 16px; }
+  .input-section { padding: 18px; }
+  .result-grid { grid-template-columns: 1fr; }
+  .age-btn { padding: 7px 11px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-icon">🍼</span>
+  <h1>혼합수유 보충량 계산기</h1>
+  <p>아기 체중과 월령만 입력하면 수유량을 알려드려요</p>
+</div>
+
+<div class="input-section">
+  <div class="field">
+    <label>아기 체중 <span class="required">*</span></label>
+    <div class="input-row">
+      <input type="number" id="weight" placeholder="예: 3.5" step="0.1" min="1" max="15" inputmode="decimal">
+      <span class="unit">kg</span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>아기 월령 <span class="required">*</span></label>
+    <div class="age-selector" id="ageSelector">
+      <button class="age-btn" data-age="newborn">신생아~50일</button>
+      <button class="age-btn" data-age="50days">50~100일</button>
+      <button class="age-btn" data-age="100days">100일 이후</button>
+      <button class="age-btn" data-age="4months">4개월 이상</button>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>수유 방식</label>
+    <div class="feeding-type" id="feedingType">
+      <button class="active" data-type="mixed">혼합수유</button>
+      <button data-type="formula">분유수유</button>
+    </div>
+  </div>
+
+  <div class="breast-field show" id="breastField">
+    <div class="field">
+      <label>1회 모유 수유 시간 (양쪽 합계)</label>
+      <div class="input-row">
+        <input type="number" id="breastMin" placeholder="예: 20" min="0" max="60" inputmode="numeric">
+        <span class="unit">분</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="results" id="results">
+  <div class="empty-state">
+    <span class="icon">📐</span>
+    체중과 월령을 입력하면<br>바로 계산 결과가 나와요
+  </div>
+</div>
+
+<script>
+(function() {
+  const weightInput = document.getElementById('weight');
+  const ageSelector = document.getElementById('ageSelector');
+  const feedingType = document.getElementById('feedingType');
+  const breastField = document.getElementById('breastField');
+  const breastMin = document.getElementById('breastMin');
+  const results = document.getElementById('results');
+
+  let selectedAge = null;
+  let selectedType = 'mixed';
+
+  ageSelector.addEventListener('click', function(e) {
+    const btn = e.target.closest('.age-btn');
+    if (!btn) return;
+    ageSelector.querySelectorAll('.age-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedAge = btn.dataset.age;
+    calculate();
+  });
+
+  feedingType.addEventListener('click', function(e) {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    feedingType.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedType = btn.dataset.type;
+    breastField.classList.toggle('show', selectedType === 'mixed');
+    calculate();
+  });
+
+  weightInput.addEventListener('input', calculate);
+  breastMin.addEventListener('input', calculate);
+
+  function calculate() {
+    const weight = parseFloat(weightInput.value);
+    if (!weight || weight < 1 || weight > 15 || !selectedAge) {
+      results.innerHTML = '<div class="empty-state"><span class="icon">📐</span>체중과 월령을 입력하면<br>바로 계산 결과가 나와요</div>';
+      return;
+    }
+
+    let perFeed, totalDaily, feedCount, formulaText, interval;
+
+    switch(selectedAge) {
+      case 'newborn':
+        feedCount = 8;
+        totalDaily = Math.round(weight * 150);
+        perFeed = Math.round(totalDaily / feedCount);
+        formulaText = '<code>' + weight.toFixed(1) + 'kg × 150ml ÷ 8회</code> = ' + perFeed + 'ml/회';
+        interval = '2~3시간';
+        break;
+      case '50days':
+        feedCount = 7;
+        totalDaily = Math.round(weight * 150);
+        perFeed = Math.round(totalDaily / feedCount + 20);
+        formulaText = '<code>' + weight.toFixed(1) + 'kg × 150ml ÷ 7회 + 20ml</code> = ' + perFeed + 'ml/회';
+        interval = '2.5~3.5시간';
+        break;
+      case '100days':
+        feedCount = 6;
+        totalDaily = Math.round(weight * 150);
+        perFeed = Math.round(totalDaily / feedCount + 20);
+        formulaText = '<code>' + weight.toFixed(1) + 'kg × 150ml ÷ 6회 + 20ml</code> = ' + perFeed + 'ml/회';
+        interval = '3~4시간';
+        break;
+      case '4months':
+        feedCount = 5;
+        totalDaily = Math.min(Math.round(weight * 150), 1000);
+        perFeed = Math.round(totalDaily / feedCount);
+        formulaText = '하루 총량 <code>' + totalDaily + 'ml</code> (상한 1,000ml) ÷ ' + feedCount + '회 = ' + perFeed + 'ml/회';
+        interval = '3.5~5시간';
+        break;
+    }
+
+    let supplementPerFeed = 0;
+    let estimatedBreast = 0;
+    if (selectedType === 'mixed') {
+      const mins = parseInt(breastMin.value) || 0;
+      // Rough estimate: ~2-4ml per minute of active breastfeeding
+      // Conservative estimate to avoid under-supplementing
+      estimatedBreast = Math.round(mins * 2.5);
+      if (estimatedBreast > perFeed) estimatedBreast = perFeed;
+      supplementPerFeed = Math.max(0, perFeed - estimatedBreast);
+    }
+
+    let html = '';
+
+    // Main result
+    if (selectedType === 'mixed') {
+      html += '<div class="result-card highlight">';
+      html += '<div class="label">1회 분유 보충량 (추천)</div>';
+      if (supplementPerFeed > 0) {
+        html += '<div class="value">' + supplementPerFeed + 'ml</div>';
+        html += '<div class="sub">모유 수유 후 보충해 주세요 · 30~60ml 단위로 조절 가능</div>';
+      } else {
+        html += '<div class="value">0ml</div>';
+        html += '<div class="sub">모유만으로 충분할 수 있어요! 아기 반응을 관찰해 주세요</div>';
+      }
+      html += '</div>';
+    }
+
+    // Grid results
+    html += '<div class="result-grid">';
+    html += '<div class="result-card">';
+    html += '<div class="label">1회 수유량</div>';
+    html += '<div class="value">' + perFeed + '<span style="font-size:16px;font-weight:500">ml</span></div>';
+    html += '<div class="sub">하루 ' + feedCount + '회 기준</div>';
+    html += '</div>';
+
+    html += '<div class="result-card">';
+    html += '<div class="label">하루 총 수유량</div>';
+    html += '<div class="value">' + totalDaily + '<span style="font-size:16px;font-weight:500">ml</span></div>';
+    html += '<div class="sub">수유 간격 약 ' + interval + '</div>';
+    html += '</div>';
+    html += '</div>';
+
+    if (selectedType === 'mixed' && estimatedBreast > 0) {
+      html += '<div class="result-grid">';
+      html += '<div class="result-card">';
+      html += '<div class="label">모유 추정량 (1회)</div>';
+      html += '<div class="value" style="font-size:24px">' + estimatedBreast + '<span style="font-size:14px;font-weight:500">ml</span></div>';
+      html += '<div class="sub">' + breastMin.value + '분 수유 기준 추정</div>';
+      html += '</div>';
+      html += '<div class="result-card">';
+      html += '<div class="label">하루 보충 분유 총량</div>';
+      html += '<div class="value" style="font-size:24px">' + (supplementPerFeed * feedCount) + '<span style="font-size:14px;font-weight:500">ml</span></div>';
+      html += '<div class="sub">보충 ' + feedCount + '회 기준</div>';
+      html += '</div>';
+      html += '</div>';
+    }
+
+    // Formula box
+    html += '<div class="formula-box">📝 <strong style="color:var(--text)">적용된 공식</strong><br>' + formulaText + '</div>';
+
+    // Checklist
+    html += '<div class="checklist">';
+    html += '<h3>✅ 보충량이 적절한지 확인하세요</h3>';
+    html += '<div class="check-item"><span class="check-icon">1</span><span>젖은 기저귀가 하루 <strong>6~8개</strong> 이상인가요?</span></div>';
+    html += '<div class="check-item"><span class="check-icon">2</span><span>체중이 주당 <strong>150~200g</strong> 증가하나요?</span></div>';
+    html += '<div class="check-item"><span class="check-icon">3</span><span>수유 후 아기가 <strong>편안하고 만족</strong>스러워 보이나요?</span></div>';
+    html += '</div>';
+
+    // Tip
+    html += '<div class="tip-box">';
+    html += '<strong>💡 Tip</strong><br>';
+    if (selectedType === 'mixed') {
+      html += '모유 수유 시간으로 추정한 양은 참고용이에요. 실제 모유량은 아기마다, 시간대마다 달라요. <strong>모유를 먼저 양쪽 다 먹이고</strong>, 아기가 배고파하면 <strong>30~60ml씩 분유를 보충</strong>하면서 반응을 보세요.';
+    } else {
+      html += '위 수유량은 평균 기준이에요. 아기마다 먹는 양이 다르니, <strong>아기의 배고픔·포만감 신호</strong>를 관찰하면서 10ml 단위로 조절해 주세요.';
+    }
+    html += '</div>';
+
+    results.innerHTML = html;
+  }
+})();
+</script>
+
+</body>
+</html>

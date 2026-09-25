@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="집값과 소득을 넣으면 방공제(소액임차보증금 최우선변제금)가 대출 한도를 얼마나 깎는지 계산해 드립니다.">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>방공제 한도 계산기</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap');
+
+:root{
+  --bg:#14161A; --card:#1E222A; --card2:#191C22; --line:#2E343F;
+  --fg:#E8EBF0; --sub:#9BA3AF; --faint:#6B7280;
+  --gold:#FFB020; --red:#FF6B6B; --green:#33C892; --blue:#5AA9FF;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--fg);
+  font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.5;
+  padding:32px 18px 56px;
+}
+.wrap{max-width:540px;margin:0 auto}
+.badge{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1px;
+  color:var(--bg);background:var(--gold);padding:6px 12px;border-radius:6px}
+h1{font-size:30px;font-weight:800;letter-spacing:-1px;margin:16px 0 8px;text-wrap:balance}
+.lead{font-size:15px;color:var(--sub);line-height:1.6}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:22px 20px;margin-top:20px}
+.card h2{font-size:13px;font-weight:800;letter-spacing:.5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:6px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 14px;margin-top:14px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field.full{grid-column:1 / -1}
+label{font-size:13.5px;font-weight:600;color:var(--sub)}
+.inputwrap{position:relative;display:flex;align-items:center}
+input[type=number],select{
+  width:100%;background:var(--card2);border:1px solid var(--line);border-radius:11px;
+  color:var(--fg);font:inherit;font-size:17px;font-weight:700;
+  padding:12px 44px 12px 14px;font-variant-numeric:tabular-nums;
+  -moz-appearance:textfield;transition:border-color .15s,box-shadow .15s}
+select{padding-right:14px;font-size:15px;font-weight:600;cursor:pointer}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input:focus,select:focus{outline:none;border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(255,176,32,.18)}
+.unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--faint);pointer-events:none}
+.hint{font-size:12px;color:var(--faint);line-height:1.45}
+
+/* toggle */
+.seg{display:flex;background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:4px;gap:4px}
+.seg button{flex:1;background:transparent;border:0;color:var(--sub);font:inherit;
+  font-size:14px;font-weight:700;padding:9px 6px;border-radius:8px;cursor:pointer;transition:.15s}
+.seg button[aria-pressed=true]{background:var(--gold);color:var(--bg)}
+
+/* result */
+.rescard{background:linear-gradient(180deg,#1B1F27,#171A20);border-color:#333B49}
+.breakdown{display:flex;flex-direction:column;margin-top:6px}
+.brow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0}
+.brow + .brow{border-top:1px solid var(--line)}
+.bl{font-size:14.5px;color:var(--sub);font-weight:500}
+.bv{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.bv.dim{color:var(--sub);font-weight:600}
+.bind{font-size:11px;font-weight:800;color:var(--blue);border:1px solid rgba(90,169,255,.4);
+  border-radius:5px;padding:2px 6px;margin-left:8px;vertical-align:middle;white-space:nowrap}
+
+.final{margin-top:16px;padding-top:18px;border-top:2px solid var(--line);
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.final .fl{font-size:16px;font-weight:800}
+.final .fv{font-size:34px;font-weight:800;letter-spacing:-1px;color:var(--gold);
+  font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+
+.verdict{margin-top:16px;border-radius:14px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start}
+.verdict .dot{width:12px;height:12px;border-radius:50%;flex:none;margin-top:6px}
+.verdict .vt{font-size:15px;font-weight:700;line-height:1.5}
+.verdict .vs{font-size:13px;color:var(--sub);font-weight:500;margin-top:3px;line-height:1.5}
+.verdict.hit{background:rgba(255,107,107,.10);border:1px solid rgba(255,107,107,.35)}
+.verdict.hit .dot{background:var(--red)} .verdict.hit .vt{color:var(--red)}
+.verdict.safe{background:rgba(51,200,146,.10);border:1px solid rgba(51,200,146,.35)}
+.verdict.safe .dot{background:var(--green)} .verdict.safe .vt{color:var(--green)}
+
+.disc{font-size:12px;color:var(--faint);line-height:1.65;margin-top:22px}
+.foot{margin-top:18px;display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--line);padding-top:16px}
+.foot .brand{font-size:14px;font-weight:800;color:var(--sub)}
+.foot .tag{font-size:12px;color:var(--faint)}
+details{margin-top:14px}
+summary{font-size:13.5px;font-weight:700;color:var(--sub);cursor:pointer;list-style:none;
+  display:flex;align-items:center;gap:6px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"＋";color:var(--gold);font-weight:800}
+details[open] summary::before{content:"－"}
+@media (max-width:420px){ h1{font-size:26px} .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="badge">포모의 쉬운경제</span>
+  <h1>방공제 한도 계산기</h1>
+  <p class="lead">집값과 소득을 넣으면, 방공제(소액임차보증금 최우선변제금)가 내 대출 한도를 실제로 얼마나 깎는지 바로 계산해 드립니다.</p>
+
+  <div class="card">
+    <h2>내 조건 입력</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="price">집값 (KB시세 기준)</label>
+        <div class="inputwrap"><input type="number" id="price" value="5" min="0" step="0.1" inputmode="decimal"><span class="unit">억원</span></div>
+      </div>
+      <div class="field">
+        <label for="ltv">LTV 비율</label>
+        <div class="inputwrap"><input type="number" id="ltv" value="70" min="0" max="100" step="1" inputmode="numeric"><span class="unit">%</span></div>
+      </div>
+      <div class="field full">
+        <label for="region">지역 (방공제 금액 자동)</label>
+        <select id="region">
+          <option value="5500">서울특별시 — 방공제 5,500만원</option>
+          <option value="4800">과밀억제권역·세종·용인·화성·김포 — 4,800만원</option>
+          <option value="2800">광역시·안산·광주·파주·이천·평택 — 2,800만원</option>
+          <option value="2500">그 밖의 지역 — 2,500만원</option>
+        </select>
+        <span class="hint">2026년 7월 1일 시행 주택임대차보호법 시행령 기준 최우선변제금</span>
+      </div>
+      <div class="field full">
+        <label>방공제 적용 여부</label>
+        <div class="seg" id="segApply" role="group" aria-label="방공제 적용 여부">
+          <button type="button" data-apply="1" aria-pressed="true">적용 (일반)</button>
+          <button type="button" data-apply="0" aria-pressed="false">면제 (MCI·MCG)</button>
+        </div>
+        <span class="hint">보금자리론(아파트)·MCI/MCG 가입 등으로 면제되면 '면제'를 선택하세요.</span>
+      </div>
+      <div class="field">
+        <label for="income">연소득</label>
+        <div class="inputwrap"><input type="number" id="income" value="6000" min="0" step="100" inputmode="numeric"><span class="unit">만원</span></div>
+      </div>
+      <div class="field">
+        <label for="dsr">DSR 한도</label>
+        <div class="inputwrap"><input type="number" id="dsr" value="40" min="0" max="100" step="1" inputmode="numeric"><span class="unit">%</span></div>
+      </div>
+      <div class="field">
+        <label for="rate">대출 금리 (연)</label>
+        <div class="inputwrap"><input type="number" id="rate" value="4.0" min="0" step="0.1" inputmode="decimal"><span class="unit">%</span></div>
+      </div>
+      <div class="field">
+        <label for="years">대출 기간</label>
+        <div class="inputwrap"><input type="number" id="years" value="30" min="1" max="50" step="1" inputmode="numeric"><span class="unit">년</span></div>
+      </div>
+    </div>
+    <details>
+      <summary>다른 대출이 있다면 (선택)</summary>
+      <div class="grid">
+        <div class="field full">
+          <label for="other">기타 대출 연간 원리금 상환액</label>
+          <div class="inputwrap"><input type="number" id="other" value="0" min="0" step="10" inputmode="numeric"><span class="unit">만원</span></div>
+          <span class="hint">신용대출·자동차 할부 등 이미 갚고 있는 연간 상환액. DSR 한도에서 차감됩니다.</span>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="card rescard">
+    <h2>계산 결과</h2>
+    <div class="breakdown">
+      <div class="brow"><span class="bl">① 집값 기준 한도 (LTV)</span><span class="bv" id="rLtv">–</span></div>
+      <div class="brow"><span class="bl">② 방공제 차감</span><span class="bv dim" id="rDeduct">–</span></div>
+      <div class="brow"><span class="bl">③ 집값 기준 (①－②)</span><span class="bv" id="rHome">–</span></div>
+      <div class="brow"><span class="bl">④ 소득 기준 한도 (DSR)</span><span class="bv" id="rDsr">–</span></div>
+    </div>
+    <div class="final"><span class="fl">최종 대출 한도<span class="bind" id="bindTag">–</span></span><span class="fv" id="rFinal">–</span></div>
+    <div class="verdict safe" id="verdict">
+      <span class="dot"></span>
+      <div><div class="vt" id="vTitle">–</div><div class="vs" id="vSub">–</div></div>
+    </div>
+  </div>
+
+  <p class="disc">※ 참고용 단순 계산기입니다. 실제 대출 한도는 규제지역 지정, 대출 상품, 상환 방식(여기서는 원리금균등 가정), 개인 신용·기존 대출에 따라 달라집니다. LTV·DSR·방공제 값은 입력한 가정에 기반하며, 최우선변제금은 2026년 7월 1일 시행 시행령 기준입니다. 실제 실행 전 반드시 은행·주택도시기금·한국주택금융공사(HF)에서 최신 조건을 확인하세요.</p>
+
+  <div class="foot">
+    <span class="brand">포모의 쉬운경제</span>
+    <span class="tag">방공제 한도 계산기</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var apply = 1;
+  var $ = function(id){ return document.getElementById(id); };
+  var ids = ['price','ltv','region','income','dsr','rate','years','other'];
+
+  function won(man){ // man = 만원 단위 정수
+    man = Math.max(0, Math.round(man));
+    if(man === 0) return '0원';
+    var eok = Math.floor(man/10000), rem = man%10000, out = '';
+    if(eok>0) out += eok + '억';
+    if(rem>0) out += (out?' ':'') + rem.toLocaleString('ko-KR') + '만';
+    return out + '원';
+  }
+
+  function dsrPrincipal(income, dsrPct, ratePct, years, other){
+    var annualCap = income*(dsrPct/100) - other; // 만원/년
+    if(annualCap <= 0) return 0;
+    var i = (ratePct/100)/12, n = years*12;
+    var monthlyCap = annualCap/12;
+    if(i <= 0) return monthlyCap*n;
+    var f = Math.pow(1+i, n);
+    return monthlyCap * (f-1)/(i*f);
+  }
+
+  function calc(){
+    var priceMan = (parseFloat($('price').value)||0)*10000;
+    var ltv = parseFloat($('ltv').value)||0;
+    var deduct = apply ? (parseFloat($('region').value)||0) : 0;
+    var income = parseFloat($('income').value)||0;
+    var dsr = parseFloat($('dsr').value)||0;
+    var rate = parseFloat($('rate').value)||0;
+    var years = parseInt($('years').value)||0;
+    var other = parseFloat($('other').value)||0;
+
+    var ltvLimit = priceMan*(ltv/100);
+    var homeLimit = Math.max(0, ltvLimit - deduct);
+    var dsrLimit = dsrPrincipal(income, dsr, rate, years, other);
+
+    var finalWith = Math.min(homeLimit, dsrLimit);       // 방공제 반영 최종
+    var finalNo   = Math.min(ltvLimit, dsrLimit);         // 방공제 없다면
+    var loss = Math.max(0, finalNo - finalWith);          // 방공제로 실제 줄어든 금액
+    var bind = homeLimit <= dsrLimit ? 'home' : 'dsr';
+
+    $('rLtv').textContent = won(ltvLimit);
+    $('rDeduct').textContent = apply ? ('－ ' + won(deduct)) : '면제 (0원)';
+    $('rHome').textContent = won(homeLimit);
+    $('rDsr').textContent = won(dsrLimit);
+    $('rFinal').textContent = won(finalWith);
+    $('bindTag').textContent = bind==='home' ? '집값 기준' : '소득 기준';
+
+    var v = $('verdict'), vt = $('vTitle'), vs = $('vSub');
+    if(!apply){
+      v.className = 'verdict safe';
+      vt.textContent = '방공제 면제 조건이에요';
+      vs.textContent = '방공제가 빠지지 않으므로 한도가 그만큼 깎이지 않습니다.';
+    } else if(loss <= 0){
+      v.className = 'verdict safe';
+      vt.textContent = '방공제 타격 없음';
+      vs.textContent = '집값(LTV) 한도가 소득(DSR) 한도보다 넉넉해, 방공제 ' + won(deduct) + '을 빼도 최종 한도가 줄지 않았어요.';
+    } else {
+      v.className = 'verdict hit';
+      vt.textContent = '방공제로 ' + won(loss) + ' 줄어듦';
+      vs.textContent = '집값 기준 한도에서 방공제가 빠지면서 최종 한도가 그만큼 깎였어요. MCI·MCG 등 면제 수단을 쓸 수 있는지 확인해 보세요.';
+    }
+  }
+
+  ids.forEach(function(id){
+    var el = $(id); if(!el) return;
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  var seg = $('segApply');
+  seg.addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    apply = b.getAttribute('data-apply')==='1';
+    Array.prototype.forEach.call(seg.querySelectorAll('button'), function(x){
+      x.setAttribute('aria-pressed', x===b ? 'true':'false');
+    });
+    calc();
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
