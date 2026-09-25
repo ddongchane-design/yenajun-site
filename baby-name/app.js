@@ -879,6 +879,8 @@
   var RANK_STYLE = {
     "★": ["r-best", "가장 추천"], "◎": ["r-good", "추천"], "○": ["r-fair", "보통"], "×": ["r-bad", "피하기"]
   };
+  // 한자를 고르면 목록을 접고 고른 카드만 남깁니다. 버튼을 누르면 다시 펼칩니다.
+  var chipsOpen = {};
   function renderChips(selectId, boxId, korId) {
     var sel = $(selectId), box = $(boxId);
     if (!sel || !box) return;
@@ -895,6 +897,22 @@
     }
     var opts = Array.prototype.filter.call(sel.options, function (o) { return o.value; });
     opts.sort(function (a, b) { return (b.value === sel.value) - (a.value === sel.value); });
+    var picked = !!sel.value && opts.some(function (o) { return o.value === sel.value; });
+    var folded = picked && !chipsOpen[selectId];
+    box.classList.toggle("is-folded", folded);
+    function toggleBtn(label, open) {
+      var t = el("button", "chips-toggle", label);
+      t.type = "button";
+      t.setAttribute("aria-expanded", String(!folded));
+      t.addEventListener("click", function () {
+        chipsOpen[selectId] = open;
+        renderChips(selectId, boxId, korId);
+        if (!open) box.scrollTop = 0;
+      });
+      return t;
+    }
+    if (picked && !folded) box.appendChild(toggleBtn("▴ 목록 접기", false));
+    if (folded) opts = opts.slice(0, 1);
     opts.forEach(function (o) {
       var c = lookup(kor, o.value);
       if (!c) return;
@@ -908,13 +926,20 @@
         + '<span class="hc-m"><b>' + (pureMeaning(c.mean) || "뜻 정보 없음") + "</b><small>" + c.strokes + "획 · " + c.el + "</small></span>"
         + (st[1] ? '<span class="hc-r">' + st[1] + "</span>" : "");
       b.addEventListener("click", function () {
-        sel.value = on ? "" : o.value;   // 고른 카드를 한 번 더 누르면 선택을 풉니다
+        if (folded) {                    // 접힌 상태에서 고른 카드를 누르면 목록을 엽니다
+          chipsOpen[selectId] = true;
+          renderChips(selectId, boxId, korId);
+          return;
+        }
+        sel.value = on ? "" : o.value;   // 펼친 상태에서 고른 카드를 한 번 더 누르면 선택을 풉니다
+        chipsOpen[selectId] = on;        // 새로 고르면 접고, 선택을 풀면 펼친 채로 둡니다
         sel.dataset.touched = "1";
         sel.dispatchEvent(new Event("change"));
       });
       box.appendChild(b);
     });
-    box.scrollTop = scroll;
+    if (folded) box.appendChild(toggleBtn("다른 한자 보기 ▾<small>" + listFor(kor).length + "자</small>", true));
+    box.scrollTop = folded ? 0 : scroll;
   }
 
   function renderAdvice(s, need) {
