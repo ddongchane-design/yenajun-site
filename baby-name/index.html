@@ -373,7 +373,7 @@
 
 
 <div id="sheetBar" hidden>
-  <span id="sheetBarMsg">작명 기록 한 장입니다. 저장하거나 바로 보낼 수 있어요.</span>
+  <span id="sheetBarMsg">표지와 풀이가 담긴 명명서 3쪽이에요. 저장하거나 바로 보낼 수 있어요.</span>
   <button class="btn" type="button" id="sheetPdf">PDF 저장</button>
   <button class="btn" type="button" id="sheetImage">이미지 저장</button>
   <button class="btn" type="button" id="sheetShare" hidden>공유</button>
@@ -382,40 +382,54 @@
 </div>
 
 <section id="printSheet" aria-hidden="true">
-  <div class="sheet-top">
-    <span class="sheet-label">작명 기록</span>
-    <span class="sheet-date" id="sheetDate"></span>
-  </div>
-
-  <div class="sheet-name">
-    <div class="sheet-han" id="sheetHan">—</div>
-    <div class="sheet-kor" id="sheetKor"></div>
-    <div class="sheet-seal">名</div>
-  </div>
-
-  <div class="sheet-bless">
-    <h2 id="sheetTitle"></h2>
-    <p id="sheetBody"></p>
-  </div>
-
-  <div class="sheet-chars" id="sheetChars"></div>
-
-  <div class="sheet-cols">
-    <div>
-      <h3>사주팔자</h3>
-      <table class="sheet-saju" id="sheetSaju"><tbody></tbody></table>
-      <p class="sheet-note" id="sheetSajuNote"></p>
-    </div>
-    <div>
-      <h3>이름 검사</h3>
-      <table class="sheet-checks" id="sheetChecks"><tbody></tbody></table>
+  <!-- 1쪽: 표지 -->
+  <div class="sp sp-cover">
+    <div class="cv-frame">
+      <i class="cv-corner c1"></i><i class="cv-corner c2"></i><i class="cv-corner c3"></i><i class="cv-corner c4"></i>
+      <p class="cv-kicker">사 주 작 명 노 트</p>
+      <h2 class="cv-title">命名書</h2>
+      <div class="cv-knot"><i></i><b></b><i></i></div>
+      <div class="cv-han" id="cvHan">—</div>
+      <div class="cv-kor" id="cvKor"></div>
+      <p class="cv-bless" id="cvBless"></p>
+      <p class="cv-birth" id="cvBirth"></p>
+      <div class="cv-foot">
+        <span class="cv-seal">名</span>
+        <span id="cvDate"></span>
+        <span class="cv-site">예나준 · yenajun.com/baby-name</span>
+      </div>
     </div>
   </div>
 
-  <div class="sheet-foot">
-    <span id="sheetBirth"></span>
-    <span>출생신고 전에 대법원 인명용 한자 조회로 사용 가능 여부를 확인하세요. 이 기록은 참고용이며 이름이 운명을 결정하지 않습니다.</span>
-    <span>사주 작명 노트 · yenajun.com/baby-name</span>
+  <!-- 2쪽: 이름에 담은 뜻 -->
+  <div class="sp sp-paper">
+    <div class="pp-frame">
+      <header class="pp-head"><span>이름에 담은 뜻</span><span class="pp-no">一</span></header>
+      <div class="pp-name"><div class="pp-han" id="ppHan"></div><div class="pp-kor" id="ppKor"></div></div>
+      <div class="pp-bless" id="ppBlessBox"><h3 id="sheetTitle"></h3><p id="sheetBody"></p></div>
+      <div class="pp-chars" id="sheetChars"></div>
+      <p class="pp-sum" id="ppSum"></p>
+      <div class="pp-letter"><b>엄마 아빠의 한마디</b><i></i><i></i><i></i></div>
+    </div>
+  </div>
+
+  <!-- 3쪽: 사주와 이름 검사 -->
+  <div class="sp sp-paper">
+    <div class="pp-frame">
+      <header class="pp-head"><span>사주와 이름 검사</span><span class="pp-no">二</span></header>
+      <h3 class="pp-sub">사주팔자</h3>
+      <table class="pp-saju" id="sheetSaju"><tbody></tbody></table>
+      <div class="pp-els" id="ppEls"></div>
+      <p class="pp-note" id="sheetSajuNote"></p>
+      <h3 class="pp-sub">이름 검사 <small>5단계</small></h3>
+      <table class="pp-checks" id="sheetChecks"><tbody></tbody></table>
+      <h3 class="pp-sub" id="ppSuriHead">사격수리 — 네 시기</h3>
+      <div class="pp-suri" id="ppSuri"></div>
+      <footer class="pp-foot">
+        <span id="sheetBirth"></span>
+        <span>출생신고 전에 대법원 인명용 한자 조회로 사용 가능 여부를 확인하세요. 이 기록은 참고용이며 이름이 운명을 결정하지 않습니다.</span>
+      </footer>
+    </div>
   </div>
 </section>
 

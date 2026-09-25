@@ -1589,33 +1589,50 @@
     this.textContent = next === "dark" ? "주간" : "야간";
     try { localStorage.setItem("naming-theme", next); } catch (err) { /* 저장 불가 환경 */ }
   });
-  // 한 장짜리 작명 기록을 채우고 인쇄 화면을 엽니다.
+  // 명명서 세 쪽(표지·이름 풀이·사주와 검사)을 채웁니다.
   function fillPrintSheet() {
     var res = lastResult || evaluate();
     var p = res.saju.pillars, chars = state.chars.filter(Boolean);
     var now = new Date();
-    $("sheetDate").textContent = now.getFullYear() + "년 " + (now.getMonth() + 1) + "월 " + now.getDate() + "일 작성";
-    $("sheetHan").textContent = res.hasHanja
-      ? state.surHanja.char + chars.map(function (c) { return c.char; }).join("")
-      : (res.hasName ? res.korName : "—");
-    $("sheetKor").textContent = res.hasName ? res.korName.split("").join(" ") : "이름을 입력해 주세요";
-
+    var nameHan = res.hasHanja ? state.surHanja.char + chars.map(function (c) { return c.char; }).join("") : "";
     var r = res.hasHanja ? readingSentences(res) : null;
+    var d = state.date.split("-"), tm = state.time.split(":");
+    var birthText = d.length === 3
+      ? d[0] + "년 " + (+d[1]) + "월 " + (+d[2]) + "일 " + (+tm[0] < 12 ? "오전 " : "오후 ") + (((+tm[0] + 11) % 12) + 1) + "시 " + (+tm[1]) + "분 출생"
+      : "";
+
+    // 1쪽 표지
+    var cvHan = $("cvHan");
+    cvHan.className = "cv-han" + (nameHan ? (nameHan.length > 3 ? " long" : "") : " kor-only");
+    cvHan.textContent = nameHan || (res.hasName ? res.korName : "—");
+    $("cvKor").textContent = res.hasName ? res.korName : "이름을 입력해 주세요";
+    $("cvBless").textContent = r && r.blessing ? r.blessing.title : "";
+    $("cvBirth").textContent = birthText + (birthText ? " · " : "") + (state.gender === "female" ? "딸" : "아들");
+    $("cvDate").textContent = now.getFullYear() + ". " + (now.getMonth() + 1) + ". " + now.getDate() + ".";
+
+    // 2쪽 이름에 담은 뜻
+    $("ppHan").textContent = nameHan || (res.hasName ? res.korName : "—");
+    $("ppKor").textContent = res.hasName ? res.korName : "";
     $("sheetTitle").textContent = r && r.blessing ? r.blessing.title : "";
     $("sheetBody").textContent = r && r.blessing ? r.blessing.body : "";
-
+    $("ppBlessBox").hidden = !(r && r.blessing);
     var cw = $("sheetChars"); cw.innerHTML = "";
     if (res.hasHanja) {
       [state.surHanja].concat(chars).forEach(function (c, i) {
-        var row = el("div", "sheet-char");
-        row.innerHTML = '<span class="ch">' + c.char + "</span>"
-          + "<span><b>" + (i === 0 ? "성 " : "") + c.kor + "</b> " + (c.mean || "뜻 정보 없음") + "</span>"
-          + '<span class="meta">' + c.strokes + "획 · 부수 " + (c.radical || "?") + " · 자원오행 " + c.el + "</span>";
+        var part = i > 0 && r ? r.parts[i - 1] : null;
+        var row = el("div", "pp-char");
+        row.innerHTML = '<div class="pp-tile"><small>' + (i === 0 ? "姓" : "名") + "</small>" + c.char + "</div>"
+          + '<div class="pp-info"><b>' + c.kor + "<span>" + (pureMeaning(c.mean) || "뜻 정보 없음") + "</span></b>"
+          + (part ? "<p>" + part.text + "</p>" : "<p>" + (c.mean || "") + "</p>")
+          + '<div class="pp-meta"><span>' + c.strokes + "획</span><span>부수 " + (c.radical || "?") + '</span><span class="e-' + c.el + '">자원오행 ' + c.el + "</span></div></div>";
         cw.appendChild(row);
       });
+    } else {
+      cw.appendChild(el("p", "pp-empty", "한자를 고르면 글자마다 뜻을 풀어 드립니다."));
     }
+    $("ppSum").textContent = r ? r.summary : "";
 
-    // 사주: 천간 · 지지 · 지장간
+    // 3쪽 사주
     var tb = $("sheetSaju").querySelector("tbody"); tb.innerHTML = "";
     var order = [["시주", p.hour, "hour"], ["일주", p.day, "day"], ["월주", p.month, "month"], ["년주", p.year, "year"]];
     var head = document.createElement("tr");
@@ -1624,9 +1641,9 @@
     ["stem", "branch"].forEach(function (part) {
       var tr = document.createElement("tr");
       order.forEach(function (pair) {
-        var pl = pair[1];
-        tr.innerHTML += '<td class="gan">' + (part === "stem" ? pl.stemHan : pl.branchHan)
-          + "<small>" + (part === "stem" ? pl.stem + " " + pl.stemEl : pl.branch + " " + pl.branchEl) + "</small></td>";
+        var pl = pair[1], elx = part === "stem" ? pl.stemEl : pl.branchEl;
+        tr.innerHTML += '<td class="gan e-' + elx + '">' + (part === "stem" ? pl.stemHan : pl.branchHan)
+          + "<small>" + (part === "stem" ? pl.stem : pl.branch) + " · " + elx + "</small></td>";
       });
       tb.appendChild(tr);
     });
@@ -1634,19 +1651,22 @@
     hid.className = "hid";
     order.forEach(function (pair) { hid.innerHTML += "<td>" + ((res.saju.hidden[pair[2]] || []).join(" ") || "—") + "</td>"; });
     tb.appendChild(hid);
-
-    var counts = ELEMENTS.map(function (e) { return e + " " + res.saju.counts[e]; }).join(" · ");
+    $("ppEls").innerHTML = ELEMENTS.map(function (e) {
+      return '<span class="' + (res.need.indexOf(e) >= 0 ? "need" : "") + '"><b class="e-' + e + '">' + e + "</b>" + res.saju.counts[e] + "</span>";
+    }).join("");
     $("sheetSajuNote").textContent = p.year.kor + "년 " + p.month.kor + "월 " + p.day.kor + "일 " + p.hour.kor + "시 · 일간 "
-      + p.day.stem + p.day.stemEl + " · " + counts + " · 계절 " + res.saju.seasonEl
-      + (res.need.length ? " · 보완 " + res.need.join(", ") : "");
+      + p.day.stem + p.day.stemEl + " · 계절 기운 " + res.saju.seasonEl
+      + (res.need.length ? " · 이름에 쓰면 좋은 오행 " + res.need.join(" → ") + " (붉은 테두리)" : "");
 
-    // 검사 요약
+    // 3쪽 이름 검사 (5단계)
     var ct = $("sheetChecks").querySelector("tbody"); ct.innerHTML = "";
     var gr = checkGrades(res);
     function addRow(label, value, g) {
       var tr = document.createElement("tr");
       tr.innerHTML = "<th>" + label + "</th><td>" + value + "</td>"
-        + '<td class="v ' + (g.lv >= 3 ? "ok" : "care") + '">' + GRADE_LABEL[g.lv] + "</td>";
+        + '<td class="v pp-g' + g.lv + '"><span class="pp-mt">' + [0, 1, 2, 3, 4].map(function (i) {
+          return "<i" + (i <= g.lv ? ' class="on"' : "") + "></i>";
+        }).join("") + '</span><span class="pp-lv">' + GRADE_LABEL[g.lv] + "</span></td>";
       ct.appendChild(tr);
     }
     addRow("발음오행", res.sound.parts.map(function (x) { return x.ch + " " + x.el; }).join(" · "), gr.sound);
@@ -1655,28 +1675,31 @@
       var labels = ["원", "형", "이", "정"], keys = ["won", "hyeong", "i", "jeong"];
       addRow("사격수리", keys.map(function (k, i) { return labels[i] + " " + res.suri[k]; }).join(" · "), gr.suri);
       addRow("수리오행", res.suriEl.els.join(" → "), gr.suriEl);
-      addRow("수리음양", res.strokeYin.map(function (x) { return x.char + " " + x.yin; }).join(" · "), gr.strokeYin);
+      addRow("수리음양", res.strokeYin.map(function (x) { return x.char + " " + x.strokes + "획"; }).join(" · "), gr.strokeYin);
       addRow("자원오행", res.resource.els.join(" · ") + (res.need.length ? " (필요 " + res.need.join(", ") + ")" : ""), gr.resource);
-      SURI_STAGE_ROWS(res, ct);
     }
     addRow("가족 글자", res.family.ok
       ? (res.family.shared.length ? res.family.shared[0].ch + " 돌림자" : "겹침 없음")
       : res.family.clash.map(function (c) { return c.ch + " " + c.who; }).join(", "), gr.family);
 
+    // 3쪽 사격수리 네 시기
+    var sw = $("ppSuri"); sw.innerHTML = "";
+    $("ppSuriHead").hidden = sw.hidden = !res.hasHanja;
+    if (res.hasHanja) {
+      STAGES.forEach(function (stg) {
+        var n = res.suri[stg.key], v = numVerdict(n);
+        var info = SURI_TEXT[wrap81(n)] || ["일반수"];
+        var box = el("div");
+        box.innerHTML = '<span class="n">' + n + '</span><span class="t"><b>' + stg.label.split(" ")[0] + " · " + info[0].split(" ")[0]
+          + '<em class="' + (v === "길" ? "good" : v === "흉" ? "bad" : "half") + '">' + v + "</em></b>" + stg.age + "</span>";
+        sw.appendChild(box);
+      });
+    }
+
     $("sheetBirth").textContent = state.date + " " + state.time + " 출생"
       + (state.timeBase === "kst" ? " · 한국 표준시" : " · " + state.region + " 경도 보정 " + currentShift() + "분")
-      + (res.saju.termExact ? " · " + res.saju.term + " " + res.saju.termAt + " 이후" : "");
-  }
-
-  // 사격 네 격의 이름을 한 줄로 덧붙입니다.
-  function SURI_STAGE_ROWS(res, ct) {
-    var names = STAGES.map(function (stg) {
-      var info = SURI_TEXT[wrap81(res.suri[stg.key])];
-      return stg.label.split(" ")[0] + " " + (info ? info[0].split(" ")[0] : "-");
-    }).join(" · ");
-    var tr = document.createElement("tr");
-    tr.innerHTML = '<th>사격 풀이</th><td colspan="2">' + names + "</td>";
-    ct.appendChild(tr);
+      + (res.saju.termExact ? " · " + res.saju.term + " " + res.saju.termAt + " 이후" : "")
+      + " · 사주 작명 노트 yenajun.com/baby-name";
   }
 
   // 기기 판별: 모바일에서는 다운로드 대신 공유 시트나 길게 눌러 저장을 씁니다.
@@ -1691,7 +1714,7 @@
   var sheetJob = null;      // 준비 중인 작업 (Promise)
   var sheetReady = null;    // 준비가 끝난 결과 { png, pdf, dataUrl }
   var SHEET_BTNS = ["sheetPdf", "sheetImage", "sheetShare"];
-  var SHEET_IDLE_MSG = "작명 기록 한 장입니다. 저장하거나 바로 보낼 수 있어요.";
+  var SHEET_IDLE_MSG = "표지와 풀이가 담긴 명명서 3쪽이에요. 저장하거나 바로 보낼 수 있어요.";
 
   function setBarMsg(text) { $("sheetBarMsg").textContent = text; }
   function setSheetBusy(busy) {
@@ -1714,10 +1737,18 @@
     sheetJob = null;
     sheetReady = null;
     document.body.classList.add("sheet-view");
+    fitSheet();
     $("sheetBar").hidden = false;
     if (window.scrollTo) { try { window.scrollTo(0, 0); } catch (err) { /* 무시 */ } }
     prepareSheet();
   });
+
+  // 명명서는 720px 폭으로 그려 두고, 화면이 좁으면 비율대로 줄여서 보여줍니다.
+  function fitSheet() {
+    var z = Math.min(1, (window.innerWidth - 24) / SHEET_W);
+    document.documentElement.style.setProperty("--sz", String(Math.max(0.3, z)));
+  }
+  window.addEventListener("resize", function () { if (sheetOpen) fitSheet(); });
 
   // 필요할 때만 라이브러리를 불러옵니다.
   function loadScript(src) {
@@ -1739,39 +1770,50 @@
   function sheetFileName(ext) {
     var res = lastResult || evaluate();
     var name = res.hasName ? res.korName : "작명";
-    return name + "_작명기록." + ext;
+    return name + "_명명서." + ext;
   }
 
-  // 기록지를 그림으로 뜹니다. 화면 폭과 상관없이 같은 모양이 나오도록 폭을 고정합니다.
-  var SHEET_W = 720;
+  // 명명서를 쪽마다 그림으로 뜹니다. 화면 폭과 상관없이 같은 모양이 나오도록 폭을 고정합니다.
+  var SHEET_W = 720, SHEET_H = 1018;
   function captureSheet() {
     var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
     return Promise.all([
       loadScript("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"),
       fontsReady
     ]).then(function () {
-      var sheet = $("printSheet");
-      // 모바일 캔버스 한도(iOS 약 1,670만 화소)를 넘지 않게 배율을 줄입니다.
-      var estH = Math.max(sheet.scrollHeight, 1200) * (SHEET_W / Math.max(sheet.scrollWidth, 1));
+      var pages = Array.prototype.slice.call(document.querySelectorAll("#printSheet .sp"));
+      // 모바일 캔버스 한도(iOS 약 1,670만 화소)를 넘지 않게, 쪽을 이어 붙인 그림 크기로 배율을 정합니다.
       var scale = 2;
-      while (scale > 1 && SHEET_W * scale * estH * scale > 12e6) scale -= 0.25;
-      return window.html2canvas(sheet, {
-        backgroundColor: "#FFFFFF",
-        scale: scale,
-        useCORS: true,
-        logging: false,
-        scrollX: 0,
-        scrollY: 0,
-        windowWidth: SHEET_W + 60,
-        onclone: function (doc) {
-          var s = doc.getElementById("printSheet");
-          s.style.width = SHEET_W + "px";
-          s.style.maxWidth = "none";
-          s.style.margin = "0";
-          s.style.paddingBottom = "28px";
-        }
-      });
+      while (scale > 1 && SHEET_W * scale * SHEET_H * pages.length * scale > 12e6) scale -= 0.25;
+      var out = [];
+      return pages.reduce(function (chain, page) {
+        return chain.then(function () {
+          return window.html2canvas(page, {
+            backgroundColor: null, scale: scale, useCORS: true, logging: false,
+            scrollX: 0, scrollY: 0, width: SHEET_W, height: SHEET_H, windowWidth: SHEET_W + 60,
+            onclone: function (doc) {
+              doc.documentElement.style.setProperty("--sz", "1");
+              // 화면용 그림자는 그림에 번져 들어가므로 뺍니다.
+              Array.prototype.forEach.call(doc.querySelectorAll("#printSheet .sp"), function (s) { s.style.boxShadow = "none"; });
+            }
+          }).then(function (cv) { out.push(cv); });
+        });
+      }, Promise.resolve()).then(function () { return out; });
     });
+  }
+
+  // 쪽 그림을 세로로 이어 한 장의 이미지로 만듭니다 (이미지 저장·공유용).
+  function stitchPages(canvases) {
+    var gap = Math.round(canvases[0].width / SHEET_W * 16);
+    var w = canvases[0].width;
+    var h = canvases.reduce(function (s, c) { return s + c.height; }, 0) + gap * (canvases.length - 1);
+    var cv = document.createElement("canvas");
+    cv.width = w; cv.height = h;
+    var ctx = cv.getContext("2d");
+    ctx.fillStyle = "#2E3036"; ctx.fillRect(0, 0, w, h);
+    var y = 0;
+    canvases.forEach(function (c) { ctx.drawImage(c, 0, y); y += c.height + gap; });
+    return cv;
   }
 
   function canvasToBlob(canvas, type, quality) {
@@ -1781,25 +1823,15 @@
     });
   }
 
-  function buildPdf(canvas) {
+  function buildPdf(canvases) {
     return loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js").then(function () {
       var JsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
       var pdf = new JsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
       var pw = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight();
-      var margin = 10;
-      var w = pw - margin * 2;
-      var h = canvas.height * w / canvas.width;
-      var img = canvas.toDataURL("image/jpeg", 0.92);
-      if (h <= ph - margin * 2) {
-        pdf.addImage(img, "JPEG", margin, margin, w, h);
-      } else {                                   // 길면 여러 쪽으로 나눕니다
-        var left = h, y = margin;
-        while (left > 0) {
-          pdf.addImage(img, "JPEG", margin, y, w, h);
-          left -= (ph - margin * 2);
-          if (left > 0) { pdf.addPage(); y -= (ph - margin * 2); }
-        }
-      }
+      canvases.forEach(function (cv, i) {        // 한 쪽에 한 장씩, 여백 없이 꽉 채웁니다
+        if (i > 0) pdf.addPage();
+        pdf.addImage(cv.toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, pw, ph);
+      });
       return pdf.output("blob");
     });
   }
@@ -1809,12 +1841,13 @@
   function prepareSheet() {
     if (sheetJob) return sheetJob;
     setSheetBusy(true);
-    setBarMsg("기록을 그리는 중입니다…");
-    var job = sheetJob = captureSheet().then(function (canvas) {
+    setBarMsg("명명서를 그리는 중입니다…");
+    var job = sheetJob = captureSheet().then(function (pages) {
+      var canvas = stitchPages(pages);
       return canvasToBlob(canvas, "image/png").then(function (png) {
         if (!png) throw new Error("blob");
         var ready = { png: png, pdf: null, dataUrl: canvas.toDataURL("image/png") };
-        return buildPdf(canvas).then(function (pdf) { ready.pdf = pdf; return ready; }, function () { return ready; });
+        return buildPdf(pages).then(function (pdf) { ready.pdf = pdf; return ready; }, function () { return ready; });
       });
     }).then(function (ready) {
       if (sheetJob !== job) return ready;     // 그 사이 닫았거나 다시 열었음
@@ -1930,12 +1963,12 @@
     var box = document.createElement("div");
     box.id = "sheetPreview";
     box.setAttribute("role", "dialog");
-    box.setAttribute("aria-label", "작명 기록 이미지");
+    box.setAttribute("aria-label", "명명서 이미지");
     var ext = IN_APP ? externalOpenUrl() : "";
     box.innerHTML = '<div class="pv-head"><p>' + note + "</p>"
       + (ext ? '<a class="btn" href="' + ext + '">기본 브라우저에서 열기</a>' : "")
       + '<button class="btn" type="button" id="pvClose">닫기</button></div>'
-      + '<img alt="작명 기록" src="' + dataUrl + '">';
+      + '<img alt="명명서" src="' + dataUrl + '">';
     document.body.appendChild(box);
     $("pvClose").addEventListener("click", closePreview);
   }
@@ -2013,7 +2046,7 @@
 
   $("sheetShare").addEventListener("click", function () {
     var res = lastResult || evaluate();
-    var title = (res.hasName ? res.korName : "작명 기록") + " · 사주 작명 노트";
+    var title = (res.hasName ? res.korName : "명명서") + " · 사주 작명 노트";
     // 그림이 준비됐으면 그림을, 아니면 주소를 바로 공유합니다. 여기서 기다리면 공유가 막힙니다.
     var file = sheetReady ? makeFile(sheetReady.png, sheetFileName("png"), "image/png") : null;
     var job;

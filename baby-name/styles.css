@@ -395,107 +395,129 @@ input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px;
   background: #FFFFFF; -webkit-touch-callout: default; user-select: auto;
 }
 
+body.sheet-view { background: #2E3036; }
 body.sheet-view > .wrap { display: none; }
+
+/* ---------- 명명서 (화면·그림·PDF 공통) ---------- */
 body.sheet-view #printSheet {
-  display: block; background: #FFFFFF; color: #111111;
-  font-family: var(--body); font-size: 14px; line-height: 1.7;
-  max-width: 780px; margin: 0 auto; padding: 28px 24px 120px;
+  display: flex; flex-direction: column; align-items: center; gap: 22px;
+  padding: 22px 0 150px;
 }
-body.sheet-view #printSheet h2, body.sheet-view #printSheet h3 { font-family: var(--display); margin: 0; }
-body.sheet-view .sheet-top { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1.5px solid #111111; padding-bottom: 8px; }
-body.sheet-view .sheet-label { font-family: var(--display); font-size: 15px; font-weight: 700; letter-spacing: 0.3em; }
-body.sheet-view .sheet-date { font-size: 12px; color: #555555; }
-body.sheet-view .sheet-name { display: flex; align-items: center; gap: 16px; padding: 24px 0 20px; }
-body.sheet-view .sheet-han { font-family: var(--display); font-size: clamp(38px, 11vw, 56px); font-weight: 900; letter-spacing: 0.1em; line-height: 1.1; }
-body.sheet-view .sheet-kor { font-size: 15px; letter-spacing: 0.3em; color: #444444; flex-grow: 1; }
-body.sheet-view .sheet-seal {
-  width: 46px; height: 46px; flex: none; border: 2px solid #8A2F26; color: #8A2F26;
-  font-family: var(--display); font-size: 24px; font-weight: 900; display: grid; place-items: center;
+#printSheet .sp {
+  zoom: var(--sz, 1);
+  position: relative; flex: none; width: 720px; height: 1018px; overflow: hidden;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; line-height: 1.6;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .45);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
 }
-body.sheet-view .sheet-bless { border-left: 3px solid #8A2F26; padding: 2px 0 2px 16px; margin-bottom: 24px; }
-body.sheet-view .sheet-bless h2 { font-size: clamp(20px, 5vw, 26px); font-weight: 700; line-height: 1.5; }
-body.sheet-view .sheet-bless p { margin: 8px 0 0; font-size: 14px; color: #333333; }
-body.sheet-view .sheet-chars { display: grid; gap: 9px; margin-bottom: 26px; }
-body.sheet-view .sheet-char { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: baseline; border-bottom: 1px solid #DDDDDD; padding-bottom: 8px; font-size: 13px; }
-body.sheet-view .sheet-char .ch { font-family: var(--display); font-size: 24px; font-weight: 700; text-align: center; }
-body.sheet-view .sheet-char .meta { grid-column: 2; font-size: 11.5px; color: #666666; }
-body.sheet-view .sheet-cols { display: grid; gap: 26px; }
-@media (min-width: 620px) { body.sheet-view .sheet-cols { grid-template-columns: 0.95fr 1.05fr; } }
-body.sheet-view .sheet-cols h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
-body.sheet-view .sheet-saju { width: 100%; border-collapse: collapse; table-layout: fixed; }
-body.sheet-view .sheet-saju th { border: 1px solid #BBBBBB; font-size: 11px; font-weight: 400; color: #555555; padding: 5px 0; text-align: center; background: #F6F6F4; }
-body.sheet-view .sheet-saju td { border: 1px solid #BBBBBB; text-align: center; padding: 7px 0; }
-body.sheet-view .sheet-saju .gan { font-family: var(--display); font-size: 24px; font-weight: 700; line-height: 1.2; }
-body.sheet-view .sheet-saju .gan small { display: block; font-family: var(--body); font-size: 10.5px; font-weight: 400; color: #555555; }
-body.sheet-view .sheet-saju .hid td { font-size: 10.5px; color: #666666; background: #F6F6F4; padding: 4px 0; }
-body.sheet-view .sheet-note { font-size: 12px; color: #555555; margin-top: 9px; line-height: 1.7; }
-body.sheet-view .sheet-checks { width: 100%; border-collapse: collapse; }
-body.sheet-view .sheet-checks th { text-align: left; font-size: 12.5px; font-weight: 700; color: #111111; border-bottom: 1px solid #DDDDDD; padding: 7px 8px 7px 0; white-space: nowrap; background: transparent; }
-body.sheet-view .sheet-checks td { font-size: 12.5px; color: #333333; border-bottom: 1px solid #DDDDDD; padding: 7px 0; white-space: normal; }
-body.sheet-view .sheet-checks td.v { text-align: right; font-size: 11.5px; white-space: nowrap; width: 44px; }
-body.sheet-view .sheet-checks td.v.ok { color: #1F5C42; }
-body.sheet-view .sheet-checks td.v.care { color: #8A6A14; }
-body.sheet-view .sheet-foot { margin-top: 28px; padding-top: 12px; border-top: 1px solid #111111; font-size: 11.5px; color: #666666; line-height: 1.7; }
-body.sheet-view .sheet-foot span { display: block; margin-bottom: 3px; }
+#printSheet :where(h2, h3, p) { margin: 0; }
+#printSheet th, #printSheet td { letter-spacing: 0; white-space: normal; }
+#printSheet .serif { font-family: "Noto Serif KR", serif; }
+
+/* 1쪽 표지 */
+.sp-cover { background: linear-gradient(165deg, #2C3862 0%, #1D2446 52%, #141A33 100%); color: #EADFC3; }
+.cv-frame {
+  position: absolute; inset: 34px; border: 1.5px solid #C9A96A;
+  display: flex; flex-direction: column; align-items: center; text-align: center; padding: 84px 56px 44px;
+}
+.cv-frame::before { content: ""; position: absolute; inset: 9px; border: 1px solid rgba(201, 169, 106, .45); pointer-events: none; }
+.cv-corner { position: absolute; width: 16px; height: 16px; background: #1D2446; border: 1.5px solid #C9A96A; transform: rotate(45deg); }
+.cv-corner.c1 { top: -9px; left: -9px; } .cv-corner.c2 { top: -9px; right: -9px; }
+.cv-corner.c3 { bottom: -9px; left: -9px; } .cv-corner.c4 { bottom: -9px; right: -9px; }
+.cv-kicker { font-size: 13px; letter-spacing: .35em; color: #C9A96A; }
+.cv-title { font-family: "Noto Serif KR", serif; font-weight: 900; font-size: 56px; letter-spacing: .4em; padding-left: .4em; margin-top: 22px; color: #E6CF98; line-height: 1.2; }
+.cv-knot { display: flex; align-items: center; gap: 10px; margin-top: 22px; }
+.cv-knot i { display: block; width: 88px; height: 1.5px; background: #C9A96A; }
+.cv-knot b { display: block; width: 11px; height: 11px; border: 1.5px solid #C9A96A; transform: rotate(45deg); }
+.cv-han { font-family: "Noto Serif KR", serif; font-weight: 900; font-size: 108px; letter-spacing: .1em; padding-left: .1em; line-height: 1.15; color: #FFFFFF; margin-top: 74px; text-shadow: 0 4px 24px rgba(0, 0, 0, .35); }
+.cv-han.long { font-size: 78px; }
+.cv-han.kor-only { font-size: 88px; }
+.cv-kor { font-size: 21px; letter-spacing: .75em; padding-left: .75em; color: #EADFC3; margin-top: 16px; }
+.cv-bless { font-family: "Noto Serif KR", serif; font-weight: 700; font-size: 22px; line-height: 1.6; color: #F4E8CB; margin-top: 58px; max-width: 470px; }
+.cv-birth { font-size: 13.5px; color: rgba(234, 223, 195, .72); margin-top: 14px; letter-spacing: .04em; }
+.cv-foot { margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 12.5px; color: rgba(234, 223, 195, .75); letter-spacing: .08em; }
+.cv-seal {
+  width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;
+  background: #A8372B; color: #FFF6EA; border: 2px solid #C85445; border-radius: 6px;
+  font-family: "Noto Serif KR", serif; font-weight: 900; font-size: 31px; transform: rotate(-4deg); margin-bottom: 6px;
+}
+.cv-site { font-size: 11.5px; color: rgba(201, 169, 106, .9); }
+
+/* 2·3쪽 종이 */
+.sp-paper { background: linear-gradient(180deg, #FCF9F2 0%, #F7F1E4 100%); color: #2A2A2E; }
+.pp-frame { position: absolute; inset: 30px; border: 1px solid #CDBB92; padding: 30px 40px 26px; display: flex; flex-direction: column; }
+.pp-frame::before { content: ""; position: absolute; inset: 6px; border: 1px solid #E8DDC4; pointer-events: none; }
+.pp-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1.5px solid #283154; padding-bottom: 10px; font-family: "Noto Serif KR", serif; font-weight: 700; font-size: 16px; letter-spacing: .3em; color: #283154; }
+.pp-no { font-size: 22px; letter-spacing: 0; color: #A8372B; }
+
+.pp-name { text-align: center; margin-top: 30px; }
+.pp-han { font-family: "Noto Serif KR", serif; font-weight: 900; font-size: 64px; letter-spacing: .12em; padding-left: .12em; line-height: 1.2; color: #1E2645; }
+.pp-kor { font-size: 15px; letter-spacing: .6em; padding-left: .6em; color: #7A6E57; margin-top: 4px; }
+.pp-bless { margin-top: 24px; text-align: center; padding: 18px 28px; background: #F1E9D8; border-top: 1px solid #DCCBA5; border-bottom: 1px solid #DCCBA5; }
+.pp-bless h3 { font-family: "Noto Serif KR", serif; font-weight: 700; font-size: 22px; line-height: 1.5; color: #1E2645; }
+.pp-bless p { font-size: 14px; color: #4A4336; line-height: 1.8; margin-top: 8px; }
+.pp-chars { margin-top: 22px; display: flex; flex-direction: column; gap: 14px; }
+.pp-char { display: flex; gap: 20px; align-items: center; padding-bottom: 14px; border-bottom: 1px dashed #D9CBAA; }
+.pp-char:last-child { border-bottom: 0; padding-bottom: 0; }
+.pp-tile { position: relative; flex: none; width: 84px; height: 84px; display: flex; align-items: center; justify-content: center; background: #FFFFFF; border: 1.5px solid #A8372B; font-family: "Noto Serif KR", serif; font-weight: 700; font-size: 50px; color: #1E2645; }
+.pp-tile small { position: absolute; top: -9px; left: 8px; padding: 0 5px; background: #FBF7EE; font-family: "Noto Sans KR", sans-serif; font-size: 10.5px; font-weight: 700; color: #A8372B; line-height: 1.5; }
+.pp-info { flex: 1; min-width: 0; }
+.pp-info b { font-family: "Noto Serif KR", serif; font-size: 18px; color: #1E2645; }
+.pp-info b span { font-family: "Noto Sans KR", sans-serif; font-size: 13px; font-weight: 500; color: #7A6E57; margin-left: 6px; }
+.pp-info p { font-size: 13.5px; color: #4A4336; line-height: 1.7; margin-top: 3px; }
+.pp-meta { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 5px; }
+.pp-meta span { font-size: 11px; padding: 1px 9px; border: 1px solid #D9CBAA; border-radius: 999px; color: #6B6252; background: #FFFFFF; }
+.pp-empty { text-align: center; font-size: 14px; color: #7A6E57; padding: 30px 0; }
+.pp-sum { margin-top: 20px; padding-top: 16px; border-top: 1px solid #D9CBAA; text-align: center; font-family: "Noto Serif KR", serif; font-size: 16px; color: #1E2645; line-height: 1.7; }
+.pp-letter { margin-top: auto; }
+.pp-letter b { display: block; font-size: 12.5px; letter-spacing: .25em; color: #8A7B5C; margin-bottom: 2px; }
+.pp-letter i { display: block; height: 34px; border-bottom: 1px solid #D9CBAA; }
+
+.pp-sub { display: flex; align-items: center; gap: 8px; margin: 20px 0 10px; font-family: "Noto Serif KR", serif; font-weight: 700; font-size: 15.5px; color: #1E2645; }
+.pp-sub::before { content: ""; width: 7px; height: 7px; background: #A8372B; transform: rotate(45deg); flex: none; }
+.pp-sub small { font-family: "Noto Sans KR", sans-serif; font-size: 11.5px; font-weight: 500; color: #8A7B5C; }
+.pp-saju { width: 100%; border-collapse: collapse; table-layout: fixed; background: #FFFFFF; }
+.pp-saju th { border: 1px solid #D9CBAA; background: #F1E9D8; font-size: 12px; font-weight: 500; color: #6B6252; padding: 5px 0; text-align: center; }
+.pp-saju td { border: 1px solid #D9CBAA; text-align: center; padding: 6px 0 5px; }
+.pp-saju .gan { font-family: "Noto Serif KR", serif; font-weight: 700; font-size: 28px; line-height: 1.2; }
+.pp-saju .gan small { display: block; font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 11px; color: #7A6E57; }
+.pp-saju .hid td { font-size: 11px; color: #7A6E57; background: #FAF6EC; padding: 3px 0; }
+.pp-els { display: flex; gap: 6px; margin-top: 10px; }
+.pp-els span { flex: 1; text-align: center; font-size: 12.5px; padding: 5px 0; border-radius: 3px; background: #FFFFFF; border: 1px solid #E3D7BD; color: #6B6252; }
+.pp-els span b { font-family: "Noto Serif KR", serif; font-size: 15px; margin-right: 4px; }
+.pp-els span.need { border-color: #A8372B; color: #A8372B; font-weight: 700; }
+.pp-note { font-size: 11.5px; color: #7A6E57; margin-top: 8px; line-height: 1.6; }
+.pp-checks { width: 100%; border-collapse: collapse; }
+.pp-checks th { background: transparent; text-align: left; font-size: 13px; font-weight: 700; color: #1E2645; padding: 6px 10px 6px 0; border-bottom: 1px solid #E3D7BD; white-space: nowrap; width: 76px; }
+.pp-checks td { font-size: 12.5px; color: #4A4336; padding: 6px 0; border-bottom: 1px solid #E3D7BD; }
+.pp-checks td.v { width: 150px; text-align: right; white-space: nowrap; }
+.pp-mt { display: inline-flex; gap: 2px; vertical-align: middle; margin-right: 8px; }
+.pp-mt i { display: block; width: 14px; height: 6px; border-radius: 1px; background: #E6DCC6; }
+.pp-lv { display: inline-block; min-width: 52px; text-align: left; font-size: 12px; font-weight: 700; }
+.pp-g0 { --gc: #B33A2B; } .pp-g1 { --gc: #C2692A; } .pp-g2 { --gc: #9C8419; } .pp-g3 { --gc: #5B9446; } .pp-g4 { --gc: #2E7D5B; }
+.pp-mt i.on { background: var(--gc); }
+.pp-lv { color: var(--gc); }
+.pp-suri { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pp-suri > div { display: flex; gap: 12px; align-items: center; padding: 9px 12px; background: #FFFFFF; border: 1px solid #E3D7BD; }
+.pp-suri .n { flex: none; width: 44px; text-align: center; font-family: "Noto Serif KR", serif; font-weight: 900; font-size: 26px; color: #1E2645; line-height: 1.1; }
+.pp-suri .t { min-width: 0; font-size: 11.5px; color: #7A6E57; line-height: 1.5; }
+.pp-suri .t b { display: block; font-size: 13px; color: #2A2A2E; }
+.pp-suri .t em { font-style: normal; font-weight: 700; margin-left: 4px; }
+.pp-suri .t em.good { color: #2E7D5B; } .pp-suri .t em.half { color: #9C8419; } .pp-suri .t em.bad { color: #B33A2B; }
+.pp-foot { margin-top: auto; padding-top: 10px; border-top: 1px solid #CDBB92; font-size: 11px; color: #8A7B5C; line-height: 1.65; }
+.pp-foot span { display: block; }
+#printSheet .e-목 { color: #2E7D5B; } #printSheet .e-화 { color: #B33A2B; } #printSheet .e-토 { color: #A97A21; }
+#printSheet .e-금 { color: #6A7180; } #printSheet .e-수 { color: #24406E; }
 
 @media print {
-  @page { size: A4; margin: 15mm 14mm; }
+  @page { size: A4; margin: 0; }
   html, body { background: #FFFFFF !important; overflow: visible; }
   body > *:not(#printSheet) { display: none !important; }
   #sheetBar { display: none !important; }
-  #printSheet {
-    display: block; color: #111111; background: #FFFFFF;
-    font-family: "Noto Sans KR", sans-serif; font-size: 10pt; line-height: 1.65;
-  }
-  #printSheet h2, #printSheet h3 { font-family: "Noto Serif KR", serif; margin: 0; }
-
-  .sheet-top { display: flex; justify-content: space-between; align-items: baseline;
-    border-bottom: 1.5px solid #111111; padding-bottom: 6px; }
-  .sheet-label { font-family: "Noto Serif KR", serif; font-size: 11pt; font-weight: 700; letter-spacing: 0.3em; }
-  .sheet-date { font-size: 8.5pt; color: #555555; }
-
-  .sheet-name { display: flex; align-items: center; gap: 16px; padding: 22px 0 18px; }
-  .sheet-han { font-family: "Noto Serif KR", serif; font-size: 40pt; font-weight: 900; letter-spacing: 0.1em; line-height: 1.1; }
-  .sheet-kor { font-size: 12pt; letter-spacing: 0.35em; color: #444444; flex-grow: 1; }
-  .sheet-seal {
-    width: 40px; height: 40px; border: 1.5px solid #8A2F26; color: #8A2F26;
-    font-family: "Noto Serif KR", serif; font-size: 20pt; font-weight: 900;
-    display: flex; align-items: center; justify-content: center; flex: none;
-  }
-
-  .sheet-bless { border-left: 2.5px solid #8A2F26; padding: 2px 0 2px 14px; margin-bottom: 20px; }
-  .sheet-bless h2 { font-size: 17pt; font-weight: 700; line-height: 1.45; }
-  .sheet-bless p { margin: 6px 0 0; font-size: 10.5pt; color: #333333; }
-
-  .sheet-chars { display: grid; gap: 7px; margin-bottom: 22px; }
-  .sheet-char { display: grid; grid-template-columns: 30px 1fr auto; gap: 12px; align-items: baseline;
-    border-bottom: 1px solid #DDDDDD; padding-bottom: 6px; }
-  .sheet-char .ch { font-family: "Noto Serif KR", serif; font-size: 17pt; font-weight: 700; text-align: center; }
-  .sheet-char .meta { font-size: 8.5pt; color: #666666; white-space: nowrap; }
-
-  .sheet-cols { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 24px; }
-  .sheet-cols h3 { font-size: 11pt; font-weight: 700; margin-bottom: 8px; }
-
-  .sheet-saju { width: 100%; border-collapse: collapse; table-layout: fixed; }
-  .sheet-saju th { border: 1px solid #BBBBBB; font-size: 8pt; font-weight: 400; color: #555555; padding: 3px 0; text-align: center; background: #F6F6F4; }
-  .sheet-saju td { border: 1px solid #BBBBBB; text-align: center; padding: 5px 0; }
-  .sheet-saju .gan { font-family: "Noto Serif KR", serif; font-size: 16pt; font-weight: 700; line-height: 1.2; }
-  .sheet-saju .gan small { display: block; font-family: "Noto Sans KR", sans-serif; font-size: 7.5pt; font-weight: 400; color: #555555; }
-  .sheet-saju .hid td { font-size: 7.5pt; color: #666666; background: #F6F6F4; padding: 3px 0; }
-  .sheet-note { font-size: 8.5pt; color: #555555; margin-top: 7px; line-height: 1.6; }
-
-  .sheet-checks { width: 100%; border-collapse: collapse; }
-  .sheet-checks th { text-align: left; font-size: 9pt; font-weight: 700; color: #111111;
-    border-bottom: 1px solid #DDDDDD; padding: 5px 8px 5px 0; white-space: nowrap; background: transparent; }
-  .sheet-checks td { font-size: 9pt; color: #333333; border-bottom: 1px solid #DDDDDD; padding: 5px 0; }
-  .sheet-checks td.v { text-align: right; font-size: 8.5pt; white-space: nowrap; width: 38px; }
-  .sheet-checks td.v.ok { color: #1F5C42; }
-  .sheet-checks td.v.care { color: #8A6A14; }
-
-  .sheet-foot { margin-top: 26px; padding-top: 10px; border-top: 1px solid #111111; font-size: 8pt; color: #666666; }
-  .sheet-foot span { display: block; margin-bottom: 2px; }
+  #printSheet { display: block !important; padding: 0 !important; }
+  #printSheet .sp { zoom: 1.1024; box-shadow: none; break-after: page; page-break-after: always; }
+  #printSheet .sp:last-child { break-after: auto; page-break-after: auto; }
 }
-
 
 /* ---------- 이름 입력 칸 — 어디를 눌러 쓰는지 한눈에 ---------- */
 .name-entry { background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 12px; padding: 14px 14px 12px; }
