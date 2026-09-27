@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="임신 11~14주 초음파 사진에 점 4개를 찍어 nub(생식결절) 각도로 아들·딸 경향을 보는 재미용 도구">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>각도법 판독 도우미</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
+
+:root{
+  --bg:#F1F4F3;--surface:#FFFFFF;--surface2:#E6ECEA;--ink:#1B2226;--muted:#58646A;--line:#D3DBD9;
+  --accent:#15707F;--accent-ink:#FFFFFF;--spine:#1C98B0;--nub:#C97F0C;
+  --boy:#2867A6;--girl:#B8445F;--hold:#A26A12;--boy-bg:#E2EDF8;--girl-bg:#F8E5EA;--hold-bg:#F6ECD8;
+  --scan:#0A0C0D;--shadow:0 1px 2px rgba(20,40,45,.06),0 8px 24px rgba(20,40,45,.06);
+  --display:"Gowun Batang","Nanum Myeongjo",serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0F1315;--surface:#161C1F;--surface2:#1E262A;--ink:#E3E9EA;--muted:#96A2A7;--line:#29343A;
+    --accent:#52B9CA;--accent-ink:#081214;--spine:#4CC3DA;--nub:#F2B24A;
+    --boy:#86B8E8;--girl:#EE93A7;--hold:#E4B45E;--boy-bg:#15263A;--girl-bg:#351C25;--hold-bg:#33291A;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0F1315;--surface:#161C1F;--surface2:#1E262A;--ink:#E3E9EA;--muted:#96A2A7;--line:#29343A;
+  --accent:#52B9CA;--accent-ink:#081214;--spine:#4CC3DA;--nub:#F2B24A;
+  --boy:#86B8E8;--girl:#EE93A7;--hold:#E4B45E;--boy-bg:#15263A;--girl-bg:#351C25;--hold-bg:#33291A;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.65;padding-inline:16px;padding-block:28px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(28px,4.6vw,40px)}
+h2{font-size:24px}
+h3{font-size:16px;font-family:var(--body);font-weight:700}
+p{margin:0}
+button,select,label.btn{font:inherit}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--accent);font-weight:700}
+header{display:flex;flex-direction:column;gap:12px;max-width:720px}
+.lead{color:var(--muted);font-size:16px;max-width:62ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
+.meta span{background:var(--surface2);border-radius:999px;padding:3px 12px}
+
+/* workspace */
+.work{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:20px;align-items:start}
+@media (max-width:880px){.work{grid-template-columns:minmax(0,1fr)}}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;background:var(--surface2);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;color:var(--muted);padding:7px 14px;border-radius:8px;cursor:pointer;font-weight:500;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 13px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:500}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:focus-visible,select:focus-visible,label.btn:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.nav{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav .btn{padding:5px 10px}
+.cvwrap{position:relative;background:var(--scan);border-radius:10px;overflow:hidden;display:flex;justify-content:center;min-height:200px}
+#cv{display:block;touch-action:none;cursor:crosshair}
+#loupe{position:absolute;top:10px;left:10px;width:132px;height:132px;border-radius:50%;border:2px solid rgba(255,255,255,.85);box-shadow:0 4px 16px rgba(0,0,0,.5);pointer-events:none}
+.cvwrap.drag{outline:3px dashed var(--accent);outline-offset:-6px}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.tools .left{display:flex;gap:8px;flex-wrap:wrap}
+.zoom{display:inline-flex;align-items:center;gap:4px}
+.zoom .btn{padding:5px 11px;min-width:34px;justify-content:center}
+.zoom span{font-family:var(--mono);font-size:13px;color:var(--muted);min-width:34px;text-align:center;font-variant-numeric:tabular-nums}
+.week{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+.week select{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 8px}
+.privacy{font-size:12.5px;color:var(--muted)}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+/* guide */
+.side{display:flex;flex-direction:column;gap:14px}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.steps li{font-size:12.5px;text-align:center;padding:7px 4px;border-radius:9px;background:var(--surface2);color:var(--muted);font-weight:500;line-height:1.35}
+.steps li b{display:block;font-family:var(--mono);font-size:13px}
+.steps li.done{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.steps li.done b::after{content:" ✓";color:var(--accent)}
+.steps li.now{background:var(--accent);color:var(--accent-ink)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.guide h3{font-size:17px}
+.guide .where{font-size:15px}
+.guide ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:3px}
+.avoid{font-size:13.5px;background:var(--hold-bg);color:var(--ink);border-radius:9px;padding:8px 11px}
+.avoid b{color:var(--hold)}
+.schem{width:100%;height:auto;background:var(--scan);border-radius:10px}
+.schem .tgt circle{fill:none;stroke:#fff;stroke-width:2;opacity:.25}
+.schem .tgt text{fill:#fff;opacity:.25;font:600 10px var(--mono);text-anchor:middle;dominant-baseline:central}
+.schem .tgt.done circle{opacity:1}
+.schem .tgt.done text{opacity:1}
+.schem .tgt.s circle{stroke:#4CC3DA}.schem .tgt.s.done circle{fill:#4CC3DA}
+.schem .tgt.n circle{stroke:#F2B24A}.schem .tgt.n.done circle{fill:#F2B24A}
+.schem .tgt.done text{fill:#0A0C0D}
+.schem .tgt.now circle{opacity:1;stroke-width:2.5;animation:pulse 1.4s ease-in-out infinite}
+.schem .tgt.now text{opacity:1}
+@keyframes pulse{50%{stroke-width:6;r:12}}
+@media (prefers-reduced-motion:reduce){.schem .tgt.now circle{animation:none}}
+.schem .ln{opacity:0;transition:opacity .2s}
+.schem .ln.on{opacity:1}
+
+/* result */
+.res-top{display:flex;gap:14px;align-items:center}
+.gauge{width:150px;flex:none}
+.deg{font-family:var(--mono);font-size:44px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.k{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.pill{display:inline-block;margin-top:8px;border-radius:999px;padding:4px 12px;font-weight:700;font-size:14px;background:var(--surface2);color:var(--muted)}
+.pill.boy{background:var(--boy-bg);color:var(--boy)}
+.pill.girl{background:var(--girl-bg);color:var(--girl)}
+.pill.hold{background:var(--hold-bg);color:var(--hold)}
+.res-text{font-size:14.5px}
+.weeknote{font-size:13.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+.warn{font-size:13.5px;color:var(--girl);font-weight:500}
+.practice{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:12px}
+.practice .row{display:flex;gap:8px;flex-wrap:wrap}
+.compare{font-size:14px;display:flex;flex-direction:column;gap:6px}
+.compare .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.compare .nums div{background:var(--surface2);border-radius:9px;padding:7px 9px}
+.compare .nums b{display:block;font-family:var(--mono);font-size:19px;font-variant-numeric:tabular-nums}
+.compare .nums span{font-size:12px;color:var(--muted)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+
+/* examples */
+section.ex{display:flex;flex-direction:column;gap:16px}
+.ex .sub{color:var(--muted);max-width:64ch}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.grid3{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:460px){.grid4{grid-template-columns:minmax(0,1fr)}}
+.exc{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.exc canvas{width:100%;aspect-ratio:4/3;display:block;background:var(--scan)}
+.exc .cap{padding:11px 13px 13px;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
+.exc .cap .t{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px}
+.tag{font-size:11.5px;font-weight:700;border-radius:6px;padding:1px 7px}
+.tag.ok{background:var(--boy-bg);color:var(--boy)}
+.tag.no{background:var(--girl-bg);color:var(--girl)}
+.tag.mid{background:var(--hold-bg);color:var(--hold)}
+.tag.boy{background:var(--boy-bg);color:var(--boy)}
+.tag.girl{background:var(--girl-bg);color:var(--girl)}
+.exc .cap p{color:var(--muted)}
+.mist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.mist{grid-template-columns:minmax(0,1fr)}}
+.mist div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 15px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.mist .x{color:var(--girl);font-weight:700}
+.mist .o{color:var(--muted)}
+.about{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:760px){.about{grid-template-columns:minmax(0,1fr)}}
+.about p{color:var(--muted);max-width:62ch}
+.about p+p{margin-top:10px}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;background:var(--surface);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.tbl th,.tbl td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+.tbl th{font-size:12px;color:var(--muted);font-weight:500;background:var(--surface2)}
+.tbl td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tbl tr:last-child td{border-bottom:0}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+footer .more{margin-top:12px}
+footer .more a{color:var(--ink);text-decoration:none;font-size:14px}
+footer .more a:hover{color:var(--accent)}
+.share-btn{align-self:flex-start}
+.modal{position:fixed;inset:0;z-index:20;background:rgba(10,14,16,.62);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.sheet{background:var(--surface);color:var(--ink);border-radius:16px;padding:16px;width:100%;max-width:440px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
+.sheet-head{display:flex;justify-content:space-between;align-items:center}
+.sheet-head h3{font-size:17px}
+#expImg{width:100%;height:auto;max-height:58vh;object-fit:contain;border-radius:10px;background:var(--surface2);-webkit-touch-callout:default}
+.exp-opts{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;font-size:14px}
+.field{display:flex;align-items:center;gap:8px;color:var(--muted)}
+.field input{font:inherit;width:9em;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 9px}
+.chk{display:flex;align-items:center;gap:6px;cursor:pointer}
+.chk input{width:17px;height:17px;accent-color:var(--accent)}
+.exp-btns{display:flex;gap:8px}
+.exp-btns .btn{flex:1;justify-content:center;padding:10px 13px}
+.exp-msg{font-size:13px;color:var(--muted)}
+.toast{position:fixed;z-index:30;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:10px;font-size:14px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">임신 11~14주 초음파 · nub 각도법</div>
+    <h1>각도법 판독 도우미</h1>
+    <p class="lead">옆모습 초음파 사진에 점 4개만 찍으면 척추와 nub 사이 각도를 재서 아들·딸 경향을 알려드려요. 처음이라면 연습 사진으로 감을 잡은 뒤 우리 아기 사진을 올려 보세요.</p>
+    <div class="meta"><span>재미로 보는 예측</span><span>사진은 이 브라우저 밖으로 전송되지 않아요</span></div>
+  </header>
+
+  <section class="work">
+    <div class="stage">
+      <div class="bar">
+        <div class="seg" role="group" aria-label="사진 선택">
+          <button id="mPractice" aria-pressed="true">연습 사진</button>
+          <button id="mMine" aria-pressed="false">내 초음파 사진</button>
+        </div>
+        <div class="nav" id="sampleNav">
+          <button class="btn" id="prev" aria-label="이전 연습 사진">‹</button>
+          <span id="sampleLbl">연습 1 / 6</span>
+          <button class="btn" id="next" aria-label="다음 연습 사진">›</button>
+        </div>
+        <label class="btn" id="uploadBtn" hidden>다른 사진 올리기<input type="file" id="file" accept="image/*"></label>
+      </div>
+      <div class="cvwrap" id="cvwrap">
+        <canvas id="cv" aria-label="초음파 사진. 눌러서 점을 찍어요."></canvas>
+        <canvas id="loupe" hidden></canvas>
+      </div>
+      <div class="tools">
+        <div class="left">
+          <button class="btn" id="undo">되돌리기</button>
+          <button class="btn" id="clear">모두 지우기</button>
+          <div class="zoom" role="group" aria-label="사진 확대">
+            <button class="btn" id="zOut" aria-label="축소">−</button>
+            <span id="zLbl">1×</span>
+            <button class="btn" id="zIn" aria-label="확대">+</button>
+          </div>
+        </div>
+        <label class="week" for="weekSel">촬영 주수
+          <select id="weekSel">
+            <option value="10">10주 이하</option>
+            <option value="11">11주</option>
+            <option value="12">12주</option>
+            <option value="13" selected>13주</option>
+            <option value="14">14주 이상</option>
+          </select>
+        </label>
+      </div>
+      <div class="legend"><span><i style="background:#4CC3DA"></i>척추 기준선 (①②)</span><span><i style="background:#F2B24A"></i>nub 방향 (③④)</span><span>점은 끌어서 옮길 수 있어요 · 누르는 동안 돋보기가 떠요 · 두 손가락이나 + 버튼으로 확대하고, 확대 중엔 끌어서 이동해요</span></div>
+    </div>
+
+    <aside class="side">
+      <ol class="steps" id="steps">
+        <li><b>①</b>등 위쪽</li>
+        <li><b>②</b>엉덩이 쪽 등</li>
+        <li><b>③</b>nub 뿌리</li>
+        <li><b>④</b>nub 끝</li>
+      </ol>
+
+      <div class="card guide">
+        <svg class="schem" id="schem" viewBox="0 0 340 200" role="img" aria-label="어디에 점을 찍는지 보여주는 예시 그림">
+          <g fill="none" stroke-linecap="round">
+            <path d="M200 70 C 214 44, 236 40, 246 14" stroke="#6d7479" stroke-width="7"/>
+            <path d="M200 70 C 214 44, 236 40, 246 14" stroke="#0A0C0D" stroke-width="2.5"/>
+            <circle cx="80" cy="98" r="50" fill="#3a4044" stroke="#c9cfd2" stroke-width="3"/>
+            <ellipse cx="196" cy="112" rx="88" ry="42" fill="#3a4044" stroke="#8b9397" stroke-width="2"/>
+            <path d="M258 102 L296 60 L330 80" stroke="#7d868a" stroke-width="10"/>
+            <path d="M262 98 L294 63" stroke="#dfe4e6" stroke-width="2.5"/>
+          </g>
+          <g fill="#f2f4f5">
+            <circle cx="120" cy="146" r="2.6"/><circle cx="132" cy="146" r="2.6"/><circle cx="144" cy="146" r="2.6"/><circle cx="156" cy="146" r="2.6"/><circle cx="168" cy="146" r="2.6"/><circle cx="180" cy="146" r="2.6"/><circle cx="192" cy="146" r="2.6"/><circle cx="204" cy="146" r="2.6"/><circle cx="216" cy="145.5" r="2.6"/><circle cx="228" cy="145.5" r="2.6"/><circle cx="240" cy="145" r="2.6"/><circle cx="252" cy="145" r="2.6"/><circle cx="264" cy="144.5" r="2.6"/>
+          </g>
+          <path d="M280 124 L303 107" stroke="#f7f8f8" stroke-width="5" stroke-linecap="round"/>
+          <line class="ln" id="lnS" x1="108" y1="146.4" x2="300" y2="144" stroke="#4CC3DA" stroke-width="2"/>
+          <line class="ln" id="lnR" x1="280" y1="124" x2="334" y2="123.3" stroke="#4CC3DA" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line class="ln" id="lnN" x1="280" y1="124" x2="318" y2="96" stroke="#F2B24A" stroke-width="2"/>
+          <g font-family="Noto Sans KR, sans-serif" font-size="11" fill="#aab2b6">
+            <text x="62" y="166">머리</text>
+            <text x="150" y="170">등 (척추 = 밝은 점선)</text>
+            <text x="300" y="54">다리</text>
+            <text x="252" y="10">탯줄</text>
+            <text x="292" y="146">nub</text>
+          </g>
+          <g class="tgt s" id="t0"><circle cx="148" cy="146" r="9"/><text x="148" y="146">1</text></g>
+          <g class="tgt s" id="t1"><circle cx="258" cy="144.8" r="9"/><text x="258" y="144.8">2</text></g>
+          <g class="tgt n" id="t2"><circle cx="280" cy="124" r="9"/><text x="280" y="124">3</text></g>
+          <g class="tgt n" id="t3"><circle cx="304" cy="106" r="9"/><text x="304" y="106">4</text></g>
+        </svg>
+        <h3 id="gTitle"></h3>
+        <p class="where" id="gWhere"></p>
+        <ul id="gHow"></ul>
+        <p class="avoid" id="gAvoid"></p>
+      </div>
+
+      <div class="card" id="result">
+        <div class="res-top">
+          <svg class="gauge" id="gauge" viewBox="0 0 170 182" aria-hidden="true"></svg>
+          <div>
+            <div class="k">측정 각도</div>
+            <div class="deg" id="deg">—</div>
+            <span class="pill" id="verdict">점 4개를 찍으면 계산돼요</span>
+          </div>
+        </div>
+        <p class="res-text" id="resText">척추 기준선보다 nub이 30° 이상 들려 있으면 아들, 10° 이하로 나란하면 딸 쪽으로 봐요.</p>
+        <p class="warn" id="warn" hidden></p>
+        <button class="btn primary share-btn" id="exportBtn" hidden>결과 카드로 저장·공유하기</button>
+        <p class="weeknote" id="weekNote"></p>
+        <div class="practice" id="practice" hidden>
+          <div class="row">
+            <button class="btn primary" id="reveal">정답과 비교하기</button>
+            <button class="btn" id="nextSample">다음 연습 사진</button>
+          </div>
+          <div class="compare" id="compare" hidden></div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="ex">
+    <div>
+      <h2>어떤 사진이 좋을까요</h2>
+      <p class="sub">각도법은 사진이 절반이에요. 아기가 정확히 옆으로 누운 단면이어야 척추 줄과 nub이 한 화면에 같이 보여요.</p>
+    </div>
+    <div class="grid4" id="photoEx"></div>
+  </section>
+
+  <section class="ex">
+    <div>
+      <h2>결과는 이렇게 읽어요</h2>
+      <p class="sub">파란 선은 척추 기준선, 점선은 nub 뿌리에 옮겨 그은 기준선, 노란 선은 nub 방향이에요. 둘 사이가 벌어진 정도가 각도예요.</p>
+    </div>
+    <div class="grid3" id="resEx"></div>
+  </section>
+
+  <section class="ex">
+    <h2>자주 하는 실수</h2>
+    <div class="mist">
+      <div><span class="x">기준선을 머리까지 이어요</span><span class="o">등은 둥글게 휘어 있어요. ①②는 엉덩이 쪽 절반의 척추 위에만 찍어야 기준선이 틀어지지 않아요.</span></div>
+      <div><span class="x">다리뼈를 nub으로 착각해요</span><span class="o">다리뼈는 길고 곧은 막대예요. nub은 쌀알처럼 짧고, 몸통 끝 다리 사이에서 나와요.</span></div>
+      <div><span class="x">탯줄을 nub으로 봐요</span><span class="o">탯줄은 배 가운데에서 나오고, 속이 빈 관처럼 두 줄로 보여요.</span></div>
+      <div><span class="x">늘어난 캡처 사진을 써요</span><span class="o">가로세로 비율이 바뀌면 각도도 바뀌어요. 병원 앱 원본이나 비율을 유지한 사진을 올려 주세요.</span></div>
+      <div><span class="x">③과 ④를 거꾸로 찍어요</span><span class="o">①②는 순서가 바뀌어도 자동으로 맞춰 주지만, ③은 꼭 뿌리, ④는 끝이어야 해요.</span></div>
+      <div><span class="x">너무 이른 주수에 판단해요</span><span class="o">11주 전에는 아들 nub도 아직 누워 있어 딸로 보이기 쉬워요. 12주 이후 사진이 더 정확해요.</span></div>
+    </div>
+  </section>
+
+  <section class="ex">
+    <h2>각도법은 얼마나 맞을까요</h2>
+    <div class="about">
+      <div>
+        <p>임신 초기에는 아들과 딸 모두 다리 사이에 생식결절(nub)이라는 작은 돌기가 있어요. 아들은 이 돌기가 몸통에서 위로 들리고, 딸은 척추와 나란하게 누워 있는 경향이 있어서 그 각도로 성별을 가늠해요.</p>
+        <p>Efrat 등(1999) 연구에서는 숙련된 검사자가 판독했을 때 11주 약 70%, 12주 약 99%, 13주 100%가 맞았어요. 다만 전문가가 직접 초음파를 보며 잰 결과라서, 사진 한 장으로 부모가 재면 이보다 낮다고 보는 게 맞아요.</p>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>주수</th><th>연구 정확도</th><th>이 도구로 볼 때</th></tr></thead>
+        <tbody>
+          <tr><td>10주 이하</td><td class="n">—</td><td>참고만</td></tr>
+          <tr><td>11주</td><td class="n">≈ 70%</td><td>딸 판정이 자주 틀려요</td></tr>
+          <tr><td>12주</td><td class="n">≈ 99%</td><td>믿을 만해요</td></tr>
+          <tr><td>13주</td><td class="n">≈ 100%</td><td>가장 좋은 시기</td></tr>
+          <tr><td>14주 이상</td><td class="n">—</td><td>모양으로 보는 편이 나아요</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>연습 사진은 설명을 위해 그린 모형 이미지예요. 결과는 재미로 보는 예측이며 의학적 판정이 아니에요. 정확한 성별은 병원에서 확인하세요.
+    <p class="more"><a href="/">← 예나준의 다른 도구 보기</a></p>
+  </footer>
+</div>
+
+<div class="modal" id="exp" hidden role="dialog" aria-modal="true" aria-labelledby="expTitle">
+  <div class="sheet">
+    <div class="sheet-head"><h3 id="expTitle">결과 카드</h3><button class="btn" id="expClose" aria-label="닫기">닫기</button></div>
+    <img id="expImg" alt="각도법 결과 카드">
+    <div class="exp-opts">
+      <label class="field">태명 <input id="expName" maxlength="8" placeholder="예: 튼튼" autocomplete="off"></label>
+      <label class="chk"><input type="checkbox" id="expPhoto" checked> 초음파 사진 넣기</label>
+    </div>
+    <div class="exp-btns">
+      <button class="btn primary" id="expSave">이미지 저장</button>
+      <button class="btn" id="expShare" hidden>공유하기</button>
+    </div>
+    <p class="exp-msg" id="expMsg">가족에게 보내기 좋은 세로 이미지예요.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const SPINE='#4CC3DA', NUB='#F2B24A';
+const dpr=Math.min(window.devicePixelRatio||1,2.5);
+
+/* ---------- random ---------- */
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* ---------- geometry ---------- */
+const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+const cross=(a,b)=>a.x*b.y-a.y*b.x;
+function measure(p){
+  const [A,B,R,T]=p;
+  let head=A,tail=B; if(dist(A,R)<dist(B,R)){head=B;tail=A;}
+  const d={x:tail.x-head.x,y:tail.y-head.y}, v={x:T.x-R.x,y:T.y-R.y}, n={x:R.x-head.x,y:R.y-head.y};
+  const c=(d.x*v.x+d.y*v.y)/((Math.hypot(d.x,d.y)*Math.hypot(v.x,v.y))||1);
+  const ang=Math.acos(Math.max(-1,Math.min(1,c)))*180/Math.PI;
+  const side=Math.sign(cross(d,n))||1, s=Math.sign(cross(d,v))||side;
+  return {deg:s===side?ang:-ang,d,v};
+}
+const classify=g=>g>=30?'boy':g<=10?'girl':'hold';
+const LABEL={boy:'아들 쪽 경향',girl:'딸 쪽 경향',hold:'판단 보류'};
+
+/* ---------- synthetic ultrasound ---------- */
+function makeScan(o){
+  o=Object.assign({angle:40,tilt:0,mirror:false,seed:1,week:13,scale:1,nub:true,legOver:false,oblique:false,faint:0},o);
+  const W=640,H=480, R0=rng(o.seed);
+  const sc=document.createElement('canvas');sc.width=W;sc.height=H;
+  const c=sc.getContext('2d');
+  c.fillStyle='#000';c.fillRect(0,0,W,H);
+  c.filter='blur(1.8px)';
+  const g=v=>'rgba(255,255,255,'+v+')';
+  // uterine wall
+  c.strokeStyle=g(.45);c.lineWidth=30;c.beginPath();c.ellipse(320,262,300,206,0,0,Math.PI*2);c.stroke();
+  c.fillStyle=g(.22);c.beginPath();c.rect(0,0,W,H);c.ellipse(320,262,314,220,0,0,Math.PI*2);c.fill('evenodd');
+  c.fillStyle=g(.3);c.beginPath();c.ellipse(420,70,170,40,.1,0,Math.PI*2);c.fill(); // placenta
+  const m=new DOMMatrix().translate(320,255).rotate(o.tilt).scale((o.mirror?-1:1)*o.scale,o.scale).translate(-335,-250);
+  c.setTransform(m);
+  const ys=x=>300-(x-250)*0.012;
+  const line=(pts,w,col)=>{c.strokeStyle=col;c.lineWidth=w;c.lineCap='round';c.lineJoin='round';c.beginPath();c.moveTo(pts[0],pts[1]);for(let i=2;i<pts.length;i+=2)c.lineTo(pts[i],pts[i+1]);c.stroke();};
+  // head
+  c.fillStyle=g(.28);c.beginPath();c.ellipse(190,228,80,72,0,0,Math.PI*2);c.fill();
+  c.strokeStyle=g(.95);c.lineWidth=6;c.stroke();
+  line([128,230,250,226],2,g(.35));
+  c.fillStyle=g(.42);c.beginPath();c.ellipse(130,166,22,15,-.6,0,Math.PI*2);c.fill();
+  if(o.oblique){
+    c.fillStyle=g(.33);c.beginPath();c.ellipse(345,250,105,86,0,0,Math.PI*2);c.fill();
+    c.strokeStyle=g(.55);c.lineWidth=3;c.stroke();
+    [[345,318],[333,306],[357,306]].forEach(p=>{c.fillStyle=g(1);c.beginPath();c.ellipse(p[0],p[1],6,4.5,0,0,Math.PI*2);c.fill();});
+    c.fillStyle=g(.5);c.beginPath();c.ellipse(430,300,34,26,.4,0,Math.PI*2);c.fill();
+    c.fillStyle=g(.45);c.beginPath();c.ellipse(435,205,30,22,-.4,0,Math.PI*2);c.fill();
+  }else{
+    c.fillStyle=g(.34);c.beginPath();c.ellipse(345,252,122,58,-.03,0,Math.PI*2);c.fill();
+    c.strokeStyle=g(.55);c.lineWidth=3;c.stroke();
+    for(let x=250;x<=452;x+=10){const y=ys(x)+Math.sin(x/28)*1.1;c.fillStyle=g(1);
+      c.beginPath();c.ellipse(x,y,3.6,2.7,0,0,Math.PI*2);c.fill();
+      c.fillStyle=g(.8);c.beginPath();c.ellipse(x+4,y-9,2.6,2.1,0,0,Math.PI*2);c.fill();}
+    c.strokeStyle=g(.7);c.lineWidth=3;c.beginPath();c.moveTo(238,312);c.quadraticCurveTo(360,315,464,294);c.stroke();
+    // arm
+    line([272,218,298,184,330,172],12,g(.38));line([276,212,296,188],3,g(.9));
+    // cord
+    c.strokeStyle=g(.42);c.lineWidth=13;c.beginPath();c.moveTo(372,198);c.quadraticCurveTo(410,160,418,110);c.stroke();
+    c.strokeStyle=g(.06);c.lineWidth=4;c.stroke();
+  }
+  const Rl={x:458,y:262}, len=o.week<=10?18:30;
+  const th=o.angle*Math.PI/180;
+  const Tl={x:Rl.x+len*Math.cos(th),y:Rl.y-len*Math.sin(th)};
+  if(o.nub){
+    c.fillStyle=g(.4);c.beginPath();c.ellipse(Rl.x-4,Rl.y+2,13,11,0,0,Math.PI*2);c.fill();
+    line([Rl.x,Rl.y,Tl.x,Tl.y],15,g(.3));
+    line([Rl.x,Rl.y,Tl.x,Tl.y],o.week<=10?6:8,g(o.week<=10?.75:1));
+  }
+  if(!o.oblique){
+    if(o.legOver){
+      line([418,246,522,262,575,222],20,g(.5));line([428,247,515,260],4,g(1));line([524,258,570,226],3,g(.85));
+    }else{
+      line([432,232,500,170,566,200],18,g(.4));line([440,226,495,176],4,g(.95));line([505,174,560,198],3,g(.8));
+    }
+  }
+  c.setTransform(1,0,0,1,0,0);c.filter='none';
+  const tp=p=>{const q=m.transformPoint(new DOMPoint(p.x,p.y));return {x:q.x,y:q.y};};
+  const pts=[tp({x:272,y:ys(272)}),tp({x:446,y:ys(446)}),tp(Rl),tp(Tl)];
+
+  // speckle
+  const mk=(w,h)=>{const n=document.createElement('canvas');n.width=w;n.height=h;const x=n.getContext('2d');const id=x.createImageData(w,h);for(let i=0;i<id.data.length;i+=4){const v=R0()*255;id.data[i]=id.data[i+1]=id.data[i+2]=v;id.data[i+3]=255;}x.putImageData(id,0,0);
+    const b=document.createElement('canvas');b.width=W;b.height=H;const bx=b.getContext('2d');bx.imageSmoothingEnabled=true;bx.drawImage(n,0,0,W,H);return bx.getImageData(0,0,W,H).data;};
+  const coarse=mk(W/4|0,H/4|0), fine=mk(W/1.6|0,H/1.6|0);
+  const base=c.getImageData(0,0,W,H), d=base.data;
+  const ax=320, ay=-70, a0=52*Math.PI/180, a1=128*Math.PI/180;
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+    const i=(y*W+x)*4, dx=x-ax, dy=y-ay, r=Math.hypot(dx,dy), an=Math.atan2(dy,dx);
+    if(r<100||r>560||an<a0||an>a1){d[i]=d[i+1]=d[i+2]=0;continue;}
+    const edge=Math.min(1,(an-a0)/.05,(a1-an)/.05,(560-r)/20,(r-100)/10);
+    const b=d[i]/255, nc=coarse[i]/255, nf=fine[i]/255;
+    const att=1-.38*(r-100)/460;
+    let v=(6+b*240*(.42+.85*nc)+(20+30*b)*nf*(1+o.faint*3))*att*edge*(1-o.faint*.5);
+    v=Math.max(0,Math.min(255,v));
+    d[i]=v;d[i+1]=v*.97;d[i+2]=v*.9;
+  }
+  c.putImageData(base,0,0);
+  c.fillStyle='rgba(215,220,222,.85)';c.font='13px ui-monospace,Menlo,monospace';
+  c.fillText('GA '+(o.week<=10?'10':o.week)+'w'+(1+(o.seed%5))+'d',16,26);c.fillText('FR 26Hz',16,44);c.fillText('C5-2  Gn 58',16,62);
+  for(let k=0;k<9;k++){c.fillRect(612,110+k*40,k%2?5:9,1.5);}
+  return {canvas:sc,w:W,h:H,pts,week:o.week};
+}
+
+/* ---------- overlay drawing ---------- */
+function drawOverlay(x,pts,k,u,opt){
+  opt=opt||{};
+  const P=pts.map(p=>({x:p.x*k,y:p.y*k}));
+  const [A,B,R,T]=P;
+  const sc=opt.answer?'rgba(255,255,255,.95)':SPINE, nc=opt.answer?'rgba(255,255,255,.95)':NUB;
+  x.save();x.lineCap='round';
+  const dash=opt.answer?[7*u,5*u]:[];
+  if(A&&B){
+    const dx=B.x-A.x,dy=B.y-A.y;
+    x.strokeStyle=sc;x.lineWidth=2.4*u;x.setLineDash(dash);
+    x.beginPath();x.moveTo(A.x-dx*.3,A.y-dy*.3);x.lineTo(B.x+dx*.3,B.y+dy*.3);x.stroke();
+  }
+  if(A&&B&&R&&T){
+    const mm=measure([A,B,R,T]); const dl=Math.hypot(mm.d.x,mm.d.y);
+    const ux=mm.d.x/dl, uy=mm.d.y/dl;
+    x.strokeStyle=sc;x.lineWidth=1.8*u;x.setLineDash([5*u,4*u]);
+    x.beginPath();x.moveTo(R.x,R.y);x.lineTo(R.x+ux*70*u,R.y+uy*70*u);x.stroke();
+    const vl=Math.hypot(mm.v.x,mm.v.y)||1, vx=mm.v.x/vl, vy=mm.v.y/vl, L=Math.max(vl,60*u);
+    x.setLineDash(dash);x.strokeStyle=nc;x.lineWidth=2.6*u;
+    x.beginPath();x.moveTo(R.x,R.y);x.lineTo(R.x+vx*L,R.y+vy*L);x.stroke();
+    if(!opt.answer){
+      const a1=Math.atan2(uy,ux); let df=Math.atan2(vy,vx)-a1; while(df>Math.PI)df-=2*Math.PI; while(df<-Math.PI)df+=2*Math.PI;
+      x.setLineDash([]);x.strokeStyle='#fff';x.lineWidth=1.6*u;
+      x.beginPath();x.arc(R.x,R.y,32*u,a1,a1+df,df<0);x.stroke();
+      const mid=a1+df/2, tx=R.x+Math.cos(mid)*54*u, ty=R.y+Math.sin(mid)*54*u;
+      const s=Math.round(mm.deg)+'°';
+      x.font='600 '+(15*u)+'px "IBM Plex Mono",ui-monospace,monospace';x.textAlign='center';x.textBaseline='middle';
+      x.lineWidth=4*u;x.strokeStyle='rgba(0,0,0,.8)';x.strokeText(s,tx,ty);x.fillStyle='#fff';x.fillText(s,tx,ty);
+    }
+  }else if(R&&T){
+    x.strokeStyle=nc;x.lineWidth=2.6*u;x.setLineDash(dash);
+    x.beginPath();x.moveTo(R.x,R.y);x.lineTo(T.x,T.y);x.stroke();
+  }
+  x.setLineDash([]);
+  P.forEach((p,i)=>{
+    const col=i<2?SPINE:NUB;
+    x.beginPath();x.arc(p.x,p.y,(opt.answer?6:7.5)*u,0,Math.PI*2);
+    if(opt.answer){x.strokeStyle='#fff';x.lineWidth=2*u;x.stroke();return;}
+    x.fillStyle=col;x.fill();x.strokeStyle='#0A0C0D';x.lineWidth=1.8*u;x.stroke();
+    if(!opt.noNum){x.fillStyle='#0A0C0D';x.font='700 '+(10*u)+'px "IBM Plex Mono",monospace';x.textAlign='center';x.textBaseline='middle';x.fillText(String(i+1),p.x,p.y+.5*u);}
+  });
+  x.restore();
+}
+
+/* ---------- state ---------- */
+const SAMPLES=[
+  {angle:44,tilt:4,mirror:false,seed:11,week:13},
+  {angle:4,tilt:-7,mirror:true,seed:23,week:12},
+  {angle:21,tilt:9,mirror:false,seed:37,week:12},
+  {angle:-9,tilt:-3,mirror:true,seed:41,week:13},
+  {angle:35,tilt:-10,mirror:true,seed:53,week:11,faint:.1},
+  {angle:57,tilt:6,mirror:false,seed:67,week:13},
+];
+const cache={};
+const sample=i=>cache[i]||(cache[i]=makeScan(SAMPLES[i]));
+let mode='practice', idx=0, pts=[], revealed=false, mine=null, placeholder=null;
+let src=null, k=1, drag=-1;
+let Z=1, vx=0, vy=0; // zoom level and top-left of the visible region (image px)
+const cv=$('#cv'), ctx=cv.getContext('2d'), loupe=$('#loupe'), lctx=loupe.getContext('2d');
+loupe.width=loupe.height=132*dpr;
+
+function getPlaceholder(){
+  if(placeholder)return placeholder;
+  const c=document.createElement('canvas');c.width=640;c.height=420;const x=c.getContext('2d');
+  x.fillStyle='#0A0C0D';x.fillRect(0,0,640,420);
+  x.strokeStyle='rgba(255,255,255,.35)';x.setLineDash([8,6]);x.lineWidth=2;x.strokeRect(40,40,560,340);
+  x.fillStyle='#e6ebec';x.textAlign='center';x.font='600 22px "Noto Sans KR",sans-serif';x.fillText('여기를 눌러 초음파 사진을 올려 주세요',320,196);
+  x.fillStyle='rgba(230,235,236,.6)';x.font='15px "Noto Sans KR",sans-serif';x.fillText('끌어다 놓아도 돼요 · 11~14주 옆모습 사진',320,230);
+  placeholder={canvas:c,w:640,h:420,empty:true};return placeholder;
+}
+function currentSrc(){ if(mode==='practice')return sample(idx); return mine||getPlaceholder(); }
+
+function layout(){
+  const ns=currentSrc(); if(ns!==src){Z=1;vx=vy=0;} src=ns; zoomUI();
+  const wrap=$('#cvwrap'); const w=wrap.clientWidth; const ar=src.h/src.w;
+  const maxH=Math.max(260,Math.min(window.innerHeight*.7,640));
+  let cw=w,ch=w*ar; if(ch>maxH){ch=maxH;cw=ch/ar;}
+  cv.style.width=cw+'px';cv.style.height=ch+'px';
+  cv.width=Math.round(cw*dpr);cv.height=Math.round(ch*dpr);
+  k=cv.width/src.w;
+  render();
+}
+function render(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.drawImage(src.canvas||src.el,vx,vy,src.w/Z,src.h/Z,0,0,cv.width,cv.height);
+  if(src.empty)return;
+  const V=P=>P.map(p=>({x:(p.x-vx)*Z,y:(p.y-vy)*Z}));
+  if(revealed&&mode==='practice')drawOverlay(ctx,V(sample(idx).pts),k,dpr,{answer:true});
+  drawOverlay(ctx,V(pts),k,dpr);
+}
+
+/* ---------- zoom ---------- */
+const ZMAX=8;
+function clampView(){vx=Math.max(0,Math.min(src.w-src.w/Z,vx));vy=Math.max(0,Math.min(src.h-src.h/Z,vy));}
+// keep image point (ix,iy) at canvas fraction (fx,fy)
+function zoomAt(nz,ix,iy,fx,fy){
+  Z=Math.max(1,Math.min(ZMAX,nz));
+  vx=ix-fx*src.w/Z;vy=iy-fy*src.h/Z;clampView();zoomUI();render();
+}
+function zoomUI(){
+  $('#zLbl').textContent=(Math.round(Z*10)/10)+'×';
+  const off=!src||!!src.empty;
+  $('#zOut').disabled=off||Z<=1.01;$('#zIn').disabled=off||Z>=ZMAX-.01;
+}
+function zoomStep(f){
+  // zoom toward the last placed point, otherwise the middle of the view
+  const q=pts.length?pts[pts.length-1]:{x:vx+src.w/Z/2,y:vy+src.h/Z/2};
+  zoomAt(Z*f,q.x,q.y,.5,.5);
+}
+
+/* ---------- guide ---------- */
+const STEPS=[
+  {t:'① 등(척추) 위에 첫 번째 점',w:'몸통 가운데쯤, 등 쪽 척추 위에 찍어요.',h:['척추는 등을 따라 밝은 점선(구슬 줄)처럼 보여요.','머리부터 엉덩이까지 중 엉덩이 쪽 절반 안에서 골라요.'],a:'머리나 목까지 올라가서 찍지 마세요. 등이 둥글어서 기준선이 기울어요.'},
+  {t:'② 엉덩이 쪽 척추 끝에 두 번째 점',w:'같은 척추 줄을 따라 엉덩이 쪽 끝에 찍어요.',h:['①과 ②를 이은 파란 선이 아기 등과 나란하면 잘 찍은 거예요.','선이 척추 점선 위에 겹치지 않으면 점을 끌어서 맞춰요.'],a:'엉덩이 바깥 피부선이 아니라 안쪽의 밝은 척추 뼈 줄 위에 찍어요.'},
+  {t:'③ nub이 시작되는 곳',w:'몸통 아래쪽 끝, 다리 사이에서 작게 튀어나온 밝은 돌기의 밑동이에요.',h:['엉덩이 끝 근처, 배 쪽에 붙어 있어요.','쌀알만 한 크기예요. 누르고 있으면 뜨는 돋보기로 확인하세요.'],a:'길고 곧은 밝은 막대는 다리뼈예요. nub은 훨씬 짧아요.'},
+  {t:'④ nub의 끝',w:'돌기가 끝나는 끝부분에 찍어요.',h:['③에서 ④로 가는 노란 선이 nub의 방향이에요.','끝이 흐리면 밝은 부분이 끝나는 곳까지만 찍어요.'],a:'속이 빈 관처럼 두 줄로 보이는 건 탯줄이에요.'},
+];
+const DONE={t:'점 4개를 모두 찍었어요',w:'각도가 계산됐어요. 점을 끌어서 옮기면 바로 다시 계산돼요.',h:['파란 선이 척추 줄과 겹치는지 한 번 더 확인하세요.','노란 선이 nub 방향과 같은지 확인하세요.'],a:'사진마다 결과가 다르게 나오면 가장 선명한 사진의 결과를 믿으세요.'};
+const WEEK={
+  10:'10주 이하는 nub이 아직 충분히 자라지 않아 아들도 딸처럼 보이는 경우가 많아요. 참고만 하세요.',
+  11:'11주는 아들 nub이 아직 덜 들려 있어 딸로 잘못 보는 경우가 있어요. 연구에서 11주 정확도는 약 70%였어요.',
+  12:'12주부터는 각도 차이가 뚜렷해져 정확도가 크게 올라가요.',
+  13:'13주 전후가 각도법이 가장 잘 맞는 시기예요.',
+  14:'14주 이후엔 실제 생식기 모양이 보이기 시작해요. 각도보다 모양으로 보는 편이 더 정확해요.'
+};
+
+function buildGauge(){
+  const O={x:28,y:120}, ro=96, ri=60, P=(a,r)=>[O.x+r*Math.cos(a*Math.PI/180),O.y-r*Math.sin(a*Math.PI/180)];
+  const wedge=(a0,a1,col)=>{const p1=P(a0,ro),p2=P(a1,ro),p3=P(a1,ri),p4=P(a0,ri);return `<path d="M${p1} A${ro} ${ro} 0 0 0 ${p2} L${p3} A${ri} ${ri} 0 0 1 ${p4}Z" fill="${col}" opacity=".9"/>`;};
+  let s=wedge(-30,10,'var(--girl-bg)')+wedge(10,30,'var(--hold-bg)')+wedge(30,90,'var(--boy-bg)');
+  s+=`<line x1="${O.x}" y1="${O.y}" x2="${O.x+ro+8}" y2="${O.y}" stroke="var(--spine)" stroke-width="2"/>`;
+  [[-30,'-30'],[0,'0'],[10,'10'],[30,'30'],[60,'60'],[90,'90']].forEach(([a,t])=>{const [x1,y1]=P(a,ro);const [x2,y2]=P(a,ro+5);const [tx,ty]=P(a,ro+15);
+    s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--muted)" stroke-width="1"/><text x="${tx}" y="${ty}" font-size="10" font-family="IBM Plex Mono,monospace" fill="var(--muted)" text-anchor="middle" dominant-baseline="central">${t}</text>`;});
+  s+=`<text x="${P(-12,78)[0]}" y="${P(-12,78)[1]}" font-size="10" fill="var(--girl)" text-anchor="middle" font-weight="700">딸</text>`;
+  s+=`<text x="${P(20,78)[0]}" y="${P(20,78)[1]}" font-size="10" fill="var(--hold)" text-anchor="middle" font-weight="700">?</text>`;
+  s+=`<text x="${P(58,78)[0]}" y="${P(58,78)[1]}" font-size="10" fill="var(--boy)" text-anchor="middle" font-weight="700">아들</text>`;
+  s+=`<line id="needle" x1="${O.x}" y1="${O.y}" x2="${O.x}" y2="${O.y}" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/><circle cx="${O.x}" cy="${O.y}" r="4.5" fill="var(--ink)"/>`;
+  $('#gauge').innerHTML=s;
+  return (deg)=>{const n=$('#needle');if(deg==null){n.setAttribute('x2',O.x);n.setAttribute('y2',O.y);return;}const a=Math.max(-30,Math.min(90,deg));const [x,y]=P(a,ro+4);n.setAttribute('x2',x);n.setAttribute('y2',y);};
+}
+const setNeedle=buildGauge();
+
+function update(){
+  const n=pts.length;
+  [...$('#steps').children].forEach((li,i)=>{li.className=i<n?'done':i===n?'now':'';});
+  for(let i=0;i<4;i++){const t=$('#t'+i);t.classList.toggle('done',i<n);t.classList.toggle('now',i===n);}
+  $('#lnS').classList.toggle('on',n>=2);$('#lnR').classList.toggle('on',n>=4);$('#lnN').classList.toggle('on',n>=4);
+  const G=n<4?STEPS[n]:DONE;
+  $('#gTitle').textContent=G.t;$('#gWhere').textContent=G.w;
+  $('#gHow').innerHTML=G.h.map(h=>'<li>'+h+'</li>').join('');
+  $('#gAvoid').innerHTML='<b>주의</b> '+G.a;
+  $('#undo').disabled=!n;$('#clear').disabled=!n;
+  const wk=+$('#weekSel').value;
+  $('#weekNote').textContent=WEEK[wk];
+  const pill=$('#verdict'), warn=$('#warn');
+  if(n===4){
+    const g=measure(pts).deg, cls=classify(g), r=Math.round(g);
+    $('#deg').textContent=r+'°';pill.className='pill '+cls;pill.textContent=LABEL[cls];setNeedle(g);
+    $('#resText').textContent=cls==='boy'?`nub이 척추 기준선보다 ${r}° 들려 있어요. 30° 이상이면 아들로 보는 경우가 많아요.`
+      :cls==='girl'?(r<0?`nub이 척추 기준선보다 아래로 ${-r}° 향해 있어요. 척추와 나란하거나 아래를 향하면 딸로 보는 경우가 많아요.`:`nub이 척추와 거의 나란해요(${r}°). 10° 이하면 딸로 보는 경우가 많아요.`)
+      :`${r}°는 10°~30° 사이라서 어느 쪽이라고 말하기 어려워요. 1~2주 뒤 사진으로 다시 재 보세요.`;
+    const bad=Math.abs(g)>100||g<-45;
+    warn.hidden=!bad; if(bad)warn.textContent='각도가 너무 커요. ③ 뿌리와 ④ 끝을 거꾸로 찍지 않았는지 확인해 주세요.';
+  }else{
+    $('#deg').textContent='—';pill.className='pill';pill.textContent=n?`점 ${4-n}개 남았어요`:'점 4개를 찍으면 계산돼요';setNeedle(null);
+    $('#resText').textContent='척추 기준선보다 nub이 30° 이상 들려 있으면 아들, 10° 이하로 나란하면 딸 쪽으로 봐요.';warn.hidden=true;
+  }
+  $('#exportBtn').hidden=n!==4;
+  $('#exportBtn').classList.toggle('primary',mode==='mine');
+  const pr=$('#practice');pr.hidden=!(mode==='practice'&&n===4);
+  if(pr.hidden){revealed=false;$('#compare').hidden=true;$('#reveal').disabled=false;}
+  else if(revealed)showCompare();
+  render();
+}
+
+function showCompare(){
+  const S=sample(idx), tru=measure(S.pts).deg, me=measure(pts).deg, diff=Math.abs(tru-me);
+  const tc=classify(tru), mc=classify(me);
+  const lineDist=(p,a,b)=>Math.abs(cross({x:b.x-a.x,y:b.y-a.y},{x:p.x-a.x,y:p.y-a.y}))/dist(a,b);
+  const tips=[];
+  if(lineDist(pts[0],S.pts[0],S.pts[1])>9||lineDist(pts[1],S.pts[0],S.pts[1])>9)tips.push('①② 점이 척추 줄에서 벗어났어요. 밝은 점선 위에 올려 보세요.');
+  if(dist(pts[2],S.pts[2])>12)tips.push('③ nub 뿌리 위치가 정답과 조금 달라요.');
+  if(dist(pts[3],S.pts[3])>12)tips.push('④ nub 끝 위치가 정답과 조금 달라요.');
+  const grade=diff<=5?'아주 정확해요!':diff<=10?'잘 잡았어요.':'정답 선(흰 점선)과 비교해 보세요.';
+  const box=$('#compare');box.hidden=false;
+  box.innerHTML=`<div class="nums"><div><span>정답 각도</span><b>${Math.round(tru)}°</b></div><div><span>내가 잰 각도</span><b>${Math.round(me)}°</b></div><div><span>차이</span><b>${Math.round(diff)}°</b></div></div>
+  <p><b>${grade}</b> 이 연습 사진의 정답은 <b>${LABEL[tc]}</b>이고, 내 결과는 <b>${LABEL[mc]}</b>이에요.</p>`+
+  (tips.length?'<p style="color:var(--muted)">'+tips.join(' ')+'</p>':'')+
+  '<p style="color:var(--muted);font-size:13px">사진 위 흰 점선이 정답 위치예요.</p>';
+}
+
+/* ---------- pointer ---------- */
+function toImg(e){
+  const r=cv.getBoundingClientRect(), fx=(e.clientX-r.left)/r.width, fy=(e.clientY-r.top)/r.height;
+  return {x:vx+fx*src.w/Z,y:vy+fy*src.h/Z,fx,fy,cx:e.clientX-r.left,cy:e.clientY-r.top,rw:r.width};
+}
+const clampPt=p=>({x:Math.max(0,Math.min(src.w,p.x)),y:Math.max(0,Math.min(src.h,p.y))});
+// loupe magnifies the photo itself (not the overlay), so the dot being placed doesn't hide the nub
+function showLoupe(p){
+  loupe.hidden=false;
+  const wrapR=$('#cvwrap').getBoundingClientRect(), cr=cv.getBoundingClientRect();
+  const lx=cr.left-wrapR.left+p.cx, ly=cr.top-wrapR.top+p.cy;
+  loupe.style.left=((lx<160&&ly<160)?(wrapR.width-142):10)+'px';
+  const LW=loupe.width, sI=LW/3/(k*Z), sx=p.x-sI/2, sy=p.y-sI/2, f=LW/sI;
+  lctx.fillStyle='#000';lctx.fillRect(0,0,LW,LW);
+  lctx.drawImage(src.canvas||src.el,sx,sy,sI,sI,0,0,LW,LW);
+  pts.forEach((q,i)=>{if(i===drag)return;
+    lctx.beginPath();lctx.arc((q.x-sx)*f,(q.y-sy)*f,5*dpr,0,Math.PI*2);
+    lctx.strokeStyle=i<2?SPINE:NUB;lctx.lineWidth=2*dpr;lctx.stroke();});
+  const m=LW/2;lctx.strokeStyle='rgba(255,255,255,.9)';lctx.lineWidth=1.2*dpr;
+  lctx.beginPath();lctx.moveTo(m-14*dpr,m);lctx.lineTo(m-4*dpr,m);lctx.moveTo(m+4*dpr,m);lctx.lineTo(m+14*dpr,m);
+  lctx.moveTo(m,m-14*dpr);lctx.lineTo(m,m-4*dpr);lctx.moveTo(m,m+4*dpr);lctx.lineTo(m,m+14*dpr);lctx.stroke();
+  lctx.fillStyle=i2c(drag);lctx.beginPath();lctx.arc(m,m,1.6*dpr,0,Math.PI*2);lctx.fill();
+}
+const i2c=i=>i<2?SPINE:NUB;
+
+// one finger/mouse: tap empty spot = new point, drag a point = move it, drag empty spot = pan (zoomed) or place-and-drag
+// two fingers: pinch zoom + pan
+const ptrs=new Map(); let pend=null, pan=null, pinch=null;
+function pinchState(){
+  const [a,b]=[...ptrs.values()], r=cv.getBoundingClientRect();
+  const fx=((a.x+b.x)/2-r.left)/r.width, fy=((a.y+b.y)/2-r.top)/r.height;
+  return {d:Math.hypot(a.x-b.x,a.y-b.y)||1,fx,fy};
+}
+cv.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  if(src.empty){$('#file').click();return;}
+  cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(ptrs.size===2){
+    pend=null;pan=null;if(drag>=0){drag=-1;loupe.hidden=true;update();}
+    const s=pinchState();pinch={d:s.d,Z0:Z,ix:vx+s.fx*src.w/Z,iy:vy+s.fy*src.h/Z};return;
+  }
+  if(ptrs.size>2)return;
+  const p=toImg(e);
+  // while points are still being added, grab only when right on a dot so a nearby new point isn't swallowed
+  const hit=(pts.length<4?11:24)*src.w/(p.rw*Z);
+  let best=-1,bd=hit;pts.forEach((q,i)=>{const d=dist(q,p);if(d<bd){bd=d;best=i;}});
+  if(best>=0){drag=best;update();showLoupe(p);return;}
+  pend={x:e.clientX,y:e.clientY,p:clampPt(p),vx,vy};
+});
+cv.addEventListener('pointermove',e=>{
+  if(!ptrs.has(e.pointerId))return;
+  ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pinch){if(ptrs.size<2)return;const s=pinchState();zoomAt(pinch.Z0*s.d/pinch.d,pinch.ix,pinch.iy,s.fx,s.fy);return;}
+  const p=toImg(e);
+  if(pend&&Math.hypot(e.clientX-pend.x,e.clientY-pend.y)>=6){
+    if(Z>1.01){pan=pend;cv.style.cursor='grabbing';}
+    else if(pts.length<4){pts.push(pend.p);drag=pts.length-1;}
+    pend=null;
+  }
+  if(drag>=0){pts[drag]=clampPt(p);update();showLoupe(p);return;}
+  if(pan){const r=cv.getBoundingClientRect();
+    vx=pan.vx-(e.clientX-pan.x)/r.width*src.w/Z;vy=pan.vy-(e.clientY-pan.y)/r.height*src.h/Z;clampView();render();}
+});
+function end(e,commit){
+  ptrs.delete(e.pointerId);
+  if(pinch){if(!ptrs.size)pinch=null;return;}
+  if(commit&&pend&&pts.length<4){pts.push(pend.p);update();}
+  pend=null;pan=null;drag=-1;loupe.hidden=true;cv.style.cursor='';
+}
+cv.addEventListener('pointerup',e=>end(e,true));cv.addEventListener('pointercancel',e=>end(e,false));
+cv.addEventListener('wheel',e=>{ // ctrl+wheel / trackpad pinch
+  if(src.empty||!(e.ctrlKey||e.metaKey))return;e.preventDefault();
+  const p=toImg(e);zoomAt(Z*Math.exp(-e.deltaY*.01),p.x,p.y,p.fx,p.fy);
+},{passive:false});
+
+/* ---------- controls ---------- */
+function setMode(m){
+  mode=m;pts=[];revealed=false;
+  $('#mPractice').setAttribute('aria-pressed',m==='practice');$('#mMine').setAttribute('aria-pressed',m==='mine');
+  $('#sampleNav').hidden=m!=='practice';$('#uploadBtn').hidden=!(m==='mine'&&mine);
+  $('#weekSel').disabled=m==='practice';
+  if(m==='practice'){$('#weekSel').value=String(SAMPLES[idx].week);}
+  layout();update();
+}
+function goSample(i){idx=(i+SAMPLES.length)%SAMPLES.length;$('#sampleLbl').textContent=`연습 ${idx+1} / ${SAMPLES.length}`;setMode('practice');}
+$('#mPractice').onclick=()=>goSample(idx);
+$('#mMine').onclick=()=>{setMode('mine');};
+$('#prev').onclick=()=>goSample(idx-1);
+$('#next').onclick=()=>goSample(idx+1);
+$('#nextSample').onclick=()=>goSample(idx+1);
+$('#undo').onclick=()=>{pts.pop();update();};
+$('#clear').onclick=()=>{pts=[];update();};
+$('#weekSel').onchange=update;
+$('#zIn').onclick=()=>zoomStep(1.6);
+$('#zOut').onclick=()=>zoomStep(1/1.6);
+$('#reveal').onclick=()=>{revealed=true;$('#reveal').disabled=true;showCompare();render();};
+
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2600);}
+
+/* ---------- result card export ---------- */
+const THEME={
+  boy:{bg:'#E3EEF9',deep:'#22609F',soft:'#8DB6E0',head:'아들 같아요',shape:'star'},
+  girl:{bg:'#FBE7EC',deep:'#B3395A',soft:'#EFA3B6',head:'딸 같아요',shape:'heart'},
+  hold:{bg:'#F6EDDA',deep:'#94600F',soft:'#E0BD78',head:'아직 비밀이에요',shape:'dot'},
+};
+const CW=1080, CH=1350, PX=90, PY=350, PW=900, PH=540;
+function rr(x,X,Y,W,H,R){x.beginPath();x.moveTo(X+R,Y);x.arcTo(X+W,Y,X+W,Y+H,R);x.arcTo(X+W,Y+H,X,Y+H,R);x.arcTo(X,Y+H,X,Y,R);x.arcTo(X,Y,X+W,Y,R);x.closePath();}
+function shape(x,kind,cx,cy,s){
+  x.beginPath();
+  if(kind==='heart'){const y=cy-s/2;x.moveTo(cx,y+s*.3);x.bezierCurveTo(cx,y,cx-s*.5,y,cx-s*.5,y+s*.3);x.bezierCurveTo(cx-s*.5,y+s*.6,cx,y+s*.8,cx,y+s);
+    x.bezierCurveTo(cx,y+s*.8,cx+s*.5,y+s*.6,cx+s*.5,y+s*.3);x.bezierCurveTo(cx+s*.5,y,cx,y,cx,y+s*.3);}
+  else if(kind==='star'){for(let i=0;i<10;i++){const r=i%2?s*.22:s*.5,a=-Math.PI/2+i*Math.PI/5;x.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));}x.closePath();}
+  else x.arc(cx,cy,s*.28,0,Math.PI*2);
+  x.fill();
+}
+// 받침이 있으면 "튼튼이는", 없으면 "복덩이는"
+function subject(name){
+  name=name.trim(); if(!name)return '우리 아기는';
+  const c=name.charCodeAt(name.length-1), jong=c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28!==0;
+  return name+(jong?'이는':'는');
+}
+function wrapText(x,t,X,Y,maxW,lh){
+  let line='';const out=[];
+  for(const w of t.split(' ')){const tr=line?line+' '+w:w;if(x.measureText(tr).width>maxW&&line){out.push(line);line=w;}else line=tr;}
+  out.push(line);out.slice(0,2).forEach((l,i)=>x.fillText(l,X,Y+i*lh));
+}
+function drawCard(o){
+  const c=document.createElement('canvas');c.width=CW;c.height=CH;const x=c.getContext('2d');
+  const T=THEME[o.cls], R=rng(7);
+  x.fillStyle=T.bg;x.fillRect(0,0,CW,CH);
+  // scattered motif: stars for boy, hearts for girl, dots when undecided
+  x.fillStyle=T.soft;
+  for(let i=0;i<34;i++){x.save();x.globalAlpha=.22+R()*.25;const px=R()*CW,py=R()*CH;x.translate(px,py);x.rotate((R()-.5)*.7);shape(x,T.shape,0,0,26+R()*38);x.restore();}
+  x.textBaseline='alphabetic';x.textAlign='left';
+  x.fillStyle=T.deep;x.font='700 28px "Noto Sans KR",sans-serif';
+  x.fillText('nub 각도법 판독 결과'+(o.practice?' · 연습 사진':''),PX,112);
+  x.textAlign='right';x.font='500 26px "Noto Sans KR",sans-serif';x.globalAlpha=.75;x.fillText(o.date,PX+PW,112);x.globalAlpha=1;
+  x.textAlign='left';x.font='500 46px "Noto Sans KR",sans-serif';x.fillText(subject(o.name),PX,196);
+  x.font='700 100px "Gowun Batang","Nanum Myeongjo",serif';x.fillText(T.head,PX-4,300);
+  const hw=x.measureText(T.head).width;
+  if(o.cls!=='hold'){x.fillStyle=T.deep;shape(x,T.shape,Math.min(PX+hw+60,PX+PW-30),250,56);}
+
+  // photo crop with the measured lines, or a clean diagram when the photo is left out
+  x.save();rr(x,PX,PY,PW,PH,28);x.clip();
+  if(o.photo){
+    x.fillStyle='#0A0C0D';x.fillRect(PX,PY,PW,PH);
+    const P=o.pts, xs=P.map(p=>p.x), ys=P.map(p=>p.y), AR=PW/PH;
+    const bw=Math.max(...xs)-Math.min(...xs), bh=Math.max(...ys)-Math.min(...ys);
+    const cx=(Math.max(...xs)+Math.min(...xs))/2, cy=(Math.max(...ys)+Math.min(...ys))/2;
+    let cw=Math.max(bw*1.6,bh*1.6*AR,o.src.w*.32); cw=Math.min(cw,Math.max(o.src.w,o.src.h*AR));
+    const s=PW/cw, ox=PX+PW/2-cx*s, oy=PY+PH/2-cy*s;
+    x.drawImage(o.src.canvas||o.src.el,ox,oy,o.src.w*s,o.src.h*s);
+    drawOverlay(x,P.map(p=>({x:ox+p.x*s,y:oy+p.y*s})),1,2.2,{noNum:true});
+  }else{
+    x.fillStyle='rgba(255,255,255,.82)';x.fillRect(PX,PY,PW,PH);
+    const O={x:PX+560,y:PY+PH/2+50}, a=-o.deg*Math.PI/180;
+    x.lineCap='round';x.strokeStyle='#1C98B0';x.lineWidth=8;
+    x.beginPath();x.moveTo(PX+80,O.y+26);x.lineTo(O.x-10,O.y+26);x.stroke();
+    x.fillStyle='#1C98B0';for(let px=PX+100;px<O.x-20;px+=34){x.beginPath();x.arc(px,O.y+26,7,0,Math.PI*2);x.fill();}
+    x.setLineDash([14,12]);x.lineWidth=4;x.beginPath();x.moveTo(O.x,O.y);x.lineTo(O.x+250,O.y);x.stroke();x.setLineDash([]);
+    x.strokeStyle='#D08A12';x.lineWidth=12;x.beginPath();x.moveTo(O.x,O.y);x.lineTo(O.x+230*Math.cos(a),O.y+230*Math.sin(a));x.stroke();
+    x.strokeStyle=T.deep;x.lineWidth=4;x.beginPath();x.arc(O.x,O.y,110,0,a,a<0);x.stroke();
+    x.fillStyle=T.deep;x.font='600 64px "IBM Plex Mono",monospace';x.textAlign='left';
+    x.fillText(Math.round(o.deg)+'°',O.x+140,o.deg>=0?O.y-Math.max(40,110*Math.sin(-a/2)+20):O.y-40);
+    x.fillStyle='#58646A';x.font='500 26px "Noto Sans KR",sans-serif';x.textAlign='left';
+    x.fillText('척추 기준선',PX+80,O.y+80);x.fillText('nub 방향',O.x+Math.min(200,230*Math.cos(a)),O.y+230*Math.sin(a)-(o.deg>=0?24:-50));
+  }
+  x.restore();
+
+  // numbers
+  const bx=[['측정 각도',Math.round(o.deg)+'°'],['촬영 주수',o.week],['판정',LABEL[o.cls].replace(' 경향','')]];
+  const gw=(PW-2*24)/3, gy=PY+PH+36;
+  bx.forEach(([k,v],i)=>{const X=PX+i*(gw+24);x.fillStyle='rgba(255,255,255,.88)';rr(x,X,gy,gw,150,22);x.fill();
+    x.textAlign='center';x.fillStyle='#58646A';x.font='500 26px "Noto Sans KR",sans-serif';x.fillText(k,X+gw/2,gy+50);
+    x.fillStyle=T.deep;x.font=(i===0?'600 58px "IBM Plex Mono",monospace':'700 46px "Noto Sans KR",sans-serif');x.fillText(v,X+gw/2,gy+118);});
+  x.textAlign='left';x.fillStyle='#2A3236';x.font='400 31px "Noto Sans KR",sans-serif';
+  wrapText(x,o.text,PX,gy+222,PW,46);
+  x.fillStyle='#58646A';x.font='400 24px "Noto Sans KR",sans-serif';x.fillText('재미로 보는 예측이에요 · 정확한 성별은 병원에서',PX,CH-66);
+  x.textAlign='right';x.fillStyle=T.deep;x.font='700 26px "Noto Sans KR",sans-serif';x.fillText('yenajun.com/nub-angle',PX+PW,CH-66);
+  return c;
+}
+
+const UA=navigator.userAgent||'';
+const IS_IOS=/iP(hone|od|ad)/.test(UA)||(/Macintosh/.test(UA)&&navigator.maxTouchPoints>1);
+const IS_MOBILE=IS_IOS||/Android/i.test(UA);
+// 카카오톡·네이버 같은 앱 안 브라우저는 파일 다운로드를 막아요
+const IN_APP=/KAKAOTALK|NAVER\(inapp|DaumApps|Instagram|FBAN|FBAV|FB_IAB|Line\/|everytimeApp|; wv\)/i.test(UA);
+let card=null, cardBlob=null, cardJob=0;
+const setMsg=t=>{$('#expMsg').textContent=t;};
+const cardName=()=>($('#expName').value.trim()||'우리아기')+'_각도법.png';
+const makeFile=b=>{try{return new File([b],cardName(),{type:'image/png'});}catch(e){return null;}};
+const canShareFile=f=>{try{return !!(f&&navigator.share&&navigator.canShare&&navigator.canShare({files:[f]}));}catch(e){return false;}};
+const fontsReady=()=>Promise.race([Promise.all([
+  '700 100px "Gowun Batang"','400 30px "Noto Sans KR"','500 30px "Noto Sans KR"','700 30px "Noto Sans KR"','600 58px "IBM Plex Mono"'
+].map(f=>document.fonts?document.fonts.load(f,'각도법아들딸0123°'):null)),new Promise(r=>setTimeout(r,2500))]).catch(()=>{});
+
+function cardData(){
+  const g=measure(pts).deg, cls=classify(g), sel=$('#weekSel');
+  const d=new Date(), date=d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');
+  return {deg:g,cls,pts:pts.slice(),src,practice:mode==='practice',week:sel.options[sel.selectedIndex].text.replace(' 이하','↓').replace(' 이상','↑'),
+    date,name:$('#expName').value,photo:$('#expPhoto').checked,text:$('#resText').textContent};
+}
+// 모바일 공유는 버튼을 누른 직후에만 허용돼서, 그림 파일을 미리 만들어 둬요
+function redrawCard(){
+  const job=++cardJob;cardBlob=null;
+  card=drawCard(cardData());
+  $('#expImg').src=card.toDataURL('image/png');
+  card.toBlob(b=>{if(job===cardJob)cardBlob=b;},'image/png');
+}
+function openExport(){
+  if(pts.length<4)return;
+  $('#exp').hidden=false;document.body.style.overflow='hidden';
+  setMsg(IN_APP?'앱 안의 브라우저에서는 저장이 막힐 수 있어요. 이미지를 길게 눌러 저장하세요.':'가족에게 보내기 좋은 세로 이미지예요.');
+  fontsReady().then(redrawCard);
+  $('#expClose').focus();
+}
+function closeExport(){$('#exp').hidden=true;document.body.style.overflow='';}
+function downloadBlob(b,name){const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove();},60000);}
+$('#exportBtn').onclick=openExport;
+$('#expClose').onclick=closeExport;
+$('#exp').addEventListener('click',e=>{if(e.target.id==='exp')closeExport();});
+window.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#exp').hidden)closeExport();});
+let nt;$('#expName').addEventListener('input',()=>{clearTimeout(nt);nt=setTimeout(redrawCard,180);});
+$('#expPhoto').onchange=redrawCard;
+if(navigator.share)$('#expShare').hidden=false;
+$('#expSave').onclick=()=>{
+  if(!cardBlob){setMsg('이미지를 만드는 중이에요. 잠시 후 다시 눌러 주세요.');return;}
+  if(IN_APP){setMsg('이미지를 길게 눌러 저장하세요.');return;}
+  const f=makeFile(cardBlob);
+  // 아이폰은 공유 시트의 '이미지 저장'이 사진첩으로 바로 들어가요
+  if(IS_IOS&&canShareFile(f)){navigator.share({files:[f]}).then(()=>setMsg('저장했어요. 사진첩을 확인하세요.'),err=>{if(!err||err.name!=='AbortError')setMsg('이미지를 길게 눌러 사진에 저장하세요.');});return;}
+  if(IS_IOS){setMsg('이미지를 길게 눌러 사진에 저장하세요.');return;}
+  downloadBlob(cardBlob,cardName());
+  setMsg(IS_MOBILE?'저장했어요. 갤러리나 다운로드 폴더를 확인하세요.':'저장했어요. 다운로드 폴더를 확인하세요.');
+};
+$('#expShare').onclick=()=>{
+  const d=cardData(), f=cardBlob?makeFile(cardBlob):null;
+  // 문구를 같이 넣으면 그림을 버리는 앱(카카오톡 등)이 있어 파일만 보내요
+  const job=canShareFile(f)?navigator.share({files:[f]})
+    :navigator.share({title:'각도법 판독 결과',text:`${subject(d.name)} ${THEME[d.cls].head} (nub 각도 ${Math.round(d.deg)}°)`,url:location.origin+location.pathname});
+  job.then(()=>setMsg('공유했어요.'),err=>{if(!err||err.name!=='AbortError')setMsg('공유가 안 되는 브라우저예요. 이미지를 저장해서 보내 주세요.');});
+};
+function loadFile(f){
+  if(!f)return; if(!/^image\//.test(f.type)){toast('이미지 파일만 올릴 수 있어요.');return;}
+  const img=new Image();img.onload=()=>{mine={el:img,w:img.naturalWidth,h:img.naturalHeight};$('#weekSel').value='12';setMode('mine');};
+  img.onerror=()=>toast('사진을 열지 못했어요. JPG나 PNG로 다시 올려 주세요.');
+  img.src=URL.createObjectURL(f);
+}
+$('#file').onchange=e=>{loadFile(e.target.files[0]);e.target.value='';};
+const wrap=$('#cvwrap');
+['dragenter','dragover'].forEach(t=>wrap.addEventListener(t,e=>{e.preventDefault();wrap.classList.add('drag');}));
+['dragleave','drop'].forEach(t=>wrap.addEventListener(t,e=>{e.preventDefault();wrap.classList.remove('drag');}));
+wrap.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];loadFile(f);});
+let rt;new ResizeObserver(()=>{clearTimeout(rt);rt=setTimeout(layout,60);}).observe(wrap);
+
+/* ---------- example galleries ---------- */
+function exCard(host,scan,opts,tag,tagCls,title,text,overlayPts){
+  const el=document.createElement('div');el.className='exc';
+  const c=document.createElement('canvas');el.appendChild(c);
+  const cap=document.createElement('div');cap.className='cap';
+  cap.innerHTML=`<div class="t"><span class="tag ${tagCls}">${tag}</span>${title}</div><p>${text}</p>`;
+  el.appendChild(cap);host.appendChild(el);
+  requestAnimationFrame(()=>{
+    const w=c.clientWidth||300;c.width=Math.round(w*dpr);c.height=Math.round(w*.75*dpr);
+    const x=c.getContext('2d');x.drawImage(scan.canvas,0,0,c.width,c.height);
+    if(overlayPts)drawOverlay(x,overlayPts,c.width/scan.w,dpr*.8,{noNum:true});
+  });
+}
+function buildExamples(){
+  const pe=$('#photoEx');
+  exCard(pe,makeScan({angle:40,tilt:3,seed:101}),0,'좋음','ok','정확한 옆모습','척추가 한 줄의 점선으로 길게 보이고, 몸통 끝에 nub이 보여요.');
+  exCard(pe,makeScan({oblique:true,nub:false,tilt:-4,seed:102}),0,'다시','no','비스듬한 단면','몸통이 동그랗게 잘려 척추가 점 몇 개로만 보이면 기준선을 잡을 수 없어요.');
+  exCard(pe,makeScan({angle:12,legOver:true,tilt:2,mirror:true,seed:103}),0,'다시','no','다리가 가림','허벅지가 nub 위를 지나가면 다리뼈를 nub으로 착각하기 쉬워요.');
+  exCard(pe,makeScan({angle:8,week:10,scale:.62,faint:.25,seed:104}),0,'주의','mid','10주 이하','몸이 작고 nub도 짧아서 아들도 누워 보여요. 12주 이후 사진을 쓰세요.');
+  const re=$('#resEx');
+  const s1=makeScan({angle:42,tilt:-5,seed:201,week:13}), s2=makeScan({angle:3,tilt:6,mirror:true,seed:202,week:13}), s3=makeScan({angle:19,tilt:-2,seed:203,week:12});
+  exCard(re,s1,0,'아들형','boy',Math.round(measure(s1.pts).deg)+'° · 들려 있음','노란 선이 점선 기준선에서 30° 넘게 위로 벌어져 있어요.',s1.pts);
+  exCard(re,s2,0,'딸형','girl',Math.round(measure(s2.pts).deg)+'° · 나란함','노란 선이 기준선과 거의 겹쳐요. 아래로 향해도 딸 쪽이에요.',s2.pts);
+  exCard(re,s3,0,'보류','mid',Math.round(measure(s3.pts).deg)+'° · 애매함','10~30° 사이는 판단을 미루고 1~2주 뒤 다시 재요.',s3.pts);
+}
+
+$('#weekSel').value=String(SAMPLES[0].week);
+setMode('practice');
+setTimeout(buildExamples,30);
+})();
+</script>
+
+</body>
+</html>
