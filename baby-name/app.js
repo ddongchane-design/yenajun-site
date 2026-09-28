@@ -319,8 +319,8 @@
   /* ---------------------------------------------------------------- 상태 */
   var $ = function (id) { return document.getElementById(id); };
   var state = {
-    date: "2026-09-09", time: "11:47", gender: "male", len: 2,
-    surKor: "이", surHanja: null, nameKor: "예준", chars: [],
+    date: "2026-01-01", time: "08:30", gender: "male", len: 2,
+    surKor: "홍", surHanja: null, nameKor: "길동", chars: [],
     school: "unhae", scope: "4", timeBase: "true", region: "서울", customLon: 127, family: [], popYear: POP_YEARS[0]
   };
 
@@ -1511,7 +1511,7 @@
 
   /* ---------------------------------------------------------------- 입력 */
   function syncFromInputs() {
-    state.date = $("birthDate").value || "2026-09-09";
+    state.date = $("birthDate").value || "2026-01-01";
     state.time = $("birthTime").value || "12:00";
     state.surKor = ($("surKor").value || "").slice(0, 1);
     state.school = $("soundSchool").value;
