@@ -159,12 +159,14 @@
   }
 
   // 투자금을 서로 다른 대출 N개에 나눠 담기 (세컨드마켓 조각은 판매금액까지만)
-  function portfolio(sorted, budget, n) {
-    var picks = [], seen = {};
-    for (var i = 0; i < sorted.length && picks.length < n; i++) {
+  // 그다음 순위의 다른 대출 nBackup개는 마감됐을 때 대신 담을 예비 후보로 돌려줌
+  function portfolio(sorted, budget, n, nBackup) {
+    var picks = [], backups = [], seen = {};
+    for (var i = 0; i < sorted.length && picks.length + backups.length < n + (nBackup || 0); i++) {
       var p = sorted[i];
       if (seen[p.loanId]) continue;
-      seen[p.loanId] = 1; picks.push({ p: p, amount: 0 });
+      seen[p.loanId] = 1;
+      if (picks.length < n) picks.push({ p: p, amount: 0 }); else backups.push(p);
     }
     var left = budget, open = picks.slice();
     // 남은 돈을 아직 한도가 남은 상품에 고르게 나누기를 반복
@@ -181,7 +183,7 @@
       if (next.length === open.length) break;   // 모두 고르게 받았으면 끝, 한도에 걸린 게 있으면 남은 돈을 다시 나눔
       open = next;
     }
-    return { picks: picks, left: Math.max(0, Math.round(left)) };
+    return { picks: picks, backups: backups, left: Math.max(0, Math.round(left)) };
   }
 
   var api = { normalize: normalize, safety: safety, netYield: netYield, rank: rank, portfolio: portfolio, scopeLevel: scopeLevel, SCOPE_LABEL: SCOPE_LABEL };

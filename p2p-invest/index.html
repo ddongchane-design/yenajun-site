@@ -35,9 +35,9 @@
     .panel { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px; margin-top: 24px; }
     .panel h2 { font-size: 19px; display: flex; align-items: baseline; gap: 10px; }
     .panel h2 .no { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--coral); }
-    .panel > p { font-size: 14.5px; color: var(--muted); line-height: 1.75; margin: 8px 0 0; }
+    .panel > p, .panel .hint { font-size: 14.5px; color: var(--muted); line-height: 1.75; margin: 8px 0 0; }
 
-    .drop { margin-top: 16px; border: 2px dashed var(--dash); border-radius: 16px; padding: 28px 16px; text-align: center; background: var(--cream); cursor: pointer; transition: background .15s, border-color .15s; }
+    .drop { display: block; margin-top: 16px; border: 2px dashed var(--dash); border-radius: 16px; padding: 28px 16px; text-align: center; background: var(--cream); cursor: pointer; transition: background .15s, border-color .15s; }
     .drop:hover, .drop.over { background: #F4ECDD; border-color: var(--coral); }
     .drop b { display: block; font-size: 16px; color: var(--navy); }
     .drop span { display: block; font-size: 13.5px; color: var(--muted-2); margin-top: 6px; }
@@ -120,6 +120,23 @@
     @media (max-width: 520px) { .bar { grid-template-columns: 92px 1fr; } .bar .vl { grid-column: 2; text-align: left; margin-top: -4px; } }
     .more-btn { margin: 14px auto 0; display: block; }
 
+    .pf-item .x, .bk .x, .close-btn { border: 1.5px solid var(--line); background: #fff; color: var(--muted); font: 600 12.5px var(--sans); border-radius: 8px; padding: 0 10px; min-height: 32px; cursor: pointer; white-space: nowrap; }
+    .pf-item .x:hover, .bk .x:hover, .close-btn:hover { border-color: var(--d); color: var(--d); }
+    .pf .pf-item { grid-template-columns: auto 1fr auto auto; }
+    @media (max-width: 520px) { .pf .pf-item { grid-template-columns: auto 1fr auto; } .pf-item .x { grid-column: 2 / -1; justify-self: start; } }
+    .rule { margin-top: 16px; background: var(--navy); color: var(--cream); border-radius: 14px; padding: 14px 18px; font-size: 14.5px; line-height: 1.75; }
+    .rule b { color: #F2B8A5; }
+    .bk-wrap h3 { font-size: 15px; margin: 22px 0 4px; }
+    .bk-wrap > p { font-size: 13.5px; color: var(--muted-2); margin: 0 0 10px; }
+    .bk { display: grid; grid-template-columns: 22px auto 1fr auto; gap: 10px; align-items: center; padding: 10px 4px; border-top: 1px solid var(--line); font-size: 14px; }
+    .bk .o { color: var(--muted-2); font-size: 12.5px; text-align: center; }
+    .bk .grade { width: 28px; height: 28px; font-size: 13px; border-radius: 8px; }
+    .bk .nm { font-weight: 600; color: var(--navy); }
+    .bk .nm small { display: block; font-weight: 400; color: var(--muted-2); font-size: 12.5px; }
+    .item.closed { opacity: .55; }
+    .tag2.cl { background: var(--navy); color: var(--cream); }
+    .close-row { display: flex; justify-content: flex-end; margin-top: 14px; }
+    .reset-closed { font-size: 13px; color: var(--coral); background: none; border: 0; cursor: pointer; text-decoration: underline; padding: 0; font-family: var(--sans); }
     .empty { text-align: center; color: var(--muted-2); font-size: 14.5px; padding: 28px 0 8px; }
     .warn { margin-top: 24px; background: var(--d-bg); border-radius: 14px; padding: 14px 16px; font-size: 13.5px; color: #6E2A20; line-height: 1.75; }
     .warn b { color: #6E2A20; }
@@ -223,20 +240,12 @@
     </div>
   </section>
 
-  <!-- 3. 결과 -->
+  <!-- 3. 전체 순위 -->
   <section class="panel" aria-labelledby="s3" id="result">
-    <h2 id="s3"><span class="no">03</span>추천 조합</h2>
+    <h2 id="s3"><span class="no">03</span>전체 상품 순위</h2>
     <div id="empty" class="empty">엑셀을 올리거나 <b>예시 데이터로 먼저 보기</b>를 누르면 여기에 결과가 나와요.</div>
-    <div id="out" hidden>
-      <div class="summary" id="summary"></div>
-      <div class="pf" id="pf"></div>
-      <p class="pf-foot" id="pfFoot"></p>
-    </div>
-  </section>
-
-  <section class="panel" aria-labelledby="s4" id="allWrap" hidden>
-    <h2 id="s4"><span class="no">04</span>전체 상품 순위</h2>
-    <p>상품을 누르면 점수가 어떻게 나왔는지 볼 수 있어요.</p>
+    <div id="allWrap" hidden>
+    <p class="hint">상품을 누르면 점수가 어떻게 나왔는지 볼 수 있어요. 이미 마감된 상품은 펼쳐서 <b>마감된 상품이에요</b>를 누르면 추천에서 빠져요.</p>
     <div class="toolbar">
       <span class="count" id="count"></span>
       <select id="sort" aria-label="정렬">
@@ -249,6 +258,18 @@
     </div>
     <div class="list" id="list"></div>
     <button class="ghost-btn more-btn" type="button" id="more" hidden>더 보기</button>
+    </div>
+  </section>
+
+  <!-- 4. 추천 조합 -->
+  <section class="panel" aria-labelledby="s4" id="pfWrap" hidden>
+    <h2 id="s4"><span class="no">04</span>추천 조합</h2>
+    <p>좋은 상품은 빨리 마감돼요. 이미 마감된 상품은 <b>마감</b>을 누르면 다음 후보가 자동으로 채워져요.</p>
+    <div class="summary" id="summary"></div>
+    <div class="pf" id="pf"></div>
+    <p class="pf-foot" id="pfFoot"></p>
+    <div class="rule" id="rule"></div>
+    <div class="bk-wrap" id="bkWrap"></div>
   </section>
 
   <div class="warn">
@@ -306,7 +327,7 @@
   'use strict';
   var S = window.P2PScore;
   var $ = function (id) { return document.getElementById(id); };
-  var state = { rows: [], weight: 0.35, shown: 20 };
+  var state = { rows: [], weight: 0.35, shown: 20, closed: {} };
 
   var won = function (n) { return Math.round(n).toLocaleString('ko-KR') + '원'; };
   var pct = function (n, d) { return n == null ? '-' : n.toFixed(d == null ? 1 : d) + '%'; };
@@ -354,7 +375,7 @@
   function showErr(m) { $('err').textContent = m; $('err').hidden = false; }
   function load(raw, label) {
     state.rows = raw.map(S.normalize).filter(function (p) { return p.principal > 0; });
-    state.shown = 20;
+    state.shown = 20; state.closed = {};
     $('files').textContent = '✓ ' + label;
     render();
     $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -388,6 +409,19 @@
     });
   });
   $('more').addEventListener('click', function () { state.shown += 20; render(); });
+  // 마감 표시 / 해제 (추천 조합·예비 후보·전체 순위 공통)
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-close]');
+    if (t) {
+      var k = decodeURIComponent(t.getAttribute('data-close'));
+      if (state.closed[k]) delete state.closed[k]; else state.closed[k] = 1;
+      render(); return;
+    }
+    if (e.target.closest('#resetClosed')) { state.closed = {}; render(); }
+  });
+  function closeBtn(p, label, cls) {
+    return '<button type="button" class="' + (cls || 'x') + '" data-close="' + encodeURIComponent(p.name) + '">' + (label || '마감') + '</button>';
+  }
 
   function filtered(sorted) {
     return sorted.filter(function (p) {
@@ -407,12 +441,14 @@
     var opt = { weight: state.weight, fee: parseFloat($('fee').value) || 0, tax: parseFloat($('tax').value) || 0 };
     var sorted = S.rank(state.rows, opt);
     var list = filtered(sorted);
-    $('empty').hidden = !!list.length; $('out').hidden = !list.length; $('allWrap').hidden = false;
+    var open = list.filter(function (p) { return !state.closed[p.name]; });
+    var nClosed = list.length - open.length;
+    $('empty').hidden = !!list.length; $('allWrap').hidden = !list.length; $('pfWrap').hidden = !open.length;
     if (!list.length) $('empty').innerHTML = '조건에 맞는 상품이 없어요. 걸러내기 조건을 풀어 보세요.';
 
-    // 추천 조합
+    // 추천 조합 (마감 표시한 상품은 빼고)
     var budget = parseInt($('budget').value.replace(/[^0-9]/g, ''), 10) || 0;
-    var pf = S.portfolio(list, budget, parseInt($('split').value, 10));
+    var pf = S.portfolio(open, budget, parseInt($('split').value, 10), 5);
     var used = 0, wNet = 0, wSafe = 0;
     pf.picks.forEach(function (x) { used += x.amount; wNet += x.amount * x.p.net; wSafe += x.amount * x.p.safe.score; });
     var avgNet = used ? wNet / used : 0, avgSafe = used ? wSafe / used : 0;
@@ -420,7 +456,7 @@
     var avgGrade = avgSafe >= 80 ? 'A' : avgSafe >= 65 ? 'B' : avgSafe >= 50 ? 'C' : 'D';
 
     $('summary').innerHTML =
-      stat('비교한 상품', list.length + '개') +
+      stat('투자 가능한 상품', open.length + '개') +
       stat('조합 평균 등급', avgGrade + ' (' + Math.round(avgSafe) + '점)') +
       stat('조합 세후 수익률', pct(avgNet, 2)) +
       stat('1년 기대 수익(세후)', won(used * avgNet / 100));
@@ -429,22 +465,40 @@
       var p = x.p;
       return '<div class="pf-item"><span class="grade g-' + p.safe.grade + '">' + p.safe.grade + '</span>' +
         '<div><div class="nm">' + esc(p.name) + '</div><div class="sub">세후 ' + pct(p.net, 2) + ' · 담보비율 ' + pct(p.ltv) + ' · ' + (p.market ? '세컨드마켓' + (p.discount ? ' ' + p.discount + '% 할인' : '') : '신규') + ' · ' + Math.round(p.days) + '일</div></div>' +
-        '<div class="amt">' + won(x.amount) + '</div></div>';
+        '<div class="amt">' + won(x.amount) + '</div>' + closeBtn(p) + '</div>';
     }).join('');
+
+    // 빠른 판단 기준: 조합에서 가장 약한 상품이 최저선
+    if (pf.picks.length) {
+      var worst = pf.picks.reduce(function (m, x) { return x.p.safe.score < m.safe.score ? x.p : m; }, pf.picks[0].p);
+      var minNet = Math.min.apply(null, pf.picks.map(function (x) { return x.p.net; }));
+      var maxLtv = Math.max.apply(null, pf.picks.map(function (x) { return x.p.ltv || 0; }));
+      $('rule').innerHTML = '⚡ <b>빠른 판단 기준</b> — 새로 올라온 상품이 <b>안전 ' + worst.safe.score + '점(' + worst.safe.grade + '등급) 이상</b>, <b>세후 ' + pct(minNet, 2) + ' 이상</b>, 유효담보비율 <b>' + pct(maxLtv, 0) + ' 이하</b>라면 이 조합만큼 괜찮은 상품이에요. 엑셀을 다시 받을 시간이 없을 때 이 기준으로 바로 판단하세요.';
+      $('rule').hidden = false;
+    } else $('rule').hidden = true;
+
+    // 예비 후보
+    $('bkWrap').innerHTML = pf.backups.length ? '<h3>예비 후보</h3><p>위 상품이 마감되면 이 순서로 대신 담으세요.</p>' +
+      pf.backups.map(function (p, i) {
+        return '<div class="bk"><span class="o">' + (i + 1) + '</span><span class="grade g-' + p.safe.grade + '">' + p.safe.grade + '</span>' +
+          '<div class="nm">' + esc(p.name) + '<small>세후 ' + pct(p.net, 2) + ' · 담보비율 ' + pct(p.ltv) + ' · ' + (p.market ? '세컨드마켓' : '신규') + '</small></div>' + closeBtn(p) + '</div>';
+      }).join('') : '';
 
     var foot = '서로 다른 대출 <b>' + pf.picks.length + '곳</b>에 <b>' + won(used) + '</b>을 나눠 담았어요. 평균 약 ' + Math.round(avgDays) + '일 뒤에 돌려받아요.';
     if (pf.left >= 1000) foot += ' 세컨드마켓 조각은 판매금액까지만 살 수 있어서 <b>' + won(pf.left) + '</b>이 남았어요. 나눌 개수를 늘려 보세요.';
     if (pf.picks.length < parseInt($('split').value, 10)) foot += ' 조건에 맞는 서로 다른 대출이 ' + pf.picks.length + '개뿐이에요.';
+    if (nClosed) foot += ' 마감 표시한 상품 ' + nClosed + '개는 뺐어요. <button type="button" class="reset-closed" id="resetClosed">마감 표시 모두 지우기</button>';
     $('pfFoot').innerHTML = foot;
 
     // 전체 순위
     var key = $('sort').value;
-    var view = list.slice();
+    var view = open.slice();
     if (key === 'safe') view.sort(function (a, b) { return b.safe.score - a.safe.score || b.net - a.net; });
     if (key === 'net') view.sort(function (a, b) { return b.net - a.net; });
     if (key === 'ltv') view.sort(function (a, b) { return (a.ltv == null ? 999 : a.ltv) - (b.ltv == null ? 999 : b.ltv); });
     if (key === 'days') view.sort(function (a, b) { return a.days - b.days; });
-    $('count').textContent = '전체 ' + state.rows.length + '개 중 ' + list.length + '개';
+    view = view.concat(list.filter(function (p) { return state.closed[p.name]; }));   // 마감은 맨 아래로
+    $('count').textContent = '전체 ' + state.rows.length + '개 중 ' + list.length + '개' + (nClosed ? ' · 마감 ' + nClosed + '개' : '');
     $('list').innerHTML = view.slice(0, state.shown).map(item).join('');
     $('more').hidden = view.length <= state.shown;
   }
@@ -452,7 +506,9 @@
   function stat(l, v) { return '<div class="stat"><span>' + l + '</span><b>' + v + '</b></div>'; }
 
   function item(p, i) {
-    var tags = [p.market ? '<span class="tag2 mk">세컨드마켓</span>' : '<span class="tag2 new">신규</span>'];
+    var closed = !!state.closed[p.name];
+    var tags = closed ? ['<span class="tag2 cl">마감</span>'] : [];
+    tags.push(p.market ? '<span class="tag2 mk">세컨드마켓</span>' : '<span class="tag2 new">신규</span>');
     if (p.discount) tags.push('<span class="tag2 dc">' + p.discount + '% 할인</span>');
     tags.push('<span class="tag2">안전 ' + p.safe.score + '점</span>');
     tags.push('<span class="tag2">' + (p.rankText || '-') + '순위</span>');
@@ -470,12 +526,13 @@
       if (x.max === 0) return '<div class="bar neg"><span class="lb">' + x.label + '</span><span class="tr"></span><span class="vl">−5점</span></div>';
       return '<div class="bar"><span class="lb">' + x.label + '</span><span class="tr"><i style="width:' + (x.got / x.max * 100).toFixed(0) + '%"></i></span><span class="vl">' + Math.round(x.got) + '/' + x.max + ' · ' + esc(x.note) + '</span></div>';
     }).join('');
-    return '<div class="item"><button type="button" aria-expanded="false" onclick="var it=this.parentNode;it.classList.toggle(\'open\');this.setAttribute(\'aria-expanded\',it.classList.contains(\'open\'))">' +
+    return '<div class="item' + (closed ? ' closed' : '') + '"><button type="button" aria-expanded="false" onclick="var it=this.parentNode;it.classList.toggle(\'open\');this.setAttribute(\'aria-expanded\',it.classList.contains(\'open\'))">' +
       '<span class="rk">' + (i + 1) + '</span><span class="grade g-' + p.safe.grade + '" title="안전 점수 ' + p.safe.score + '점">' + p.safe.grade + '</span>' +
       '<div><div class="nm">' + esc(p.name) + '</div><div class="tags">' + tags.join('') + '</div></div>' +
       '<div class="yl"><b>' + pct(p.net, 2) + '</b><span>세후 연</span></div></button>' +
       '<div class="detail"><div class="facts">' + facts.map(function (f) { return '<div><span>' + f[0] + '</span><b>' + f[1] + '</b></div>'; }).join('') + '</div>' +
-      '<div class="bars">' + bars + '</div></div></div>';
+      '<div class="bars">' + bars + '</div>' +
+      '<div class="close-row">' + closeBtn(p, closed ? '마감 표시 지우기' : '마감된 상품이에요', 'close-btn') + '</div></div></div>';
   }
 })();
 </script>
