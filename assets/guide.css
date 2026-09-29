@@ -1,0 +1,63 @@
+/* 예나준 — 도구별 가이드 글 공통 스타일 (style.css 다음에 불러옴) */
+.guide-doc { max-width: 760px; margin: 0 auto; padding: 40px 20px 80px; }
+.guide-doc h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.3; margin-top: 10px; }
+.guide-doc .lead { font-size: 17px; color: var(--muted); line-height: 1.8; margin: 16px 0 0; }
+.guide-doc .meta { font-size: 13.5px; color: var(--muted-2); margin: 12px 0 0; }
+.guide-doc h2 { font-size: clamp(21px, 3vw, 26px); margin: 56px 0 14px; padding-top: 22px; border-top: 1px solid var(--line); scroll-margin-top: 96px; display: flex; gap: 10px; align-items: baseline; }
+.guide-doc h2 .no { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--coral); flex: none; }
+.guide-doc h3 { font-size: 17px; margin: 28px 0 8px; }
+.guide-doc p, .guide-doc li { font-size: 16px; color: var(--muted); line-height: 1.85; }
+.guide-doc p { margin: 12px 0 0; }
+.guide-doc strong { color: var(--text); }
+.guide-doc ul, .guide-doc ol { padding-left: 22px; margin: 12px 0 0; }
+
+.layers { display: grid; gap: 12px; margin-top: 24px; }
+@media (min-width: 640px) { .layers { grid-template-columns: 1fr 1fr; } }
+.layer { border-radius: 16px; padding: 18px 20px; }
+.layer b { display: block; font-size: 16px; color: var(--text); margin-bottom: 6px; }
+.layer span { font-size: 14.5px; color: var(--muted); line-height: 1.7; }
+.layer.good { background: var(--sage-bg); border: 1px solid #C9D9C6; }
+.layer.bad { background: #FBEDE8; border: 1px solid #F2C9BC; }
+
+.toc { margin-top: 28px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+.toc p { margin: 0 0 8px; font-size: 13px; font-weight: 600; letter-spacing: 1px; color: var(--coral); }
+.toc ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.toc li { font-size: 15px; line-height: 1.6; }
+.toc a { text-decoration: none; color: var(--text); }
+.toc a:hover { color: var(--coral); }
+
+.tbl { margin-top: 16px; overflow-x: auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+.tbl table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.tbl th, .tbl td { padding: 11px 14px; text-align: left; vertical-align: top; line-height: 1.6; }
+.tbl th { background: var(--cream-2); color: var(--muted-2); font-size: 13px; font-weight: 600; white-space: nowrap; }
+.tbl td { border-top: 1px solid var(--line); color: var(--text); }
+.tbl td:first-child { white-space: nowrap; font-weight: 500; }
+.tbl td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tbl tr.sum td { font-weight: 600; background: var(--cream); }
+.src { font-size: 13px !important; color: var(--muted-2) !important; margin-top: 8px !important; }
+
+.point { margin-top: 18px; background: var(--navy); color: var(--cream); border-radius: 14px; padding: 16px 20px; font-size: 15.5px; line-height: 1.75; }
+.point b { color: #F2B8A5; }
+.steps { list-style: none; padding: 0 !important; counter-reset: s; display: grid; gap: 10px; }
+.steps li { counter-increment: s; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 14px 56px; position: relative; }
+.steps li::before { content: counter(s); position: absolute; left: 16px; top: 14px; width: 26px; height: 26px; border-radius: 50%; background: var(--navy); color: var(--cream); font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+.steps b { color: var(--text); }
+.check { list-style: none; padding: 0 !important; }
+.check li { padding-left: 28px; position: relative; }
+.check li::before { content: "✓"; position: absolute; left: 4px; color: var(--sage-text); font-weight: 700; }
+.alert { list-style: none; padding: 0 !important; }
+.alert li { padding-left: 28px; position: relative; }
+.alert li::before { content: "!"; position: absolute; left: 2px; top: 5px; width: 18px; height: 18px; border-radius: 50%; background: #B33A2B; color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; line-height: 1; }
+
+.cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 12px 18px; border-radius: 12px; background: var(--navy); color: var(--cream) !important; font-weight: 600; font-size: 15px; text-decoration: none; }
+.cta:hover { background: #151D32; }
+.warn { margin-top: 18px; background: #FBEEEC; border-radius: 14px; padding: 14px 16px; font-size: 14.5px !important; color: #6E2A20 !important; line-height: 1.75; }
+
+.faq details { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-top: 10px; }
+.faq summary { font-size: 15.5px; font-weight: 600; color: var(--navy); cursor: pointer; }
+.faq details p { font-size: 15px; margin-top: 10px; }
+
+.sources { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--line); }
+.sources h2 { margin-top: 0; border: 0; padding: 0; font-size: 18px; }
+.sources li { font-size: 13px !important; line-height: 1.7 !important; word-break: break-all; }
+.sources a { color: var(--muted-2); }

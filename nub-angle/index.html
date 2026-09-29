@@ -188,6 +188,7 @@ footer .more a:hover{color:var(--accent)}
 .exp-msg{font-size:13px;color:var(--muted)}
 .toast{position:fixed;z-index:30;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:10px;font-size:14px}
 </style>
+<link rel="stylesheet" href="/assets/related.css">
 </head>
 <body>
 
@@ -356,7 +357,18 @@ footer .more a:hover{color:var(--accent)}
   </section>
 
   <footer>연습 사진은 설명을 위해 그린 모형 이미지예요. 결과는 재미로 보는 예측이며 의학적 판정이 아니에요. 정확한 성별은 병원에서 확인하세요.
-    <p class="more"><a href="/">← 예나준의 다른 도구 보기</a></p>
+<!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
+<section class="yn-rel yn-dark" aria-label="예나준의 다른 도구">
+  <a class="yn-guide" href="/nub-angle/guide/"><span class="e">📖</span><span><b>태아 성별 확인 가이드 읽기</b><small>NIPT·각도법·초음파 주수별 비교와 속설</small></span><span class="go">→</span></a>
+  <h2>이런 도구도 있어요</h2>
+  <div class="yn-grid">
+    <a class="yn-card" href="/baby-name/"><span class="e">👶</span><b>아기 이름짓기</b><span>한자의 뜻과 소리를 살펴보며 이름 후보를 골라요.</span></a>
+    <a class="yn-card" href="/mixed-feeding/"><span class="e">🍼</span><b>혼합수유 보충량 계산기</b><span>체중과 월령으로 분유 보충량을 알려드려요.</span></a>
+    <a class="yn-card" href="/rsv-antibody/"><span class="e">💉</span><b>RSV 항체주사 도우미</b><span>우리 아기에게 맞는 항체주사를 정리해요.</span></a>
+  </div>
+  <a class="yn-home" href="/">← 예나준의 모든 도구 보기</a>
+</section>
+<!-- yn-related:end -->
   </footer>
 </div>
 

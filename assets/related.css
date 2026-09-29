@@ -1,0 +1,27 @@
+/* 예나준 — 모든 도구·가이드 하단 "이런 도구도 있어요" 공통 블록
+   도구마다 자체 스타일이 달라서 yn- 접두어로만 스타일을 입혀요 */
+.yn-rel { --yn-bg: #FFFFFF; --yn-card: #FAF6EF; --yn-line: #EAE2D4; --yn-text: #1F2A44; --yn-muted: #5B5F6B; --yn-accent: #A54E38;
+  max-width: 760px; margin: 48px auto 0; padding: 24px 20px; background: var(--yn-bg); border: 1px solid var(--yn-line); border-radius: 20px;
+  font-family: 'IBM Plex Sans KR', 'Noto Sans KR', system-ui, sans-serif; color: var(--yn-text); text-align: left; box-sizing: border-box; }
+.yn-rel * { box-sizing: border-box; }
+.yn-rel .yn-guide { display: flex; align-items: center; gap: 12px; margin: 0 0 20px; padding: 14px 16px; border-radius: 14px; background: #1F2A44; color: #FAF6EF; text-decoration: none; }
+.yn-rel .yn-guide:hover { background: #151D32; color: #FAF6EF; }
+.yn-rel .yn-guide .e { font-size: 22px; flex: none; }
+.yn-rel .yn-guide b { display: block; font-size: 15.5px; font-weight: 600; line-height: 1.4; }
+.yn-rel .yn-guide small { display: block; font-size: 13px; opacity: .8; margin-top: 2px; line-height: 1.5; }
+.yn-rel .yn-guide .go { margin-left: auto; font-size: 18px; flex: none; }
+.yn-rel h2 { margin: 0 0 12px; font-size: 18px; font-weight: 700; color: var(--yn-text); font-family: inherit; letter-spacing: -0.01em; }
+.yn-rel .yn-grid { display: grid; gap: 10px; }
+@media (min-width: 620px) { .yn-rel .yn-grid { grid-template-columns: repeat(3, 1fr); } }
+.yn-rel .yn-card { display: flex; flex-direction: column; gap: 4px; padding: 14px; border-radius: 14px; background: var(--yn-card); border: 1px solid var(--yn-line); text-decoration: none; color: var(--yn-text); transition: border-color .15s, transform .15s; }
+.yn-rel .yn-card:hover { border-color: var(--yn-accent); transform: translateY(-1px); color: var(--yn-text); }
+.yn-rel .yn-card .e { font-size: 22px; line-height: 1; }
+.yn-rel .yn-card b { font-size: 15px; font-weight: 600; line-height: 1.4; margin-top: 4px; }
+.yn-rel .yn-card span { font-size: 13px; color: var(--yn-muted); line-height: 1.6; }
+.yn-rel .yn-home { display: inline-block; margin-top: 16px; font-size: 14.5px; font-weight: 600; color: var(--yn-accent); text-decoration: none; }
+.yn-rel .yn-home:hover { text-decoration: underline; }
+/* 다크 모드를 지원하는 도구에서만(yn-dark) 어둡게. 페이지에서 밝게 고정하면 따라감 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .yn-rel.yn-dark { --yn-bg: #242824; --yn-card: #1F221F; --yn-line: #3A3D38; --yn-text: #E8E4DF; --yn-muted: #9A9590; --yn-accent: #E8977A; }
+}
+:root[data-theme="dark"] .yn-rel.yn-dark { --yn-bg: #242824; --yn-card: #1F221F; --yn-line: #3A3D38; --yn-text: #E8E4DF; --yn-muted: #9A9590; --yn-accent: #E8977A; }
