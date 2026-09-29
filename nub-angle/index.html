@@ -508,7 +508,13 @@ function drawOverlay(x,pts,k,u,opt){
       const a1=Math.atan2(uy,ux); let df=Math.atan2(vy,vx)-a1; while(df>Math.PI)df-=2*Math.PI; while(df<-Math.PI)df+=2*Math.PI;
       x.setLineDash([]);x.strokeStyle='#fff';x.lineWidth=1.6*u;
       x.beginPath();x.arc(R.x,R.y,32*u,a1,a1+df,df<0);x.stroke();
-      const mid=a1+df/2, tx=R.x+Math.cos(mid)*54*u, ty=R.y+Math.sin(mid)*54*u;
+      const mid=a1+df/2, half=Math.abs(df)/2;
+      let tx=R.x+Math.cos(mid)*54*u, ty=R.y+Math.sin(mid)*54*u;
+      // 각도가 작으면 두 선 사이가 좁아 글자가 nub 선·④ 점과 겹쳐요. 기준선 바깥쪽으로 비켜 놓아요
+      if(half<.33){
+        const along=46*u, off=along*Math.tan(half)+18*u, side=df>=0?-1:1;
+        tx=R.x+Math.cos(mid)*along-Math.sin(mid)*off*side;ty=R.y+Math.sin(mid)*along+Math.cos(mid)*off*side;
+      }
       const s=Math.round(mm.deg)+'°';
       x.font='600 '+(15*u)+'px "IBM Plex Mono",ui-monospace,monospace';x.textAlign='center';x.textBaseline='middle';
       x.lineWidth=4*u;x.strokeStyle='rgba(0,0,0,.8)';x.strokeText(s,tx,ty);x.fillStyle='#fff';x.fillText(s,tx,ty);
@@ -824,7 +830,9 @@ function drawCard(o){
     const P=o.pts, xs=P.map(p=>p.x), ys=P.map(p=>p.y), AR=PW/PH;
     const bw=Math.max(...xs)-Math.min(...xs), bh=Math.max(...ys)-Math.min(...ys);
     const cx=(Math.max(...xs)+Math.min(...xs))/2, cy=(Math.max(...ys)+Math.min(...ys))/2;
-    let cw=Math.max(bw*1.6,bh*1.6*AR,o.src.w*.32); cw=Math.min(cw,Math.max(o.src.w,o.src.h*AR));
+    // 점에서 사진 테두리까지 M 이상 띄워야 각도 숫자가 잘리지 않아요
+    const M=130;
+    let cw=Math.max(bw*PW/(PW-2*M),bh*PW/(PH-2*M),o.src.w*.32); cw=Math.min(cw,Math.max(o.src.w,o.src.h*AR));
     const s=PW/cw, ox=PX+PW/2-cx*s, oy=PY+PH/2-cy*s;
     x.drawImage(o.src.canvas||o.src.el,ox,oy,o.src.w*s,o.src.h*s);
     drawOverlay(x,P.map(p=>({x:ox+p.x*s,y:oy+p.y*s})),1,2.2,{noNum:true});
