@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>P2P 아파트담보 상품 고르기 계산기 — 크플 엑셀로 안전성·세후 수익률 비교 | 예나준</title>
+  <meta name="description" content="크플에서 받은 아파트담보 투자 상품·세컨드마켓 엑셀을 올리면 유효담보비율, 근저당 순위, 매입확약 범위로 안전 등급을 매기고 세금·이용료를 뺀 실제 수익률로 상품을 골라드려요.">
+  <link rel="canonical" href="https://yenajun.com/p2p-invest/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="예나준">
+  <meta property="og:title" content="P2P 아파트담보 상품 고르기 계산기">
+  <meta property="og:description" content="엑셀을 올리면 안전 등급과 세후 수익률로 상품을 골라드려요.">
+  <meta property="og:url" content="https://yenajun.com/p2p-invest/">
+  <meta property="og:image" content="https://yenajun.com/assets/og-image.jpg">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    :root {
+      --card: #FFFFFF;
+      --a: #2E7D5B; --a-bg: #EAF3EE;
+      --b: #24406E; --b-bg: #EDF1F7;
+      --c: #8A6A14; --c-bg: #FDF8EE;
+      --d: #B33A2B; --d-bg: #FBEEEC;
+    }
+    .calc { max-width: 980px; margin: 0 auto; padding: 36px 20px 80px; }
+    .calc h1 { font-size: clamp(27px, 4.6vw, 40px); line-height: 1.3; margin-top: 10px; }
+    .calc .lead { font-size: 16.5px; color: var(--muted); line-height: 1.8; margin: 14px 0 0; }
+    .calc .lead a { color: var(--coral); font-weight: 600; }
+
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px; margin-top: 24px; }
+    .panel h2 { font-size: 19px; display: flex; align-items: baseline; gap: 10px; }
+    .panel h2 .no { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--coral); }
+    .panel > p { font-size: 14.5px; color: var(--muted); line-height: 1.75; margin: 8px 0 0; }
+
+    .drop { margin-top: 16px; border: 2px dashed var(--dash); border-radius: 16px; padding: 28px 16px; text-align: center; background: var(--cream); cursor: pointer; transition: background .15s, border-color .15s; }
+    .drop:hover, .drop.over { background: #F4ECDD; border-color: var(--coral); }
+    .drop b { display: block; font-size: 16px; color: var(--navy); }
+    .drop span { display: block; font-size: 13.5px; color: var(--muted-2); margin-top: 6px; }
+    .drop input { display: none; }
+    .row-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; align-items: center; }
+    .ghost-btn { border: 1.5px solid var(--line); background: #fff; color: var(--navy); font: 600 14px var(--sans); padding: 9px 14px; border-radius: 10px; cursor: pointer; min-height: 40px; }
+    .ghost-btn:hover { border-color: var(--navy); }
+    .files { font-size: 13.5px; color: var(--sage-text); }
+    .err { font-size: 14px; color: var(--d); margin-top: 10px; }
+    .privacy { font-size: 13px !important; color: var(--muted-2) !important; }
+
+    details.how { margin-top: 12px; background: var(--cream); border-radius: 12px; padding: 12px 14px; }
+    details.how summary { font-size: 14px; font-weight: 600; cursor: pointer; color: var(--navy); }
+    details.how ol { margin: 10px 0 0; padding-left: 20px; font-size: 14px; color: var(--muted); line-height: 1.8; }
+
+    .settings { display: grid; gap: 16px; margin-top: 16px; }
+    @media (min-width: 720px) { .settings { grid-template-columns: 1fr 1fr; } }
+    .field label, .field .lbl { display: block; font-size: 13.5px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+    .field small { display: block; font-size: 12.5px; color: var(--muted-2); margin-top: 5px; line-height: 1.6; }
+    .field input[type=text], .field input[type=number], .field select { width: 100%; min-height: 44px; border: 1.5px solid var(--line); border-radius: 10px; padding: 0 12px; font: 500 15px var(--sans); color: var(--text); background: #fff; }
+    .field input:focus, .field select:focus { outline: none; border-color: var(--navy); }
+    .seg { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--cream-2); border-radius: 12px; padding: 4px; gap: 4px; }
+    .seg button { border: 0; background: transparent; border-radius: 9px; min-height: 40px; font: 600 14px var(--sans); color: var(--muted); cursor: pointer; }
+    .seg button[aria-pressed=true] { background: var(--navy); color: var(--cream); }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .checks { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+    .checks label { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; color: var(--text); margin: 0; cursor: pointer; min-height: 32px; }
+    .checks input { width: 18px; height: 18px; accent-color: var(--navy); }
+
+    .summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px; }
+    @media (min-width: 720px) { .summary { grid-template-columns: repeat(4, 1fr); } }
+    .stat { background: var(--cream); border-radius: 14px; padding: 14px 16px; }
+    .stat span { display: block; font-size: 12.5px; color: var(--muted-2); }
+    .stat b { display: block; font-size: 22px; color: var(--navy); margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+    .pf { margin-top: 16px; display: grid; gap: 10px; }
+    .pf-item { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; background: var(--cream); border-radius: 14px; padding: 12px 14px; }
+    .pf-item .nm { font-weight: 600; font-size: 15px; color: var(--navy); }
+    .pf-item .sub { font-size: 12.5px; color: var(--muted-2); margin-top: 2px; }
+    .pf-item .amt { font-weight: 600; font-size: 15px; font-variant-numeric: tabular-nums; text-align: right; }
+    .pf-foot { font-size: 14px; color: var(--muted); margin-top: 12px; line-height: 1.7; }
+    .pf-foot b { color: var(--navy); }
+
+    .grade { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 10px; font-weight: 700; font-size: 16px; flex: none; }
+    .g-A { color: var(--a); background: var(--a-bg); } .g-B { color: var(--b); background: var(--b-bg); }
+    .g-C { color: var(--c); background: var(--c-bg); } .g-D { color: var(--d); background: var(--d-bg); }
+
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-top: 16px; }
+    .toolbar select { min-height: 40px; border: 1.5px solid var(--line); border-radius: 10px; padding: 0 10px; font: 500 14px var(--sans); background: #fff; }
+    .count { font-size: 14px; color: var(--muted-2); }
+
+    .list { display: grid; gap: 10px; margin-top: 12px; }
+    .item { border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+    .item > button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 28px auto 1fr auto; gap: 12px; align-items: center; width: 100%; padding: 14px; cursor: pointer; border-radius: 16px; }
+    .item > button:focus-visible { outline: 3px solid var(--coral); }
+    .item .rk { font-size: 13px; color: var(--muted-2); text-align: center; font-variant-numeric: tabular-nums; }
+    .item .nm { font-weight: 600; font-size: 15px; color: var(--navy); line-height: 1.4; }
+    .item .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
+    .tag2 { white-space: nowrap; font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--cream-2); color: var(--muted); }
+    .tag2.mk { background: #F3E8FB; color: #6A3C8C; }
+    .tag2.new { background: var(--sage-bg); color: var(--sage-text); }
+    .tag2.dc { background: var(--d-bg); color: var(--d); }
+    .item .yl { text-align: right; }
+    .item .yl b { display: block; font-size: 18px; color: var(--navy); font-variant-numeric: tabular-nums; }
+    .item .yl span { font-size: 12px; color: var(--muted-2); }
+    @media (max-width: 520px) { .item > button { grid-template-columns: auto 1fr auto; gap: 10px; padding: 12px; } .item .rk { display: none; } .item .yl b { font-size: 16px; } }
+    .item .detail { display: none; padding: 0 14px 16px; border-top: 1px solid var(--line); }
+    .item.open .detail { display: block; }
+    .facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 16px; margin-top: 14px; font-size: 13.5px; }
+    @media (min-width: 720px) { .facts { grid-template-columns: repeat(4, 1fr); } }
+    .facts div span { display: block; color: var(--muted-2); font-size: 12px; }
+    .facts div b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+    .bars { margin-top: 16px; display: grid; gap: 8px; }
+    .bar { display: grid; grid-template-columns: 110px 1fr 90px; gap: 10px; align-items: center; font-size: 13px; }
+    .bar .lb { color: var(--muted); }
+    .bar .tr { height: 8px; background: var(--cream-2); border-radius: 4px; overflow: hidden; }
+    .bar .tr i { display: block; height: 100%; background: var(--navy); border-radius: 4px; }
+    .bar .vl { color: var(--muted-2); text-align: right; font-size: 12px; }
+    .bar.neg .lb, .bar.neg .vl { color: var(--d); }
+    @media (max-width: 520px) { .bar { grid-template-columns: 92px 1fr; } .bar .vl { grid-column: 2; text-align: left; margin-top: -4px; } }
+    .more-btn { margin: 14px auto 0; display: block; }
+
+    .empty { text-align: center; color: var(--muted-2); font-size: 14.5px; padding: 28px 0 8px; }
+    .warn { margin-top: 24px; background: var(--d-bg); border-radius: 14px; padding: 14px 16px; font-size: 13.5px; color: #6E2A20; line-height: 1.75; }
+    .warn b { color: #6E2A20; }
+
+    .guide-box { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--line); }
+    .guide-box h2 { font-size: 22px; }
+    .guide-box p, .guide-box li { font-size: 15px; color: var(--muted); line-height: 1.85; }
+    .guide-box details { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-top: 10px; }
+    .guide-box summary { font-size: 15px; font-weight: 600; color: var(--navy); cursor: pointer; }
+    .guide-box details p { font-size: 14.5px; margin: 10px 0 0; }
+    .cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 12px 18px; border-radius: 12px; background: var(--navy); color: var(--cream) !important; font-weight: 600; font-size: 15px; text-decoration: none; }
+    .cta:hover { background: #151D32; }
+    .back { display: inline-block; margin-top: 24px; font-size: 15px; font-weight: 600; color: var(--sage-text); text-decoration: none; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="예나준 홈"><img src="/assets/logo.svg" alt="" width="32" height="32"><span>예나준</span></a>
+    <a href="/p2p-invest/guide/" style="text-decoration:none;font-weight:600;font-size:15px">P2P 투자 가이드 →</a>
+  </div>
+</header>
+
+<main class="calc">
+  <p class="eyebrow">P2P INVEST</p>
+  <h1>P2P 아파트담보 상품<br>고르기 계산기</h1>
+  <p class="lead">크플에서 받은 상품 엑셀을 올리면 <strong>담보가 얼마나 든든한지</strong>를 A~D 등급으로 매기고, <strong>세금과 이용료를 뺀 실제 수익률</strong>로 줄 세워 드려요. 세컨드마켓 할인 상품도 함께 비교할 수 있어요. P2P 투자가 처음이라면 <a href="/p2p-invest/guide/">P2P 투자 가이드</a>부터 읽어 보세요.</p>
+
+  <!-- 1. 파일 -->
+  <section class="panel" aria-labelledby="s1">
+    <h2 id="s1"><span class="no">01</span>상품 엑셀 올리기</h2>
+    <p>신규 상품(아파트 상품)과 세컨드마켓(투자마켓 상품) 엑셀을 한꺼번에 올려도 돼요.</p>
+    <label class="drop" id="drop">
+      <input type="file" id="file" accept=".xlsx,.xls,.csv" multiple>
+      <b>여기를 눌러 엑셀 파일 선택</b>
+      <span>또는 파일을 이 칸으로 끌어다 놓으세요 · .xlsx</span>
+    </label>
+    <div class="row-btns">
+      <button class="ghost-btn" type="button" id="demo">예시 데이터로 먼저 보기</button>
+      <span class="files" id="files"></span>
+    </div>
+    <p class="err" id="err" hidden></p>
+    <details class="how">
+      <summary>엑셀은 어디서 받나요?</summary>
+      <ol>
+        <li>크플 웹사이트(cple.co.kr)에서 <strong>투자</strong> 메뉴(신규 상품) 또는 <strong>세컨드마켓</strong> 메뉴로 들어가요.</li>
+        <li>목록에 있는 <strong>엑셀 파일 받기</strong> 버튼을 눌러요.</li>
+        <li>받은 파일을 위 칸에 그대로 올리면 끝이에요. 파일 이름이나 내용은 고치지 않아도 돼요.</li>
+      </ol>
+    </details>
+    <p class="privacy">🔒 올린 파일은 이 브라우저 안에서만 읽어요. 서버로 보내거나 저장하지 않아요.</p>
+  </section>
+
+  <!-- 2. 조건 -->
+  <section class="panel" aria-labelledby="s2">
+    <h2 id="s2"><span class="no">02</span>내 조건 정하기</h2>
+    <div class="settings">
+      <div class="field">
+        <span class="lbl">투자 성향</span>
+        <div class="seg" role="group" aria-label="투자 성향">
+          <button type="button" data-w="0.15" aria-pressed="false">안정 우선</button>
+          <button type="button" data-w="0.35" aria-pressed="true">균형</button>
+          <button type="button" data-w="0.55" aria-pressed="false">수익 우선</button>
+        </div>
+        <small>안정 우선은 담보가 든든한 상품을, 수익 우선은 세후 수익률이 높은 상품을 더 위로 올려요.</small>
+      </div>
+      <div class="field two">
+        <div>
+          <label for="budget">투자할 돈</label>
+          <input type="text" id="budget" inputmode="numeric" value="1,000,000">
+        </div>
+        <div>
+          <label for="split">몇 개로 나눌까요</label>
+          <select id="split"><option>3</option><option selected>5</option><option>8</option><option>10</option><option>15</option><option>20</option></select>
+        </div>
+        <small style="grid-column:1/-1">한 상품에 몰지 않고, 서로 다른 대출에 나눠 담아요.</small>
+      </div>
+      <div class="field two">
+        <div>
+          <label for="fee">플랫폼 이용료 (연 %)</label>
+          <input type="number" id="fee" value="1.2" step="0.1" min="0" max="3">
+        </div>
+        <div>
+          <label for="tax">세금 (%)</label>
+          <input type="number" id="tax" value="15.4" step="0.1" min="0" max="50">
+        </div>
+        <small style="grid-column:1/-1">크플 아파트담보 상품은 연 1.2%예요. 다른 상품이면 상품 상세 화면의 숫자로 바꿔 넣으세요.</small>
+      </div>
+      <div class="field">
+        <span class="lbl">걸러내기</span>
+        <div class="checks">
+          <label><input type="checkbox" id="fD" checked> D등급 빼기</label>
+          <label><input type="checkbox" id="fMetro"> 수도권만</label>
+          <label><input type="checkbox" id="fFirst"> 1순위 근저당만</label>
+          <label><input type="checkbox" id="fBuy"> 이자까지 매입보장</label>
+          <label><input type="checkbox" id="fMarket"> 세컨드마켓만</label>
+          <label><input type="checkbox" id="fNew"> 신규 상품만</label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 결과 -->
+  <section class="panel" aria-labelledby="s3" id="result">
+    <h2 id="s3"><span class="no">03</span>추천 조합</h2>
+    <div id="empty" class="empty">엑셀을 올리거나 <b>예시 데이터로 먼저 보기</b>를 누르면 여기에 결과가 나와요.</div>
+    <div id="out" hidden>
+      <div class="summary" id="summary"></div>
+      <div class="pf" id="pf"></div>
+      <p class="pf-foot" id="pfFoot"></p>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="s4" id="allWrap" hidden>
+    <h2 id="s4"><span class="no">04</span>전체 상품 순위</h2>
+    <p>상품을 누르면 점수가 어떻게 나왔는지 볼 수 있어요.</p>
+    <div class="toolbar">
+      <span class="count" id="count"></span>
+      <select id="sort" aria-label="정렬">
+        <option value="total">추천 순</option>
+        <option value="safe">안전 점수 순</option>
+        <option value="net">세후 수익률 순</option>
+        <option value="ltv">유효담보비율 낮은 순</option>
+        <option value="days">남은 기간 짧은 순</option>
+      </select>
+    </div>
+    <div class="list" id="list"></div>
+    <button class="ghost-btn more-btn" type="button" id="more" hidden>더 보기</button>
+  </section>
+
+  <div class="warn">
+    <b>꼭 읽어 주세요.</b> P2P 투자는 <b>예금자보호 대상이 아니고 원금 손실이 날 수 있어요.</b> 매입확약도 매입을 약속한 회사의 사정에 따라 지켜지지 않을 수 있어요. 이 계산기의 등급과 수익률은 엑셀에 적힌 숫자로 계산한 <b>참고용 추정치</b>이며, 투자 권유가 아니에요. 예나준은 크플과 관계없는 개인이 만든 도구예요. 투자 전에 상품 설명서를 꼭 확인하세요.
+  </div>
+
+  <section class="guide-box" aria-labelledby="g-title">
+    <h2 id="g-title">점수는 이렇게 매겨요</h2>
+    <p>안전 점수는 100점 만점이에요. <strong>A(80점 이상) · B(65~79) · C(50~64) · D(50 미만)</strong>로 나눠요.</p>
+    <ul>
+      <li><strong>유효담보비율 35점</strong>: 집값 가운데 빚(앞선 대출·보증금·이 대출)이 차지하는 비율이에요. 20% 이하면 만점, 75% 이상이면 0점이에요.</li>
+      <li><strong>경매 시 회수 여유 15점</strong>: 경매로 팔렸을 때 예상 회수액이 이 대출 금액의 몇 배인지 봐요. 3배 이상이면 만점이에요.</li>
+      <li><strong>매입보장 범위 20점</strong>: 연체가 나면 채권을 사 주기로 한 범위예요. 원금+이자+연체이자 > 원금+이자 > 원금 순으로 점수가 높아요.</li>
+      <li><strong>근저당 순위 10점</strong>: 1순위일수록 경매 때 먼저 돌려받아요.</li>
+      <li><strong>차입자 신용 10점</strong>: 크플 스코어(없으면 NICE 점수)로 봐요.</li>
+      <li><strong>단지 규모·지역 10점</strong>: 세대수가 많고 수도권일수록 집이 잘 팔려서 회수가 빨라요.</li>
+      <li>권원보험에 들지 않았으면 5점을 빼요.</li>
+    </ul>
+    <p><strong>세후 수익률</strong>은 표시 수익률에서 이자소득세 15.4%와 플랫폼 이용료를 빼고, 남은 기간 기준으로 1년 수익률로 바꾼 값이에요. 세컨드마켓 상품은 할인받은 만큼의 차익을 더해요.</p>
+
+    <details>
+      <summary>표시 수익률이 8%인데 왜 6%대로 나오나요?</summary>
+      <p>이자에서 세금 15.4%를 먼저 떼고, 플랫폼 이용료(크플 아파트담보 연 1.2%)도 빼기 때문이에요. 8% × (1 − 0.154) − 1.2% ≈ 5.6%가 실제로 손에 쥐는 수익률이에요. 이용료는 상품마다 달라서 위의 칸에서 바꿀 수 있어요.</p>
+    </details>
+    <details>
+      <summary>같은 아파트가 여러 줄로 나와요.</summary>
+      <p>세컨드마켓에서는 한 대출을 여러 사람이 나눠 가지고 있어서, 예를 들어 "21474호-25, -26, -27"처럼 같은 대출이 조각으로 올라와요. 추천 조합에서는 분산 효과가 없으니 같은 대출은 한 번만 담아요.</p>
+    </details>
+    <details>
+      <summary>A등급이면 안전한 건가요?</summary>
+      <p>A등급은 "엑셀 숫자로 볼 때 담보 여유가 크다"는 뜻이지 원금 보장이 아니에요. 집값이 크게 떨어지거나, 경매가 오래 걸리거나, 매입확약 회사나 플랫폼에 문제가 생기면 손실이나 지연이 생길 수 있어요.</p>
+    </details>
+    <details>
+      <summary>할인율이 높은 세컨드마켓 상품이 무조건 이득인가요?</summary>
+      <p>할인만큼 수익이 더해지는 건 맞지만, 파는 사람이 급하게 팔거나 상품에 걱정되는 점이 있어서 할인했을 수도 있어요. 할인율이 유난히 높으면 안전 점수와 연체 여부를 함께 확인하세요.</p>
+    </details>
+    <a class="cta" href="/p2p-invest/guide/">P2P 투자 가이드 읽기 →</a>
+    <br><a class="back" href="/">← 예나준의 다른 도구 보기</a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-brand"><img src="/assets/logo.svg" alt="" width="28" height="28"><b>예나준</b><span>© 2026 yenajun.com</span></div>
+    <nav class="footer-nav" aria-label="하단 메뉴">
+      <a href="/about.html">소개</a><a href="/privacy.html">개인정보처리방침</a><a href="/terms.html">이용약관</a><a href="mailto:ddongchane@gmail.com">문의</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="/p2p-invest/score.js"></script>
+<script>
+(function () {
+  'use strict';
+  var S = window.P2PScore;
+  var $ = function (id) { return document.getElementById(id); };
+  var state = { rows: [], weight: 0.35, shown: 20 };
+
+  var won = function (n) { return Math.round(n).toLocaleString('ko-KR') + '원'; };
+  var pct = function (n, d) { return n == null ? '-' : n.toFixed(d == null ? 1 : d) + '%'; };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var eok = function (n) { return n == null ? '-' : n >= 1e8 ? (n / 1e8).toFixed(1).replace(/\.0$/, '') + '억' : Math.round(n / 1e4).toLocaleString('ko-KR') + '만'; };
+
+  // ---------- 예시 데이터 (가상의 상품) ----------
+  var DEMO_H_NEW = ['상품명','상품금액','수익률','투자기간','대출유형','근저당 우선순위','크플 감정가','KB시세','국토부실거래가','유효담보비율','선순위 대출 잔액','담보물 회수 예상가액','낙찰가율','전·월세 보증금','매입 확약 여부','매입 보장 비율','매입 보장 범위','권원 보험 가입 여부','시·도','구·군','아파트/주택명','세대수','준공시기','크플 스코어','나이스점수'];
+  var DEMO_NEW = [
+    ['예시 서울 가단지 90001호',60000000,8.4,'12개월','신규','1',900000000,900000000,880000000,31.2,220000000,580000000,92.0,0,true,100,'연체 수익까지',true,'서울특별시','예시구','가단지',1800,'2012년 3월 1일',910,880],
+    ['예시 경기 나단지 90002호',40000000,9.2,'12개월','신규','2',520000000,520000000,500000000,58.4,263700000,190000000,86.0,0,true,100,'이자까지',true,'경기도','예시시','나단지',640,'2004년 5월 1일',790,760],
+    ['예시 충북 다단지 90003호',30000000,9.8,'12개월','일반연장','2',300000000,300000000,290000000,68.0,174000000,58000000,78.0,0,true,100,'원금',true,'충청북도','예시시','다단지',220,'1998년 9월 1일',700,690],
+    ['예시 부산 라단지 90004호',50000000,8.9,'12개월','신규','1',610000000,610000000,600000000,45.9,230000000,300000000,84.0,0,true,100,'이자까지',true,'부산광역시','예시구','라단지',1200,'2016년 1월 1일',840,820]
+  ];
+  var DEMO_H_MK = ['상품명','잔여원금','할인율','판매금액','수익률','잔여기간','대출유형','근저당 우선순위','크플 감정가','KB시세','국토부실거래가','유효담보비율','선순위 대출 잔액','전·월세 보증금','담보물 회수 예상가액','낙찰가율','매입 확약 여부','매입 보장 비율','매입 보장 범위','권원 보험 가입 여부','시·도','구·군','아파트/주택명','세대수','준공시기','크플 스코어','나이스점수'];
+  var DEMO_MK = [
+    ['예시 서울 마단지 80011호-3',300000,2,294000,7.8,'250일','신규','2',1200000000,1200000000,1150000000,24.5,194000000,0,860000000,93.0,true,100,'연체 수익까지',true,'서울특별시','예시구','마단지',2400,'2010년 6월 1일',930,900],
+    ['예시 서울 마단지 80011호-4',150000,0,150000,7.8,'250일','신규','2',1200000000,1200000000,1150000000,24.5,194000000,0,860000000,93.0,true,100,'연체 수익까지',true,'서울특별시','예시구','마단지',2400,'2010년 6월 1일',930,900],
+    ['예시 인천 바단지 80012호-1',500000,1,495000,8.6,'300일','일반연장','1',480000000,480000000,470000000,38.0,0,0,380000000,85.0,true,100,'이자까지',true,'인천광역시','예시구','바단지',900,'2008년 2월 1일',820,800],
+    ['예시 경기 사단지 80013호-7',200000,0,200000,8.2,'180일','추가','3',750000000,750000000,730000000,33.0,147500000,0,480000000,90.0,true,100,'연체 수익까지',true,'경기도','예시시','사단지',1500,'2019년 4월 1일',880,850],
+    ['예시 강원 아단지 80014호-2',400000,5,380000,9.4,'270일','신규','2',330000000,330000000,320000000,55.0,111500000,0,110000000,80.0,true,100,'원금',false,'강원특별자치도','예시시','아단지',300,'2001년 8월 1일',650,640]
+  ];
+  var toObjs = function (h, rows) { return rows.map(function (r) { var o = {}; h.forEach(function (k, i) { o[k] = r[i]; }); return o; }); };
+
+  // ---------- 파일 읽기 ----------
+  function readFiles(files) {
+    $('err').hidden = true;
+    if (!window.XLSX) { showErr('엑셀 읽기 도구를 불러오지 못했어요. 인터넷 연결을 확인하고 새로고침해 주세요.'); return; }
+    var all = [], names = [], left = files.length;
+    Array.prototype.forEach.call(files, function (f) {
+      var fr = new FileReader();
+      fr.onload = function () {
+        try {
+          var wb = XLSX.read(new Uint8Array(fr.result), { type: 'array' });
+          var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: null });
+          var ok = rows.filter(function (r) { return r['상품명'] && r['유효담보비율'] != null; });
+          if (!ok.length) throw new Error('형식');
+          all = all.concat(ok); names.push(f.name + ' (' + ok.length + '개)');
+        } catch (e) { showErr('"' + f.name + '"에서 상품을 찾지 못했어요. 크플에서 받은 엑셀 그대로인지 확인해 주세요.'); }
+        if (--left === 0 && all.length) load(all, names.join(', '));
+      };
+      fr.readAsArrayBuffer(f);
+    });
+  }
+  function showErr(m) { $('err').textContent = m; $('err').hidden = false; }
+  function load(raw, label) {
+    state.rows = raw.map(S.normalize).filter(function (p) { return p.principal > 0; });
+    state.shown = 20;
+    $('files').textContent = '✓ ' + label;
+    render();
+    $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  $('file').addEventListener('change', function (e) { if (e.target.files.length) readFiles(e.target.files); e.target.value = ''; });
+  var drop = $('drop');
+  ['dragenter', 'dragover'].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) { if (e.dataTransfer.files.length) readFiles(e.dataTransfer.files); });
+  $('demo').addEventListener('click', function () {
+    load(toObjs(DEMO_H_NEW, DEMO_NEW).concat(toObjs(DEMO_H_MK, DEMO_MK)), '예시 데이터 (가상의 상품 9개)');
+  });
+
+  // ---------- 조건 ----------
+  document.querySelectorAll('.seg button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.seg button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+      state.weight = parseFloat(b.dataset.w); render();
+    });
+  });
+  $('budget').addEventListener('input', function (e) {
+    var n = parseInt(e.target.value.replace(/[^0-9]/g, ''), 10);
+    e.target.value = isNaN(n) ? '' : n.toLocaleString('ko-KR'); render();
+  });
+  ['split', 'fee', 'tax', 'sort', 'fD', 'fMetro', 'fFirst', 'fBuy', 'fMarket', 'fNew'].forEach(function (id) {
+    $(id).addEventListener(id === 'fee' || id === 'tax' ? 'input' : 'change', function () {
+      if (id === 'fMarket' && $('fMarket').checked) $('fNew').checked = false;
+      if (id === 'fNew' && $('fNew').checked) $('fMarket').checked = false;
+      render();
+    });
+  });
+  $('more').addEventListener('click', function () { state.shown += 20; render(); });
+
+  function filtered(sorted) {
+    return sorted.filter(function (p) {
+      if ($('fD').checked && p.safe.grade === 'D') return false;
+      if ($('fMetro').checked && !/서울|경기|인천/.test(p.sido)) return false;
+      if ($('fFirst').checked && p.rank !== 1) return false;
+      if ($('fBuy').checked && S.scopeLevel(p) < 3) return false;
+      if ($('fMarket').checked && !p.market) return false;
+      if ($('fNew').checked && p.market) return false;
+      return true;
+    });
+  }
+
+  // ---------- 그리기 ----------
+  function render() {
+    if (!state.rows.length) return;
+    var opt = { weight: state.weight, fee: parseFloat($('fee').value) || 0, tax: parseFloat($('tax').value) || 0 };
+    var sorted = S.rank(state.rows, opt);
+    var list = filtered(sorted);
+    $('empty').hidden = !!list.length; $('out').hidden = !list.length; $('allWrap').hidden = false;
+    if (!list.length) $('empty').innerHTML = '조건에 맞는 상품이 없어요. 걸러내기 조건을 풀어 보세요.';
+
+    // 추천 조합
+    var budget = parseInt($('budget').value.replace(/[^0-9]/g, ''), 10) || 0;
+    var pf = S.portfolio(list, budget, parseInt($('split').value, 10));
+    var used = 0, wNet = 0, wSafe = 0;
+    pf.picks.forEach(function (x) { used += x.amount; wNet += x.amount * x.p.net; wSafe += x.amount * x.p.safe.score; });
+    var avgNet = used ? wNet / used : 0, avgSafe = used ? wSafe / used : 0;
+    var avgDays = used ? pf.picks.reduce(function (s, x) { return s + x.amount * x.p.days; }, 0) / used : 0;
+    var avgGrade = avgSafe >= 80 ? 'A' : avgSafe >= 65 ? 'B' : avgSafe >= 50 ? 'C' : 'D';
+
+    $('summary').innerHTML =
+      stat('비교한 상품', list.length + '개') +
+      stat('조합 평균 등급', avgGrade + ' (' + Math.round(avgSafe) + '점)') +
+      stat('조합 세후 수익률', pct(avgNet, 2)) +
+      stat('1년 기대 수익(세후)', won(used * avgNet / 100));
+
+    $('pf').innerHTML = pf.picks.map(function (x) {
+      var p = x.p;
+      return '<div class="pf-item"><span class="grade g-' + p.safe.grade + '">' + p.safe.grade + '</span>' +
+        '<div><div class="nm">' + esc(p.name) + '</div><div class="sub">세후 ' + pct(p.net, 2) + ' · 담보비율 ' + pct(p.ltv) + ' · ' + (p.market ? '세컨드마켓' + (p.discount ? ' ' + p.discount + '% 할인' : '') : '신규') + ' · ' + Math.round(p.days) + '일</div></div>' +
+        '<div class="amt">' + won(x.amount) + '</div></div>';
+    }).join('');
+
+    var foot = '서로 다른 대출 <b>' + pf.picks.length + '곳</b>에 <b>' + won(used) + '</b>을 나눠 담았어요. 평균 약 ' + Math.round(avgDays) + '일 뒤에 돌려받아요.';
+    if (pf.left >= 1000) foot += ' 세컨드마켓 조각은 판매금액까지만 살 수 있어서 <b>' + won(pf.left) + '</b>이 남았어요. 나눌 개수를 늘려 보세요.';
+    if (pf.picks.length < parseInt($('split').value, 10)) foot += ' 조건에 맞는 서로 다른 대출이 ' + pf.picks.length + '개뿐이에요.';
+    $('pfFoot').innerHTML = foot;
+
+    // 전체 순위
+    var key = $('sort').value;
+    var view = list.slice();
+    if (key === 'safe') view.sort(function (a, b) { return b.safe.score - a.safe.score || b.net - a.net; });
+    if (key === 'net') view.sort(function (a, b) { return b.net - a.net; });
+    if (key === 'ltv') view.sort(function (a, b) { return (a.ltv == null ? 999 : a.ltv) - (b.ltv == null ? 999 : b.ltv); });
+    if (key === 'days') view.sort(function (a, b) { return a.days - b.days; });
+    $('count').textContent = '전체 ' + state.rows.length + '개 중 ' + list.length + '개';
+    $('list').innerHTML = view.slice(0, state.shown).map(item).join('');
+    $('more').hidden = view.length <= state.shown;
+  }
+
+  function stat(l, v) { return '<div class="stat"><span>' + l + '</span><b>' + v + '</b></div>'; }
+
+  function item(p, i) {
+    var tags = [p.market ? '<span class="tag2 mk">세컨드마켓</span>' : '<span class="tag2 new">신규</span>'];
+    if (p.discount) tags.push('<span class="tag2 dc">' + p.discount + '% 할인</span>');
+    tags.push('<span class="tag2">안전 ' + p.safe.score + '점</span>');
+    tags.push('<span class="tag2">' + (p.rankText || '-') + '순위</span>');
+    tags.push('<span class="tag2">' + ['매입보장 없음', '원금 일부 보장', '원금 보장', '이자까지 보장', '연체이자까지 보장'][S.scopeLevel(p)] + '</span>');
+    var facts = [
+      ['표시 수익률', pct(p.rate)], ['남은 기간', Math.round(p.days) + '일'],
+      [p.market ? '판매금액' : '상품금액', won(p.price)], ['유효담보비율', pct(p.ltv)],
+      ['감정가 / 실거래가', eok(p.appraisal) + ' / ' + eok(p.trade)], ['낙찰가율', pct(p.auction)],
+      ['이 대출 금액(추정)', eok(p.loan)], ['경매 시 회수 예상', eok(p.recovery)],
+      ['단지', esc(p.apt || '-') + (p.households ? ' · ' + p.households.toLocaleString('ko-KR') + '세대' : '')],
+      ['준공', p.built ? p.built + '년' : '-'], ['차입자 거주', p.selfLive ? '직접 거주' : '거주 안 함'],
+      ['권원보험', p.titleIns ? '가입' : '미가입']
+    ];
+    var bars = p.safe.parts.map(function (x) {
+      if (x.max === 0) return '<div class="bar neg"><span class="lb">' + x.label + '</span><span class="tr"></span><span class="vl">−5점</span></div>';
+      return '<div class="bar"><span class="lb">' + x.label + '</span><span class="tr"><i style="width:' + (x.got / x.max * 100).toFixed(0) + '%"></i></span><span class="vl">' + Math.round(x.got) + '/' + x.max + ' · ' + esc(x.note) + '</span></div>';
+    }).join('');
+    return '<div class="item"><button type="button" aria-expanded="false" onclick="var it=this.parentNode;it.classList.toggle(\'open\');this.setAttribute(\'aria-expanded\',it.classList.contains(\'open\'))">' +
+      '<span class="rk">' + (i + 1) + '</span><span class="grade g-' + p.safe.grade + '" title="안전 점수 ' + p.safe.score + '점">' + p.safe.grade + '</span>' +
+      '<div><div class="nm">' + esc(p.name) + '</div><div class="tags">' + tags.join('') + '</div></div>' +
+      '<div class="yl"><b>' + pct(p.net, 2) + '</b><span>세후 연</span></div></button>' +
+      '<div class="detail"><div class="facts">' + facts.map(function (f) { return '<div><span>' + f[0] + '</span><b>' + f[1] + '</b></div>'; }).join('') + '</div>' +
+      '<div class="bars">' + bars + '</div></div></div>';
+  }
+})();
+</script>
+</body>
+</html>

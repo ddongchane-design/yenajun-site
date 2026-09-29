@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>P2P 투자 가이드 — 아파트담보 투자 원리, 위험, 세금, 세컨드마켓까지 | 예나준</title>
+  <meta name="description" content="P2P(온라인투자연계금융) 투자가 무엇인지, 아파트담보 상품은 어떻게 수익이 나는지, 유효담보비율·근저당 순위·매입확약 읽는 법, 세금 15.4%와 투자 한도, 크플 세컨드마켓 활용법까지 정리했어요.">
+  <link rel="canonical" href="https://yenajun.com/p2p-invest/guide/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="예나준">
+  <meta property="og:title" content="P2P 투자 가이드 — 아파트담보 투자, 이것만 알고 시작하세요">
+  <meta property="og:description" content="원리, 위험, 안전장치 읽는 법, 세금과 한도, 세컨드마켓까지.">
+  <meta property="og:url" content="https://yenajun.com/p2p-invest/guide/">
+  <meta property="og:image" content="https://yenajun.com/assets/og-image.jpg">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .guide-doc { max-width: 760px; margin: 0 auto; padding: 40px 20px 80px; }
+    .guide-doc h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.3; margin-top: 10px; }
+    .guide-doc .lead { font-size: 17px; color: var(--muted); line-height: 1.8; margin: 16px 0 0; }
+    .guide-doc .meta { font-size: 13.5px; color: var(--muted-2); margin: 12px 0 0; }
+    .guide-doc h2 { font-size: clamp(21px, 3vw, 26px); margin: 56px 0 14px; padding-top: 22px; border-top: 1px solid var(--line); scroll-margin-top: 96px; display: flex; gap: 10px; align-items: baseline; }
+    .guide-doc h2 .no { font-family: var(--sans); font-size: 14px; font-weight: 600; color: var(--coral); flex: none; }
+    .guide-doc h3 { font-size: 17px; margin: 28px 0 8px; }
+    .guide-doc p, .guide-doc li { font-size: 16px; color: var(--muted); line-height: 1.85; }
+    .guide-doc p { margin: 12px 0 0; }
+    .guide-doc strong { color: var(--text); }
+    .guide-doc ul, .guide-doc ol { padding-left: 22px; margin: 12px 0 0; }
+
+    .layers { display: grid; gap: 12px; margin-top: 24px; }
+    @media (min-width: 640px) { .layers { grid-template-columns: 1fr 1fr; } }
+    .layer { border-radius: 16px; padding: 18px 20px; }
+    .layer b { display: block; font-size: 16px; color: var(--text); margin-bottom: 6px; }
+    .layer span { font-size: 14.5px; color: var(--muted); line-height: 1.7; }
+    .layer.good { background: var(--sage-bg); border: 1px solid #C9D9C6; }
+    .layer.bad { background: #FBEDE8; border: 1px solid #F2C9BC; }
+
+    .toc { margin-top: 28px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+    .toc p { margin: 0 0 8px; font-size: 13px; font-weight: 600; letter-spacing: 1px; color: var(--coral); }
+    .toc ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+    .toc li { font-size: 15px; line-height: 1.6; }
+    .toc a { text-decoration: none; color: var(--text); }
+    .toc a:hover { color: var(--coral); }
+
+    .tbl { margin-top: 16px; overflow-x: auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+    .tbl table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    .tbl th, .tbl td { padding: 11px 14px; text-align: left; vertical-align: top; line-height: 1.6; }
+    .tbl th { background: var(--cream-2); color: var(--muted-2); font-size: 13px; font-weight: 600; white-space: nowrap; }
+    .tbl td { border-top: 1px solid var(--line); color: var(--text); }
+    .tbl td:first-child { white-space: nowrap; font-weight: 500; }
+    .tbl td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .tbl tr.sum td { font-weight: 600; background: var(--cream); }
+    .src { font-size: 13px !important; color: var(--muted-2) !important; margin-top: 8px !important; }
+
+    .point { margin-top: 18px; background: var(--navy); color: var(--cream); border-radius: 14px; padding: 16px 20px; font-size: 15.5px; line-height: 1.75; }
+    .point b { color: #F2B8A5; }
+    .steps { list-style: none; padding: 0 !important; counter-reset: s; display: grid; gap: 10px; }
+    .steps li { counter-increment: s; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px 14px 56px; position: relative; }
+    .steps li::before { content: counter(s); position: absolute; left: 16px; top: 14px; width: 26px; height: 26px; border-radius: 50%; background: var(--navy); color: var(--cream); font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+    .steps b { color: var(--text); }
+    .check { list-style: none; padding: 0 !important; }
+    .check li { padding-left: 28px; position: relative; }
+    .check li::before { content: "✓"; position: absolute; left: 4px; color: var(--sage-text); font-weight: 700; }
+
+    .cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 12px 18px; border-radius: 12px; background: var(--navy); color: var(--cream) !important; font-weight: 600; font-size: 15px; text-decoration: none; }
+    .cta:hover { background: #151D32; }
+    .warn { margin-top: 18px; background: #FBEEEC; border-radius: 14px; padding: 14px 16px; font-size: 14.5px !important; color: #6E2A20 !important; line-height: 1.75; }
+
+    .sources { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .sources h2 { margin-top: 0; border: 0; padding: 0; font-size: 18px; }
+    .sources li { font-size: 13px !important; line-height: 1.7 !important; word-break: break-all; }
+    .sources a { color: var(--muted-2); }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="예나준 홈"><img src="/assets/logo.svg" alt="" width="32" height="32"><span>예나준</span></a>
+    <a href="/p2p-invest/" style="text-decoration:none;font-weight:600;font-size:15px">상품 고르기 계산기 →</a>
+  </div>
+</header>
+
+<main class="guide-doc">
+  <p class="eyebrow">P2P GUIDE</p>
+  <h1>P2P 아파트담보 투자,<br>이것만 알고 시작하세요</h1>
+  <p class="lead">예금 금리는 아쉽고 주식은 부담스러울 때 눈에 들어오는 게 P2P 투자예요. 표시 수익률은 연 7~9%대로 높지만, <strong>예금처럼 원금이 보장되지는 않아요.</strong> 이 글은 아파트를 담보로 잡는 P2P 상품을 중심으로, 수익이 나는 원리와 위험, 그리고 상대적으로 안전한 상품을 고르는 법을 정리했어요.</p>
+  <p class="meta">2026년 9월 기준 · 예나준 운영자 이동찬 · 크플과 관계없는 개인이 쓴 글이에요</p>
+
+  <div class="layers">
+    <div class="layer good"><b>이런 분께 맞아요</b><span>1년 안팎 묶어 둬도 괜찮은 여윳돈이 있고, 예금보다 높은 이자를 원하면서 담보 구조를 직접 확인할 의향이 있는 분.</span></div>
+    <div class="layer bad"><b>이런 돈은 넣지 마세요</b><span>생활비, 전세 보증금, 몇 달 안에 꼭 써야 할 돈. P2P는 중간에 빼기 어렵고 원금 손실 가능성이 있어요.</span></div>
+  </div>
+
+  <nav class="toc" aria-label="목차">
+    <p>목차</p>
+    <ol>
+      <li><a href="#what">P2P 투자(온투업)란 무엇인가요?</a></li>
+      <li><a href="#how">아파트담보 상품은 어떻게 돈이 벌리나요?</a></li>
+      <li><a href="#risk">꼭 알아야 할 위험 5가지</a></li>
+      <li><a href="#read">안전장치 읽는 법: 담보비율·순위·매입확약</a></li>
+      <li><a href="#tax">세금과 수수료를 빼면 실제로 얼마가 남나요?</a></li>
+      <li><a href="#limit">1인당 투자 한도</a></li>
+      <li><a href="#start">크플에서 투자 시작하는 법</a></li>
+      <li><a href="#second">세컨드마켓: 사고팔 수 있는 P2P</a></li>
+      <li><a href="#pick">상품 고르기 체크리스트</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <h2 id="what"><span class="no">01</span>P2P 투자(온투업)란 무엇인가요?</h2>
+  <p>P2P(Peer to Peer)는 돈이 필요한 사람과 돈을 빌려줄 사람을 <strong>온라인 플랫폼이 직접 이어주는</strong> 금융이에요. 은행이 예금을 받아 대출해 주는 대신, 여러 투자자가 조금씩 돈을 모아 한 사람의 대출을 채우고 그 이자를 나눠 받아요.</p>
+  <p>우리나라에서는 2020년 8월 「온라인투자연계금융업 및 이용자 보호에 관한 법률」(온투법)이 시행되면서 정식 금융업이 됐어요. 그래서 요즘은 P2P를 <strong>온투업(온라인투자연계금융업)</strong>이라고 부르고, 금융위원회에 등록한 회사만 영업할 수 있어요. 투자 전에 플랫폼이 등록 업체인지 먼저 확인하세요. 크플(운영사 피에프씨테크놀로지스)은 등록된 온투업체예요.</p>
+  <p>P2P 상품은 크게 개인신용 상품, 부동산 담보 상품, 기타 담보 상품으로 나뉘어요. 이 글과 계산기는 그중 <strong>아파트담보 상품</strong>을 다뤄요. 돈을 갚지 못하면 아파트를 경매로 팔아 돌려받을 수 있어서, 신용 상품보다 회수 수단이 분명하기 때문이에요.</p>
+
+  <!-- 2 -->
+  <h2 id="how"><span class="no">02</span>아파트담보 상품은 어떻게 돈이 벌리나요?</h2>
+  <p>아파트를 가진 사람이 생활자금이나 기존 대출을 갚으려고 돈을 빌려요. 은행 대출이 이미 있거나 한도가 모자라면 은행보다 높은 금리를 내고 P2P에서 빌리고, 그 이자가 투자자의 수익이 돼요. 대신 대출자의 아파트에 <strong>근저당</strong>을 설정해서, 못 갚으면 경매로 돌려받을 권리를 잡아 둬요.</p>
+  <ol>
+    <li>플랫폼이 대출 신청을 심사하고 아파트 시세를 확인해요.</li>
+    <li>투자자들이 상품을 보고 원하는 만큼 투자해요. 크플은 5천 원부터 투자할 수 있어요.</li>
+    <li>대출자가 매달 이자를 내면, 투자자는 투자한 비율만큼 이자를 받아요.</li>
+    <li>만기(보통 12개월)에 원금을 돌려받아요. 연장되는 경우도 있어요.</li>
+  </ol>
+  <p>은행 예금이 연 2~3%대인데 P2P 아파트담보 상품이 연 7~9%대를 주는 이유는, 그만큼 <strong>위험을 투자자가 나눠 지기 때문</strong>이에요. 높은 수익률은 공짜가 아니라는 점을 먼저 기억하세요.</p>
+
+  <!-- 3 -->
+  <h2 id="risk"><span class="no">03</span>꼭 알아야 할 위험 5가지</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>위험</th><th>무슨 일이 생기나요</th></tr></thead>
+    <tbody>
+      <tr><td>예금자보호 없음</td><td>은행 예금처럼 5천만 원까지 보호해 주는 제도가 적용되지 않아요.</td></tr>
+      <tr><td>연체·부실</td><td>대출자가 이자를 못 내면 수익이 끊기고, 경매까지 가면 원금 회수에 1년 이상 걸릴 수 있어요.</td></tr>
+      <tr><td>집값 하락</td><td>경매 낙찰가가 빚보다 낮으면 뒤 순위부터 손실이 나요. 담보비율이 높을수록 위험해요.</td></tr>
+      <tr><td>유동성</td><td>만기 전에 돈을 빼기 어려워요. 세컨드마켓에서 팔 수는 있지만 사 줄 사람이 있어야 해요.</td></tr>
+      <tr><td>플랫폼 위험</td><td>플랫폼 회사가 문을 닫으면 상환 관리가 지연될 수 있어요. 온투법에 따라 투자금은 분리 보관되지만, 번거로움과 지연은 생겨요.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="warn">매입확약이나 권원보험 같은 안전장치가 있어도 <strong>"원금 보장"은 아니에요.</strong> 약속한 회사나 보험사의 사정에 따라 결과가 달라질 수 있어요.</p>
+
+  <!-- 4 -->
+  <h2 id="read"><span class="no">04</span>안전장치 읽는 법: 담보비율·순위·매입확약</h2>
+  <p>크플 상품 화면과 엑셀에는 숫자가 50개 넘게 나와요. 그중 안전성과 직접 이어지는 건 아래 여섯 가지예요.</p>
+
+  <h3>① 유효담보비율 (가장 중요)</h3>
+  <p>집값 가운데 <strong>빚이 차지하는 비율</strong>이에요. 앞선 은행 대출, 세입자 보증금, 이번 P2P 대출을 모두 더해서 감정가로 나눠요. 예를 들어 10억 원 아파트에 은행 대출 3억 원, 이번 대출 1억 원이 있으면 유효담보비율은 40%예요. 집값이 60% 넘게 떨어지지 않는 한 이론적으로 원금은 지킬 수 있다는 뜻이에요. <strong>낮을수록 안전해요.</strong> 50%를 넘으면 신중하게, 70%를 넘으면 위험 신호로 보세요.</p>
+
+  <h3>② 근저당 순위</h3>
+  <p>경매로 팔렸을 때 돈을 돌려받는 순서예요. 1순위가 먼저 다 받고, 남은 돈으로 2순위가 받아요. 순위가 뒤라도 유효담보비율이 낮으면 받을 돈이 충분히 남을 수 있어서, <strong>순위와 담보비율을 함께</strong> 봐야 해요.</p>
+
+  <h3>③ 낙찰가율과 담보물 회수 예상가액</h3>
+  <p>낙찰가율은 그 지역 아파트가 경매에서 보통 시세의 몇 %에 팔리는지예요. 회수 예상가액은 "감정가 × 낙찰가율 − 앞선 빚 − 보증금"으로, <strong>경매까지 갔을 때 이 대출에 돌아올 것으로 보는 돈</strong>이에요. 이 금액이 대출금보다 여러 배 크면 여유가 있는 거예요.</p>
+
+  <h3>④ 매입확약과 보장 범위</h3>
+  <p>대출이 연체되면 채권 관리 회사(NPL 회사)가 미리 정한 조건으로 그 채권을 사 주기로 약속하는 제도예요. 크플은 2025년 6월부터 거의 모든 아파트담보 상품에 매입확약을 붙이고 있어요. 보장 범위는 상품마다 달라요.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>엑셀 표기</th><th>보장 내용</th></tr></thead>
+    <tbody>
+      <tr><td>원금</td><td>원금을 보장해요(상품에 따라 원금 95%인 경우도 있어요).</td></tr>
+      <tr><td>이자까지</td><td>원금과 정상 이자까지 보장해요.</td></tr>
+      <tr><td>연체 수익까지</td><td>원금, 이자에 더해 일정 기간(최대 60일)의 연체이자까지 보장해요.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>⑤ 권원보험</h3>
+  <p>등기 서류 위조나 권리 관계 문제로 근저당이 무효가 되는 경우를 보험사가 보상하는 보험이에요. 사기성 대출을 막는 마지막 안전장치라서, 가입된 상품을 고르는 게 좋아요.</p>
+
+  <h3>⑥ 차입자 신용 (크플 스코어·NICE 점수)</h3>
+  <p>담보가 든든해도 연체가 나면 회수까지 시간이 걸려요. 신용점수가 높은 대출자일수록 이자를 제때 낼 가능성이 높아요.</p>
+  <div class="point">예나준 계산기는 이 여섯 가지를 <b>100점 만점 안전 점수</b>로 바꿔 A~D 등급을 매겨요. 가중치는 유효담보비율 35점, 매입보장 20점, 회수 여유 15점, 근저당 순위·차입자 신용·단지 규모와 지역 각 10점이에요.</div>
+
+  <!-- 5 -->
+  <h2 id="tax"><span class="no">05</span>세금과 수수료를 빼면 실제로 얼마가 남나요?</h2>
+  <p>P2P 이자에는 <strong>15.4%</strong>(이자소득세 14% + 지방소득세 1.4%)가 원천징수돼요. 여기에 플랫폼 이용료가 상환 때마다 빠지는데, 크플 아파트담보 상품은 <strong>연 1.2%</strong>예요. 표시 수익률 연 8%인 상품에 100만 원을 1년 넣으면 이렇게 돼요.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>항목</th><th style="text-align:right">금액</th></tr></thead>
+    <tbody>
+      <tr><td>이자 (100만 원 × 8%)</td><td class="num">80,000원</td></tr>
+      <tr><td>세금 15.4%</td><td class="num">−12,320원</td></tr>
+      <tr><td>플랫폼 이용료 1.2%</td><td class="num">−12,000원</td></tr>
+      <tr class="sum"><td>실제로 받는 돈</td><td class="num">55,680원 (연 5.57%)</td></tr>
+    </tbody>
+  </table></div>
+  <p>표시 수익률 8%가 실제로는 <strong>5%대 중반</strong>이 되는 셈이에요. 그래도 세후 예금 이자보다는 높지만, 상품을 비교할 때는 꼭 세후 기준으로 보세요. 이자·배당 같은 금융소득이 한 해 2천만 원을 넘으면 다른 소득과 합쳐 종합과세되는 점도 알아 두세요.</p>
+  <p class="src">근거: 크플 투자 안내(정산 시 15.4% 원천징수, 아파트담보 이용료 연 1.2%) · 소득세법</p>
+
+  <!-- 6 -->
+  <h2 id="limit"><span class="no">06</span>1인당 투자 한도</h2>
+  <p>온투법은 개인 투자자가 한꺼번에 큰돈을 넣지 않도록 한도를 정해 두었어요. 한도는 <strong>모든 온투업체를 합친 금액</strong>이에요.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>구분 (일반 개인투자자)</th><th>한도</th></tr></thead>
+    <tbody>
+      <tr><td>전체 투자 한도</td><td>4천만 원 (2026년 9월, 금융위원회가 5천만 원으로 올리는 방안 발표)</td></tr>
+      <tr><td>부동산 관련 상품</td><td>2천만 원 (유지)</td></tr>
+      <tr><td>소득적격 투자자</td><td>1억 원</td></tr>
+    </tbody>
+  </table></div>
+  <p>아파트담보 상품은 부동산 관련 상품이라 <strong>일반 개인은 2천만 원까지</strong> 넣을 수 있어요. 한도가 바뀌면 플랫폼에서 안내하니 투자 전에 확인하세요.</p>
+  <p class="src">근거: 금융위원회 온투업 제도 개선 발표 보도(2026년 9월 22일)</p>
+
+  <!-- 7 -->
+  <h2 id="start"><span class="no">07</span>크플에서 투자 시작하는 법</h2>
+  <ol class="steps">
+    <li><b>앱 설치와 가입</b> — 크플 앱이나 웹(cple.co.kr)에서 회원가입하고 본인 인증을 해요.</li>
+    <li><b>투자자 정보 등록</b> — 투자자 유형(일반·소득적격 등)을 확인하고, 원리금을 받을 내 은행 계좌를 연결해요.</li>
+    <li><b>예치금 넣기</b> — 안내받은 예치금 계좌로 투자할 돈을 보내요. 예치금은 플랫폼 회사 돈과 따로 보관돼요.</li>
+    <li><b>상품 고르기</b> — 투자 메뉴에서 아파트담보 상품 상세를 확인해요. 목록의 <b>엑셀 파일 받기</b>로 파일을 받아 <a href="/p2p-invest/">예나준 계산기</a>에 올리면 한눈에 비교할 수 있어요.</li>
+    <li><b>나눠서 투자하기</b> — 한 상품에 몰지 말고 여러 대출에 조금씩 나눠 넣어요. 하나가 연체돼도 전체 영향이 작아져요.</li>
+    <li><b>매달 확인하기</b> — 이자는 매달 세금과 이용료를 뺀 뒤 예치금으로 들어와요. 연체 알림이 오면 상품 공지를 확인해요.</li>
+  </ol>
+
+  <!-- 8 -->
+  <h2 id="second"><span class="no">08</span>세컨드마켓: 사고팔 수 있는 P2P</h2>
+  <p>예전 P2P의 가장 큰 단점은 <strong>만기까지 돈이 묶인다</strong>는 점이었어요. 크플은 2026년 6월 <strong>세컨드마켓(투자마켓)</strong>을 열어, 이미 투자한 상품의 원리금을 받을 권리(원리금수취권)를 다른 투자자에게 팔 수 있게 했어요.</p>
+  <ul>
+    <li><strong>대상</strong>: 아파트담보투자, 증권계좌담보투자 상품</li>
+    <li><strong>어디서 보나요</strong>: 크플 웹의 세컨드마켓 메뉴. 목록을 <strong>엑셀 파일 받기</strong>로 내려받을 수 있어요.</li>
+    <li><strong>팔 수 있는 시점</strong>: 투자 실행 후 3영업일부터</li>
+    <li><strong>가격</strong>: 파는 사람이 할인율을 정해요. 할인율 0%면 남은 원금 그대로, 2%면 2% 싸게 팔아요.</li>
+    <li><strong>정산</strong>: 거래가 체결되면 바로 정산돼요.</li>
+  </ul>
+
+  <h3>사는 사람 입장: 할인만큼 수익이 올라가요</h3>
+  <p>남은 원금 100만 원, 수익률 연 8%, 남은 기간 250일인 상품을 <strong>2% 할인</strong>된 98만 원에 사면 이렇게 계산돼요(이용료 연 1.2%).</p>
+  <div class="tbl"><table>
+    <thead><tr><th>항목</th><th style="text-align:right">금액</th></tr></thead>
+    <tbody>
+      <tr><td>250일 이자</td><td class="num">54,795원</td></tr>
+      <tr><td>세금 15.4%</td><td class="num">−8,438원</td></tr>
+      <tr><td>이용료</td><td class="num">−8,219원</td></tr>
+      <tr><td>할인 차익 (100만 − 98만)</td><td class="num">+20,000원</td></tr>
+      <tr class="sum"><td>합계 (98만 원 기준 연 환산)</td><td class="num">58,138원 (연 약 8.7%)</td></tr>
+    </tbody>
+  </table></div>
+  <p>할인 없이 샀다면 세후 연 5.6% 정도였을 상품이, 2% 할인만으로 연 8.7% 수준이 돼요. 남은 기간이 짧을수록 할인 효과가 연 수익률에서 더 크게 보여요. 다만 할인 차익에 세금이 어떻게 붙는지는 플랫폼 정산 내역으로 꼭 확인하세요. 예나준 계산기는 이자에만 세금을 적용해요.</p>
+
+  <h3>파는 사람 입장: 급할 때의 출구</h3>
+  <p>갑자기 돈이 필요할 때 만기를 기다리지 않고 현금화할 수 있어요. 할인율 0%로 내놓으면 손해 없이 넘길 수 있지만, 사는 사람이 없으면 안 팔릴 수 있어요. 빨리 팔려면 할인율을 올려야 하고, 그만큼은 손실이에요.</p>
+  <p class="warn">할인율이 유난히 높은 매물은 파는 사람이 무언가 걱정하고 있다는 신호일 수도 있어요. 할인율만 보지 말고 <strong>안전 점수와 연체 여부</strong>를 함께 확인하세요.</p>
+
+  <!-- 9 -->
+  <h2 id="pick"><span class="no">09</span>상품 고르기 체크리스트</h2>
+  <ul class="check">
+    <li>유효담보비율이 <strong>50% 이하</strong>인가요? (낮을수록 좋아요)</li>
+    <li>매입보장 범위가 <strong>"이자까지" 이상</strong>인가요?</li>
+    <li>권원보험에 가입돼 있나요?</li>
+    <li>수도권이거나 <strong>세대수가 많은</strong> 단지인가요? (경매·매매가 잘 돼요)</li>
+    <li>감정가와 국토부 실거래가 차이가 크지 않나요? (감정가만 높으면 담보비율이 실제보다 낮아 보여요)</li>
+    <li>세금과 이용료를 뺀 <strong>세후 수익률</strong>로 비교했나요?</li>
+    <li>한 대출에 몰지 않고 <strong>5곳 이상에 나눠</strong> 담았나요?</li>
+    <li>1년 동안 안 써도 되는 돈인가요?</li>
+  </ul>
+  <p>이 확인을 한 번에 해 주는 게 예나준의 계산기예요. 크플에서 받은 엑셀을 올리면 등급과 세후 수익률로 줄을 세우고, 투자금을 서로 다른 대출에 나눠 담는 조합까지 만들어 줘요.</p>
+  <a class="cta" href="/p2p-invest/">P2P 상품 고르기 계산기 열기 →</a>
+
+  <p class="warn" style="margin-top:32px">이 글은 정보 제공을 위한 것이며 특정 상품이나 플랫폼에 대한 투자 권유가 아니에요. 제도와 상품 조건은 바뀔 수 있으니 투자 전에 플랫폼의 상품 설명서와 공시를 꼭 확인하세요.</p>
+
+  <section class="sources">
+    <h2>참고 자료</h2>
+    <ol>
+      <li><a href="https://www.cple.co.kr/" rel="noopener" target="_blank">크플 공식 웹사이트 (피에프씨테크놀로지스, 온라인투자연계금융업 등록)</a></li>
+      <li><a href="https://edaily.co.kr/News/Read?mediaCodeNo=257&newsId=03365286645483032" rel="noopener" target="_blank">이데일리 — 크플, 세컨드마켓 출시 (2026년 6월)</a></li>
+      <li><a href="https://www.fnnews.com/news/202506090929069138" rel="noopener" target="_blank">파이낸셜뉴스 — 크플, 아파트투자 매입확약 전면 도입 (2025년 6월)</a></li>
+      <li><a href="https://www.fnnews.com/news/202609221901197085" rel="noopener" target="_blank">파이낸셜뉴스 — 온투업 투자 한도 상향 발표 (2026년 9월)</a></li>
+      <li><a href="https://www.g-enews.com/article/Finance/2026/09/202609221629153415e30fcb1ba8_1" rel="noopener" target="_blank">글로벌이코노믹 — P2P 투자한도 4천만 원 → 5천만 원 확대 (2026년 9월)</a></li>
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-brand"><img src="/assets/logo.svg" alt="" width="28" height="28"><b>예나준</b><span>© 2026 yenajun.com</span></div>
+    <nav class="footer-nav" aria-label="하단 메뉴">
+      <a href="/about.html">소개</a><a href="/privacy.html">개인정보처리방침</a><a href="/terms.html">이용약관</a><a href="mailto:ddongchane@gmail.com">문의</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
