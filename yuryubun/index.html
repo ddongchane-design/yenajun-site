@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="상속인 구성과 남은 재산, 생전 증여·유증을 넣으면 유류분액과 청구할 수 있는 부족액, 누가 얼마를 돌려줘야 하는지까지 계산해 드립니다. 2026년 3월 개정 민법 반영.">
+<link rel="canonical" href="https://yenajun.com/yuryubun/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="예나준">
+<meta property="og:title" content="유류분 계산기 — 2026년 개정 민법 반영">
+<meta property="og:description" content="유류분액, 청구 가능한 부족액, 반환 분담까지 한 번에 계산해요.">
+<meta property="og:url" content="https://yenajun.com/yuryubun/">
+<meta property="og:image" content="https://yenajun.com/assets/og-image.jpg">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>유류분 계산기</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap');
+
+:root{
+  --bg:#14161A; --card:#1E222A; --card2:#191C22; --line:#2E343F;
+  --fg:#E8EBF0; --sub:#9BA3AF; --faint:#6B7280;
+  --gold:#FFB020; --red:#FF6B6B; --green:#33C892; --blue:#5AA9FF;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--fg);
+  font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.5;
+  padding:32px 16px 56px;
+}
+.wrap{max-width:600px;margin:0 auto}
+.badge{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1px;
+  color:var(--bg);background:var(--gold);padding:6px 12px;border-radius:6px}
+h1{font-size:30px;font-weight:800;letter-spacing:-1px;margin:16px 0 8px;text-wrap:balance}
+.lead{font-size:15px;color:var(--sub);line-height:1.6}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:22px 20px;margin-top:20px}
+.card h2{font-size:13px;font-weight:800;letter-spacing:.5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:6px}
+.card .desc{font-size:13px;color:var(--faint);line-height:1.55}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 14px;margin-top:14px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field.full{grid-column:1 / -1}
+label{font-size:13.5px;font-weight:600;color:var(--sub)}
+.inputwrap{position:relative;display:flex;align-items:center}
+input[type=number],input[type=date],input[type=text],select{
+  width:100%;background:var(--card2);border:1px solid var(--line);border-radius:11px;
+  color:var(--fg);font:inherit;font-size:17px;font-weight:700;
+  padding:12px 44px 12px 14px;font-variant-numeric:tabular-nums;
+  -moz-appearance:textfield;transition:border-color .15s,box-shadow .15s}
+input[type=date],input[type=text]{padding-right:14px;font-size:15px}
+input[type=date]{color-scheme:dark}
+input.money{padding-right:44px;font-size:17px}
+select{padding-right:14px;font-size:15px;font-weight:600;cursor:pointer}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input:focus,select:focus{outline:none;border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(255,176,32,.18)}
+.unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--faint);pointer-events:none}
+.hint{font-size:12px;color:var(--faint);line-height:1.45}
+.check{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--sub);font-weight:500;cursor:pointer;line-height:1.5}
+.check input{width:18px;height:18px;margin-top:1px;accent-color:var(--gold);flex:none}
+
+.seg{display:flex;background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:4px;gap:4px}
+.seg button{flex:1;background:transparent;border:0;color:var(--sub);font:inherit;
+  font-size:14px;font-weight:700;padding:9px 6px;border-radius:8px;cursor:pointer;transition:.15s}
+.seg button[aria-pressed=true]{background:var(--gold);color:var(--bg)}
+
+/* 상속인 이름 */
+.heirs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:8px}
+.heir{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:4px 4px 4px 12px}
+.heir small{font-size:11.5px;font-weight:700;color:var(--faint);white-space:nowrap}
+.heir input{border:0;background:transparent;padding:8px 6px;font-size:15px;box-shadow:none!important}
+
+/* 증여·유증 행 */
+.rows{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.row{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;position:relative}
+.row .grid{margin-top:0;gap:10px}
+.row .rtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.row .rno{font-size:12.5px;font-weight:800;color:var(--gold)}
+.row .del{background:transparent;border:1px solid var(--line);color:var(--sub);border-radius:8px;
+  font:inherit;font-size:12.5px;font-weight:700;padding:5px 10px;cursor:pointer}
+.row .del:hover{border-color:var(--red);color:var(--red)}
+.row input[type=number],.row select{background:var(--card)}
+.row .extra{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+.row .extra[hidden]{display:none}
+.addbar{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{background:transparent;border:1px dashed #475063;color:var(--fg);font:inherit;font-size:14px;font-weight:700;
+  padding:11px 14px;border-radius:11px;cursor:pointer;flex:1;min-width:140px}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn.solid{border-style:solid;background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.btn.solid:hover{color:var(--bg);filter:brightness(1.05)}
+
+/* result */
+.rescard{background:linear-gradient(180deg,#1B1F27,#171A20);border-color:#333B49}
+.who{font-size:14px;color:var(--sub);margin-top:2px}
+.who b{color:var(--fg)}
+.breakdown{display:flex;flex-direction:column;margin-top:6px}
+.brow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0}
+.brow + .brow{border-top:1px solid var(--line)}
+.bl{font-size:14.5px;color:var(--sub);font-weight:500}
+.bl small{display:block;font-size:12px;color:var(--faint);margin-top:2px}
+.bv{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.bv.dim{color:var(--sub);font-weight:600}
+
+.final{margin-top:16px;padding-top:18px;border-top:2px solid var(--line);
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.final .fl{font-size:16px;font-weight:800}
+.final .fv{font-size:34px;font-weight:800;letter-spacing:-1px;color:var(--gold);
+  font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;margin-left:auto}
+
+.verdict{margin-top:16px;border-radius:14px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start}
+.verdict .dot{width:12px;height:12px;border-radius:50%;flex:none;margin-top:6px}
+.verdict .vt{font-size:15px;font-weight:700;line-height:1.5}
+.verdict .vs{font-size:13px;color:var(--sub);font-weight:500;margin-top:3px;line-height:1.55}
+.verdict.hit{background:rgba(255,176,32,.10);border:1px solid rgba(255,176,32,.35)}
+.verdict.hit .dot{background:var(--gold)} .verdict.hit .vt{color:var(--gold)}
+.verdict.safe{background:rgba(51,200,146,.10);border:1px solid rgba(51,200,146,.35)}
+.verdict.safe .dot{background:var(--green)} .verdict.safe .vt{color:var(--green)}
+.verdict.warn{background:rgba(255,107,107,.10);border:1px solid rgba(255,107,107,.35)}
+.verdict.warn .dot{background:var(--red)} .verdict.warn .vt{color:var(--red)}
+
+.sub-h{font-size:14px;font-weight:800;color:var(--fg);margin-top:26px}
+.sub-h small{font-weight:500;color:var(--faint);font-size:12px;margin-left:4px}
+.tbl{margin-top:10px;overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.tbl table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+.tbl th,.tbl td{padding:10px 12px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
+.tbl th{background:var(--card);color:var(--sub);font-weight:700;font-size:12px}
+.tbl td{border-top:1px solid var(--line);color:var(--fg)}
+.tbl tr.me td{background:rgba(255,176,32,.08)}
+.tbl tr.me td:first-child{color:var(--gold);font-weight:800}
+.tbl td.pos{color:var(--gold);font-weight:800}
+.tbl td.muted{color:var(--faint)}
+.tbl.small table{min-width:420px}
+
+.rules{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.rule{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--sub);line-height:1.55;
+  background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:10px 12px}
+.rule .tag{flex:none;font-size:11px;font-weight:800;border-radius:5px;padding:2px 7px;margin-top:2px}
+.rule .tag.on{color:var(--green);border:1px solid rgba(51,200,146,.45)}
+.rule .tag.off{color:var(--faint);border:1px solid var(--line)}
+.rule .tag.due{color:var(--red);border:1px solid rgba(255,107,107,.45)}
+.rule b{color:var(--fg)}
+.notes{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.notes p{font-size:12.5px;color:var(--red);line-height:1.5}
+
+.disc{font-size:12px;color:var(--faint);line-height:1.65;margin-top:22px}
+.foot{margin-top:18px;display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--line);padding-top:16px}
+.foot .brand{font-size:14px;font-weight:800;color:var(--sub)}
+.foot .tag{font-size:12px;color:var(--faint)}
+details{margin-top:14px}
+summary{font-size:13.5px;font-weight:700;color:var(--sub);cursor:pointer;list-style:none;
+  display:flex;align-items:center;gap:6px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"＋";color:var(--gold);font-weight:800}
+details[open] summary::before{content:"－"}
+@media (max-width:440px){ h1{font-size:26px} .grid{grid-template-columns:1fr} .final .fv{font-size:30px} }
+
+/* 설명 글 */
+.guide{margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
+.guide p{font-size:15px;color:var(--sub);line-height:1.8;margin-top:12px}
+.guide strong{color:var(--fg)}
+.g-h2{font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--fg)}
+.g-h3{font-size:17px;font-weight:800;color:var(--fg);margin-top:32px}
+.g-steps{margin:14px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.g-steps li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14.5px;color:var(--sub);line-height:1.6}
+.g-steps b{color:var(--gold)}
+.g-table{margin-top:14px;overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.g-table table{width:100%;border-collapse:collapse;font-size:14px}
+.g-table th,.g-table td{padding:11px 14px;text-align:left;vertical-align:top;line-height:1.5}
+.g-table th{background:var(--card);color:var(--sub);font-weight:700;font-size:13px}
+.g-table td{border-top:1px solid var(--line);color:var(--fg)}
+.guide p.g-src{font-size:12px;color:var(--faint);margin-top:8px;line-height:1.6}
+.guide details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:10px}
+.guide details summary{font-size:15px;color:var(--fg)}
+.guide details p{font-size:14px;margin-top:10px}
+</style>
+<link rel="stylesheet" href="/assets/related.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <span class="badge">예나준</span>
+  <h1>유류분 계산기</h1>
+  <p class="lead">상속인 구성과 남은 재산, 생전에 누가 무엇을 받았는지 넣으면 <b>내 유류분이 얼마인지</b>, <b>실제로 청구할 수 있는 금액</b>, <b>누가 얼마를 돌려줘야 하는지</b>까지 계산해 드립니다. 2026년 3월 17일 개정 민법을 반영했어요.</p>
+
+  <!-- 1. 상속인 -->
+  <div class="card">
+    <h2>① 누가 상속인인가요</h2>
+    <p class="desc">형제자매는 2024년 4월 25일 헌법재판소 결정으로 유류분이 없어졌어요. 자녀가 있으면 부모님은 상속인이 아니에요.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="death">돌아가신 날 (상속개시일)</label>
+        <input type="date" id="death" value="2025-06-10">
+      </div>
+      <div class="field">
+        <label>배우자</label>
+        <div class="seg" id="segSpouse" role="group" aria-label="배우자 생존 여부">
+          <button type="button" data-v="1" aria-pressed="false">있음</button>
+          <button type="button" data-v="0" aria-pressed="true">없음</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="kids">자녀 수 (직계비속)</label>
+        <div class="inputwrap"><input type="number" id="kids" value="3" min="0" max="12" step="1" inputmode="numeric"><span class="unit">명</span></div>
+      </div>
+      <div class="field" id="parentsField">
+        <label for="parents">부모님 (자녀가 없을 때만)</label>
+        <select id="parents">
+          <option value="0">안 계심</option>
+          <option value="1">한 분</option>
+          <option value="2">두 분</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label>상속인 이름 (바꿔도 돼요)</label>
+        <div class="heirs" id="heirList"></div>
+      </div>
+      <div class="field full">
+        <label for="me">유류분을 계산할 사람 (청구인)</label>
+        <select id="me"></select>
+        <label class="check"><input type="checkbox" id="limited"> 이 사람이 한정승인을 했어요 <span class="hint">(빚이 많아 상속분이 마이너스여도 0으로 봐요)</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 남은 재산 -->
+  <div class="card">
+    <h2>② 돌아가실 때 남은 재산과 빚</h2>
+    <p class="desc">모든 금액은 <b>돌아가신 날 기준 가치</b>로 넣어요. 유언으로 남긴(유증) 재산도 여기 포함해요.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="assets">남은 재산 (유증 재산 포함)</label>
+        <div class="inputwrap"><input type="text" class="money" id="assets" value="20,000" inputmode="numeric" autocomplete="off"><span class="unit">만원</span></div>
+      </div>
+      <div class="field">
+        <label for="debt">상속채무 (빚)</label>
+        <div class="inputwrap"><input type="text" class="money" id="debt" value="2,000" inputmode="numeric" autocomplete="off"><span class="unit">만원</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 증여·유증 -->
+  <div class="card">
+    <h2>③ 생전 증여와 유증</h2>
+    <p class="desc">누가 무엇을 받았는지 한 줄씩 넣어요. 부동산은 돌아가신 날 시세, 현금은 받은 날부터의 물가를 반영한 금액이에요(아래 환산 도우미).</p>
+    <div class="rows" id="rows"></div>
+    <div class="addbar">
+      <button type="button" class="btn" id="addGift">＋ 생전 증여 추가</button>
+      <button type="button" class="btn" id="addBeq">＋ 유증(유언) 추가</button>
+    </div>
+    <details id="convBox">
+      <summary>현금 증여 환산 도우미</summary>
+      <div class="grid">
+        <div class="field">
+          <label for="cvAmt">증여받은 금액 (그때 돈)</label>
+          <div class="inputwrap"><input type="text" class="money" id="cvAmt" value="10,000" inputmode="numeric" autocomplete="off"><span class="unit">만원</span></div>
+        </div>
+        <div class="field">
+          <label for="cvYear">증여받은 해</label>
+          <div class="inputwrap"><input type="number" id="cvYear" value="2010" min="1960" max="2030" step="1" inputmode="numeric"><span class="unit">년</span></div>
+        </div>
+        <div class="field">
+          <label for="cvRate">연평균 물가 상승률 (가정)</label>
+          <div class="inputwrap"><input type="number" id="cvRate" value="2" min="0" max="20" step="0.1" inputmode="decimal"><span class="unit">%</span></div>
+        </div>
+        <div class="field">
+          <label>돌아가신 날 기준 환산액</label>
+          <div class="inputwrap"><input type="text" id="cvOut" readonly value="–"></div>
+        </div>
+        <div class="field full">
+          <span class="hint">법원은 한국은행 <b>GDP 디플레이터</b>로 환산해요(대법원 2006다28126). 여기서는 연평균 상승률로 대략 계산하니, 소송에서는 한국은행 경제통계시스템(ECOS)의 실제 지수로 다시 계산하세요.</span>
+          <button type="button" class="btn solid" id="cvAdd" style="margin-top:6px">이 금액으로 증여 한 줄 추가</button>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- 결과 -->
+  <div class="card rescard" id="result">
+    <h2>계산 결과</h2>
+    <p class="who" id="who">–</p>
+    <div class="breakdown">
+      <div class="brow"><span class="bl">① 유류분 기초재산<small>남은 재산 + 산입 증여 − 빚</small></span><span class="bv" id="rBase">–</span></div>
+      <div class="brow"><span class="bl">② 법정상속분 × 유류분 비율</span><span class="bv dim" id="rRatio">–</span></div>
+      <div class="brow"><span class="bl">③ 유류분액 (①×②)<small>법이 최소한으로 보장하는 몫</small></span><span class="bv" id="rLegit">–</span></div>
+      <div class="brow"><span class="bl">④ 이미 받은 증여·유증 (특별수익)</span><span class="bv dim" id="rSpecial">–</span></div>
+      <div class="brow"><span class="bl">⑤ 상속으로 받을 몫 − 빚 분담<small>순상속분 (구체적 상속분 기준)</small></span><span class="bv dim" id="rNet">–</span></div>
+    </div>
+    <div class="final"><span class="fl">청구할 수 있는 유류분 부족액 (③−④−⑤)</span><span class="fv" id="rShort">–</span></div>
+    <div class="verdict safe" id="verdict">
+      <span class="dot"></span>
+      <div><div class="vt" id="vTitle">–</div><div class="vs" id="vSub">–</div></div>
+    </div>
+    <div class="notes" id="notes"></div>
+
+    <p class="sub-h" id="allocH">누가 얼마를 돌려줘야 하나 <small>유증 먼저, 그다음 증여</small></p>
+    <div class="tbl small" id="allocWrap"><table>
+      <thead><tr><th>반환할 사람</th><th>유증에서</th><th>증여에서</th><th>합계</th></tr></thead>
+      <tbody id="allocBody"></tbody>
+    </table></div>
+
+    <p class="sub-h">상속인 모두 한눈에 <small>피고 입장에서 상대방 몫도 확인해 보세요</small></p>
+    <div class="tbl"><table>
+      <thead><tr><th>상속인</th><th>법정상속분</th><th>유류분액</th><th>받은 증여·유증</th><th>순상속분</th><th>부족액</th></tr></thead>
+      <tbody id="heirBody"></tbody>
+    </table></div>
+
+    <p class="sub-h">이 상속에 적용되는 규칙</p>
+    <div class="rules" id="rules"></div>
+  </div>
+
+  <p class="disc">※ 참고용 계산기이며 법률 자문이 아닙니다. 실제 소송에서는 재산 감정가, 특별수익·기여 인정 여부, 증여 시점, 대습상속·상속포기 같은 사정에 따라 결과가 크게 달라집니다. 반환 분담은 대법원 판례의 원칙(유증 먼저, 공동상속인은 자기 유류분을 넘는 부분 비율로 부담)을 단순화한 예상치예요. 입력한 내용은 저장하거나 전송하지 않아요. 중요한 결정 전에는 꼭 변호사와 상담하세요.</p>
+
+  <section class="guide" aria-labelledby="g-title">
+    <h2 class="g-h2" id="g-title">유류분 계산기, 이렇게 보세요</h2>
+    <p>결과 카드의 ①~⑤는 법원이 유류분 부족액을 계산하는 순서를 그대로 따라갑니다(대법원 2017다235791, 2020다247428).</p>
+    <ol class="g-steps">
+      <li><b>① 기초재산</b> — 돌아가실 때 남은 재산 + 생전 증여 − 빚. 단, 상속인이 아닌 사람(제3자)에게 준 증여는 <strong>돌아가시기 1년 이내</strong> 것이거나, 주는 사람과 받는 사람 모두 유류분을 해칠 걸 알았던 경우만 더해요. 자녀·배우자 같은 <strong>공동상속인이 받은 증여는 시기와 관계없이 모두</strong> 더해요.</li>
+      <li><b>② 비율</b> — 법정상속분에 유류분 비율(자녀·배우자 1/2, 부모 1/3)을 곱해요.</li>
+      <li><b>③ 유류분액</b> — ① × ②</li>
+      <li><b>④ 특별수익</b> — 청구하는 사람도 생전에 받은 게 있으면 빼요.</li>
+      <li><b>⑤ 순상속분</b> — 남은 재산을 나눌 때 받을 몫에서 떠안는 빚을 뺀 금액. 빚이 더 크면 마이너스가 되어 부족액이 오히려 커져요(한정승인했다면 0).</li>
+    </ol>
+
+    <h3 class="g-h3">유류분 비율</h3>
+    <div class="g-table"><table>
+      <thead><tr><th>상속인</th><th>유류분</th></tr></thead>
+      <tbody>
+        <tr><td>자녀 등 직계비속</td><td>법정상속분의 1/2</td></tr>
+        <tr><td>배우자</td><td>법정상속분의 1/2</td></tr>
+        <tr><td>부모 등 직계존속</td><td>법정상속분의 1/3</td></tr>
+        <tr><td>형제자매</td><td>없음 (2024. 4. 25. 위헌 결정으로 효력 상실, 2024. 9. 20. 삭제)</td></tr>
+      </tbody>
+    </table></div>
+    <p class="g-src">민법 제1112조. 법정상속분은 같은 순위끼리 똑같이 나누고, 배우자는 5할을 더해요(제1009조). 예: 배우자+자녀 2명이면 1.5 : 1 : 1.</p>
+
+    <h3 class="g-h3">개정법, 돌아가신 날에 따라 적용이 달라요</h3>
+    <div class="g-table"><table>
+      <thead><tr><th>규칙</th><th>적용되는 상속</th></tr></thead>
+      <tbody>
+        <tr><td>형제자매 유류분 없음</td><td>2024. 4. 25. 헌재 결정부터</td></tr>
+        <tr><td>기여·특별부양 보상으로 준 재산은 특별수익에서 제외</td><td>2024. 4. 25. 이후 개시된 상속</td></tr>
+        <tr><td>상속권 상실 선고 (유류분도 함께 사라짐)</td><td>2024. 4. 25. 이후 개시된 상속</td></tr>
+        <tr><td>원물 대신 <strong>돈(가액)으로 반환</strong>, 청구한 날부터 이자</td><td><strong>2026. 3. 17. 이후</strong> 개시된 상속만</td></tr>
+      </tbody>
+    </table></div>
+    <p class="g-src">민법 부칙(법률 제21454호, 2026. 3. 17.) 제2조·제3조. 2026년 3월 17일 전에 돌아가셨다면 판례대로 부동산 지분 등 원물 반환이 원칙이에요.</p>
+
+    <h3 class="g-h3">자주 묻는 질문</h3>
+    <details><summary>현금 증여는 어떻게 넣나요?</summary>
+      <p>증여받은 날의 금액을 돌아가신 날 가치로 바꿔 넣어야 해요. 법원은 GDP 디플레이터를 써요. 계산기의 '현금 증여 환산 도우미'로 대략 계산할 수 있어요.</p></details>
+    <details><summary>받은 부동산을 이미 팔았으면요?</summary>
+      <p>돌아가시기 전에 판 경우, 판 금액을 기준으로 돌아가신 날까지 물가를 반영해 계산해요(대법원 2019다222867). 받은 뒤 받은 사람이 건물을 짓는 등 모습을 바꿨다면, 받을 때 상태 그대로 돌아가신 날 시세로 평가해요(대법원 2010다104768).</p></details>
+    <details><summary>생명보험금도 증여인가요?</summary>
+      <p>돌아가신 분이 보험료를 내고 다른 사람을 수익자로 정했다면 증여로 볼 수 있어요. 보통 보험금 × (돌아가신 분이 낸 보험료 비율)로 계산해요(대법원 2020다247428).</p></details>
+    <details><summary>대습상속이나 상속포기는요?</summary>
+      <p>이 계산기는 단순한 경우만 다뤄요. 먼저 돌아가신 자녀의 자녀가 대신 상속(대습상속)하면 그 자녀의 몫을 나눠 가지고, 상속을 포기한 사람은 처음부터 상속인이 아니었던 것으로 봐요. 이런 경우는 변호사와 확인하세요.</p></details>
+
+<!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
+<section class="yn-rel yn-dark" aria-label="예나준의 다른 도구">
+  <a class="yn-guide" href="/yuryubun/guide/"><span class="e">📖</span><span><b>유류분 소송 가이드 읽기</b><small>개정법 정리 · 원고/피고가 꼭 챙길 것</small></span><span class="go">→</span></a>
+  <h2>이런 도구도 있어요</h2>
+  <div class="yn-grid">
+    <a class="yn-card" href="/room-deduction/"><span class="e">🏠</span><b>방공제 한도 계산기</b><span>방공제가 대출 한도를 얼마나 깎는지 계산해요.</span></a>
+    <a class="yn-card" href="/p2p-invest/"><span class="e">📈</span><b>P2P 상품 고르기 계산기</b><span>안전 등급과 세후 수익률로 상품을 골라요.</span></a>
+    <a class="yn-card" href="/wedding-gift/"><span class="e">💌</span><b>축의금 계산기</b><span>관계와 예식장에 맞는 금액을 알려드려요.</span></a>
+  </div>
+  <a class="yn-home" href="/">← 예나준의 모든 도구 보기</a>
+</section>
+<!-- yn-related:end -->
+  </section>
+
+  <div class="foot">
+    <span class="brand">예나준</span>
+    <span class="tag">유류분 계산기</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var AMEND_2024 = '2024-04-25', AMEND_2026 = '2026-03-17';
+
+  var state = {
+    spouse: false,
+    names: {},        // heirId -> 사용자 지정 이름
+    me: 'c2',
+    rows: [
+      { type:'gift', to:'c1', amt:50000, within:false, contrib:0 },
+      { type:'bequest', to:'c1', amt:10000, within:false, contrib:0 }
+    ]
+  };
+
+  function won(man){ // 만원 단위
+    var neg = man < 0; man = Math.abs(Math.round(man));
+    if(man === 0) return '0원';
+    var eok = Math.floor(man/10000), rem = man%10000, out = '';
+    if(eok>0) out += eok + '억';
+    if(rem>0) out += (out?' ':'') + rem.toLocaleString('ko-KR') + '만';
+    return (neg ? '−' : '') + out + '원';
+  }
+  function num(v){ var n = parseFloat(String(v).replace(/,/g, '')); return isFinite(n) && n > 0 ? n : 0; }
+  function comma(v){ var n = num(v); return n ? Math.round(n).toLocaleString('ko-KR') : ''; }
+
+  // 금액 칸: 입력하는 동안 천 단위 콤마를 붙이고 커서 위치를 지켜요 (다른 리스너보다 먼저 실행)
+  document.addEventListener('input', function(e){
+    var t = e.target;
+    if(!t.classList || !t.classList.contains('money')) return;
+    var pos = t.selectionStart, digitsLeft = t.value.slice(0, pos).replace(/\D/g, '').length;
+    var digits = t.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 12);
+    var out = digits ? Number(digits).toLocaleString('ko-KR') : '';
+    t.value = out;
+    var p = 0, seen = 0;
+    while(p < out.length && seen < digitsLeft){ if(/\d/.test(out[p])) seen++; p++; }
+    t.setSelectionRange(p, p);
+  }, true);
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  // ── 상속인 구성 ──
+  function heirs(){
+    var kids = Math.min(12, Math.floor(num($('kids').value)));
+    var parents = kids > 0 ? 0 : parseInt($('parents').value, 10) || 0;
+    var list = [];
+    if(state.spouse) list.push({ id:'sp', def:'배우자', kind:'spouse' });
+    for(var i=1;i<=kids;i++) list.push({ id:'c'+i, def:'자녀'+i, kind:'child' });
+    for(var j=1;j<=parents;j++) list.push({ id:'p'+j, def: parents===1 ? '부모' : (j===1?'부':'모'), kind:'parent' });
+    var hasBlood = kids > 0 || parents > 0;
+    list.forEach(function(h){
+      h.name = state.names[h.id] || h.def;
+      h.w = h.kind === 'spouse' ? (hasBlood ? 1.5 : 1) : 1;
+      h.rate = h.kind === 'parent' ? 1/3 : 1/2;
+    });
+    var W = list.reduce(function(s,h){ return s + h.w; }, 0);
+    list.forEach(function(h){ h.share = W ? h.w / W : 0; });
+    return list;
+  }
+  function heirById(list, id){ for(var i=0;i<list.length;i++) if(list[i].id===id) return list[i]; return null; }
+
+  function renderHeirs(){
+    var list = heirs();
+    $('parentsField').style.display = num($('kids').value) > 0 ? 'none' : '';
+    var box = $('heirList');
+    box.innerHTML = list.length ? '' : '<span class="hint">배우자·자녀·부모가 없으면 유류분을 청구할 수 있는 사람이 없어요.</span>';
+    list.forEach(function(h){
+      var d = document.createElement('div'); d.className = 'heir';
+      d.innerHTML = '<small>' + (h.kind==='spouse'?'배우자':h.kind==='child'?'자녀':'부모') + '</small>' +
+        '<input type="text" maxlength="10" data-heir="'+h.id+'" value="'+esc(h.name)+'" aria-label="'+esc(h.def)+' 이름">';
+      box.appendChild(d);
+    });
+    // 청구인 선택
+    var sel = $('me'), cur = state.me;
+    sel.innerHTML = '';
+    list.forEach(function(h){ var o = document.createElement('option'); o.value = h.id; o.textContent = h.name; sel.appendChild(o); });
+    if(!heirById(list, cur) && list.length) cur = list[Math.min(1, list.length-1)].id;
+    state.me = cur; sel.value = cur;
+    renderRows(list);
+  }
+
+  // ── 증여·유증 행 ──
+  function renderRows(list){
+    list = list || heirs();
+    var box = $('rows'); box.innerHTML = '';
+    var after2024 = deathDate() >= AMEND_2024;
+    if(!state.rows.length){
+      box.innerHTML = '<p class="hint">생전 증여나 유증이 없다면 비워 두세요. 그런 경우엔 보통 유류분 문제가 생기지 않아요.</p>';
+    }
+    state.rows.forEach(function(r, idx){
+      if(r.to !== 'third' && !heirById(list, r.to)) r.to = 'third';
+      var isHeir = r.to !== 'third';
+      var opts = list.map(function(h){ return '<option value="'+h.id+'"'+(r.to===h.id?' selected':'')+'>'+esc(h.name)+'</option>'; }).join('') +
+        '<option value="third"'+(r.to==='third'?' selected':'')+'>상속인 아닌 사람 (며느리·손자·단체 등)</option>';
+      var d = document.createElement('div'); d.className = 'row';
+      d.innerHTML =
+        '<div class="rtop"><span class="rno">'+(idx+1)+'. '+(r.type==='gift'?'생전 증여':'유증 (유언)')+'</span>'+
+        '<button type="button" class="del" data-del="'+idx+'">삭제</button></div>'+
+        '<div class="grid">'+
+          '<div class="field"><label>받은 사람</label><select data-k="to" data-i="'+idx+'">'+opts+'</select></div>'+
+          '<div class="field"><label>금액 (돌아가신 날 가치)</label><div class="inputwrap"><input type="text" class="money" inputmode="numeric" autocomplete="off" data-k="amt" data-i="'+idx+'" value="'+comma(r.amt)+'"><span class="unit">만원</span></div></div>'+
+        '</div>'+
+        '<div class="extra"'+(r.type==='gift' && !isHeir ? '' : ' hidden')+'>'+
+          '<label class="check"><input type="checkbox" data-k="within" data-i="'+idx+'"'+(r.within?' checked':'')+'> 돌아가시기 1년 이내에 준 것이거나, 둘 다 유류분을 해칠 걸 알고 준 것</label>'+
+          '<span class="hint">해당하지 않으면 상속인 아닌 사람이 받은 증여는 계산에서 빠져요(민법 제1114조). "알고 준 것"은 청구하는 쪽이 증명해야 해요.</span>'+
+        '</div>'+
+        '<div class="extra"'+(isHeir && after2024 ? '' : ' hidden')+'>'+
+          '<div class="field"><label>이 중 간병·부양·재산 기여에 대한 보상으로 인정될 금액</label>'+
+          '<div class="inputwrap"><input type="text" class="money" inputmode="numeric" autocomplete="off" data-k="contrib" data-i="'+idx+'" value="'+comma(r.contrib)+'"><span class="unit">만원</span></div>'+
+          '<span class="hint">2024. 4. 25. 이후 상속부터, 기여에 상응하는 범위는 특별수익에서 빠져요(민법 제1008조 단서). 인정 여부와 금액은 법원이 정해요.</span></div>'+
+        '</div>';
+      box.appendChild(d);
+    });
+    calc();
+  }
+
+  function deathDate(){ return $('death').value || new Date().toISOString().slice(0,10); }
+
+  // ── 계산 ──
+  function calc(){
+    var list = heirs();
+    var A = num($('assets').value), D = num($('debt').value);
+    var dd = deathDate(), after2024 = dd >= AMEND_2024, after2026 = dd >= AMEND_2026;
+    var notes = [];
+
+    list.forEach(function(h){ h.gift = 0; h.beq = 0; h.contribOff = 0; });
+    var thirdGifts = [], thirdBeqs = [], inclGifts = 0, beqTotal = 0;
+
+    state.rows.forEach(function(r, idx){
+      var amt = num(r.amt); if(!amt) return;
+      var contrib = (after2024 && r.to !== 'third') ? Math.min(amt, num(r.contrib)) : 0;
+      var net = amt - contrib;
+      if(r.type === 'bequest') beqTotal += amt;
+      if(r.to === 'third'){
+        if(r.type === 'gift'){
+          if(r.within){ inclGifts += amt; thirdGifts.push({ idx:idx, amt:amt }); }
+        } else thirdBeqs.push({ idx:idx, amt:amt });
+      } else {
+        var h = heirById(list, r.to); if(!h) return;
+        if(r.type === 'gift'){ h.gift += net; inclGifts += net; } else h.beq += net;
+        h.contribOff += contrib;
+      }
+    });
+
+    if(beqTotal > A) notes.push('유증 합계(' + won(beqTotal) + ')가 남은 재산보다 커요. 유증 재산은 ②의 남은 재산에 포함해서 넣어 주세요.');
+
+    var B = Math.max(0, A + inclGifts - D);
+    var E = Math.max(0, A - beqTotal);                 // 상속인끼리 나눌 재산 (유증 제외)
+    var special = 0; list.forEach(function(h){ h.special = h.gift + h.beq; special += h.special; });
+    var deemed = E + special;                          // 간주상속재산
+    var sumPos = 0;
+    list.forEach(function(h){ h.concrete = Math.max(0, deemed * h.share - h.special); sumPos += h.concrete; });
+    list.forEach(function(h){
+      h.inherit = sumPos > 0 ? E * h.concrete / sumPos : 0;  // 초과특별수익자 몫은 나머지가 비율대로 부담
+      h.debt = D * h.share;
+      h.net = h.inherit - h.debt;
+      h.legit = B * h.share * h.rate;
+    });
+    var me = heirById(list, state.me);
+    if(me && $('limited').checked && me.net < 0) me.net = 0;
+    list.forEach(function(h){ h.short = Math.max(0, h.legit - h.special - h.net); });
+
+    render(list, me, { A:A, D:D, B:B, dd:dd, after2024:after2024, after2026:after2026, thirdGifts:thirdGifts, thirdBeqs:thirdBeqs, notes:notes });
+  }
+
+  function allocate(list, me, thirdGifts, thirdBeqs){
+    var S = me.short, out = [];
+    // 1단계: 유증 (민법 제1116조). 공동상속인은 자기 유류분을 넘는 부분만 (대법원 2010다42624)
+    var c1 = [];
+    list.forEach(function(h){ if(h !== me){ var cap = Math.max(0, h.beq - h.legit); if(cap>0) c1.push({ key:h.id, name:h.name, cap:cap }); } });
+    thirdBeqs.forEach(function(t){ c1.push({ key:'tb'+t.idx, name:'상속인 아닌 사람 ('+(t.idx+1)+'번 유증)', cap:t.amt }); });
+    var cap1 = c1.reduce(function(s,c){ return s + c.cap; }, 0);
+    var x1 = Math.min(S, cap1), rows = {};
+    c1.forEach(function(c){ rows[c.key] = { name:c.name, beq: cap1 ? x1 * c.cap / cap1 : 0, gift:0 }; });
+    // 2단계: 증여. 공동상속인은 (증여+유증) 중 자기 유류분 초과분에서 유증 단계 몫을 뺀 만큼 (대법원 95다17885)
+    var S2 = S - x1, c2 = [];
+    list.forEach(function(h){
+      if(h === me) return;
+      var cap = Math.max(0, h.gift + h.beq - h.legit) - Math.max(0, h.beq - h.legit);
+      if(cap > 0) c2.push({ key:h.id, name:h.name, cap:Math.min(cap, h.gift) });
+    });
+    thirdGifts.forEach(function(t){ c2.push({ key:'tg'+t.idx, name:'상속인 아닌 사람 ('+(t.idx+1)+'번 증여)', cap:t.amt }); });
+    var cap2 = c2.reduce(function(s,c){ return s + c.cap; }, 0);
+    var x2 = Math.min(S2, cap2);
+    c2.forEach(function(c){
+      var v = cap2 ? x2 * c.cap / cap2 : 0;
+      if(!rows[c.key]) rows[c.key] = { name:c.name, beq:0, gift:0 };
+      rows[c.key].gift += v;
+    });
+    Object.keys(rows).forEach(function(k){ var r = rows[k]; if(r.beq + r.gift >= 0.5) out.push(r); });
+    return { rows: out, left: Math.max(0, S2 - x2) };
+  }
+
+  function render(list, me, c){
+    var v = $('verdict');
+    if(!me){
+      $('who').textContent = '';
+      ['rBase','rRatio','rLegit','rSpecial','rNet','rShort'].forEach(function(id){ $(id).textContent = '–'; });
+      v.className = 'verdict warn';
+      $('vTitle').textContent = '유류분을 청구할 수 있는 상속인이 없어요';
+      $('vSub').textContent = '배우자·자녀·부모가 없고 형제자매만 있다면, 2024년 4월 25일 이후로는 유류분을 청구할 수 없어요.';
+      $('heirBody').innerHTML = ''; $('allocBody').innerHTML = ''; $('rules').innerHTML = ''; $('notes').innerHTML = '';
+      return;
+    }
+    var W = list.reduce(function(s,h){ return s + h.w; }, 0);
+    function shareTxt(h){ var den = W*2, numr = h.w*2; var g = gcd(numr, den); return (numr/g) + '/' + (den/g); }
+    function gcd(a,b){ return b ? gcd(b, a % b) : a; }
+
+    $('who').innerHTML = '<b>' + esc(me.name) + '</b> 기준으로 계산했어요.';
+    $('rBase').textContent = won(c.B);
+    $('rRatio').textContent = shareTxt(me) + ' × ' + (me.kind==='parent' ? '1/3' : '1/2');
+    $('rLegit').textContent = won(me.legit);
+    $('rSpecial').textContent = me.special ? '− ' + won(me.special) : '0원';
+    $('rNet').textContent = me.net >= 0 ? '− ' + won(me.net) : '+ ' + won(-me.net) + ' (빚 초과)';
+    $('rShort').textContent = won(me.short);
+
+    var alloc = allocate(list, me, c.thirdGifts, c.thirdBeqs);
+    if(me.short >= 0.5){
+      v.className = 'verdict hit';
+      $('vTitle').textContent = won(me.short) + '을 청구할 수 있어요';
+      $('vSub').textContent = c.after2026
+        ? '2026년 3월 17일 이후 상속이라 원칙적으로 돈으로 돌려받고, 청구한 날부터 이자가 붙어요. 내용증명으로 먼저 청구 의사를 밝혀 두세요.'
+        : '2026년 3월 17일 전 상속이라 판례에 따라 부동산 지분 등 받은 물건 자체로 돌려받는 것이 원칙이에요(원물 반환이 어려우면 돈으로).';
+    } else {
+      v.className = 'verdict safe';
+      $('vTitle').textContent = '유류분 부족분이 없어요';
+      $('vSub').textContent = '이미 받은 증여·유증과 상속분이 유류분액 이상이에요. 증여를 빠뜨리지 않았는지, 금액을 돌아가신 날 가치로 넣었는지 다시 확인해 보세요.';
+    }
+
+    var n = c.notes.slice();
+    if(alloc.left >= 0.5) n.push('입력한 증여·유증으로는 ' + won(alloc.left) + '을 돌려받을 상대가 부족해요. 빠뜨린 증여가 있는지 확인해 보세요.');
+    if(me.contribOff > 0) n.push(esc(me.name) + '이(가) 받은 것 중 ' + won(me.contribOff) + '은 기여 보상으로 보고 특별수익에서 뺐어요.');
+    $('notes').innerHTML = n.map(function(t){ return '<p>※ ' + t + '</p>'; }).join('');
+
+    // 반환 분담
+    var ab = $('allocBody');
+    if(me.short >= 0.5 && alloc.rows.length){
+      $('allocH').style.display = ''; $('allocWrap').style.display = '';
+      ab.innerHTML = alloc.rows.map(function(r){
+        return '<tr><td>'+esc(r.name)+'</td><td>'+(r.beq>=0.5?won(r.beq):'<span class="muted">–</span>')+'</td><td>'+(r.gift>=0.5?won(r.gift):'<span class="muted">–</span>')+'</td><td class="pos">'+won(r.beq+r.gift)+'</td></tr>';
+      }).join('');
+    } else { $('allocH').style.display = 'none'; $('allocWrap').style.display = 'none'; }
+
+    // 상속인 전체
+    $('heirBody').innerHTML = list.map(function(h){
+      return '<tr'+(h===me?' class="me"':'')+'><td>'+esc(h.name)+'</td><td>'+shareTxt(h)+'</td><td>'+won(h.legit)+'</td><td>'+(h.special?won(h.special):'<span class="muted">0원</span>')+'</td><td>'+won(h.net)+'</td><td'+(h.short>=0.5?' class="pos"':' class="muted"')+'>'+won(h.short)+'</td></tr>';
+    }).join('');
+
+    // 적용 규칙
+    var d = new Date(c.dd + 'T00:00:00'), dl = new Date(d); dl.setFullYear(dl.getFullYear() + 10);
+    var today = new Date(); today.setHours(0,0,0,0);
+    var left = Math.ceil((dl - today) / 86400000);
+    var dlTxt = dl.getFullYear() + '. ' + (dl.getMonth()+1) + '. ' + dl.getDate() + '.';
+    var R = [];
+    R.push([left > 0 ? 'on' : 'due', '시효', '<b>1년</b>: 상속 개시와 반환할 증여·유증이 있다는 걸 안 날부터 · <b>10년</b>: 돌아가신 날부터 → <b>' + dlTxt + '</b>까지' + (left > 0 ? ' (' + left.toLocaleString('ko-KR') + '일 남음)' : ' (지남)') + '. 둘 중 먼저 오는 날이 기한이에요.']);
+    R.push(c.after2026 ? ['on','적용','<b>돈(가액)으로 반환</b>이 원칙이고, 청구한 날부터 이자가 붙어요 (개정 민법 제1115조).']
+                       : ['off','미적용','가액 반환 개정 규정은 2026. 3. 17. 이후 상속에만 적용돼요. 이 상속은 <b>원물 반환 원칙</b>(대법원 2010다42624)을 따라요.']);
+    R.push(c.after2024 ? ['on','적용','<b>기여·부양 보상</b>으로 준 재산은 기여에 상응하는 범위에서 특별수익에서 빠져요 (민법 제1008조 단서).']
+                       : ['off','미적용','기여 보상 제외 규정은 2024. 4. 25. 이후 상속에만 소급돼요. 이 상속에서는 기여분을 이유로 유류분을 줄일 수 없다는 기존 판례(대법원 2013다60753)가 적용돼요.']);
+    R.push(c.after2024 ? ['on','적용','<b>상속권 상실 선고</b>를 청구할 수 있어요. 공동상속인은 사유 있는 사람이 상속인이 된 걸 안 날부터 6개월 안에 가정법원에 청구해야 해요.']
+                       : ['off','미적용','상속권 상실 제도는 2024. 4. 25. 이후 상속부터 적용돼요.']);
+    $('rules').innerHTML = R.map(function(r){ return '<div class="rule"><span class="tag '+r[0]+'">'+r[1]+'</span><span>'+r[2]+'</span></div>'; }).join('');
+  }
+
+  // ── 환산 도우미 ──
+  function conv(){
+    var amt = num($('cvAmt').value), y = parseInt($('cvYear').value, 10), rate = num($('cvRate').value);
+    var dy = parseInt(deathDate().slice(0,4), 10);
+    var years = Math.max(0, dy - (y || dy));
+    var out = amt * Math.pow(1 + rate/100, years);
+    $('cvOut').value = won(out) + ' (' + years + '년)';
+    return Math.round(out);
+  }
+
+  // ── 이벤트 ──
+  ['assets','debt','limited'].forEach(function(id){ $(id).addEventListener('input', calc); $(id).addEventListener('change', calc); });
+  $('death').addEventListener('change', function(){ renderRows(); conv(); });
+  $('kids').addEventListener('input', renderHeirs);
+  $('parents').addEventListener('change', renderHeirs);
+  $('me').addEventListener('change', function(){ state.me = this.value; calc(); });
+  $('heirList').addEventListener('input', function(e){
+    var id = e.target.getAttribute('data-heir'); if(!id) return;
+    state.names[id] = e.target.value.trim();
+    // 선택지 이름만 갱신 (입력 포커스 유지)
+    var list = heirs();
+    Array.prototype.forEach.call($('me').options, function(o){ var h = heirById(list, o.value); if(h) o.textContent = h.name; });
+    Array.prototype.forEach.call(document.querySelectorAll('#rows select[data-k=to] option'), function(o){ var h = heirById(list, o.value); if(h) o.textContent = h.name; });
+    calc();
+  });
+  $('segSpouse').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    state.spouse = b.getAttribute('data-v') === '1';
+    Array.prototype.forEach.call(this.querySelectorAll('button'), function(x){ x.setAttribute('aria-pressed', x===b ? 'true' : 'false'); });
+    renderHeirs();
+  });
+  $('rows').addEventListener('input', onRow);
+  $('rows').addEventListener('change', onRow);
+  function onRow(e){
+    var t = e.target, i = t.getAttribute('data-i'), k = t.getAttribute('data-k');
+    if(i === null || !k) return;
+    var r = state.rows[+i];
+    if(k === 'within') r.within = t.checked;
+    else if(k === 'to'){ if(e.type !== 'change') return; r.to = t.value; renderRows(); return; }
+    else r[k] = t.value;
+    calc();
+  }
+  $('rows').addEventListener('click', function(e){
+    var i = e.target.getAttribute('data-del'); if(i === null) return;
+    state.rows.splice(+i, 1); renderRows();
+  });
+  function defaultTo(){ var list = heirs(); var o = list.filter(function(h){ return h.id !== state.me; })[0]; return o ? o.id : 'third'; }
+  $('addGift').addEventListener('click', function(){ state.rows.push({ type:'gift', to:defaultTo(), amt:0, within:false, contrib:0 }); renderRows(); });
+  $('addBeq').addEventListener('click', function(){ state.rows.push({ type:'bequest', to:defaultTo(), amt:0, within:false, contrib:0 }); renderRows(); });
+  ['cvAmt','cvYear','cvRate'].forEach(function(id){ $(id).addEventListener('input', conv); });
+  $('cvAdd').addEventListener('click', function(){
+    state.rows.push({ type:'gift', to:defaultTo(), amt:conv(), within:false, contrib:0 });
+    renderRows();
+    $('rows').lastElementChild.scrollIntoView({ behavior:'smooth', block:'center' });
+  });
+
+  renderHeirs();
+  conv();
+})();
+</script>
+</body>
+</html>
