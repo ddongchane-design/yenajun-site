@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>물타기 vs 갈아타기 가이드 — 평단가 원리, 손실 비대칭, 판단 전 체크리스트 | 예나준</title>
+  <meta name="description" content="물타기를 하면 평단가는 얼마나 내려갈까? 평단가 계산 원리, 떨어진 만큼 오르면 본전이 아닌 이유, 물타기와 갈아타기를 비교할 때 봐야 할 숫자와 체크리스트, 분할 매수 짜는 법을 예시로 정리했어요.">
+  <link rel="canonical" href="https://yenajun.com/avg-down/guide/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="예나준">
+  <meta property="og:title" content="물타기 vs 갈아타기 가이드 — 판단 전에 숫자부터">
+  <meta property="og:description" content="평단가 원리, 손실 비대칭, 분할 매수, 판단 전 체크리스트.">
+  <meta property="og:url" content="https://yenajun.com/avg-down/guide/">
+  <meta property="og:image" content="https://yenajun.com/assets/og-image.jpg">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/guide.css">
+  <link rel="stylesheet" href="/assets/related.css">
+  <style>.tbl.tbl-wrap th,.tbl.tbl-wrap td:first-child{white-space:normal}.tbl.tbl-wrap td:first-child{width:40%}
+  .tbl.tbl-cmp th,.tbl.tbl-cmp td{padding:10px 8px;font-size:14px}.tbl.tbl-cmp td:first-child{white-space:normal;padding-left:12px}.tbl.tbl-cmp td:last-child,.tbl.tbl-cmp th:last-child{padding-right:12px}</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="예나준 홈"><img src="/assets/logo.svg" alt="" width="32" height="32"><span>예나준</span></a>
+    <a href="/avg-down/" style="text-decoration:none;font-weight:600;font-size:15px">물타기 계산기 →</a>
+  </div>
+</header>
+
+<main class="guide-doc">
+  <p class="eyebrow">STOCK GUIDE</p>
+  <h1>물을 탈까, 갈아탈까<br>판단 전에 숫자부터</h1>
+  <p class="lead">들고 있던 대형주가 주춤하는 사이 다른 업종이 오르면 고민이 시작돼요. <strong>"지금 더 사서 평단가를 낮출까, 아니면 오르는 쪽으로 옮길까?"</strong> 정답은 누구도 알 수 없지만, 각 선택이 <strong>숫자로 어떤 결과를 만드는지</strong>는 미리 계산할 수 있어요. 평단가의 원리부터 물타기와 갈아타기를 비교하는 법까지 정리했어요.</p>
+  <p class="meta">2026년 9월 기준 · 예나준 운영자 이동찬 · 투자 권유가 아닌 계산 원리 설명이에요</p>
+
+  <nav class="toc" aria-label="목차">
+    <p>목차</p>
+    <ol>
+      <li><a href="#avg">평단가는 이렇게 정해져요</a></li>
+      <li><a href="#asym">떨어진 만큼 오르면 본전일까</a></li>
+      <li><a href="#limit">물타기가 할 수 있는 일과 없는 일</a></li>
+      <li><a href="#switch">갈아타기를 계산하는 법</a></li>
+      <li><a href="#example">예시로 세 가지 비교하기</a></li>
+      <li><a href="#split">분할 매수 계획 짜기</a></li>
+      <li><a href="#check">결정 전 체크리스트</a></li>
+      <li><a href="#faq">자주 묻는 질문</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="avg"><span class="no">01</span>평단가는 이렇게 정해져요</h2>
+  <p>평단가(평균 매수 단가)는 <strong>지금까지 산 금액을 모두 더해 가진 주식 수로 나눈 값</strong>이에요.</p>
+  <div class="point">새 평단가 = (기존 수량 × 기존 평단가 + 추가 수량 × 매수가) ÷ (기존 수량 + 추가 수량)</div>
+  <p>예를 들어 8만 원에 100주를 샀는데 주가가 6만 원이 됐어요. 여기서 6만 원에 50주를 더 사면 (800만 + 300만) ÷ 150주 = <strong>약 7만 3,333원</strong>이 돼요. 평단가가 6,667원 내려갔어요.</p>
+  <p>같은 300만 원이라도 <strong>더 싸게 살수록</strong> 더 많은 주식을 사서 평단가가 더 크게 내려가요. 반대로 기존 보유 금액에 비해 추가 금액이 작으면 평단가는 거의 움직이지 않아요.</p>
+
+  <h2 id="asym"><span class="no">02</span>떨어진 만큼 오르면 본전일까</h2>
+  <p>아니에요. 10% 떨어진 주식은 11.1% 올라야 본전이에요. 떨어진 뒤의 낮은 가격에서 다시 올라야 하기 때문이에요. 손실이 클수록 이 차이는 급격히 커져요.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>떨어진 폭</th><th style="text-align:right">본전까지 필요한 상승률</th></tr></thead>
+    <tbody>
+      <tr><td>−10%</td><td class="num">+11.1%</td></tr>
+      <tr><td>−20%</td><td class="num">+25.0%</td></tr>
+      <tr><td>−25%</td><td class="num">+33.3%</td></tr>
+      <tr><td>−30%</td><td class="num">+42.9%</td></tr>
+      <tr><td>−40%</td><td class="num">+66.7%</td></tr>
+      <tr><td>−50%</td><td class="num">+100.0%</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">계산식: 필요 상승률 = 1 ÷ (1 − 하락률) − 1. 세금·수수료 제외</p>
+  <p>물타기가 매력적으로 느껴지는 이유가 이거예요. 평단가를 낮추면 이 필요 상승률이 줄어드니까요. 하지만 줄어든 만큼의 대가도 있어요.</p>
+
+  <h2 id="limit"><span class="no">03</span>물타기가 할 수 있는 일과 없는 일</h2>
+  <div class="layers">
+    <div class="layer good"><b>할 수 있는 일</b><span>평단가와 본전 가격을 낮춰요. 주가가 조금만 반등해도 본전에 닿을 수 있어요.</span></div>
+    <div class="layer bad"><b>할 수 없는 일</b><span>이미 생긴 손실 금액을 줄이지는 못해요. 평단가를 현재가보다 낮출 수도 없어요.</span></div>
+  </div>
+  <ul class="alert">
+    <li><strong>그 종목에 넣은 돈이 커져요.</strong> 한 번 더 빠지면 손실 금액도 더 커져요. 위 예시에서 주가가 10% 더 빠지면, 그대로 뒀을 때 손실은 260만 원이지만 물탄 뒤엔 약 289만 원이 돼요.</li>
+    <li><strong>평단가는 현재가 아래로 못 내려가요.</strong> 현재가로 아무리 많이 사도 평단가는 현재가에 가까워질 뿐이에요.</li>
+    <li><strong>여유 자금이 사라져요.</strong> 더 좋은 기회가 와도 쓸 돈이 없어요. 이게 바로 기회비용이에요.</li>
+  </ul>
+
+  <h2 id="switch"><span class="no">04</span>갈아타기를 계산하는 법</h2>
+  <p>갈아타기는 지금 전량을 팔고, 그 돈과 여유 자금으로 다른 종목을 사는 거예요. 이때 비교 기준은 <strong>새 종목이 몇 % 올라야 원래 원금(기존 투자금 + 여유 자금)을 되찾는지</strong>예요.</p>
+  <ol class="steps">
+    <li><b>판 돈</b> = 보유 수량 × 현재가 − 세금 − 수수료</li>
+    <li><b>새 종목에 들어가는 돈</b> = 판 돈 + 여유 자금 − 수수료</li>
+    <li><b>필요 상승률</b> = 원금 ÷ (새 종목 투입금 × (1 − 팔 때 세금·수수료)) − 1</li>
+  </ol>
+  <p>팔 때 붙는 세금은 2026년 1월 2일부터 코스피(증권거래세 0.05% + 농어촌특별세 0.15%)와 코스닥(증권거래세 0.20%) 모두 <strong>0.20%</strong>예요. 갈아타기는 한 번 팔고 나중에 새 종목도 팔아야 하니 이 비용이 두 번 들어요.</p>
+  <p class="src">근거: 증권거래세법 시행령 제5조(2025. 12. 31. 개정), 농어촌특별세법 제5조 제1항 제5호</p>
+  <p>숫자만 보면 물타기와 갈아타기의 필요 상승률은 비슷하게 나오는 경우가 많아요. 결국 <strong>"지금 종목과 새 종목 중 어느 쪽이 더 오를 것 같은가"</strong>가 핵심이고, 이건 계산기가 알려줄 수 없는 부분이에요. 대형주가 쉬는 사이 장비·부품주처럼 다른 업종으로 돈이 옮겨 가는 흐름(섹터 로테이션)이 보일 때 갈아타기 고민이 커지는데, 이런 흐름은 빠르게 바뀌기도 한다는 점을 함께 기억해 두세요.</p>
+
+  <h2 id="example"><span class="no">05</span>예시로 세 가지 비교하기</h2>
+  <p>8만 원에 100주(800만 원)를 샀는데 지금 6만 원이에요. 여유 자금은 300만 원. 수수료 0.015%, 매도 세금 0.20%를 반영했어요.</p>
+  <div class="tbl tbl-cmp"><table>
+    <thead><tr><th></th><th style="text-align:right">그대로</th><th style="text-align:right">물타기</th><th style="text-align:right">갈아타기</th></tr></thead>
+    <tbody>
+      <tr><td>평단가</td><td class="num">80,000원</td><td class="num">73,423원</td><td class="num">새로 시작</td></tr>
+      <tr><td>본전까지</td><td class="num">+33.6%</td><td class="num">+22.6%</td><td class="num">+22.7%</td></tr>
+      <tr><td>이 종목 투입금</td><td class="num">800만</td><td class="num">1,094만</td><td class="num">–</td></tr>
+      <tr><td>10% 더 빠질 때 손실</td><td class="num">260만</td><td class="num">289만</td><td class="num">291만</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">금액 단위는 원. 물타기는 현재가로 49주를 추가 매수(수수료 포함 약 294만 원)한 경우예요. 계산기 기본값과 같아요.</p>
+  <p>물타기를 하면 본전까지 필요한 상승률이 33.6%에서 22.6%로 크게 줄어요. 대신 여유 자금까지 모두 주식에 들어가서, 10% 더 빠질 때 손실이 260만 원에서 289만 원으로 늘어요. 갈아타기도 필요 상승률(22.7%)과 추가 하락 시 손실(291만 원)이 물타기와 거의 같아요. 숫자가 비슷하다면 결국 두 종목의 전망이 판단을 가르는 거예요. 그대로 두기는 여유 자금 300만 원을 현금으로 지키고 있는 셈이에요.</p>
+  <div class="point">내 숫자로 바로 비교해 보려면 <a href="/avg-down/" style="color:#F2B8A5">물타기 평단가 계산기</a>를 써 보세요.</div>
+
+  <h2 id="split"><span class="no">06</span>분할 매수 계획 짜기</h2>
+  <p>한 번에 다 사면 바닥을 맞히기 어려워서, 여유 자금을 몇 번에 나눠 떨어질 때마다 사는 방법을 많이 써요. 계산기에서는 횟수와 간격을 직접 정할 수 있어요.</p>
+  <div class="tbl tbl-wrap"><table>
+    <thead><tr><th>방식</th><th>특징</th></tr></thead>
+    <tbody>
+      <tr><td>똑같이 나누기</td><td>회차마다 같은 금액. 단순하고 계획을 지키기 쉬워요.</td></tr>
+      <tr><td>떨어질수록 많이 (1 : 2 : 3 …)</td><td>싼 가격에 더 많이 사서 평단가가 더 크게 내려가요. 대신 초반 회차만 체결되고 멈추면 평단가 효과가 작아요.</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><strong>간격</strong> — 5%마다, 10%마다처럼 정해 두면 감정에 휘둘리지 않아요. 간격이 좁으면 빨리 소진되고, 넓으면 다 체결되기 전에 반등할 수 있어요.</li>
+    <li><strong>마지막 회차까지 체결되면 얼마나 떨어진 건지</strong> 확인하세요. 5% 간격 5회면 현재가 대비 약 −18.5%까지 사는 계획이에요. 그 정도 하락을 견딜 수 있는지가 중요해요.</li>
+    <li>계산기의 <strong>'지금 현재가로 돌아오면'</strong>은 계획대로 다 산 뒤 오늘 가격으로 회복했을 때의 수익률이에요.</li>
+  </ul>
+
+  <h2 id="check"><span class="no">07</span>결정 전 체크리스트</h2>
+  <ul class="check">
+    <li><strong>왜 떨어졌나요?</strong> 시장 전체가 빠진 건지, 그 회사만의 문제(실적 악화, 경쟁력 약화)인지에 따라 이야기가 달라요.</li>
+    <li><strong>지금 이 가격에 처음 산다면 살 건가요?</strong> 평단가를 잊고 새로 보는 질문이에요. "아니오"라면 물타기는 손실을 만회하려는 마음일 수 있어요.</li>
+    <li><strong>한 종목 비중이 너무 커지지 않나요?</strong> 물을 탄 뒤 전체 자산에서 이 종목이 차지하는 비율을 확인하세요.</li>
+    <li><strong>그 돈이 꼭 필요한 돈은 아닌가요?</strong> 생활비, 비상금, 곧 써야 할 돈이라면 넣지 않는 게 원칙이에요.</li>
+    <li><strong>갈아탈 종목을 기존 종목만큼 알고 있나요?</strong> 오르는 걸 보고 옮기면 이미 많이 오른 뒤일 수 있어요.</li>
+    <li><strong>계획을 미리 적었나요?</strong> 몇 번, 몇 % 간격으로, 어디까지 살지 정해 두면 흔들릴 때 도움이 돼요.</li>
+  </ul>
+
+  <h2 id="faq"><span class="no">08</span>자주 묻는 질문</h2>
+  <div class="faq">
+    <details>
+      <summary>물타기와 불타기는 뭐가 달라요?</summary>
+      <p>물타기는 산 가격보다 떨어졌을 때 더 사서 평단가를 낮추는 거고, 불타기는 오를 때 더 사서 수량을 늘리는 거예요. 불타기는 평단가가 올라가요.</p>
+    </details>
+    <details>
+      <summary>계산기의 평단가가 증권사 앱과 조금 달라요.</summary>
+      <p>이 계산기는 평단가에 수수료를 넣지 않아요. 증권사에 따라 수수료를 평단가에 포함해서 보여주기도 해서 몇 원 정도 차이가 날 수 있어요. 본전 상승률에는 수수료와 세금을 모두 반영했어요.</p>
+    </details>
+    <details>
+      <summary>주식을 팔면 양도소득세도 내나요?</summary>
+      <p>국내 상장주식은 대주주가 아니면 매매 차익에 양도소득세가 없어요. 대부분의 개인 투자자는 팔 때 증권거래세와 수수료만 내요. 대주주 여부는 종목별 보유 금액 등으로 정해지니 해당될 수 있다면 따로 확인하세요.</p>
+    </details>
+    <details>
+      <summary>해외 주식도 계산할 수 있나요?</summary>
+      <p>지금은 원화 기준 국내 주식만 지원해요. 해외 주식은 환율 변동과 세금 구조가 달라서 결과가 달라져요.</p>
+    </details>
+  </div>
+  <a class="cta" href="/avg-down/">물타기 평단가 계산하기 →</a>
+
+  <p class="warn" style="margin-top:32px">이 글은 계산 원리를 설명하는 일반 정보이며 특정 종목의 매수·매도를 권하지 않아요. 투자 판단과 그 결과에 대한 책임은 투자자 본인에게 있어요.</p>
+
+  <section class="sources">
+    <h2>참고 자료</h2>
+    <ol>
+      <li><a href="https://www.law.go.kr/법령/증권거래세법시행령" rel="noopener" target="_blank">국가법령정보센터 — 증권거래세법 시행령 제5조(탄력세율)</a></li>
+      <li><a href="https://www.law.go.kr/법령/농어촌특별세법" rel="noopener" target="_blank">국가법령정보센터 — 농어촌특별세법 제5조(과세표준과 세율)</a></li>
+    </ol>
+  </section>
+<!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
+<section class="yn-rel" aria-label="예나준의 다른 도구">
+  <a class="yn-guide" href="/avg-down/"><span class="e">📉</span><span><b>물타기 평단가 계산기 바로 쓰기</b><small>물타기·그대로·갈아타기를 같은 기준으로 비교해요.</small></span><span class="go">→</span></a>
+  <h2>이런 도구도 있어요</h2>
+  <div class="yn-grid">
+    <a class="yn-card" href="/p2p-invest/"><span class="e">📈</span><b>P2P 상품 고르기 계산기</b><span>안전 등급과 세후 수익률로 상품을 골라요.</span></a>
+    <a class="yn-card" href="/room-deduction/"><span class="e">🏠</span><b>방공제 한도 계산기</b><span>방공제가 대출 한도를 얼마나 깎는지 계산해요.</span></a>
+    <a class="yn-card" href="/yuryubun/"><span class="e">⚖️</span><b>유류분 계산기</b><span>청구할 수 있는 유류분을 계산해요.</span></a>
+  </div>
+  <a class="yn-home" href="/">← 예나준의 모든 도구 보기</a>
+</section>
+<!-- yn-related:end -->
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-brand"><img src="/assets/logo.svg" alt="" width="28" height="28"><b>예나준</b><span>© 2026 yenajun.com</span></div>
+    <nav class="footer-nav" aria-label="하단 메뉴">
+      <a href="/about">소개</a><a href="/privacy">개인정보처리방침</a><a href="/terms">이용약관</a><a href="mailto:ddongchane@gmail.com">문의</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

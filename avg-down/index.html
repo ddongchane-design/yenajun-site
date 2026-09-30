@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="손실 중인 주식의 수량·평단가·현재가와 여유 자금을 넣으면 물타기 후 평단가, 본전까지 필요한 상승률, 다른 종목으로 갈아탔을 때와의 비교, 분할 매수 시나리오까지 계산해 드립니다.">
+<link rel="canonical" href="https://yenajun.com/avg-down/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="예나준">
+<meta property="og:title" content="물타기 평단가 계산기 — 물타기 vs 갈아타기 비교">
+<meta property="og:description" content="물타기 후 평단가와 본전 상승률, 갈아타기 비교, 분할 매수 시나리오까지.">
+<meta property="og:url" content="https://yenajun.com/avg-down/">
+<meta property="og:image" content="https://yenajun.com/assets/og-image.jpg">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>물타기 평단가 계산기</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap');
+
+:root{
+  --bg:#14161A; --card:#1E222A; --card2:#191C22; --line:#2E343F;
+  --fg:#E8EBF0; --sub:#9BA3AF; --faint:#6B7280;
+  --gold:#FFB020; --red:#FF6B6B; --green:#33C892; --blue:#5AA9FF;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--fg);
+  font-family:'Pretendard','Noto Sans KR','Malgun Gothic',sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.5;
+  padding:32px 16px 56px;
+}
+.wrap{max-width:600px;margin:0 auto}
+.badge{display:inline-block;font-size:12px;font-weight:800;letter-spacing:1px;
+  color:var(--bg);background:var(--gold);padding:6px 12px;border-radius:6px}
+h1{font-size:30px;font-weight:800;letter-spacing:-1px;margin:16px 0 8px;text-wrap:balance}
+.lead{font-size:15px;color:var(--sub);line-height:1.6}
+.lead b{color:var(--fg)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:22px 20px;margin-top:20px}
+.card h2{font-size:13px;font-weight:800;letter-spacing:.5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:6px}
+.card .desc{font-size:13px;color:var(--faint);line-height:1.55}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 14px;margin-top:14px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field.full{grid-column:1 / -1}
+label{font-size:13.5px;font-weight:600;color:var(--sub)}
+.inputwrap{position:relative;display:flex;align-items:center}
+input[type=text],input[type=number],select{
+  width:100%;background:var(--card2);border:1px solid var(--line);border-radius:11px;
+  color:var(--fg);font:inherit;font-size:17px;font-weight:700;
+  padding:12px 44px 12px 14px;font-variant-numeric:tabular-nums;
+  -moz-appearance:textfield;transition:border-color .15s,box-shadow .15s}
+select{padding-right:14px;font-size:15px;font-weight:600;cursor:pointer}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input:focus,select:focus{outline:none;border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(255,176,32,.18)}
+.unit{position:absolute;right:14px;font-size:14px;font-weight:600;color:var(--faint);pointer-events:none}
+.hint{font-size:12px;color:var(--faint);line-height:1.45}
+.hint b{color:var(--sub)}
+
+.seg{display:flex;background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:4px;gap:4px}
+.seg button{flex:1;background:transparent;border:0;color:var(--sub);font:inherit;
+  font-size:14px;font-weight:700;padding:9px 6px;border-radius:8px;cursor:pointer;transition:.15s}
+.seg button[aria-pressed=true]{background:var(--gold);color:var(--bg)}
+
+/* 결과 */
+.rescard{background:linear-gradient(180deg,#1B1F27,#171A20);border-color:#333B49}
+.now{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.stat{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat small{display:block;font-size:12px;color:var(--faint);font-weight:600}
+.stat b{display:block;font-size:18px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl.kv td{white-space:normal;line-height:1.5}
+.tbl.kv td:first-child{color:var(--sub);width:45%}
+.tbl.kv tr:first-child td{border-top:0}
+.neg{color:var(--blue)} .pos{color:var(--red)}
+
+.cmp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.opt{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px 12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.opt.hl{border-color:rgba(255,176,32,.55);background:rgba(255,176,32,.06)}
+.opt h3{font-size:14.5px;font-weight:800}
+.opt h3 small{display:block;font-size:11.5px;color:var(--faint);font-weight:600;margin-top:2px}
+.opt .k{font-size:11.5px;color:var(--faint);font-weight:600}
+.opt .v{font-size:15.5px;font-weight:800;font-variant-numeric:tabular-nums;word-break:keep-all}
+.opt .big{font-size:22px;letter-spacing:-.5px;color:var(--gold)}
+@media (max-width:520px){
+  .cmp{grid-template-columns:1fr}
+  .opt{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+  .opt h3{grid-column:1 / -1}
+}
+
+.verdict{margin-top:16px;border-radius:14px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;
+  background:rgba(90,169,255,.08);border:1px solid rgba(90,169,255,.3)}
+.verdict .dot{width:12px;height:12px;border-radius:50%;flex:none;margin-top:6px;background:var(--blue)}
+.verdict .vt{font-size:15px;font-weight:700;line-height:1.5}
+.verdict .vs{font-size:13px;color:var(--sub);font-weight:500;margin-top:4px;line-height:1.6}
+.verdict.warn{background:rgba(255,107,107,.10);border-color:rgba(255,107,107,.35)}
+.verdict.warn .dot{background:var(--red)} .verdict.warn .vt{color:var(--red)}
+
+.sub-h{font-size:14px;font-weight:800;color:var(--fg);margin-top:26px}
+.sub-h small{font-weight:500;color:var(--faint);font-size:12px;margin-left:4px}
+.tbl{margin-top:10px;overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.tbl table{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th,.tbl td{padding:10px 12px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
+.tbl th{background:var(--card);color:var(--sub);font-weight:700;font-size:12px}
+.tbl td{border-top:1px solid var(--line);color:var(--fg)}
+
+/* 목표 평단 */
+.target-out{margin-top:12px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px;color:var(--sub);line-height:1.6}
+.target-out b{color:var(--gold);font-size:17px}
+.target-out.bad b{color:var(--red)}
+
+/* 분할 매수 */
+.rows{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.row{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.row .rtop{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;gap:8px}
+.row .rno{font-size:13px;font-weight:800;color:var(--gold)}
+.row .rdrop{font-size:12px;color:var(--faint);font-weight:600}
+.row .grid{margin-top:0;gap:8px}
+.row input{background:var(--card);font-size:15.5px;padding:10px 40px 10px 12px}
+.row .rres{margin-top:8px;font-size:13px;color:var(--sub);line-height:1.55;font-variant-numeric:tabular-nums}
+.row .rres b{color:var(--fg)}
+.sumbar{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:13.5px;color:var(--sub);flex-wrap:wrap}
+.sumbar b{color:var(--fg)}
+.sumbar .over{color:var(--red)}
+.btn{background:transparent;border:1px dashed #475063;color:var(--fg);font:inherit;font-size:14px;font-weight:700;
+  padding:11px 14px;border-radius:11px;cursor:pointer;width:100%;margin-top:10px}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn[hidden]{display:none}
+
+.disc{font-size:12px;color:var(--faint);line-height:1.65;margin-top:22px}
+.foot{margin-top:18px;display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--line);padding-top:16px}
+.foot .brand{font-size:14px;font-weight:800;color:var(--sub)}
+.foot .tag{font-size:12px;color:var(--faint)}
+details{margin-top:14px}
+summary{font-size:13.5px;font-weight:700;color:var(--sub);cursor:pointer;list-style:none;
+  display:flex;align-items:center;gap:6px}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"＋";color:var(--gold);font-weight:800}
+details[open] summary::before{content:"－"}
+@media (max-width:440px){ h1{font-size:26px} .grid{grid-template-columns:1fr} .row .grid{grid-template-columns:1fr 1fr} }
+
+/* 설명 글 */
+.guide{margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
+.guide p{font-size:15px;color:var(--sub);line-height:1.8;margin-top:12px}
+.guide strong{color:var(--fg)}
+.g-h2{font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--fg)}
+.g-h3{font-size:17px;font-weight:800;color:var(--fg);margin-top:32px}
+.g-steps{margin:14px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.g-steps li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14.5px;color:var(--sub);line-height:1.6}
+.g-steps b{color:var(--gold)}
+.g-table{margin-top:14px;overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.g-table table{width:100%;border-collapse:collapse;font-size:14px}
+.g-table th,.g-table td{padding:11px 14px;text-align:left;vertical-align:top;line-height:1.5}
+.g-table th{background:var(--card);color:var(--sub);font-weight:700;font-size:13px}
+.g-table td{border-top:1px solid var(--line);color:var(--fg)}
+.guide p.g-src{font-size:12px;color:var(--faint);margin-top:8px;line-height:1.6}
+.guide details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:10px}
+.guide details summary{font-size:15px;color:var(--fg)}
+.guide details p{font-size:14px;margin-top:10px}
+</style>
+<link rel="stylesheet" href="/assets/related.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <span class="badge">예나준</span>
+  <h1>물타기 평단가 계산기</h1>
+  <p class="lead">손실 중인 주식과 여유 자금을 넣으면 <b>물타기 후 평단가</b>, <b>본전까지 필요한 상승률</b>, 그리고 <b>그대로 두기·물타기·갈아타기</b> 세 가지를 같은 기준으로 비교해 드립니다. 분할 매수 계획도 직접 짜 볼 수 있어요.</p>
+
+  <!-- 1. 보유 -->
+  <div class="card">
+    <h2>① 지금 가진 주식</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="qty">보유 수량</label>
+        <div class="inputwrap"><input type="text" class="money" id="qty" value="100" inputmode="numeric" autocomplete="off"><span class="unit">주</span></div>
+      </div>
+      <div class="field">
+        <label for="avg">평균 매수 단가</label>
+        <div class="inputwrap"><input type="text" class="money" id="avg" value="80,000" inputmode="numeric" autocomplete="off"><span class="unit">원</span></div>
+      </div>
+      <div class="field">
+        <label for="price">현재가</label>
+        <div class="inputwrap"><input type="text" class="money" id="price" value="60,000" inputmode="numeric" autocomplete="off"><span class="unit">원</span></div>
+      </div>
+      <div class="field">
+        <label for="cash">여유 자금</label>
+        <div class="inputwrap"><input type="text" class="money" id="cash" value="3,000,000" inputmode="numeric" autocomplete="off"><span class="unit">원</span></div>
+      </div>
+    </div>
+    <details>
+      <summary>수수료·세금 설정</summary>
+      <div class="grid">
+        <div class="field">
+          <label for="fee">매매 수수료 (살 때·팔 때 각각)</label>
+          <div class="inputwrap"><input type="number" id="fee" value="0.015" min="0" max="1" step="0.001" inputmode="decimal"><span class="unit">%</span></div>
+        </div>
+        <div class="field">
+          <label for="tax">매도 세금 (거래세+농특세)</label>
+          <div class="inputwrap"><input type="number" id="tax" value="0.20" min="0" max="1" step="0.01" inputmode="decimal"><span class="unit">%</span></div>
+        </div>
+        <div class="field full">
+          <span class="hint">2026년 1월 2일부터 코스피는 증권거래세 0.05% + 농어촌특별세 0.15%, 코스닥은 증권거래세 0.20%로 둘 다 <b>0.20%</b>예요(증권거래세법 시행령 제5조). 수수료는 증권사·계좌마다 달라요. 평단가는 수수료를 빼고 계산하고, <b>본전 상승률</b>에만 수수료와 세금을 반영해요.</span>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- 결과 -->
+  <div class="card rescard">
+    <h2>지금 상태</h2>
+    <div class="now">
+      <div class="stat"><small>평가 손익</small><b id="nLoss">–</b></div>
+      <div class="stat"><small>수익률</small><b id="nRate">–</b></div>
+    </div>
+
+    <p class="sub-h">여유 자금을 지금 다 쓴다면 <small>현재가 기준 비교</small></p>
+    <div class="cmp">
+      <div class="opt">
+        <h3>그대로 두기<small>여유 자금은 현금으로</small></h3>
+        <div><div class="k">평단가</div><div class="v" id="aAvg">–</div></div>
+        <div><div class="k">본전까지</div><div class="v big" id="aNeed">–</div></div>
+        <div><div class="k">이 종목 투입금</div><div class="v" id="aIn">–</div></div>
+        <div><div class="k" id="aDropK">10% 더 빠지면</div><div class="v neg" id="aDrop">–</div></div>
+      </div>
+      <div class="opt hl">
+        <h3>물타기<small id="bSub">–</small></h3>
+        <div><div class="k">새 평단가</div><div class="v" id="bAvg">–</div></div>
+        <div><div class="k">본전까지</div><div class="v big" id="bNeed">–</div></div>
+        <div><div class="k">이 종목 투입금</div><div class="v" id="bIn">–</div></div>
+        <div><div class="k" id="bDropK">10% 더 빠지면</div><div class="v neg" id="bDrop">–</div></div>
+      </div>
+      <div class="opt">
+        <h3>갈아타기<small>전량 팔고 여유 자금과 함께 새 종목</small></h3>
+        <div><div class="k">새 종목 매수금</div><div class="v" id="cAvg">–</div></div>
+        <div><div class="k">본전까지</div><div class="v big" id="cNeed">–</div></div>
+        <div><div class="k">팔 때 확정되는 손익</div><div class="v neg" id="cIn">–</div></div>
+        <div><div class="k" id="cDropK">10% 더 빠지면</div><div class="v neg" id="cDrop">–</div></div>
+      </div>
+    </div>
+    <div class="grid" style="margin-top:12px">
+      <div class="field full">
+        <label for="drop">'더 빠지면' 가정 하락률</label>
+        <div class="inputwrap"><input type="number" id="drop" value="10" min="0" max="90" step="1" inputmode="numeric"><span class="unit">%</span></div>
+        <span class="hint">갈아타기는 새 종목이 같은 비율만큼 빠진다고 가정해요.</span>
+      </div>
+    </div>
+    <div class="verdict" id="verdict">
+      <span class="dot"></span>
+      <div><div class="vt" id="vTitle">–</div><div class="vs" id="vSub">–</div></div>
+    </div>
+  </div>
+
+  <!-- 목표 평단 -->
+  <div class="card">
+    <h2>② 목표 평단가로 역산하기</h2>
+    <p class="desc">평단가를 얼마까지 낮추고 싶은지 넣으면, 현재가로 몇 주를 더 사야 하는지 계산해요.</p>
+    <div class="grid">
+      <div class="field full">
+        <label for="target">목표 평단가</label>
+        <div class="inputwrap"><input type="text" class="money" id="target" value="70,000" inputmode="numeric" autocomplete="off"><span class="unit">원</span></div>
+      </div>
+    </div>
+    <div class="target-out" id="targetOut">–</div>
+  </div>
+
+  <!-- 분할 매수 -->
+  <div class="card">
+    <h2>③ 분할 매수 계획</h2>
+    <p class="desc">여유 자금을 몇 번에 나눠, 얼마씩 떨어질 때마다 살지 정해 보세요. 자동으로 채운 뒤 회차별 가격과 금액을 직접 고칠 수도 있어요.</p>
+    <div class="grid">
+      <div class="field">
+        <label for="n">나눠 살 횟수</label>
+        <div class="inputwrap"><input type="number" id="n" value="5" min="1" max="30" step="1" inputmode="numeric"><span class="unit">회</span></div>
+      </div>
+      <div class="field">
+        <label for="gap">회차마다 떨어지는 폭</label>
+        <div class="inputwrap"><input type="number" id="gap" value="5" min="0" max="50" step="0.5" inputmode="decimal"><span class="unit">%</span></div>
+      </div>
+      <div class="field full">
+        <label>금액 나누는 방식</label>
+        <div class="seg" id="segSplit" role="group" aria-label="금액 나누는 방식">
+          <button type="button" data-v="equal" aria-pressed="true">똑같이</button>
+          <button type="button" data-v="grow" aria-pressed="false">떨어질수록 많이</button>
+        </div>
+        <span class="hint">'떨어질수록 많이'는 1 : 2 : 3 … 비율로 나눠요. 1회차는 현재가에 사요.</span>
+      </div>
+    </div>
+    <div class="rows" id="rows"></div>
+    <div class="sumbar"><span>계획 금액 합계 <b id="planSum">–</b></span><span id="planLeft">–</span></div>
+    <button type="button" class="btn" id="refill" hidden>위 설정대로 다시 채우기</button>
+
+    <p class="sub-h">모두 체결되면</p>
+    <div class="tbl kv"><table>
+      <tbody>
+        <tr><td>총 보유 수량</td><td id="pQty">–</td></tr>
+        <tr><td>최종 평단가</td><td id="pAvg">–</td></tr>
+        <tr><td>마지막 매수가 기준 본전까지</td><td id="pNeed">–</td></tr>
+        <tr><td>지금 현재가(원래 가격)로 돌아오면</td><td id="pBack">–</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <p class="disc">※ 투자 권유가 아닌 단순 계산 도구예요. 물타기·갈아타기 중 어느 쪽이 낫다고 판단하지 않으며, 결과는 입력한 가격대로 체결된다고 가정한 계산이에요. 배당, 호가 단위, 증권사별 수수료 차이는 반영하지 않아요. 투자 판단과 책임은 본인에게 있어요. 입력한 내용은 저장하거나 전송하지 않아요.</p>
+
+  <section class="guide" aria-labelledby="g-title">
+    <h2 class="g-h2" id="g-title">물타기 계산기, 이렇게 보세요</h2>
+    <p>평단가는 <strong>산 금액을 모두 더해 총 수량으로 나눈 값</strong>이에요. 그래서 싸게 산 주식이 많을수록 평단가가 내려가요.</p>
+    <ol class="g-steps">
+      <li><b>새 평단가</b> = (기존 수량 × 기존 평단 + 추가 수량 × 매수가) ÷ 전체 수량</li>
+      <li><b>본전까지 필요한 상승률</b> = 수수료·세금까지 떼고도 원금이 되는 주가 ÷ 현재가 − 1</li>
+      <li><b>갈아타기</b> = 지금 전량 팔아 받은 돈 + 여유 자금으로 새 종목을 샀을 때, 새 종목이 몇 % 올라야 원금(기존 투자금 + 여유 자금)이 되는지</li>
+    </ol>
+    <p>세 선택지는 <strong>같은 원금 기준</strong>으로 비교해요. 그대로 두기의 여유 자금은 현금으로 남아 있다고 보고, 물타기와 갈아타기는 여유 자금까지 모두 투자한다고 봐요.</p>
+
+    <h3 class="g-h3">잃은 만큼 오르면 본전일까?</h3>
+    <div class="g-table"><table>
+      <thead><tr><th>떨어진 폭</th><th>본전까지 필요한 상승률</th></tr></thead>
+      <tbody>
+        <tr><td>−10%</td><td>+11.1%</td></tr>
+        <tr><td>−20%</td><td>+25.0%</td></tr>
+        <tr><td>−30%</td><td>+42.9%</td></tr>
+        <tr><td>−50%</td><td>+100.0%</td></tr>
+      </tbody>
+    </table></div>
+    <p>손실이 커질수록 되찾는 데 필요한 상승률은 훨씬 빠르게 커져요. 물타기는 이 필요 상승률을 낮춰 주지만, 그만큼 <strong>그 종목에 넣은 돈이 커져서</strong> 한 번 더 빠질 때 손실 금액도 커져요. 계산기의 '더 빠지면' 줄이 바로 그 차이예요.</p>
+
+    <h3 class="g-h3">자주 묻는 질문</h3>
+    <details><summary>평단가를 현재가보다 낮출 수 있나요?</summary>
+      <p>아니요. 현재가로 아무리 많이 사도 평단가는 현재가에 가까워질 뿐 그보다 낮아지지 않아요. 목표 평단가가 현재가 이하라면 더 떨어진 뒤에 사야만 가능해요.</p></details>
+    <details><summary>갈아타기는 왜 본전 상승률이 더 높게 나오기도 하나요?</summary>
+      <p>팔 때 세금(0.20%)과 수수료가 빠지고, 새 종목은 지금 가격에서 다시 시작하기 때문이에요. 대신 갈아타기는 기존 종목의 반등 여부와 상관없이 새 종목의 움직임에 따라 결과가 정해져요. 어느 종목이 더 오를지는 계산기가 알려줄 수 없는 부분이라, 숫자는 판단의 재료로만 써 주세요.</p></details>
+    <details><summary>분할 매수 결과의 '지금 현재가로 돌아오면'은 뭔가요?</summary>
+      <p>계획대로 다 산 뒤 주가가 오늘 가격으로 다시 올라왔을 때의 수익률이에요. 분할 매수는 더 떨어져야 체결되니, 떨어졌다가 돌아오는 경우의 결과를 보여줘요.</p></details>
+
+<!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
+<section class="yn-rel yn-dark" aria-label="예나준의 다른 도구">
+  <a class="yn-guide" href="/avg-down/guide/"><span class="e">📖</span><span><b>물타기·갈아타기 가이드 읽기</b><small>평단가 원리, 손실 비대칭, 판단 전 체크리스트</small></span><span class="go">→</span></a>
+  <h2>이런 도구도 있어요</h2>
+  <div class="yn-grid">
+    <a class="yn-card" href="/p2p-invest/"><span class="e">📈</span><b>P2P 상품 고르기 계산기</b><span>안전 등급과 세후 수익률로 상품을 골라요.</span></a>
+    <a class="yn-card" href="/room-deduction/"><span class="e">🏠</span><b>방공제 한도 계산기</b><span>방공제가 대출 한도를 얼마나 깎는지 계산해요.</span></a>
+    <a class="yn-card" href="/yuryubun/"><span class="e">⚖️</span><b>유류분 계산기</b><span>청구할 수 있는 유류분을 계산해요.</span></a>
+  </div>
+  <a class="yn-home" href="/">← 예나준의 모든 도구 보기</a>
+</section>
+<!-- yn-related:end -->
+  </section>
+
+  <div class="foot">
+    <span class="brand">예나준</span>
+    <span class="tag">물타기 평단가 계산기</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var split = 'equal', custom = false, plan = [];
+
+  function num(v){ var n = parseFloat(String(v).replace(/,/g, '')); return isFinite(n) && n > 0 ? n : 0; }
+  function comma(v){ var n = num(v); return n ? Math.round(n).toLocaleString('ko-KR') : ''; }
+  function won(n){ var neg = n < 0; n = Math.round(Math.abs(n)); return (neg ? '−' : '') + n.toLocaleString('ko-KR') + '원'; }
+  function signWon(n){ return (n > 0 ? '+' : '') + won(n); }
+  function pct(r, d){ d = d == null ? 1 : d; var v = (r*100).toFixed(d); if(v === '-0.0' || v === '-0') v = (0).toFixed(d); return (r > 0 ? '+' : '') + v.replace('-', '−') + '%'; }
+  function pl(v){ return v < 0 ? '손실 ' + won(-v) : '이익 ' + won(v); }
+  function shares(n){ return Math.floor(n).toLocaleString('ko-KR') + '주'; }
+  function sgnCls(el, v){ el.classList.toggle('neg', v < 0); el.classList.toggle('pos', v > 0); }
+
+  // 금액 칸: 입력하는 동안 천 단위 콤마 (커서 위치 유지)
+  document.addEventListener('input', function(e){
+    var t = e.target;
+    if(!t.classList || !t.classList.contains('money')) return;
+    var pos = t.selectionStart, digitsLeft = t.value.slice(0, pos).replace(/\D/g, '').length;
+    var digits = t.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 13);
+    var out = digits ? Number(digits).toLocaleString('ko-KR') : '';
+    t.value = out;
+    var p = 0, seen = 0;
+    while(p < out.length && seen < digitsLeft){ if(/\d/.test(out[p])) seen++; p++; }
+    t.setSelectionRange(p, p);
+  }, true);
+
+  function inputs(){
+    return {
+      q: num($('qty').value), avg: num($('avg').value), p: num($('price').value), cash: num($('cash').value),
+      fee: num($('fee').value)/100, tax: num($('tax').value)/100, drop: Math.min(0.9, num($('drop').value)/100)
+    };
+  }
+
+  // 원금을 되찾는 주가 (팔 때 수수료·세금을 떼고도 원금이 되는 가격)
+  function breakeven(principal, q, cashLeft, s){ return q > 0 ? (principal - cashLeft) / (q * (1 - s)) : 0; }
+
+  function calc(){
+    var x = inputs(), s = x.fee + x.tax;
+    var base = x.q * x.avg;                       // 기존 투자 원금
+    var valNow = x.q * x.p;
+    var ready = x.q && x.avg && x.p;
+
+    // 지금 상태
+    $('nLoss').textContent = ready ? signWon(valNow - base) : '–'; sgnCls($('nLoss'), valNow - base);
+    $('nRate').textContent = ready ? pct(x.p / x.avg - 1, 2) : '–'; sgnCls($('nRate'), x.p - x.avg);
+    var dk = Math.round(x.drop*100) + '% 더 빠지면';
+    $('aDropK').textContent = $('bDropK').textContent = $('cDropK').textContent = dk;
+    if(!ready){ ['aAvg','aNeed','aIn','aDrop','bAvg','bNeed','bIn','bDrop','cAvg','cNeed','cIn','cDrop'].forEach(function(id){ $(id).textContent = '–'; }); return; }
+
+    // A. 그대로
+    var beA = breakeven(base, x.q, 0, s);
+    $('aAvg').textContent = won(x.avg);
+    $('aNeed').textContent = pct(beA / x.p - 1);
+    $('aIn').textContent = won(base);
+    $('aDrop').textContent = pl(valNow * (1 - x.drop) - base);
+
+    // B. 물타기 (현재가로 여유 자금 전부)
+    var addQ = Math.floor(x.cash / (x.p * (1 + x.fee)));
+    var spent = addQ * x.p * (1 + x.fee), leftB = x.cash - spent;
+    var qB = x.q + addQ, avgB = (base + addQ * x.p) / qB;
+    var principal = base + x.cash;
+    var beB = breakeven(principal, qB, leftB, s);
+    $('bSub').textContent = addQ ? shares(addQ) + ' 추가 매수' : '여유 자금으로 1주도 못 사요';
+    $('bAvg').textContent = won(avgB);
+    $('bNeed').textContent = pct(beB / x.p - 1);
+    $('bIn').textContent = won(base + addQ * x.p);
+    var lossB = qB * x.p * (1 - x.drop) + leftB - principal;
+    $('bDrop').textContent = pl(lossB);
+
+    // C. 갈아타기 (전량 매도 → 여유 자금과 합쳐 새 종목)
+    var proceeds = valNow * (1 - s);
+    var newBuy = (proceeds + x.cash) / (1 + x.fee);   // 새 종목에 실제로 들어가는 금액
+    var needC = principal / (newBuy * (1 - s)) - 1;
+    $('cAvg').textContent = won(newBuy);
+    $('cNeed').textContent = pct(needC);
+    $('cIn').textContent = pl(proceeds - base);
+    $('cDrop').textContent = pl(newBuy * (1 - x.drop) - principal);
+
+    // 요약 (추천 없이 숫자만)
+    var v = $('verdict');
+    if(x.p >= x.avg){
+      v.className = 'verdict';
+      $('vTitle').textContent = '지금은 손실 중이 아니에요';
+      $('vSub').textContent = '현재가가 평단가 이상이라 물타기로 평단가가 오히려 올라가요. 추가 매수라면 "불타기"에 가까워요.';
+    } else {
+      v.className = 'verdict';
+      $('vTitle').textContent = '물타기로 본전 가격이 ' + won(beA) + ' → ' + won(beB) + '으로 내려가요';
+      $('vSub').textContent = '본전까지 필요한 상승률은 ' + pct(beA/x.p-1) + '에서 ' + pct(beB/x.p-1) + '로 줄지만, 이 종목에 들어간 돈은 ' + won(base) + '에서 ' + won(base + addQ*x.p) + '으로 늘어요. 갈아타면 새 종목이 ' + pct(needC) + ' 올라야 원금이에요. ' +
+        (needC < beB/x.p - 1 ? '이 경우엔 갈아탄 종목의 필요 상승률이 더 낮아요. 다만 어느 종목이 더 오를지는 별개의 문제예요.' : '세금·수수료 때문에 갈아타기의 필요 상승률이 조금 더 높아요. 결국 어느 종목이 더 오를 것 같은지가 판단의 핵심이에요.');
+    }
+
+    target(x, s);
+    if(!custom) fillPlan(x);
+    renderPlan(x, s);
+  }
+
+  // ── 목표 평단 역산 ──
+  function target(x, s){
+    var t = num($('target').value), box = $('targetOut');
+    box.className = 'target-out';
+    if(!t){ box.textContent = '목표 평단가를 넣어 주세요.'; return; }
+    if(t >= x.avg){ box.innerHTML = '목표 평단가가 지금 평단가(' + won(x.avg) + ') 이상이에요. 더 살 필요가 없어요.'; return; }
+    if(t <= x.p){ box.className = 'target-out bad'; box.innerHTML = '<b>현재가로는 불가능해요</b><br>평단가는 매수가보다 낮아질 수 없어서, 현재가(' + won(x.p) + ') 이하로는 못 내려요. 주가가 목표보다 더 떨어졌을 때 사야 가능해요.'; return; }
+    var need = Math.ceil(x.q * (x.avg - t) / (t - x.p));
+    var money = need * x.p * (1 + x.fee);
+    var newAvg = (x.q*x.avg + need*x.p) / (x.q + need);
+    box.innerHTML = '현재가로 <b>' + shares(need) + '</b> 더 사면 돼요 · 필요 자금 <b>' + won(money) + '</b><br>' +
+      '실제 평단가 ' + won(newAvg) + ' · 이 종목 총 투입금 ' + won(x.q*x.avg + need*x.p) +
+      (money > x.cash ? '<br><span style="color:var(--red)">여유 자금보다 ' + won(money - x.cash) + ' 더 필요해요.</span>' : '');
+  }
+
+  // ── 분할 매수 ──
+  function fillPlan(x){
+    var n = Math.max(1, Math.min(30, Math.floor(num($('n').value)) || 1));
+    var g = num($('gap').value) / 100;
+    var w = 0, i; for(i = 1; i <= n; i++) w += split === 'grow' ? i : 1;
+    plan = [];
+    for(i = 0; i < n; i++){
+      plan.push({ price: Math.round(x.p * Math.pow(1 - g, i)), amt: Math.floor(x.cash * (split === 'grow' ? i+1 : 1) / w) });
+    }
+    drawRows();
+  }
+  function drawRows(){
+    var x = inputs(), box = $('rows'); box.innerHTML = '';
+    plan.forEach(function(r, i){
+      var d = document.createElement('div'); d.className = 'row';
+      var dd = x.p ? r.price / x.p - 1 : 0;
+      d.innerHTML = '<div class="rtop"><span class="rno">' + (i+1) + '회차</span><span class="rdrop" data-drop="' + i + '">현재가 대비 ' + pct(dd) + '</span></div>' +
+        '<div class="grid">' +
+          '<div class="field"><label>매수가</label><div class="inputwrap"><input type="text" class="money" inputmode="numeric" autocomplete="off" data-k="price" data-i="' + i + '" value="' + comma(r.price) + '"><span class="unit">원</span></div></div>' +
+          '<div class="field"><label>매수 금액</label><div class="inputwrap"><input type="text" class="money" inputmode="numeric" autocomplete="off" data-k="amt" data-i="' + i + '" value="' + comma(r.amt) + '"><span class="unit">원</span></div></div>' +
+        '</div><div class="rres" data-res="' + i + '"></div>';
+      box.appendChild(d);
+    });
+  }
+  function renderPlan(x, s){
+    var q = x.q, cost = x.q * x.avg, spentAll = 0, lastPrice = x.p;
+    plan.forEach(function(r, i){
+      var pr = num(r.price), am = num(r.amt);
+      var k = pr ? Math.floor(am / (pr * (1 + x.fee))) : 0;
+      q += k; cost += k * pr; spentAll += k * pr * (1 + x.fee);
+      if(k > 0) lastPrice = pr;
+      var avgNow = q ? cost / q : 0;
+      var res = document.querySelector('[data-res="' + i + '"]');
+      var dropEl = document.querySelector('[data-drop="' + i + '"]');
+      if(dropEl) dropEl.textContent = '현재가 대비 ' + (x.p && pr ? pct(pr / x.p - 1) : '–');
+      if(res) res.innerHTML = pr && am
+        ? (k ? '<b>' + shares(k) + '</b> 매수 → 누적 평단 <b>' + won(avgNow) + '</b> · 이 가격에서 수익률 ' + pct(pr / avgNow - 1)
+             : '금액이 1주 가격보다 적어 살 수 없어요')
+        : '가격과 금액을 넣어 주세요';
+    });
+    var sum = plan.reduce(function(a, r){ return a + num(r.amt); }, 0);
+    $('planSum').textContent = won(sum);
+    var left = x.cash - sum;
+    $('planLeft').innerHTML = left >= 0 ? '남는 여유 자금 <b>' + won(left) + '</b>' : '<span class="over">여유 자금보다 ' + won(-left) + ' 많아요</span>';
+    var principal = x.q * x.avg + spentAll;
+    var be = breakeven(principal, q, 0, s);
+    $('pQty').textContent = shares(q);
+    $('pAvg').textContent = q ? won(cost / q) : '–';
+    $('pNeed').textContent = lastPrice ? pct(be / lastPrice - 1) + ' (' + won(lastPrice) + ' → ' + won(be) + ')' : '–';
+    var backVal = q * x.p * (1 - s);
+    $('pBack').textContent = x.p ? signWon(backVal - principal) + ' (' + pct(backVal / principal - 1) + ')' : '–';
+    $('refill').hidden = !custom;
+  }
+
+  // ── 이벤트 ──
+  ['qty','avg','price','cash','fee','tax','drop','target'].forEach(function(id){ $(id).addEventListener('input', calc); });
+  ['n','gap'].forEach(function(id){ $(id).addEventListener('input', function(){ custom = false; calc(); }); });
+  $('segSplit').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    split = b.getAttribute('data-v'); custom = false;
+    Array.prototype.forEach.call(this.querySelectorAll('button'), function(x){ x.setAttribute('aria-pressed', x===b ? 'true' : 'false'); });
+    calc();
+  });
+  $('rows').addEventListener('input', function(e){
+    var t = e.target, i = t.getAttribute('data-i'), k = t.getAttribute('data-k');
+    if(i === null || !k) return;
+    plan[+i][k] = num(t.value); custom = true;
+    var x = inputs(); renderPlan(x, x.fee + x.tax);
+  });
+  $('refill').addEventListener('click', function(){ custom = false; calc(); });
+
+  calc();
+})();
+</script>
+</body>
+</html>
