@@ -1,5 +1,5 @@
-# 주간 금리 동향 — 매주 월요일 06:30(한국시간)에 지표를 받아 rates/data/ 를 갱신하고 커밋한다.
-# Cloudflare Pages가 커밋을 보고 자동 배포한다.
+# 주간 금리 동향 — 일요일 오후(한국시간)에 지난 영업일 기준 지표를 받아 rates/data/ 를 갱신하고 커밋한다.
+# Cloudflare Pages가 커밋을 보고 자동 배포한다. (이슈 글은 월요일 아침 Claude 예약 작업이 PR로 올림)
 # 필요한 비밀값: Settings → Secrets and variables → Actions → ECOS_API_KEY
 name: rates-weekly
 
@@ -7,9 +7,9 @@ on:
   schedule:
     # GitHub 예약 실행은 붐비면 늦거나 빠질 수 있어서 세 번 걸어 둔다 (정각·30분 피함).
     # 이미 그날 받았으면 뒤의 실행은 건너뛴다(collect.py --skip-if-fresh).
-    - cron: '17 21 * * 0'   # 월 06:17 KST
-    - cron: '47 21 * * 0'   # 월 06:47 KST
-    - cron: '17 22 * * 0'   # 월 07:17 KST
+    - cron: '17 6 * * 0'    # 일 15:17 KST
+    - cron: '47 6 * * 0'    # 일 15:47 KST
+    - cron: '17 7 * * 0'    # 일 16:17 KST
   workflow_dispatch:
     inputs:
       asof:

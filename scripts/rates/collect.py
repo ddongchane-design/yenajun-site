@@ -77,7 +77,7 @@ SB_FALLBACK = ['SBI', 'OK', '한국투자', '웰컴', '애큐온']
 
 
 def last_business_day(today=None):
-    """월요일에 돌리면 직전 금요일. 실제 휴일은 각 출처의 '그날 이하 마지막 값'으로 자연히 걸러진다."""
+    """일요일·월요일에 돌리면 직전 금요일. 실제 휴일은 각 출처의 '그날 이하 마지막 값'으로 자연히 걸러진다."""
     d = (today or datetime.now(KST).date()) - timedelta(days=1)
     while d.weekday() >= 5:
         d -= timedelta(days=1)
