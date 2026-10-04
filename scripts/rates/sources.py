@@ -355,3 +355,49 @@ def latest_on_or_before(series, asof):
         if k <= asof:
             best = (k, v)
     return best
+
+
+# ───────────────────────── 예탁결제원 SEIBro 금융채 발행 ─────────────────────────
+SEIBRO_URL = 'https://seibro.or.kr/websquare/engine/proworks/callServletService.jsp'
+# 채권 종류 코드 → 큰 묶음
+SEIBRO_GROUP = {'110521': '은행채', '110531': '은행채', '110541': '여전채', '110542': '여전채', '110543': '여전채',
+                '110544': '여전채', '110511': '통안채'}
+
+
+def seibro_issues(start, end):
+    """발행일 start~end(YYYY-MM-DD) 금융채 발행 종목. 만기가 아직 안 된 종목만 나온다(SEIBro 제약)."""
+    params = dict(ISSU_DT_START=start.replace('-', ''), ISSU_DT_END=end.replace('-', ''), XPIR_DT_START='', XPIR_DT_END='',
+                  ISSUCO_CUSTNO='', ISIN='', CUST_SORT_NO='', SELECT_XPIR_DT_START='', SELECT_XPIR_DT_END='',
+                  COUPON_RATE1='', COUPON_RATE2='', CREDIT_GRD_CD='', RANK_TPCD='', PAGE_ON_CNT='3000', PAGE_NUM='1',
+                  INT_PAY_TPCD='', SECN_DTAIL_KACD='')
+    body = ('<reqParam action="issuSecnPListEL1" task="ksd.safe.bip.cnts.bone.process.FbondIssuSecnPTask">'
+            + ''.join(f'<{k} value="{v}"/>' for k, v in params.items()) + '</reqParam>')
+    s = _get(SEIBRO_URL, data=body.encode('utf-8'),
+             headers={'Content-Type': 'application/xml; charset=UTF-8',
+                      'Referer': 'https://seibro.or.kr/websquare/control.jsp?w2xPath=/IPORTAL/user/bond/BIP_CNTS03016V.xml&menuNo=100'},
+             timeout=90).decode('utf-8')
+    out = []
+    for block in re.findall(r'<result>(.*?)</result>', s, re.S):
+        r = dict(re.findall(r'<(\w+) value="([^"]*)"', block))
+        if not r.get('ISIN'):
+            continue
+
+        def num(k):
+            try:
+                return float(r.get(k) or '')
+            except ValueError:
+                return None
+        idt, xdt = r.get('ISSU_DT', ''), r.get('XPIR_DT', '')
+        years = None
+        if len(idt) == 8 and len(xdt) == 8:
+            years = round((datetime.strptime(xdt, '%Y%m%d') - datetime.strptime(idt, '%Y%m%d')).days / 365.25, 2)
+        out.append({
+            'issuer': r.get('REP_SECN_NM', ''), 'name': r.get('KOR_SECN_NM', ''), 'isin': r['ISIN'],
+            'kind': r.get('SECN_DTAIL', ''), 'kind_cd': r.get('SECN_DTAIL_KACD', ''),
+            'group': SEIBRO_GROUP.get(r.get('SECN_DTAIL_KACD', ''), '기타'),
+            'issued': f'{idt[:4]}-{idt[4:6]}-{idt[6:]}' if len(idt) == 8 else idt,
+            'maturity': f'{xdt[:4]}-{xdt[4:6]}-{xdt[6:]}' if len(xdt) == 8 else xdt, 'years': years,
+            'amount': num('FIRST_ISSU_AMT'), 'coupon': num('COUPON_RATE'), 'int_kind': r.get('INT_KIND', ''),
+            'grade': (r.get('KIS_APLI_CREDIT_GRD_CD_NM') or '').split('(')[0], 'senior': r.get('RANK_TPCD') == '1',
+        })
+    return out

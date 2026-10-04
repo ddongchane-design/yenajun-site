@@ -44,6 +44,7 @@ jobs:
             python collect.py weekly
           fi
           python export_excel.py
+          python issuance.py weekly || echo "금융채 발행 수집 실패 (다른 지표는 정상 반영)"
 
       - name: 변경분 커밋
         run: |
