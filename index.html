@@ -350,6 +350,7 @@
   fetch('/rates/data/latest.json',{cache:'no-cache'}).then(r=>r.json()).then(L=>{
     const all={};L.groups.forEach(g=>g.items.forEach(it=>all[it.id]=it));
     $('rb-week').textContent=`· ${wk(L.asof)} (${md(L.asof)} 기준)`;
+    fetch('/rates/data/issues/'+L.asof+'.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(I=>{if(I&&I.headline) $('rb-sub').textContent=I.headline;}).catch(()=>{});
     $('rb-nums').innerHTML=PICK.filter(([id])=>all[id]&&all[id].value!=null).map(([id,n])=>{const it=all[id];
       return `<div class="rb-num"><small>${n}</small><b>${it.value.toFixed(it.dp)}%</b>${chg(it.change_bp)}</div>`;}).join('');
   }).catch(()=>{});

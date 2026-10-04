@@ -130,6 +130,26 @@ tr.pick:hover td{background:var(--panel-2)}
 .err{font-size:13px;color:var(--up)}
 footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 40px}
 .loading{color:var(--ink-3);font-size:14px;padding:20px 0}
+/* 주간 이슈 카드 */
+.is-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px}
+.is-head .src{margin:0}
+.is-lead{font-size:16px;font-weight:600;margin:10px 0 14px;line-height:1.55}
+.is-cards{display:grid;gap:12px}
+@media(min-width:900px){.is-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.is-card{border:1px solid var(--rule);border-radius:14px;padding:16px;background:var(--panel-2)}
+.is-cat{display:inline-block;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 10px}
+.is-card h3{font-size:16px;margin:8px 0 6px;line-height:1.45}
+.is-card p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.75}
+.is-nums{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.is-nums span{font-size:12.5px;padding:3px 8px;border-radius:8px;background:var(--panel);border:1px solid var(--rule);font-variant-numeric:tabular-nums}
+.is-src{margin-top:10px;font-size:12.5px;color:var(--ink-3)}
+.is-src a{color:var(--ink-3)}
+.is-next{margin-top:16px}
+.is-next h3{font-size:15px;margin:0 0 6px}
+.is-next ul{margin:0;padding:0;list-style:none}
+.is-next li{display:flex;gap:12px;padding:7px 0;border-bottom:1px solid var(--rule-2);font-size:14px}
+.is-next li b{flex:none;min-width:74px;font-variant-numeric:tabular-nums}
+.is-next li small{color:var(--ink-3)}
 .closes{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--ink-2);padding:8px 0 0}
 .closes b{color:var(--ink);font-weight:700}
 .closes small{color:var(--ink-3)}
@@ -183,6 +203,16 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
   </div>
 
   <div class="tiles" id="tiles"></div>
+
+  <section class="card issues" id="issues" aria-labelledby="is-title" hidden>
+    <div class="is-head">
+      <h2 id="is-title">이번 주 주요 이슈</h2>
+      <span class="src" id="is-meta"></span>
+    </div>
+    <p class="is-lead" id="is-lead"></p>
+    <div class="is-cards" id="is-cards"></div>
+    <div class="is-next" id="is-next"></div>
+  </section>
   <div id="groups"><p class="loading">자료를 불러오는 중이에요…</p></div>
 
   <section class="card" id="savings" aria-labelledby="sb-title">
@@ -316,6 +346,7 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
     // 저축은행 묶음을 저축은행 상세 섹션 바로 앞으로
     if (L.errors && L.errors.length) { const e = $('#errors'); e.hidden = false; e.textContent = '이번 주 일부 자료를 받지 못했어요(지난 값 유지): ' + L.errors.join(' / '); }
     if (SB) savings(SB);
+    j('data/issues/' + L.asof + '.json').then(renderIssues).catch(() => {});
   }).catch(e => { $('#groups').innerHTML = '<p class="loading">자료를 불러오지 못했어요. 잠시 후 다시 열어 주세요.</p>'; console.error(e); });
 
   function lineChart(box, legend, weeks, items, range){
@@ -358,6 +389,20 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
     }
     svg.addEventListener('pointermove', e => show(e.clientX));
     svg.addEventListener('pointerleave', () => { tip.style.display = 'none'; cross.setAttribute('x1', -10); cross.setAttribute('x2', -10); dots.innerHTML = ''; });
+  }
+  function renderIssues(I){
+    if (!I || !I.cards || !I.cards.length) return;
+    const md2 = d => { const p = String(d).split('-'); return p.length === 3 ? `${+p[1]}/${+p[2]}` : d; };
+    $('#is-meta').textContent = `${I.asof} 기준 · 공개 뉴스와 공식 발표를 바탕으로 정리`;
+    $('#is-lead').textContent = I.headline || '';
+    $('#is-cards').innerHTML = I.cards.map(c => `<article class="is-card">
+      ${c.category ? `<span class="is-cat">${esc(c.category)}</span>` : ''}
+      <h3>${esc(c.title)}</h3><p>${esc(c.summary)}</p>
+      ${(c.numbers || []).length ? `<div class="is-nums">${c.numbers.map(n => `<span>${esc(n)}</span>`).join('')}</div>` : ''}
+      ${(c.sources || []).length ? `<div class="is-src">출처 ${c.sources.map(x => x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener nofollow">${esc(x.title || x.url)}</a>` : esc(x.title)).join(' · ')}</div>` : ''}
+    </article>`).join('');
+    if ((I.upcoming || []).length) $('#is-next').innerHTML = `<h3>다음 주 볼 일정</h3><ul>${I.upcoming.map(u => `<li><b>${esc(md2(u.date))}</b><span>${esc(u.title)}${u.note ? ` <small>${esc(u.note)}</small>` : ''}</span></li>`).join('')}</ul>`;
+    $('#issues').hidden = false;
   }
   function niceStep(x){ const p = Math.pow(10, Math.floor(Math.log10(x))); const f = x / p; return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p; }
 
