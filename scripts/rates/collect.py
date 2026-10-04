@@ -337,6 +337,15 @@ def main(argv):
         return 1
     if argv[0] == 'weekly':
         asof = argv[argv.index('--asof') + 1] if '--asof' in argv else last_business_day()
+        if '--skip-if-fresh' in argv:
+            # 예약 실행이 여러 번 걸려 있어서, 오늘 이미 같은 기준일로 받았으면 건너뛴다
+            lp = DATA / 'latest.json'
+            if lp.exists():
+                cur = json.loads(lp.read_text(encoding='utf-8'))
+                if cur.get('asof') == asof and cur.get('generated_at', '')[:10] == datetime.now(KST).strftime('%Y-%m-%d'):
+                    Path('/tmp/rates_skip').write_text('1')
+                    print(f'오늘 이미 {asof} 기준으로 받음 — 건너뜀')
+                    return 0
         hist = load_history()
         recent = [w['asof'] for w in hist['weeks'] if w['asof'] < asof][-4:]
         c = Collector(recent + [asof])
