@@ -160,7 +160,6 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
         {"proName": "FOREXCOM:SPXUSD", "title": "S&P 500"},
         {"proName": "TVC:USOIL", "title": "WTI 유가"},
         {"proName": "FX_IDC:USDKRW", "title": "원/달러"},
-        {"proName": "TVC:US10Y", "title": "미국채 10년"},
         {"proName": "TVC:GOLD", "title": "금"}
       ],
       "showSymbolLogo": false,
@@ -261,11 +260,28 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
 
   async function j(u){ const r = await fetch(u, {cache:'no-cache'}); if(!r.ok) throw new Error(u); return r.json(); }
 
-  Promise.all([j('data/latest.json'), j('data/history.json'), j('data/savings.json').catch(()=>null)]).then(([L, H, SB]) => {
+  Promise.all([j('data/latest.json'), j('data/history.json'), j('data/savings.json').catch(()=>null)]).then(([L0, H, SB]) => {
+    let L = L0;
+    // ?w=YYYY-MM-DD 이면 그 주 값으로 다시 구성 (지난 주간 동향)
+    const want = new URLSearchParams(location.search).get('w');
+    const idx = want ? H.weeks.findIndex(w => w.asof === want) : -1;
+    const past = idx >= 0 && want !== L.asof;
+    if (past) {
+      const cur = H.weeks[idx], prev = H.weeks[idx-1];
+      L = Object.assign({}, L, {asof: cur.asof, prev_asof: prev ? prev.asof : null, errors: [], groups: L.groups.map(g => Object.assign({}, g, {items: g.items.map(it => {
+        const c = cur.values[it.id], p = prev && prev.values[it.id];
+        const name = (g.id === 'savings' && c && c.name) ? c.name + (c.product ? ' · ' + c.product : '') : it.name;
+        return Object.assign({}, it, {name, value: c ? c.v : null, date: c ? c.d : null, note: c && c.note || null, prev: p ? p.v : null, prev_date: p ? p.d : null,
+          change_bp: it.unit === '%' && c && p ? Math.round((c.v - p.v) * 1000) / 10 : null,
+          change_pct: (it.unit === 'pt' || it.unit === '원') && c && p ? Math.round((c.v / p.v - 1) * 10000) / 100 : null}); })}))});
+    }
+    const opts = H.weeks.slice().reverse().map(w => `<option value="${w.asof}"${w.asof === L.asof ? ' selected' : ''}>${w.asof}${w.asof < '2026-08-01' ? ' (월말)' : ''}</option>`).join('');
     $('#asof').innerHTML =
-      `<span class="chip">기준일 <b class="num">${esc(L.asof)}</b></span>` +
+      `<label class="chip">기준일 <select id="wk" aria-label="기준일 선택" style="border:0;background:transparent;padding:0;font-weight:700;color:var(--ink)">${opts}</select></label>` +
       (L.prev_asof ? `<span class="chip">비교 <b class="num">${esc(L.prev_asof)}</b></span>` : '') +
-      `<span class="chip">업데이트 <b class="num">${esc(L.generated_at)}</b></span>`;
+      (past ? `<a class="chip" href="./" style="text-decoration:none">지난 기록을 보고 있어요 · <b>최신 보기 →</b></a>` : `<span class="chip">업데이트 <b class="num">${esc(L.generated_at)}</b></span>`);
+    $('#wk').addEventListener('change', e => { location.href = e.target.value === H.weeks[H.weeks.length-1].asof ? './' : '?w=' + e.target.value; });
+    if (past && SB) { $('#sb-src').insertAdjacentHTML('afterend', '<p class="src" style="color:var(--up)">아래 은행별 상품표와 자산순위는 최신 주(' + esc(SB.asof) + ') 기준이에요.</p>'); }
     const all = {}; L.groups.forEach(g => g.items.forEach(it => all[it.id] = it));
     $('#tiles').innerHTML = TILE_IDS.filter(id => all[id]).map(id => { const it = all[id];
       return `<div class="tile"><div class="k">${esc(TILE_NAMES[id])}</div><div class="v num">${fmt(it.value, it.dp, it.unit)}</div><div class="c num">${chg(it.change_bp, it.unit)} <span style="color:var(--ink-3)">지난주 대비</span></div></div>`; }).join('');

@@ -32,6 +32,34 @@
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
        crossorigin="anonymous"></script>
+<style>
+/* 주간 금리 동향 배너 */
+.rb-section{padding-top:0}
+.rb{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.rb-main{display:grid;gap:18px;padding:28px 24px;text-decoration:none;color:var(--text)}
+@media(min-width:900px){.rb-main{grid-template-columns:1.1fr 1.4fr auto;align-items:center;padding:32px}}
+.rb-eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--coral);margin:0}
+.rb h2{margin:6px 0 6px;font-size:clamp(22px,3vw,28px);color:var(--navy)}
+.rb h2 span{font-size:.62em;font-weight:600;color:var(--muted);margin-left:4px;white-space:nowrap}
+.rb-sub{margin:0;color:var(--muted);font-size:14.5px}
+.rb-nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rb-num{background:var(--cream);border-radius:14px;padding:12px 14px}
+.rb-num small{display:block;font-size:12.5px;color:var(--muted)}
+.rb-num b{display:block;font-size:21px;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.rb-num i{font-style:normal;font-size:12.5px;font-variant-numeric:tabular-nums}
+.rb-up{color:#C0392B}.rb-down{color:#1F5FAF}.rb-flat{color:var(--muted)}
+.rb-go{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--navy);white-space:nowrap}
+.rb-toggle{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:14px;border:0;border-top:1px solid var(--line);background:var(--cream);color:var(--navy);font:inherit;font-weight:600;font-size:14.5px;cursor:pointer}
+.rb-toggle .icon{transform:rotate(90deg);transition:transform .2s}
+.rb-toggle[aria-expanded="true"] .icon{transform:rotate(-90deg)}
+.rb-list{list-style:none;margin:0;padding:6px 12px 12px;border-top:1px solid var(--line)}
+.rb-list a{display:grid;grid-template-columns:auto 1fr auto;gap:6px 14px;align-items:center;padding:12px;border-radius:12px;text-decoration:none;color:var(--text)}
+.rb-list a:hover{background:var(--cream)}
+.rb-list .w{font-weight:700;color:var(--navy);white-space:nowrap}
+.rb-list .v{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rb-list .g{color:var(--navy)}
+.rb-list .more{display:block;text-align:center;padding:10px;font-size:13.5px;color:var(--muted)}
+</style>
 </head>
 <body>
 
@@ -204,21 +232,30 @@
           <svg class="icon chev"><use href="#i-chev"/></svg>
         </a>
 
-        <a class="tool-card" href="/rates/">
-          <img src="/assets/icons/icon-calc.png" alt="" width="80" height="80">
-          <div class="tool-body">
-            <strong>주간 금리 동향</strong>
-            <span>기준금리·국고채·회사채·여전채·CP·저축은행 예금금리를 매주 월요일 공식 자료로 정리해요.</span>
-          </div>
-          <div class="tool-foot"><span class="tag">매주 업데이트</span><span class="go">보러 가기 <svg class="icon"><use href="#i-arrow"/></svg></span></div>
-          <svg class="icon chev"><use href="#i-chev"/></svg>
-        </a>
-
         <div class="tool-soon">
           <svg class="icon" style="width:28px;height:28px"><use href="#i-plus"/></svg>
           <span>다음 도구를 만들고 있어요</span>
           <small>있으면 좋겠는 도구가 있다면 알려주세요</small>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 주간 금리 동향 배너: /rates/data/latest.json 을 읽어 최신 주를 보여 줌 -->
+  <section class="section rb-section" id="rates" aria-labelledby="rb-title">
+    <div class="wrap">
+      <div class="rb">
+        <a class="rb-main" href="/rates/">
+          <div class="rb-head">
+            <p class="rb-eyebrow">WEEKLY RATES · 매주 월요일 업데이트</p>
+            <h2 id="rb-title">주간 금리 동향 <span id="rb-week"></span></h2>
+            <p class="rb-sub" id="rb-sub">기준금리부터 저축은행 예금금리까지, 공식 자료로 정리한 이번 주 금리예요.</p>
+          </div>
+          <div class="rb-nums" id="rb-nums"></div>
+          <span class="rb-go">이번 주 자세히 보기 <svg class="icon"><use href="#i-arrow"/></svg></span>
+        </a>
+        <button class="rb-toggle" id="rb-toggle" type="button" aria-expanded="false" aria-controls="rb-list">지난 주간 동향 보기 <svg class="icon"><use href="#i-chev"/></svg></button>
+        <ol class="rb-list" id="rb-list" hidden></ol>
       </div>
     </div>
   </section>
@@ -300,6 +337,38 @@
     if (v && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
     document.getElementById('year').textContent = new Date().getFullYear();
   })();
+</script>
+<script>
+/* 주간 금리 동향 배너 */
+(function(){
+  const $=id=>document.getElementById(id);
+  if(!$('rb-nums')) return;
+  const wk=d=>{const p=d.split('-');return `${+p[1]}월 ${Math.ceil(+p[2]/7)}주`;};
+  const md=d=>{const p=d.split('-');return `${+p[1]}/${+p[2]}`;};
+  const chg=bp=>bp==null?'':Math.abs(bp)<0.05?'<i class="rb-flat">변동 없음</i>':`<i class="${bp>0?'rb-up':'rb-down'}">${bp>0?'▲':'▼'} ${Math.abs(bp).toFixed(Math.abs(bp)%1?1:0)}bp</i>`;
+  const PICK=[['kr_base','한국 기준금리'],['ktb3','국고채 3년'],['ust10','미국채 10년'],['sb_avg','저축은행 예금 (상위5)']];
+  fetch('/rates/data/latest.json',{cache:'no-cache'}).then(r=>r.json()).then(L=>{
+    const all={};L.groups.forEach(g=>g.items.forEach(it=>all[it.id]=it));
+    $('rb-week').textContent=`· ${wk(L.asof)} (${md(L.asof)} 기준)`;
+    $('rb-nums').innerHTML=PICK.filter(([id])=>all[id]&&all[id].value!=null).map(([id,n])=>{const it=all[id];
+      return `<div class="rb-num"><small>${n}</small><b>${it.value.toFixed(it.dp)}%</b>${chg(it.change_bp)}</div>`;}).join('');
+  }).catch(()=>{});
+  let loaded=false;
+  $('rb-toggle').addEventListener('click',function(){
+    const open=this.getAttribute('aria-expanded')!=='true';
+    this.setAttribute('aria-expanded',open);$('rb-list').hidden=!open;
+    this.firstChild.textContent=open?'지난 주간 동향 접기 ':'지난 주간 동향 보기 ';
+    if(!open||loaded) return; loaded=true;
+    $('rb-list').innerHTML='<li class="more">불러오는 중…</li>';
+    fetch('/rates/data/history.json',{cache:'no-cache'}).then(r=>r.json()).then(H=>{
+      const ws=H.weeks.slice(0,-1).reverse(); const weekly=ws.filter(w=>w.asof>='2026-08-01'); const monthly=ws.filter(w=>w.asof<'2026-08-01');
+      const v=(w,id,dp)=>w.values[id]?w.values[id].v.toFixed(dp)+'%':'–';
+      const row=(w,label)=>`<li><a href="/rates/?w=${w.asof}"><span class="w">${label}</span><span class="v">국고 3년 <span class="g">${v(w,'ktb3',3)}</span> · 미국채 10년 <span class="g">${v(w,'ust10',2)}</span> · 여전채 AA- <span class="g">${v(w,'card_AA-',3)}</span></span><svg class="icon"><use href="#i-chev"/></svg></a></li>`;
+      $('rb-list').innerHTML=weekly.map(w=>row(w,`${wk(w.asof)} · ${md(w.asof)}`)).join('')+
+        (monthly.length?`<li><details><summary class="more">이전 월말 기록 ${monthly.length}개 더 보기</summary><ol class="rb-list" style="border:0;padding:0">${monthly.map(w=>row(w,`${w.asof.slice(0,7).replace('-','.')} 월말`)).join('')}</ol></details></li>`:'');
+    }).catch(()=>{$('rb-list').innerHTML='<li class="more">불러오지 못했어요. <a href="/rates/">주간 금리 동향</a>에서 확인해 주세요.</li>';});
+  });
+})();
 </script>
 </body>
 </html>
