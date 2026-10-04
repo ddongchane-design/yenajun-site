@@ -1,0 +1,58 @@
+# 주간 금리 동향 — 매주 월요일 06:30(한국시간)에 지표를 받아 rates/data/ 를 갱신하고 커밋한다.
+# Cloudflare Pages가 커밋을 보고 자동 배포한다.
+# 필요한 비밀값: Settings → Secrets and variables → Actions → ECOS_API_KEY
+name: rates-weekly
+
+on:
+  schedule:
+    - cron: '30 21 * * 0'   # 일요일 21:30 UTC = 월요일 06:30 KST
+  workflow_dispatch:
+    inputs:
+      asof:
+        description: '기준일 (YYYY-MM-DD, 비우면 지난 영업일)'
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rates-weekly
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install openpyxl==3.1.5
+
+      - name: 지표 수집
+        env:
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+          TZ: Asia/Seoul
+        run: |
+          cd scripts/rates
+          if [ -n "${{ github.event.inputs.asof }}" ]; then
+            python collect.py weekly --asof "${{ github.event.inputs.asof }}"
+          else
+            python collect.py weekly
+          fi
+          python export_excel.py
+
+      - name: 변경분 커밋
+        run: |
+          git config user.name "ddongchane-design"
+          git config user.email "ddongchane-design@users.noreply.github.com"
+          git add rates/data
+          if git diff --cached --quiet; then
+            echo "바뀐 값 없음"
+          else
+            git commit -m "주간 금리 동향 자동 갱신 ($(jq -r .asof rates/data/latest.json) 기준)"
+            git push
+          fi

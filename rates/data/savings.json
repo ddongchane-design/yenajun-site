@@ -1,0 +1,4336 @@
+{
+ "asof": "2026-10-02",
+ "assets_asof": "2026-06-30",
+ "banks": [
+  {
+   "bank": "SBI",
+   "assets": 12835355.0,
+   "basic_product": "정기예금",
+   "base": 3.7,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "정기예금(1년변동금리)",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.9,
+     "changed": "2026-08-05",
+     "url": "https://www.sbisb.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.8,
+     "changed": "2026-08-05",
+     "url": "https://www.sbisb.co.kr"
+    }
+   ],
+   "rank": 1
+  },
+  {
+   "bank": "OK",
+   "assets": 12576024.0,
+   "basic_product": "OK정기예금",
+   "base": 3.9,
+   "best": 4.1,
+   "products": [
+    {
+     "product": "OK e-안심앱플러스정기예금6 (변동금리)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 4.1,
+     "max": 4.1,
+     "changed": "2026-09-30",
+     "url": "https://www.oksavingsbank.com/#/gdsDepsMngmDtl?depsGdsSqno=183&pageNo=1&menuCd=00365&mngmTr=00000&inrtTp=00000&etryMthd=00000&acmlMthd=00000&entrObjc=00000&frdmEtryMthd=00000"
+    },
+    {
+     "product": "OK e-안심정기예금(변동금리)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-30",
+     "url": "https://www.oksavingsbank.com/#/gdsDepsMngmDtl?depsGdsSqno=57&pageNo=1&menuCd=00365&mngmTr=00000&inrtTp=00000&etryMthd=00000&acmlMthd=00000&entrObjc=00000&frdmEtryMthd=00000"
+    },
+    {
+     "product": "OK e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-30",
+     "url": "https://www.oksavingsbank.com/#/gdsDepsMngmDtl?depsGdsSqno=39&pageNo=1&menuCd=00365&mngmTr=00000&inrtTp=00000&etryMthd=00000&acmlMthd=00000&entrObjc=00000&frdmEtryMthd=00000"
+    },
+    {
+     "product": "OK안심정기예금(변동금리)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 4.0,
+     "changed": "2026-09-30",
+     "url": "https://www.oksavingsbank.com/#/gdsDepsMngmDtl?depsGdsSqno=57&pageNo=1&menuCd=00365&mngmTr=00000&inrtTp=00000&etryMthd=00000&acmlMthd=00000&entrObjc=00000&frdmEtryMthd=00000"
+    },
+    {
+     "product": "OK정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 4.0,
+     "changed": "2026-09-30",
+     "url": "https://www.oksavingsbank.com/#/gdsDepsMngmDtl?depsGdsSqno=39&pageNo=1&menuCd=00365&mngmTr=00000&inrtTp=00000&etryMthd=00000&acmlMthd=00000&entrObjc=00000&frdmEtryMthd=00000"
+    }
+   ],
+   "rank": 2
+  },
+  {
+   "bank": "한국투자",
+   "assets": 7528316.0,
+   "basic_product": "한투 ACE 정기예금",
+   "base": 3.65,
+   "best": 3.65,
+   "products": [
+    {
+     "product": "한투 ACE e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-5#"
+    },
+    {
+     "product": "한투 ACE e-회전정기예금 (1년 단위 변동금리상품)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-9#"
+    },
+    {
+     "product": "한투 ACE m-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-5#"
+    },
+    {
+     "product": "한투 ACE m-회전정기예금 (1년 단위 변동금리상품)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-9#"
+    },
+    {
+     "product": "한투 ACE 정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-5#"
+    },
+    {
+     "product": "한투 ACE 회전정기예금 (1년 단위 변동금리상품)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-9#"
+    },
+    {
+     "product": "한투 알아서 중도해지안심정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.55,
+     "max": 3.55,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-28#"
+    }
+   ],
+   "rank": 3
+  },
+  {
+   "bank": "웰컴",
+   "assets": 5792756.0,
+   "basic_product": "정기예금",
+   "base": 3.7,
+   "best": 3.7,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-14",
+     "url": "http://www.welcomebank.co.kr"
+    },
+    {
+     "product": "m-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-14",
+     "url": "http://www.welcomebank.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-14",
+     "url": "http://www.welcomebank.co.kr"
+    }
+   ],
+   "rank": 4
+  },
+  {
+   "bank": "애큐온",
+   "assets": 5090659.0,
+   "basic_product": "정기예금",
+   "base": 3.7,
+   "best": 3.95,
+   "products": [
+    {
+     "product": "다시만난예금(모바일전용)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.95,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030220"
+    },
+    {
+     "product": "플러스회전식정기예금(모바일)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030160"
+    },
+    {
+     "product": "플러스회전식정기예금(영업점)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030160"
+    },
+    {
+     "product": "3-UP정기예금",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030130"
+    },
+    {
+     "product": "3-UP정기예금(모바일)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030130"
+    },
+    {
+     "product": "애큐온모바일예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.75,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030170"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰",
+      "전화"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030120"
+    }
+   ],
+   "rank": 5
+  },
+  {
+   "bank": "다올",
+   "assets": 4235584.0,
+   "basic_product": "Fi 리볼빙 정기예금 (대면)",
+   "base": 3.7,
+   "best": 3.7,
+   "products": [
+    {
+     "product": "Fi 리볼빙 정기예금 (대면)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-06-09",
+     "url": "https://www.daolsb.com/deposit/goods.do?gds_cd=DA209&gds_clss_cd=DA"
+    },
+    {
+     "product": "Fi 리볼빙 정기예금 (비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-08-06",
+     "url": "https://www.daolsb.com/deposit/goods.do?gds_cd=DA209&gds_clss_cd=DA"
+    },
+    {
+     "product": "Fi 정기예금 (대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-06-09",
+     "url": "https://www.daolsb.com/deposit/goods.do?gds_cd=DA208&gds_clss_cd=DA"
+    },
+    {
+     "product": "Fi 정기예금 (비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-06",
+     "url": "https://www.daolsb.com/deposit/goods.do?gds_cd=DA208&gds_clss_cd=DA"
+    }
+   ],
+   "rank": 6
+  },
+  {
+   "bank": "신한",
+   "assets": 3589389.0,
+   "basic_product": "정기예금",
+   "base": 3.5,
+   "best": 3.6,
+   "products": [
+    {
+     "product": "e-더드림정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-07-27",
+     "url": "https://www.shinhansavings.com/PD_0056"
+    },
+    {
+     "product": "s-더드림정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-07-27",
+     "url": "https://www.shinhansavings.com/PD_0056"
+    },
+    {
+     "product": "더드림정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-07-27",
+     "url": "https://www.shinhansavings.com/PD_0056"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-07-27",
+     "url": "https://www.shinhansavings.com/PD_0002"
+    },
+    {
+     "product": "s-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-07-27",
+     "url": "https://www.shinhansavings.com/PD_0002"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-07-27",
+     "url": "https://www.shinhansavings.com/PD_0002"
+    }
+   ],
+   "rank": 7
+  },
+  {
+   "bank": "DB",
+   "assets": 3322660.0,
+   "basic_product": "정기예금",
+   "base": 3.75,
+   "best": 3.85,
+   "products": [
+    {
+     "product": "DreamBig E-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-08-28",
+     "url": "https://www.idbsb.com/"
+    },
+    {
+     "product": "DreamBig 정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-08-28",
+     "url": "https://www.idbsb.com/"
+    },
+    {
+     "product": "M-DreamBig 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-08-28",
+     "url": "https://www.idbsb.com/"
+    },
+    {
+     "product": "E-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-08-28",
+     "url": "https://www.idbsb.com/"
+    },
+    {
+     "product": "M-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-08-28",
+     "url": "https://www.idbsb.com/"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-08-28",
+     "url": "https://www.idbsb.com/"
+    }
+   ],
+   "rank": 8
+  },
+  {
+   "bank": "하나",
+   "assets": 2703544.0,
+   "basic_product": "정기예금",
+   "base": 3.4,
+   "best": 3.6,
+   "products": [
+    {
+     "product": "비대면 세바퀴정기예금(1년단위 변동금리상품)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-08-11",
+     "url": "https://www.hanasavings.com"
+    },
+    {
+     "product": "비대면 하나더넥스트 시니어 회전예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-08-11",
+     "url": "https://www.hanasavings.com"
+    },
+    {
+     "product": "1Q 비대면정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-08-11",
+     "url": "https://www.hanasavings.com"
+    },
+    {
+     "product": "세바퀴정기예금(1년단위 변동금리상품)",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-08-11",
+     "url": "https://www.hanasavings.com"
+    },
+    {
+     "product": "하나더넥스트 시니어 회전예금",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-08-11",
+     "url": "https://www.hanasavings.com"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.4,
+     "max": 3.4,
+     "changed": "2026-08-11",
+     "url": "https://www.hanasavings.com"
+    }
+   ],
+   "rank": 9
+  },
+  {
+   "bank": "JT친애",
+   "assets": 2519682.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "비대면 정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-06",
+     "url": "https://www.jtchinae-bank.co.kr/"
+    },
+    {
+     "product": "비대면 회전식 정기예금(변동금리상품)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-06",
+     "url": "https://www.jtchinae-bank.co.kr/"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-06",
+     "url": "https://www.jtchinae-bank.co.kr/"
+    },
+    {
+     "product": "회전식 정기예금(변동금리상품)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-06",
+     "url": "https://www.jtchinae-bank.co.kr/"
+    }
+   ],
+   "rank": 10
+  },
+  {
+   "bank": "예가람",
+   "assets": 2500473.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 4.0,
+   "products": [
+    {
+     "product": "The프리미엄 회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-22",
+     "url": "https://www.yegaramsb.co.kr/deposit/product.frm?LINK_ACT=BBS_SELECT&txGbnCd=P&PRD_TYCD=D&CATEGORY_CODE=PC00000008&PDCD=P000000132"
+    },
+    {
+     "product": "e-The프리미엄 회전정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-22",
+     "url": "https://www.yegaramsb.co.kr/deposit/product.frm?LINK_ACT=BBS_SELECT&txGbnCd=P&PRD_TYCD=D&CATEGORY_CODE=PC00000008&PDCD=P000000133"
+    },
+    {
+     "product": "e-회전정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-22",
+     "url": "https://www.yegaramsb.co.kr/deposit/product.frm?LINK_ACT=BBS_SELECT&txGbnCd=P&PRD_TYCD=D&CATEGORY_CODE=PC00000008&PDCD=P000000087"
+    },
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-22",
+     "url": "https://www.yegaramsb.co.kr/deposit/product.frm?LINK_ACT=BBS_SELECT&txGbnCd=P&PRD_TYCD=D&CATEGORY_CODE=PC00000008&PDCD=P000000086"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-22",
+     "url": "https://www.yegaramsb.co.kr/deposit/product.frm?LINK_ACT=BBS_SELECT&txGbnCd=P&PRD_TYCD=D&CATEGORY_CODE=PC00000008&PDCD=P000000018"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-22",
+     "url": "https://www.yegaramsb.co.kr/deposit/product.frm?LINK_ACT=BBS_SELECT&txGbnCd=P&PRD_TYCD=D&CATEGORY_CODE=PC00000008&PDCD=P000000009"
+    }
+   ],
+   "rank": 11
+  },
+  {
+   "bank": "페퍼",
+   "assets": 2387028.0,
+   "basic_product": "정기예금\n(대면)",
+   "base": 3.5,
+   "best": 3.6,
+   "products": [
+    {
+     "product": "♥회전정기예금(창구 전용)\n(평촌, 부천)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-08-28",
+     "url": "https://www.pepperbank.kr/product/deposite/view.pepper?prdSn=6&depositeOrder=high&searchGubunType=%EB%AA%A9%EB%8F%88%EA%B5%B4%EB%A6%AC%EA%B8%B0&page=1"
+    },
+    {
+     "product": "페퍼스회전정기예금\n(디지털페퍼앱)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-08-28",
+     "url": "https://www.pepperbank.kr/product/deposite/view.pepper?prdSn=35&depositeOrder=high&searchGubunType=%EB%AA%A9%EB%8F%88%EA%B5%B4%EB%A6%AC%EA%B8%B0&page=1"
+    },
+    {
+     "product": "회전정기예금\n(대면, 전지점)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-08-28",
+     "url": "https://www.pepperbank.kr/product/deposite/view.pepper?prdSn=6&depositeOrder=high&searchGubunType=%EB%AA%A9%EB%8F%88%EA%B5%B4%EB%A6%AC%EA%B8%B0&page=1"
+    },
+    {
+     "product": "회전정기예금\n(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-08-28",
+     "url": "https://www.pepperbank.kr/product/deposite/view.pepper?prdSn=6&depositeOrder=high&searchGubunType=%EB%AA%A9%EB%8F%88%EA%B5%B4%EB%A6%AC%EA%B8%B0&page=1"
+    },
+    {
+     "product": "정기예금\n(대면)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-08-28",
+     "url": "https://www.pepperbank.kr/product/deposite/view.pepper?prdSn=19&depositeOrder=high&searchGubunType=%EB%AA%A9%EB%8F%88%EA%B5%B4%EB%A6%AC%EA%B8%B0&page=1"
+    },
+    {
+     "product": "정기예금\n(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-08-28",
+     "url": "https://www.pepperbank.kr/product/deposite/view.pepper?prdSn=19&depositeOrder=high&page=1"
+    },
+    {
+     "product": "페퍼스 정기예금 \n(디지털페퍼앱)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-08-28",
+     "url": "https://www.pepperbank.kr/product/deposite/view.pepper?prdSn=36&depositeOrder=high&searchGubunType=%EB%AA%A9%EB%8F%88%EA%B5%B4%EB%A6%AC%EA%B8%B0&page=1"
+    }
+   ],
+   "rank": 12
+  },
+  {
+   "bank": "우리금융",
+   "assets": 2384985.0,
+   "basic_product": "정기예금",
+   "base": 3.3,
+   "best": 3.6,
+   "products": [
+    {
+     "product": "e-회전정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-08-28",
+     "url": "https://www.woorisavingsbank.com/product/deposite/view.do?prdSn=323&depositeOrder=high&page=1"
+    },
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-08-28",
+     "url": "https://www.woorisavingsbank.com/product/deposite/view.do?prdSn=323&depositeOrder=high&page=1"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.3,
+     "max": 3.3,
+     "changed": "2026-08-28",
+     "url": "https://www.woorisavingsbank.com/product/deposite/view.do?prdSn=324&depositeOrder=high&page=1"
+    },
+    {
+     "product": "우리E음정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.3,
+     "max": 3.3,
+     "changed": "2026-08-28",
+     "url": "https://www.woorisavingsbank.com/product/deposite/view.do?prdSn=311&depositeOrder=high&page=1"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.3,
+     "max": 3.3,
+     "changed": "2026-08-28",
+     "url": "https://www.woorisavingsbank.com/product/deposite/view.do?prdSn=324&depositeOrder=high&page=1"
+    }
+   ],
+   "rank": 13
+  },
+  {
+   "bank": "대신",
+   "assets": 2329355.0,
+   "basic_product": "정기예금",
+   "base": 3.82,
+   "best": 3.85,
+   "products": [
+    {
+     "product": "더드리고정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-09-29",
+     "url": "https://bank.daishin.com/sub.do?code=02_prod0106"
+    },
+    {
+     "product": "대신든든정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.82,
+     "max": 3.82,
+     "changed": "2026-09-29",
+     "url": "https://bank.daishin.com/sub.do?code=02_prod0109"
+    },
+    {
+     "product": "스마트정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.82,
+     "max": 3.82,
+     "changed": "2026-09-29",
+     "url": "https://bank.daishin.com/sub.do?code=02_prod0103"
+    },
+    {
+     "product": "스마트회전정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.82,
+     "max": 3.82,
+     "changed": "2026-09-29",
+     "url": "https://bank.daishin.com/sub.do?code=02_prod0107"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점",
+      "인터넷"
+     ],
+     "base": 3.82,
+     "max": 3.82,
+     "changed": "2026-09-29",
+     "url": "https://bank.daishin.com/sub.do?code=02_prod01"
+    },
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.82,
+     "max": 3.82,
+     "changed": "2026-09-29",
+     "url": "https://bank.daishin.com/sub.do?code=02_prod0108"
+    }
+   ],
+   "rank": 14
+  },
+  {
+   "bank": "모아",
+   "assets": 2312859.0,
+   "basic_product": "정기예금",
+   "base": 3.75,
+   "best": 3.95,
+   "products": [
+    {
+     "product": "생일축하 회전 정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-29",
+     "url": "https://www.moasb.co.kr/ProdList_001.act?rnum=68"
+    },
+    {
+     "product": "e-회전 정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-09-29",
+     "url": "https://www.moasb.co.kr/ProdList_001.act?rnum=45"
+    },
+    {
+     "product": "앱전용 회전 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-09-29",
+     "url": "https://www.moasb.co.kr/ProdList_001.act?rnum=64"
+    },
+    {
+     "product": "회전 정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-09-29",
+     "url": "https://www.moasb.co.kr/ProdList_001.act?rnum=43"
+    },
+    {
+     "product": "e-모아 정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-09-29",
+     "url": "https://www.moasb.co.kr/ProdList_001.act?rnum=41"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-09-29",
+     "url": "https://www.moasb.co.kr/ProdList_001.act?rnum=39"
+    }
+   ],
+   "rank": 15
+  },
+  {
+   "bank": "KB",
+   "assets": 2239264.0,
+   "basic_product": "정기예금",
+   "base": 3.4,
+   "best": 3.7,
+   "products": [
+    {
+     "product": "플러스회전식정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-17",
+     "url": "https://www.kbsavings.com/websquare/websquare.jsp?w2xPath=/jsp/depositItemInfo/depositItemInfo.xml&ITEM_CODE=IB30"
+    },
+    {
+     "product": "플러스회전식정기예금(대면)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.6,
+     "max": 3.7,
+     "changed": "2026-09-17",
+     "url": "https://www.kbsavings.com/websquare/websquare.jsp?w2xPath=/jsp/depositItemInfo/depositItemInfo.xml&ITEM_CODE=IB29"
+    },
+    {
+     "product": "KB e-plus 정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-09-17",
+     "url": "https://www.kbsavings.com/websquare/websquare.jsp?w2xPath=/jsp/depositItemInfo/depositItemInfo.xml&ITEM_CODE=IB10"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.4,
+     "max": 3.5,
+     "changed": "2026-09-17",
+     "url": "https://www.kbsavings.com/websquare/websquare.jsp?w2xPath=/jsp/depositItemInfo/depositItemInfo.xml&ITEM_CODE=IB01"
+    }
+   ],
+   "rank": 16
+  },
+  {
+   "bank": "JT",
+   "assets": 2163785.0,
+   "basic_product": "정기예금",
+   "base": 3.85,
+   "best": 3.95,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.85,
+     "max": 3.95,
+     "changed": "2026-10-01",
+     "url": "https://www.jt-bank.co.kr/"
+    },
+    {
+     "product": "회전식정기예금(변동금리상품)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.85,
+     "max": 3.95,
+     "changed": "2026-10-01",
+     "url": "https://www.jt-bank.co.kr/"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-11",
+     "url": "https://www.jt-bank.co.kr/"
+    },
+    {
+     "product": "회전정기예금_비대면(변동금리상품)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-11",
+     "url": "https://www.jt-bank.co.kr/"
+    }
+   ],
+   "rank": 17
+  },
+  {
+   "bank": "고려",
+   "assets": 2159628.0,
+   "basic_product": "정기예금",
+   "base": 3.95,
+   "best": 3.95,
+   "products": [
+    {
+     "product": "GPS 정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-18",
+     "url": "https://www.goryosb.co.kr/deposit/product/P000000184?upperCode=PC00000022"
+    },
+    {
+     "product": "GPS회전정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-18",
+     "url": "https://www.goryosb.co.kr/deposit/product/P000000186?upperCode=PC00000022"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-18",
+     "url": "https://www.goryosb.co.kr/deposit/product/P000000091?upperCode=PC00000022"
+    },
+    {
+     "product": "정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-18",
+     "url": "https://www.goryosb.co.kr/deposit/product/P000000092?upperCode=PC00000022"
+    },
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-18",
+     "url": "https://www.goryosb.co.kr/deposit/product/P000000094?upperCode=PC00000022"
+    },
+    {
+     "product": "회전정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-18",
+     "url": "https://www.goryosb.co.kr/deposit/product/P000000095?upperCode=PC00000022"
+    }
+   ],
+   "rank": 18
+  },
+  {
+   "bank": "NH",
+   "assets": 2141436.0,
+   "basic_product": "정기예금",
+   "base": 3.6,
+   "best": 3.8,
+   "products": [
+    {
+     "product": "회전식 정기예금",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-07-29",
+     "url": "https://www.nhsavingsbank.co.kr/dpisPrd/view.do?prdCode=24031"
+    },
+    {
+     "product": "비대면 정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-07-29",
+     "url": "https://www.nhsavingsbank.co.kr/dpisPrd/view.do?prdCode=24501"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-07-29",
+     "url": "https://www.nhsavingsbank.co.kr/dpisPrd/view.do?prdCode=24001"
+    }
+   ],
+   "rank": 19
+  },
+  {
+   "bank": "BNK",
+   "assets": 2032079.0,
+   "basic_product": "정기예금(대면)",
+   "base": 3.7,
+   "best": 3.8,
+   "products": [
+    {
+     "product": "삼삼한정기예금(회전정기예금)(1년단위 변동금리)",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-07-29",
+     "url": "https://www.bnksb.com/sub.do?code=02_prod0104"
+    },
+    {
+     "product": "정기예금(비대면,인터넷,모바일)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-07-29",
+     "url": "https://www.bnksb.com/sub.do?code=02_prod01"
+    },
+    {
+     "product": "정기예금(대면)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-07-29",
+     "url": "https://www.bnksb.com/sub.do?code=02_prod01"
+    }
+   ],
+   "rank": 20
+  },
+  {
+   "bank": "상상인",
+   "assets": 2026252.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 3.91,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-09-29",
+     "url": "https://www.sangsanginsb.com/dpm00314ma00.view?prdctCd=20015"
+    },
+    {
+     "product": "뱅뱅뱅 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-09-29",
+     "url": "https://www.sangsanginsb.com/dpm00510ma00.view?prdctCd=21014"
+    },
+    {
+     "product": "뱅뱅뱅 회전정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-09-29",
+     "url": "https://www.sangsanginsb.com/dpm00508ma00.view?prdctCd=21009"
+    },
+    {
+     "product": "비대면 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-09-29",
+     "url": "https://www.sangsanginsb.com/dpm00315ma00.view?prdctCd=20013"
+    },
+    {
+     "product": "비대면 회전정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-09-29",
+     "url": "https://www.sangsanginsb.com/dpm00309ma00.view?prdctCd=20009"
+    },
+    {
+     "product": "회전E-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-09-29",
+     "url": "https://www.sangsanginsb.com/dpm00308ma00.view?prdctCd=20008"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-29",
+     "url": "https://www.sangsanginsb.com/dpm00313ma00.view?prdctCd=20011"
+    },
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-29",
+     "url": "https://www.sangsanginsb.com/dpm00307ma00.view?prdctCd=20007"
+    }
+   ],
+   "rank": 21
+  },
+  {
+   "bank": "OSB",
+   "assets": 2015578.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.8,
+   "products": [
+    {
+     "product": "인터넷정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-11",
+     "url": "https://www.osb.co.kr/ib20/mnu/HOM00088"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-11",
+     "url": "https://www.osb.co.kr/ib20/mnu/HOM00088"
+    }
+   ],
+   "rank": 22
+  },
+  {
+   "bank": "키움",
+   "assets": 1888506.0,
+   "basic_product": "정기예금",
+   "base": 3.5,
+   "best": 3.7,
+   "products": [
+    {
+     "product": "SB톡톡 회전식정기예금(비대면)\n(1년단위 변동금리상품)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-10-01",
+     "url": "https://www.kiwoombank.com/!/deposit20p.do"
+    },
+    {
+     "product": "비대면 회전식정기예금\n(1년단위 변동금리상품)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-10-01",
+     "url": "https://www.kiwoombank.com/!/deposit19p.do"
+    },
+    {
+     "product": "SB톡톡정기예금\n(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-10-01",
+     "url": "https://www.kiwoombank.com/!/deposit03p.do"
+    },
+    {
+     "product": "e-plus정기예금\n(인터넷뱅킹,스마트뱅킹)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-10-01",
+     "url": "https://www.kiwoombank.com/!/deposit02p.do"
+    },
+    {
+     "product": "회전식정기예금\n(1년단위 변동금리상품)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-10-01",
+     "url": "https://www.kiwoombank.com/!/deposit18p.do"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-10-01",
+     "url": "https://www.kiwoombank.com/!/deposit01p.do"
+    }
+   ],
+   "rank": 23
+  },
+  {
+   "bank": "바로",
+   "assets": 1883070.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 3.92,
+   "products": [
+    {
+     "product": "SB톡톡 정기예금(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.92,
+     "max": 3.92,
+     "changed": "2026-09-16",
+     "url": "https://www.barosavings.com/DepDein0100.act"
+    },
+    {
+     "product": "스마트정기예금(인터넷)",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.92,
+     "max": 3.92,
+     "changed": "2026-09-16",
+     "url": "https://www.barosavings.com/DepDein0100.act"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-10",
+     "url": "https://www.barosavings.com/DepDein0100.act"
+    }
+   ],
+   "rank": 24
+  },
+  {
+   "bank": "IBK",
+   "assets": 1733630.0,
+   "basic_product": "참기특한정기예금",
+   "base": 3.4,
+   "best": 3.6,
+   "products": [
+    {
+     "product": "IBKSB e-회전정기예금(변동금리)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-09-01",
+     "url": "https://www.ibksb.co.kr/deposit"
+    },
+    {
+     "product": "IBKSB 회전정기예금(변동금리)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-09-01",
+     "url": "https://www.ibksb.co.kr/deposit"
+    },
+    {
+     "product": "참기특한정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-09-01",
+     "url": "https://www.ibksb.co.kr/deposit"
+    },
+    {
+     "product": "참기특한정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.4,
+     "max": 3.4,
+     "changed": "2026-09-01",
+     "url": "https://www.ibksb.co.kr/deposit"
+    }
+   ],
+   "rank": 25
+  },
+  {
+   "bank": "HB",
+   "assets": 1696343.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 3.96,
+   "products": [
+    {
+     "product": "e-회전정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.96,
+     "max": 3.96,
+     "changed": "2026-09-09",
+     "url": "http://www.hbsb.co.kr"
+    },
+    {
+     "product": "스마트회전정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.96,
+     "max": 3.96,
+     "changed": "2026-09-09",
+     "url": "http://www.hbsb.co.kr"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-09",
+     "url": "http://www.hbsb.co.kr"
+    },
+    {
+     "product": "스마트정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-09",
+     "url": "http://www.hbsb.co.kr"
+    },
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-09-09",
+     "url": "http://www.hbsb.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-09",
+     "url": "http://www.hbsb.co.kr"
+    }
+   ],
+   "rank": 26
+  },
+  {
+   "bank": "키움YES",
+   "assets": 1659102.0,
+   "basic_product": "정기예금",
+   "base": 3.87,
+   "best": 4.02,
+   "products": [
+    {
+     "product": "SB톡톡 회전yes정기예금(1년단위 변동금리상품) (비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 4.02,
+     "max": 4.02,
+     "changed": "2026-09-23",
+     "url": "https://www.kiwoomyesbank.com/ProdList_001.act?rnum=56"
+    },
+    {
+     "product": "e-회전yes정기예금(1년단위 변동금리상품) (인터넷뱅킹, 스마트뱅킹)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.02,
+     "max": 4.02,
+     "changed": "2026-09-23",
+     "url": "https://www.kiwoomyesbank.com/ProdList_001.act?rnum=55"
+    },
+    {
+     "product": "SB톡톡 정기예금(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.97,
+     "max": 3.97,
+     "changed": "2026-09-23",
+     "url": "https://www.kiwoomyesbank.com/ProdList_001.act?rnum=36"
+    },
+    {
+     "product": "e-정기예금(인터넷뱅킹, 스마트뱅킹)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.97,
+     "max": 3.97,
+     "changed": "2026-09-23",
+     "url": "https://www.kiwoomyesbank.com/ProdList_001.act?rnum=34"
+    },
+    {
+     "product": "회전yes정기예금(1년단위 변동금리상품)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.92,
+     "max": 3.92,
+     "changed": "2026-09-23",
+     "url": "https://www.kiwoomyesbank.com/ProdList_001.act?rnum=53"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.87,
+     "max": 3.87,
+     "changed": "2026-09-23",
+     "url": "https://www.kiwoomyesbank.com/ProdList_001.act?rnum=33"
+    }
+   ],
+   "rank": 27
+  },
+  {
+   "bank": "푸른",
+   "assets": 1542318.0,
+   "basic_product": "푸른 정기예금",
+   "base": 3.9,
+   "best": 4.0,
+   "products": [
+    {
+     "product": "푸른 정기예금",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 4.0,
+     "changed": "2026-09-01",
+     "url": "https://www.prsb.co.kr/prsb/prwww.html?w2xPath=/w2/itb/main.xml&menu=3&menuNo=354&menuNo=354"
+    }
+   ],
+   "rank": 28
+  },
+  {
+   "bank": "한화",
+   "assets": 1436969.0,
+   "basic_product": "한화가족사랑정기예금",
+   "base": 3.8,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "Mymo 회전정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-07",
+     "url": "https://mymo.hanwhasbank.com/SJI/PCWSJI01020001B/P000000050.hsb"
+    },
+    {
+     "product": "한화e-회전정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-07",
+     "url": "https://www.hanwhasbank.com/ProdList_001.act?rnum=91"
+    },
+    {
+     "product": "한화회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-07",
+     "url": "https://www.hanwhasbank.com/ProdList_001.act?rnum=31"
+    },
+    {
+     "product": "한화자동연장정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-09-07",
+     "url": "https://www.hanwhasbank.com/ProdList_001.act?rnum=29"
+    },
+    {
+     "product": "Mymo 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-07",
+     "url": "https://mymo.hanwhasbank.com/SJI/PCWSJI01020001B/P000000048.hsb"
+    },
+    {
+     "product": "e뱅킹정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-07",
+     "url": "https://www.hanwhasbank.com/ProdList_001.act?rnum=33"
+    },
+    {
+     "product": "한화가족사랑정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-07",
+     "url": "https://www.hanwhasbank.com/ProdList_001.act?rnum=27"
+    }
+   ],
+   "rank": 29
+  },
+  {
+   "bank": "스마트",
+   "assets": 1309888.0,
+   "basic_product": "정기예금",
+   "base": 3.96,
+   "best": 3.98,
+   "products": [
+    {
+     "product": "e-로운 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.98,
+     "max": 3.98,
+     "changed": "2026-09-28",
+     "url": "https://www.smartbank.co.kr/ProdList_001.act?rnum=11"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.98,
+     "max": 3.98,
+     "changed": "2026-09-28",
+     "url": "https://www.smartbank.co.kr/ProdList_001.act?rnum=11"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.96,
+     "max": 3.96,
+     "changed": "2026-09-28",
+     "url": "https://www.smartbank.co.kr/ProdList_001.act?rnum=11"
+    }
+   ],
+   "rank": 30
+  },
+  {
+   "bank": "상상인플러스",
+   "assets": 1265522.0,
+   "basic_product": "정기예금",
+   "base": 4.03,
+   "best": 4.03,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-02",
+     "url": "https://www.sangsanginplussb.com/service/savings/e_regular_large.jsp"
+    },
+    {
+     "product": "비대면 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-02",
+     "url": "https://www.sangsanginplussb.com/service/savings/nonface_regular_large.jsp"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-02",
+     "url": "https://www.sangsanginplussb.com/service/savings/regular_large.jsp"
+    },
+    {
+     "product": "크크크 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-02",
+     "url": "https://www.sangsanginplussb.com/service/savings/kkk_regular_large.jsp"
+    },
+    {
+     "product": "크크크 회전정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-02",
+     "url": "https://www.sangsanginplussb.com/service/savings/kkk_circulate_large.jsp"
+    },
+    {
+     "product": "회전E-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-02",
+     "url": "https://www.sangsanginplussb.com/service/savings/e_circulate_large.jsp"
+    },
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-02",
+     "url": "https://www.sangsanginplussb.com/service/savings/circulate_large.jsp"
+    },
+    {
+     "product": "회전정기예금(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-02",
+     "url": "https://www.sangsanginplussb.com/service/savings/nonface_circulate_large.jsp"
+    }
+   ],
+   "rank": 31
+  },
+  {
+   "bank": "더케이",
+   "assets": 1027686.0,
+   "basic_product": "정기예금",
+   "base": 3.7,
+   "best": 3.7,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-08-27",
+     "url": "https://www.thekbank.co.kr/deposit/nFixed.do"
+    },
+    {
+     "product": "e-회전식정기예금(1년단위 변동금리상품)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-08-27",
+     "url": "https://www.thekbank.co.kr/deposit/nRotary.do"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-08-27",
+     "url": "https://www.thekbank.co.kr/deposit/fixed.do"
+    },
+    {
+     "product": "회전식정기예금(1년단위 변동금리상품)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-08-27",
+     "url": "https://www.thekbank.co.kr/deposit/rotary.do"
+    }
+   ],
+   "rank": 32
+  },
+  {
+   "bank": "참",
+   "assets": 895829.0,
+   "basic_product": "정기예금",
+   "base": 3.95,
+   "best": 3.97,
+   "products": [
+    {
+     "product": "e- 회전정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.97,
+     "max": 3.97,
+     "changed": "2026-09-29",
+     "url": "https://charm.ibs.fsb.or.kr/DepDein0100.act"
+    },
+    {
+     "product": "비대면 회전정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.97,
+     "max": 3.97,
+     "changed": "2026-09-29",
+     "url": "http://www.charmbank.co.kr"
+    },
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.97,
+     "max": 3.97,
+     "changed": "2026-09-29",
+     "url": "https://www.charmbank.co.kr/gdm/productInfo1300"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-29",
+     "url": "https://charm.ibs.fsb.or.kr/DepDein0100.act"
+    },
+    {
+     "product": "비대면정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-29",
+     "url": "http://www.charmbank.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-29",
+     "url": "https://www.charmbank.co.kr/gdm/productInfo100"
+    }
+   ],
+   "rank": 33
+  },
+  {
+   "bank": "유안타",
+   "assets": 767040.0,
+   "basic_product": "정기예금",
+   "base": 3.86,
+   "best": 3.91,
+   "products": [
+    {
+     "product": "SB톡톡 회전정기예금\n(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-09-18",
+     "url": "https://www.yuantasavings.co.kr/ProdList_001.act?rnum=22"
+    },
+    {
+     "product": "e-회전정기예금\n(변동금리)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-09-18",
+     "url": "https://www.yuantasavings.co.kr/ProdList_001.act?rnum=20"
+    },
+    {
+     "product": "회전정기예금\n(변동금리)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-09-18",
+     "url": "https://www.yuantasavings.co.kr/ProdList_001.act?rnum=18"
+    },
+    {
+     "product": "SB톡톡 정기예금\n(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.86,
+     "max": 3.86,
+     "changed": "2026-09-18",
+     "url": "https://www.yuantasavings.co.kr/ProdList_001.act?rnum=16"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.86,
+     "max": 3.86,
+     "changed": "2026-09-18",
+     "url": "https://www.yuantasavings.co.kr/ProdList_001.act?rnum=14"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.86,
+     "max": 3.86,
+     "changed": "2026-09-18",
+     "url": "https://www.yuantasavings.co.kr/ProdList_001.act?rnum=12"
+    }
+   ],
+   "rank": 34
+  },
+  {
+   "bank": "세람",
+   "assets": 738159.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "자동연장 정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-14",
+     "url": "http://www.serambank.co.kr"
+    },
+    {
+     "product": "회전식 정기예금(변동금리)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-14",
+     "url": "http://www.serambank.co.kr"
+    },
+    {
+     "product": "회전식 정기예금(비대면, 변동금리)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-14",
+     "url": "http://www.serambank.co.kr"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-14",
+     "url": "http://www.serambank.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-14",
+     "url": "http://www.serambank.co.kr"
+    },
+    {
+     "product": "정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-14",
+     "url": "http://www.serambank.co.kr"
+    }
+   ],
+   "rank": 35
+  },
+  {
+   "bank": "진주",
+   "assets": 705303.0,
+   "basic_product": "정기예금(진주,통영)",
+   "base": 3.63,
+   "best": 3.63,
+   "products": [
+    {
+     "product": "E-정기예금(비대면)",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.63,
+     "max": 3.63,
+     "changed": "2026-07-24",
+     "url": "http://jinjubank.net/ProdList_001.act?rnum=27"
+    },
+    {
+     "product": "M-정기예금(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.63,
+     "max": 3.63,
+     "changed": "2026-07-24",
+     "url": "http://jinjubank.net/ProdList_001.act?rnum=27"
+    },
+    {
+     "product": "안심정기예금(부산,창원,울산)\n(창구전용)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.63,
+     "max": 3.63,
+     "changed": "2026-07-24",
+     "url": "http://jinjubank.net/ProdList_001.act?rnum=27"
+    },
+    {
+     "product": "안심정기예금(진주,통영)\n(창구전용)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.63,
+     "max": 3.63,
+     "changed": "2026-07-24",
+     "url": "http://jinjubank.net/ProdList_001.act?rnum=27"
+    },
+    {
+     "product": "정기예금(부산,울산,창원)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.63,
+     "max": 3.63,
+     "changed": "2026-07-24",
+     "url": "http://jinjubank.net/ProdList_001.act?rnum=27"
+    },
+    {
+     "product": "정기예금(진주,통영)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.63,
+     "max": 3.63,
+     "changed": "2026-07-24",
+     "url": "http://jinjubank.net/ProdList_001.act?rnum=27"
+    },
+    {
+     "product": "지니뱅크-정기예금(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.63,
+     "max": 3.63,
+     "changed": "2026-07-24",
+     "url": "http://jinjubank.net/ProdList_001.act?rnum=27"
+    }
+   ],
+   "rank": 36
+  },
+  {
+   "bank": "금화",
+   "assets": 658374.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-14",
+     "url": "http://www.kuemhwabank.co.kr/"
+    },
+    {
+     "product": "e-회전정기예금(1년단위,변동금리)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-14",
+     "url": "http://www.kuemhwabank.co.kr/"
+    },
+    {
+     "product": "비대면-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-14",
+     "url": "http://www.kuemhwabank.co.kr/"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-14",
+     "url": "http://www.kuemhwabank.co.kr/"
+    },
+    {
+     "product": "회전정기예금(1년단위,변동금리)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-14",
+     "url": "http://www.kuemhwabank.co.kr/"
+    }
+   ],
+   "rank": 37
+  },
+  {
+   "bank": "조은",
+   "assets": 653552.0,
+   "basic_product": "정기예금(서울본점)",
+   "base": 3.9,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "정기예금(서울본점)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-08",
+     "url": "https://www.choeunbank.com/"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 2.5,
+     "max": 2.5,
+     "changed": "2026-09-08",
+     "url": "https://www.choeunbank.com/"
+    }
+   ],
+   "rank": 38
+  },
+  {
+   "bank": "동원제일",
+   "assets": 625222.0,
+   "basic_product": "정기예금",
+   "base": 4.0,
+   "best": 4.01,
+   "products": [
+    {
+     "product": "회전정기예금\n(변동금리)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.01,
+     "max": 4.01,
+     "changed": "2026-09-17",
+     "url": "https://www.dongwonjeilbank.kr/sub.php?code=02_depo010401"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-17",
+     "url": "https://www.dongwonjeilbank.kr/sub.php?code=02_depo010101"
+    },
+    {
+     "product": "정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 2.5,
+     "max": 2.5,
+     "changed": "2026-09-17",
+     "url": "https://www.dongwonjeilbank.kr/sub.php?code=02_depo010201"
+    },
+    {
+     "product": "회전정기예금-비대면(변동금리)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 2.5,
+     "max": 2.5,
+     "changed": "2026-09-17",
+     "url": "https://www.dongwonjeilbank.kr/sub.php?code=02_depo010501"
+    }
+   ],
+   "rank": 39
+  },
+  {
+   "bank": "남양",
+   "assets": 563083.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.8,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-28",
+     "url": "https://www.nybank.co.kr/ProdList_001.act?rnum=29"
+    },
+    {
+     "product": "비대면-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-28",
+     "url": "https://www.nybank.co.kr/ProdList_001.act?rnum=30"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-28",
+     "url": "https://www.nybank.co.kr/ProdList_001.act?rnum=28"
+    }
+   ],
+   "rank": 40
+  },
+  {
+   "bank": "안양",
+   "assets": 554993.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.8,
+   "products": [
+    {
+     "product": "비대면-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-21",
+     "url": "https://www.anyangbank.co.kr/ProdList_001.act?rnum=14"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-21",
+     "url": "https://www.anyangbank.co.kr/ProdList_001.act?rnum=13"
+    }
+   ],
+   "rank": 41
+  },
+  {
+   "bank": "흥국",
+   "assets": 549961.0,
+   "basic_product": "정기예금(강남)",
+   "base": 3.9,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "E-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-10-01",
+     "url": "https://www.hkbanking.co.kr/sub1/sub_itemlist.php?ca_id=1020&idx=4"
+    },
+    {
+     "product": "S-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-10-01",
+     "url": "https://www.hkbanking.co.kr/sub1/sub_itemlist.php?ca_id=1020&idx=4"
+    },
+    {
+     "product": "비대면 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-10-01",
+     "url": "https://www.hkbanking.co.kr/sub1/sub_itemlist.php?ca_id=1020&idx=4"
+    },
+    {
+     "product": "정기예금(강남)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-10-01",
+     "url": "https://www.hkbanking.co.kr/sub1/sub_itemlist.php?ca_id=1020&idx=4"
+    },
+    {
+     "product": "정기예금(부산)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-10-01",
+     "url": "https://www.hkbanking.co.kr/sub1/sub_itemlist.php?ca_id=1020&idx=4"
+    }
+   ],
+   "rank": 42
+  },
+  {
+   "bank": "인성",
+   "assets": 537577.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.8,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-11",
+     "url": "https://www.insungsavingsbank.co.kr/ProdList_001.act?rnum=28"
+    },
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-11",
+     "url": "https://www.insungsavingsbank.co.kr/ProdList_001.act?rnum=39"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-11",
+     "url": "https://www.insungsavingsbank.co.kr/ProdList_001.act?rnum=29"
+    },
+    {
+     "product": "e-회전정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-11",
+     "url": "https://www.insungsavingsbank.co.kr/ProdList_001.act?rnum=40"
+    }
+   ],
+   "rank": 43
+  },
+  {
+   "bank": "대한",
+   "assets": 536981.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 4.0,
+   "products": [
+    {
+     "product": "정기예금(인터넷뱅킹)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-29",
+     "url": "https://www.daehanbank.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-11",
+     "url": "https://www.daehanbank.co.kr"
+    }
+   ],
+   "rank": 44
+  },
+  {
+   "bank": "인천",
+   "assets": 533226.0,
+   "basic_product": "정기예금",
+   "base": 3.95,
+   "best": 3.95,
+   "products": [
+    {
+     "product": "e-보다 정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-07-29",
+     "url": "https://www.incheonbank.com/ProdList_001.act?rnum=26"
+    },
+    {
+     "product": "e-보다회전정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-07-29",
+     "url": "https://www.incheonbank.com/ProdList_001.act?rnum=20"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-07-29",
+     "url": "https://www.incheonbank.com/ProdList_001.act?rnum=19"
+    },
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-07-29",
+     "url": "https://www.incheonbank.com/ProdList_001.act?rnum=27"
+    }
+   ],
+   "rank": 45
+  },
+  {
+   "bank": "CK",
+   "assets": 481161.0,
+   "basic_product": "정기예금(강릉지점)",
+   "base": 3.3,
+   "best": 4.0,
+   "products": [
+    {
+     "product": "정기예금(인터넷,모바일,비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-10-01",
+     "url": "https://www.cksavingsbank.co.kr/DepDein0101.act"
+    },
+    {
+     "product": "정기예금(강릉지점)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.3,
+     "max": 3.3,
+     "changed": "2026-10-01",
+     "url": "https://www.cksavingsbank.co.kr/DepDein0100.act"
+    },
+    {
+     "product": "정기예금(춘천본점)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.3,
+     "max": 3.3,
+     "changed": "2026-10-01",
+     "url": "https://www.cksavingsbank.co.kr/DepDein0100.act"
+    }
+   ],
+   "rank": 46
+  },
+  {
+   "bank": "스카이",
+   "assets": 479251.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.95,
+   "products": [
+    {
+     "product": "회전정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.95,
+     "changed": "2026-09-10",
+     "url": "https://www.skysb.co.kr/PtcShrtInfo_002.act"
+    },
+    {
+     "product": "비대면회전정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-10",
+     "url": "https://www.skysb.co.kr/PtcShrtInfo_002.act"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.85,
+     "changed": "2026-09-10",
+     "url": "https://www.skysb.co.kr/PtcShrtInfo_002.act"
+    },
+    {
+     "product": "b-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-10",
+     "url": "https://www.skysb.co.kr/PtcShrtInfo_002.act"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-10",
+     "url": "https://www.skysb.co.kr/PtcShrtInfo_002.act"
+    }
+   ],
+   "rank": 47
+  },
+  {
+   "bank": "융창",
+   "assets": 446024.0,
+   "basic_product": "정기예금",
+   "base": 3.55,
+   "best": 3.64,
+   "products": [
+    {
+     "product": "SB톡톡 회전식\n정기예금\n(변동금리)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.64,
+     "max": 3.64,
+     "changed": "2026-08-21",
+     "url": "https://www.ycbank.co.kr/ProdList_001.act?rnum=44"
+    },
+    {
+     "product": "e회전식\n정기예금\n(변동금리)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.64,
+     "max": 3.64,
+     "changed": "2026-08-21",
+     "url": "https://www.ycbank.co.kr/ProdList_001.act?rnum=42"
+    },
+    {
+     "product": "회전식\n정기예금\n(변동금리)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.64,
+     "max": 3.64,
+     "changed": "2026-08-21",
+     "url": "https://www.ycbank.co.kr/ProdList_001.act?rnum=40"
+    },
+    {
+     "product": "SB톡톡 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.55,
+     "max": 3.55,
+     "changed": "2026-08-21",
+     "url": "https://www.ycbank.co.kr/ProdList_001.act?rnum=39"
+    },
+    {
+     "product": "e정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.55,
+     "max": 3.55,
+     "changed": "2026-08-21",
+     "url": "https://www.ycbank.co.kr/ProdList_001.act?rnum=37"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.55,
+     "max": 3.55,
+     "changed": "2026-08-21",
+     "url": "https://www.ycbank.co.kr/ProdList_001.act?rnum=35"
+    }
+   ],
+   "rank": 48
+  },
+  {
+   "bank": "삼정",
+   "assets": 439226.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.85,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.85,
+     "changed": "2026-08-04",
+     "url": "https://www.samjungsavingsbank.co.kr/ProdList_001.act?rnum=19"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-04",
+     "url": "https://www.samjungsavingsbank.co.kr/ProdList_001.act?rnum=23"
+    },
+    {
+     "product": "s-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-04",
+     "url": "https://www.samjungsavingsbank.co.kr/ProdList_001.act?rnum=25"
+    }
+   ],
+   "rank": 49
+  },
+  {
+   "bank": "청주",
+   "assets": 432856.0,
+   "basic_product": "정기예금_본점",
+   "base": 4.0,
+   "best": 4.0,
+   "products": [
+    {
+     "product": "정기예금_본점",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-08-24",
+     "url": "https://www.cheongjubank.com/ProdList_001.act?rnum=16"
+    },
+    {
+     "product": "정기예금_천안지점",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-08-24",
+     "url": "https://www.cheongjubank.com/ProdList_001.act?rnum=16"
+    },
+    {
+     "product": "펫팸정기예금_천안지점",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-08-24",
+     "url": "https://www.cheongjubank.com/ProdList_001.act?rnum=16"
+    },
+    {
+     "product": "E-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-24",
+     "url": "https://www.cheongjubank.com/DepDein0100.act"
+    }
+   ],
+   "rank": 50
+  },
+  {
+   "bank": "부림",
+   "assets": 427786.0,
+   "basic_product": "정기예금",
+   "base": 3.7,
+   "best": 3.7,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-14",
+     "url": "https://www.bulimbank.co.kr/DepDein0100.act"
+    },
+    {
+     "product": "톡톡정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-14",
+     "url": "https://www.bulimbank.co.kr/DepDein0100.act"
+    }
+   ],
+   "rank": 51
+  },
+  {
+   "bank": "오투",
+   "assets": 412048.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-11",
+     "url": "http://www.o2banking.com"
+    },
+    {
+     "product": "E-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-11",
+     "url": "http://www.o2banking.com"
+    },
+    {
+     "product": "비대면 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-11",
+     "url": "http://www.o2banking.com"
+    }
+   ],
+   "rank": 52
+  },
+  {
+   "bank": "엠에스",
+   "assets": 407299.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 3.91,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.91,
+     "max": 3.91,
+     "changed": "2026-10-01",
+     "url": "https://www.mssb.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-23",
+     "url": "https://www.mssb.co.kr"
+    }
+   ],
+   "rank": 53
+  },
+  {
+   "bank": "민국",
+   "assets": 378902.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.9,
+     "changed": "2026-09-15",
+     "url": "www.mkb.co.kr"
+    },
+    {
+     "product": "e-행복정기예금 (인터넷)",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-15",
+     "url": "www.mkb.co.kr"
+    },
+    {
+     "product": "비대면정기예금 (비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-15",
+     "url": "www.mkb.co.kr"
+    },
+    {
+     "product": "톡톡정기예금 (모바일)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-15",
+     "url": "www.mkb.co.kr"
+    }
+   ],
+   "rank": 54
+  },
+  {
+   "bank": "동양",
+   "assets": 373903.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-02",
+     "url": "http://www.dysbank.com"
+    },
+    {
+     "product": "정기예금(비대면,인터넷뱅킹,스마트폰뱅킹)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-22",
+     "url": "http://www.dysbank.com"
+    }
+   ],
+   "rank": 55
+  },
+  {
+   "bank": "우리",
+   "assets": 371052.0,
+   "basic_product": "정기예금",
+   "base": 4.0,
+   "best": 4.0,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-21",
+     "url": "https://www.wooleebank.co.kr/ProdList_001.act?rnum=14"
+    },
+    {
+     "product": "정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-09-22",
+     "url": "https://www.wooleebank.co.kr/ProdList_001.act?rnum=16"
+    }
+   ],
+   "rank": 56
+  },
+  {
+   "bank": "유니온",
+   "assets": 347872.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 4.0,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-28",
+     "url": "http://www.kusb.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-18",
+     "url": "http://www.kusb.co.kr"
+    }
+   ],
+   "rank": 57
+  },
+  {
+   "bank": "한성",
+   "assets": 340240.0,
+   "basic_product": "정기예금",
+   "base": 4.0,
+   "best": 4.0,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-08-11",
+     "url": "https://hsbank.co.kr/fils/info/depInfo.do?prd_no=240001&svccd=020101Y"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-11",
+     "url": "https://hsbank.co.kr/fils/info/depInfo.do?prd_no=240001&svccd=020101Y"
+    },
+    {
+     "product": "m-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-11",
+     "url": "https://hsbank.co.kr/fils/info/depInfo.do?prd_no=240001&svccd=020101Y"
+    }
+   ],
+   "rank": 58
+  },
+  {
+   "bank": "머스트삼일",
+   "assets": 313102.0,
+   "basic_product": "정기예금",
+   "base": 3.0,
+   "best": 4.05,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 4.05,
+     "max": 4.05,
+     "changed": "2026-10-02",
+     "url": "https://www.samilbank.co.kr/DepDein0100.act"
+    },
+    {
+     "product": "비대면정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 4.05,
+     "max": 4.05,
+     "changed": "2026-10-02",
+     "url": "https://www.samilbank.co.kr/DepDein0100.act"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.0,
+     "max": 3.0,
+     "changed": "2026-09-04",
+     "url": "https://www.samilbank.co.kr/DepDein0100.act"
+    }
+   ],
+   "rank": 59
+  },
+  {
+   "bank": "드림",
+   "assets": 304174.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "인터넷정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-10-01",
+     "url": "https://www.dreamsb.com/ProdList_001.act?rnum=56"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-16",
+     "url": "https://www.dreamsb.com/ProdList_001.act?rnum=58"
+    },
+    {
+     "product": "톡톡정기예금(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-10-01",
+     "url": "https://www.dreamsb.com/ProdList_001.act?rnum=58"
+    }
+   ],
+   "rank": 60
+  },
+  {
+   "bank": "DH",
+   "assets": 302405.0,
+   "basic_product": "정기예금",
+   "base": 3.95,
+   "best": 3.95,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-10-02",
+     "url": "http://www.dhsavingsbank.co.kr"
+    },
+    {
+     "product": "정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-10-02",
+     "url": "http://www.dhsavingsbank.co.kr"
+    }
+   ],
+   "rank": 61
+  },
+  {
+   "bank": "조흥",
+   "assets": 273946.0,
+   "basic_product": "정기예금(거제)",
+   "base": 3.45,
+   "best": 3.97,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.97,
+     "max": 3.97,
+     "changed": "2026-08-14",
+     "url": "https://chbank.ibs.fsb.or.kr/DepDein0100.act"
+    },
+    {
+     "product": "정기예금(거제)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.45,
+     "max": 3.45,
+     "changed": "2026-08-03",
+     "url": "http://chbank.net/index.html?p_no=1&s_no=18"
+    },
+    {
+     "product": "정기예금(통영)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.45,
+     "max": 3.45,
+     "changed": "2026-08-03",
+     "url": "http://chbank.net/index.html?p_no=1&s_no=18"
+    }
+   ],
+   "rank": 62
+  },
+  {
+   "bank": "안국",
+   "assets": 270438.0,
+   "basic_product": "정기예금",
+   "base": 3.6,
+   "best": 3.7,
+   "products": [
+    {
+     "product": "e-회전식정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-10-01",
+     "url": "https://www.angukbank.co.kr"
+    },
+    {
+     "product": "회전식정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-10-01",
+     "url": "https://www.angukbank.co.kr"
+    },
+    {
+     "product": "회전식정기예금(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-10-01",
+     "url": "https://www.angukbank.co.kr"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-10-01",
+     "url": "https://www.angukbank.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-10-01",
+     "url": "https://www.angukbank.co.kr"
+    },
+    {
+     "product": "정기예금(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.6,
+     "changed": "2026-10-01",
+     "url": "https://www.angukbank.co.kr"
+    }
+   ],
+   "rank": 63
+  },
+  {
+   "bank": "삼호",
+   "assets": 261078.0,
+   "basic_product": "정기예금",
+   "base": 3.75,
+   "best": 3.75,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-06-23",
+     "url": "https://www.samhosb.co.kr/DepDein0100.act"
+    },
+    {
+     "product": "정기예금(인터넷-모바일)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-06-23",
+     "url": "https://www.samhosb.co.kr/DepDein0100.act"
+    }
+   ],
+   "rank": 64
+  },
+  {
+   "bank": "대백",
+   "assets": 254921.0,
+   "basic_product": "정기예금",
+   "base": 3.9,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "애플정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-07",
+     "url": "https://www.debecbank.co.kr/ProdList_001.act?rnum=26"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-07",
+     "url": "https://www.debecbank.co.kr/ProdList_001.act?rnum=24"
+    }
+   ],
+   "rank": 65
+  },
+  {
+   "bank": "영진",
+   "assets": 228788.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "SB톡톡-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-12",
+     "url": "https://www.yjbank.co.kr/saving/info12.php"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-12",
+     "url": "https://www.yjbank.co.kr/saving/info08.php"
+    },
+    {
+     "product": "m-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-12",
+     "url": "https://www.yjbank.co.kr/saving/info11.php"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-12",
+     "url": "https://www.yjbank.co.kr/saving/info02.php"
+    }
+   ],
+   "rank": 66
+  },
+  {
+   "bank": "아산",
+   "assets": 227432.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.8,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-07-08",
+     "url": "http://www.asanbank.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-07-08",
+     "url": "http://www.asanbank.co.kr"
+    },
+    {
+     "product": "SB톡톡-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 2.5,
+     "max": 2.5,
+     "changed": "2025-12-03",
+     "url": "http://www.asanbank.co.kr"
+    }
+   ],
+   "rank": 67
+  },
+  {
+   "bank": "국제",
+   "assets": 223477.0,
+   "basic_product": "꿈 찾아 정기예금",
+   "base": 3.3,
+   "best": 3.8,
+   "products": [
+    {
+     "product": "꿈 찾아 정기예금(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-09-10",
+     "url": "https://kukje.ibs.fsb.or.kr/DepDeinComp0100.act"
+    },
+    {
+     "product": "꿈 찾아 정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.3,
+     "max": 3.3,
+     "changed": "2026-07-10",
+     "url": "https://kukjebank.co.kr/DepositGoogs_1"
+    }
+   ],
+   "rank": 68
+  },
+  {
+   "bank": "대명",
+   "assets": 209568.0,
+   "basic_product": "정기예금",
+   "base": 3.75,
+   "best": 3.75,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-07-23",
+     "url": "http://www.daemyungbank.co.kr"
+    },
+    {
+     "product": "E-플러스 정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.35,
+     "max": 3.35,
+     "changed": "2026-09-11",
+     "url": "http://www.daemyungbank.co.kr"
+    }
+   ],
+   "rank": 69
+  },
+  {
+   "bank": "솔브레인",
+   "assets": 188497.0,
+   "basic_product": "정기예금",
+   "base": 3.95,
+   "best": 3.95,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-09-18",
+     "url": "https://www.soulbrainsb.co.kr/02_deposit/deposit01_1.asp"
+    },
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-09",
+     "url": "https://www.soulbrainsb.co.kr/02_deposit/deposit01_1.asp"
+    },
+    {
+     "product": "정기예금(비대면)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-09",
+     "url": "https://www.soulbrainsb.co.kr/02_deposit/deposit01_1.asp"
+    }
+   ],
+   "rank": 70
+  },
+  {
+   "bank": "평택",
+   "assets": 167963.0,
+   "basic_product": "정기예금-창구",
+   "base": 3.75,
+   "best": 3.97,
+   "products": [
+    {
+     "product": "+정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.97,
+     "max": 3.97,
+     "changed": "2026-09-15",
+     "url": "https://www.ptbank.co.kr/ProdList_001.act?rnum=16"
+    },
+    {
+     "product": "+회전정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.97,
+     "max": 3.97,
+     "changed": "2026-09-15",
+     "url": "https://www.ptbank.co.kr/ProdList_001.act?rnum=19"
+    },
+    {
+     "product": "정기예금-인터넷",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-07-24",
+     "url": "https://www.ptbank.co.kr/ProdList_001.act?rnum=25"
+    },
+    {
+     "product": "정기예금-창구",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-07-24",
+     "url": "https://www.ptbank.co.kr/ProdList_001.act?rnum=16"
+    },
+    {
+     "product": "정기예금-모바일",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.45,
+     "max": 3.45,
+     "changed": "2026-09-07",
+     "url": "https://www.ptbank.co.kr/ProdList_001.act?rnum=16"
+    },
+    {
+     "product": "회전식정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.45,
+     "max": 3.45,
+     "changed": "2026-06-19",
+     "url": "https://www.ptbank.co.kr/ProdList_001.act?rnum=19"
+    }
+   ],
+   "rank": 71
+  },
+  {
+   "bank": "라온",
+   "assets": 163638.0,
+   "basic_product": "정기예금",
+   "base": 3.7,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "정기예금 비대면",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-09-29",
+     "url": "https://www.raonsb.co.kr/"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-06-17",
+     "url": "https://www.raonsb.co.kr/"
+    }
+   ],
+   "rank": 72
+  },
+  {
+   "bank": "에스앤티",
+   "assets": 158394.0,
+   "basic_product": "정기예금",
+   "base": 3.74,
+   "best": 3.74,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.74,
+     "max": 3.74,
+     "changed": "2026-09-07",
+     "url": "https://www.hisntm.com/kor/sub01_02_02.html"
+    },
+    {
+     "product": "정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.74,
+     "max": 3.74,
+     "changed": "2026-09-07",
+     "url": "https://www.hisntm.com/kor/sub01_02_08.html"
+    }
+   ],
+   "rank": 73
+  },
+  {
+   "bank": "스타",
+   "assets": 157907.0,
+   "basic_product": "정기예금",
+   "base": 3.85,
+   "best": 3.85,
+   "products": [
+    {
+     "product": "스타e_정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-09-28",
+     "url": "https://www.estarbank.co.kr/ProdList_001.act?rnum=19\nhttps://www.estarbank.co.kr/ProdList_001.act?rnum=21"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.85,
+     "max": 3.85,
+     "changed": "2026-09-28",
+     "url": "https://www.estarbank.co.kr/ProdList_001.act?rnum=18\nhttps://www.estarbank.co.kr/ProdList_001.act?rnum=20"
+    }
+   ],
+   "rank": 74
+  },
+  {
+   "bank": "센트럴",
+   "assets": 137275.0,
+   "basic_product": "정기예금",
+   "base": 3.8,
+   "best": 3.8,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-10",
+     "url": "http://www.centralbank.co.kr"
+    },
+    {
+     "product": "정기예금\n(인터넷뱅킹,스마트뱅킹,비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-10",
+     "url": "http://www.centralbank.co.kr"
+    }
+   ],
+   "rank": 75
+  },
+  {
+   "bank": "오성",
+   "assets": 111211.0,
+   "basic_product": "정기예금",
+   "base": 3.7,
+   "best": 3.7,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-06-26",
+     "url": "http://www.osungbank.co.kr/ProdList_001.act?rnum=16"
+    },
+    {
+     "product": "정기예금(비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-06-26",
+     "url": "http://www.osungbank.co.kr/ProdList_001.act?rnum=19"
+    },
+    {
+     "product": "회전식정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-06-26",
+     "url": "http://www.osungbank.co.kr/ProdList_001.act?rnum=29"
+    },
+    {
+     "product": "회전식정기예금 (비대면)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-06-26",
+     "url": "http://www.osungbank.co.kr/ProdList_001.act?rnum=30"
+    }
+   ],
+   "rank": 76
+  },
+  {
+   "bank": "대아",
+   "assets": 10395.0,
+   "basic_product": "정기예금",
+   "base": 3.5,
+   "best": 3.5,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-08-11",
+     "url": "http://www.daeabank.com/"
+    }
+   ],
+   "rank": 77
+  },
+  {
+   "bank": "대원",
+   "assets": 3071.0,
+   "basic_product": "정기예금",
+   "base": 3.0,
+   "best": 3.0,
+   "products": [
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.0,
+     "max": 3.0,
+     "changed": "2026-02-09",
+     "url": "http://www.d-banks.co.kr"
+    }
+   ],
+   "rank": 78
+  },
+  {
+   "bank": "라인",
+   "assets": null,
+   "basic_product": "정기예금",
+   "base": 3.93,
+   "best": 4.04,
+   "products": [
+    {
+     "product": "정기예금(인터넷뱅킹,스마트뱅킹)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.04,
+     "max": 4.04,
+     "changed": "2026-10-01",
+     "url": "https://www.linesb.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.93,
+     "max": 3.93,
+     "changed": "2026-10-01",
+     "url": "https://www.linesb.co.kr"
+    }
+   ],
+   "rank": null
+  }
+ ],
+ "top5": [
+  {
+   "bank": "SBI",
+   "assets": 12835355.0,
+   "basic_product": "정기예금",
+   "base": 3.7,
+   "best": 3.9,
+   "products": [
+    {
+     "product": "정기예금(1년변동금리)",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.9,
+     "changed": "2026-08-05",
+     "url": "https://www.sbisb.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.8,
+     "changed": "2026-08-05",
+     "url": "https://www.sbisb.co.kr"
+    }
+   ],
+   "rank": 1
+  },
+  {
+   "bank": "OK",
+   "assets": 12576024.0,
+   "basic_product": "OK정기예금",
+   "base": 3.9,
+   "best": 4.1,
+   "products": [
+    {
+     "product": "OK e-안심앱플러스정기예금6 (변동금리)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 4.1,
+     "max": 4.1,
+     "changed": "2026-09-30",
+     "url": "https://www.oksavingsbank.com/#/gdsDepsMngmDtl?depsGdsSqno=183&pageNo=1&menuCd=00365&mngmTr=00000&inrtTp=00000&etryMthd=00000&acmlMthd=00000&entrObjc=00000&frdmEtryMthd=00000"
+    },
+    {
+     "product": "OK e-안심정기예금(변동금리)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-30",
+     "url": "https://www.oksavingsbank.com/#/gdsDepsMngmDtl?depsGdsSqno=57&pageNo=1&menuCd=00365&mngmTr=00000&inrtTp=00000&etryMthd=00000&acmlMthd=00000&entrObjc=00000&frdmEtryMthd=00000"
+    },
+    {
+     "product": "OK e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-09-30",
+     "url": "https://www.oksavingsbank.com/#/gdsDepsMngmDtl?depsGdsSqno=39&pageNo=1&menuCd=00365&mngmTr=00000&inrtTp=00000&etryMthd=00000&acmlMthd=00000&entrObjc=00000&frdmEtryMthd=00000"
+    },
+    {
+     "product": "OK안심정기예금(변동금리)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 4.0,
+     "changed": "2026-09-30",
+     "url": "https://www.oksavingsbank.com/#/gdsDepsMngmDtl?depsGdsSqno=57&pageNo=1&menuCd=00365&mngmTr=00000&inrtTp=00000&etryMthd=00000&acmlMthd=00000&entrObjc=00000&frdmEtryMthd=00000"
+    },
+    {
+     "product": "OK정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.9,
+     "max": 4.0,
+     "changed": "2026-09-30",
+     "url": "https://www.oksavingsbank.com/#/gdsDepsMngmDtl?depsGdsSqno=39&pageNo=1&menuCd=00365&mngmTr=00000&inrtTp=00000&etryMthd=00000&acmlMthd=00000&entrObjc=00000&frdmEtryMthd=00000"
+    }
+   ],
+   "rank": 2
+  },
+  {
+   "bank": "한국투자",
+   "assets": 7528316.0,
+   "basic_product": "한투 ACE 정기예금",
+   "base": 3.65,
+   "best": 3.65,
+   "products": [
+    {
+     "product": "한투 ACE e-정기예금",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-5#"
+    },
+    {
+     "product": "한투 ACE e-회전정기예금 (1년 단위 변동금리상품)",
+     "channels": [
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-9#"
+    },
+    {
+     "product": "한투 ACE m-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-5#"
+    },
+    {
+     "product": "한투 ACE m-회전정기예금 (1년 단위 변동금리상품)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-9#"
+    },
+    {
+     "product": "한투 ACE 정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-5#"
+    },
+    {
+     "product": "한투 ACE 회전정기예금 (1년 단위 변동금리상품)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-9#"
+    },
+    {
+     "product": "한투 알아서 중도해지안심정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.55,
+     "max": 3.55,
+     "changed": "2026-08-03",
+     "url": "https://sb.koreainvestment.com/?PRD-PDS001-28#"
+    }
+   ],
+   "rank": 3
+  },
+  {
+   "bank": "웰컴",
+   "assets": 5792756.0,
+   "basic_product": "정기예금",
+   "base": 3.7,
+   "best": 3.7,
+   "products": [
+    {
+     "product": "e-정기예금",
+     "channels": [
+      "인터넷"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-14",
+     "url": "http://www.welcomebank.co.kr"
+    },
+    {
+     "product": "m-정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-14",
+     "url": "http://www.welcomebank.co.kr"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-09-14",
+     "url": "http://www.welcomebank.co.kr"
+    }
+   ],
+   "rank": 4
+  },
+  {
+   "bank": "애큐온",
+   "assets": 5090659.0,
+   "basic_product": "정기예금",
+   "base": 3.7,
+   "best": 3.95,
+   "products": [
+    {
+     "product": "다시만난예금(모바일전용)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.95,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030220"
+    },
+    {
+     "product": "플러스회전식정기예금(모바일)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.9,
+     "max": 3.9,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030160"
+    },
+    {
+     "product": "플러스회전식정기예금(영업점)",
+     "channels": [
+      "영업점"
+     ],
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030160"
+    },
+    {
+     "product": "3-UP정기예금",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030130"
+    },
+    {
+     "product": "3-UP정기예금(모바일)",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.75,
+     "max": 3.75,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030130"
+    },
+    {
+     "product": "애큐온모바일예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 3.6,
+     "max": 3.75,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030170"
+    },
+    {
+     "product": "정기예금",
+     "channels": [
+      "영업점",
+      "인터넷",
+      "스마트폰",
+      "전화"
+     ],
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-08-19",
+     "url": "http://www.acuonsb.co.kr/?P_name=dpt0030120"
+    }
+   ],
+   "rank": 5
+  }
+ ]
+}

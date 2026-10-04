@@ -1,0 +1,552 @@
+{
+ "asof": "2026-10-02",
+ "prev_asof": "2026-09-23",
+ "generated_at": "2026-10-04 09:06",
+ "groups": [
+  {
+   "id": "policy",
+   "title": "중앙은행 기준금리",
+   "source": "각국 중앙은행 발표, 일별 기준",
+   "items": [
+    {
+     "id": "kr_base",
+     "name": "한국 (BOK)",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.0,
+     "date": "2026-10-01",
+     "note": null,
+     "prev": 3.0,
+     "prev_date": "2026-08-27",
+     "change_bp": 0.0,
+     "change_pct": null
+    },
+    {
+     "id": "us_fed",
+     "name": "미국 (Fed, 상단)",
+     "dp": 2,
+     "unit": "%",
+     "value": 4.0,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 4.0,
+     "prev_date": "2026-09-23",
+     "change_bp": 0.0,
+     "change_pct": null
+    },
+    {
+     "id": "ecb",
+     "name": "유럽 (ECB)",
+     "dp": 2,
+     "unit": "%",
+     "value": 2.65,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 2.65,
+     "prev_date": "2026-09-23",
+     "change_bp": 0.0,
+     "change_pct": null
+    },
+    {
+     "id": "boj",
+     "name": "일본 (BOJ)",
+     "dp": 2,
+     "unit": "%",
+     "value": 1.25,
+     "date": "2026-09-29",
+     "note": null,
+     "prev": 1.0,
+     "prev_date": "2026-09-23",
+     "change_bp": 25.0,
+     "change_pct": null
+    },
+    {
+     "id": "pboc",
+     "name": "중국 (PBOC, LPR 1년)",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.0,
+     "date": "2026-09-29",
+     "note": null,
+     "prev": 3.0,
+     "prev_date": "2026-09-23",
+     "change_bp": 0.0,
+     "change_pct": null
+    }
+   ]
+  },
+  {
+   "id": "gov",
+   "title": "국채 금리",
+   "source": "한국은행 ECOS · 미국 재무부",
+   "items": [
+    {
+     "id": "ktb1",
+     "name": "국고채 1년",
+     "dp": 3,
+     "unit": "%",
+     "value": 3.734,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.667,
+     "prev_date": "2026-09-23",
+     "change_bp": 6.7,
+     "change_pct": null
+    },
+    {
+     "id": "ktb3",
+     "name": "국고채 3년",
+     "dp": 3,
+     "unit": "%",
+     "value": 3.937,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 4.006,
+     "prev_date": "2026-09-23",
+     "change_bp": -6.9,
+     "change_pct": null
+    },
+    {
+     "id": "ktb10",
+     "name": "국고채 10년",
+     "dp": 3,
+     "unit": "%",
+     "value": 4.365,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 4.392,
+     "prev_date": "2026-09-23",
+     "change_bp": -2.7,
+     "change_pct": null
+    },
+    {
+     "id": "ust1",
+     "name": "미국채 1년",
+     "dp": 2,
+     "unit": "%",
+     "value": 4.46,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 4.49,
+     "prev_date": "2026-09-23",
+     "change_bp": -3.0,
+     "change_pct": null
+    },
+    {
+     "id": "ust3",
+     "name": "미국채 3년",
+     "dp": 2,
+     "unit": "%",
+     "value": 4.96,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 4.97,
+     "prev_date": "2026-09-23",
+     "change_bp": -1.0,
+     "change_pct": null
+    },
+    {
+     "id": "ust10",
+     "name": "미국채 10년",
+     "dp": 2,
+     "unit": "%",
+     "value": 5.28,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 5.11,
+     "prev_date": "2026-09-23",
+     "change_bp": 17.0,
+     "change_pct": null
+    }
+   ]
+  },
+  {
+   "id": "money",
+   "title": "콜금리 · CD · COFIX",
+   "source": "한국은행 ECOS · 은행연합회",
+   "items": [
+    {
+     "id": "call",
+     "name": "콜금리 (1일)",
+     "dp": 3,
+     "unit": "%",
+     "value": 3.05,
+     "date": "2026-10-01",
+     "note": null,
+     "prev": 3.048,
+     "prev_date": "2026-09-23",
+     "change_bp": 0.2,
+     "change_pct": null
+    },
+    {
+     "id": "cd91",
+     "name": "CD (91일)",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.21,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.21,
+     "prev_date": "2026-09-23",
+     "change_bp": 0.0,
+     "change_pct": null
+    },
+    {
+     "id": "cofix",
+     "name": "COFIX (신규취급액)",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.18,
+     "date": "2026-09-15",
+     "note": "2026-08 대상월",
+     "prev": 3.18,
+     "prev_date": "2026-09-15",
+     "change_bp": 0.0,
+     "change_pct": null
+    }
+   ]
+  },
+  {
+   "id": "corp",
+   "title": "회사채 3년물",
+   "source": "한국은행 ECOS (금융투자협회 최종호가수익률)",
+   "items": [
+    {
+     "id": "corp_bbb",
+     "name": "회사채 3년 BBB-",
+     "dp": 3,
+     "unit": "%",
+     "value": 10.442,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 10.489,
+     "prev_date": "2026-09-23",
+     "change_bp": -4.7,
+     "change_pct": null
+    },
+    {
+     "id": "corp_aa",
+     "name": "회사채 3년 AA-",
+     "dp": 3,
+     "unit": "%",
+     "value": 4.638,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 4.689,
+     "prev_date": "2026-09-23",
+     "change_bp": -5.1,
+     "change_pct": null
+    }
+   ]
+  },
+  {
+   "id": "card",
+   "title": "여전채 민평금리 (3년물)",
+   "source": "금융투자협회 채권정보센터 · 평가사 5곳 평균",
+   "items": [
+    {
+     "id": "card_A0",
+     "name": "여전채 3년 A0",
+     "dp": 3,
+     "unit": "%",
+     "value": 6.211,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 6.272,
+     "prev_date": "2026-09-23",
+     "change_bp": -6.1,
+     "change_pct": null
+    },
+    {
+     "id": "card_A+",
+     "name": "여전채 3년 A+",
+     "dp": 3,
+     "unit": "%",
+     "value": 5.438,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 5.499,
+     "prev_date": "2026-09-23",
+     "change_bp": -6.1,
+     "change_pct": null
+    },
+    {
+     "id": "card_AA-",
+     "name": "여전채 3년 AA-",
+     "dp": 3,
+     "unit": "%",
+     "value": 4.655,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 4.716,
+     "prev_date": "2026-09-23",
+     "change_bp": -6.1,
+     "change_pct": null
+    },
+    {
+     "id": "card_AA+",
+     "name": "여전채 3년 AA+",
+     "dp": 3,
+     "unit": "%",
+     "value": 4.504,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 4.565,
+     "prev_date": "2026-09-23",
+     "change_bp": -6.1,
+     "change_pct": null
+    }
+   ]
+  },
+  {
+   "id": "cp",
+   "title": "기업어음(CP) 1년물",
+   "source": "금융투자협회 채권정보센터 · KIS자산평가",
+   "items": [
+    {
+     "id": "cp_A3",
+     "name": "CP 1년 A3",
+     "dp": 2,
+     "unit": "%",
+     "value": 6.36,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 6.28,
+     "prev_date": "2026-09-23",
+     "change_bp": 8.0,
+     "change_pct": null
+    },
+    {
+     "id": "cp_A2+",
+     "name": "CP 1년 A2+",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.77,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.69,
+     "prev_date": "2026-09-23",
+     "change_bp": 8.0,
+     "change_pct": null
+    },
+    {
+     "id": "cp_A1",
+     "name": "CP 1년 A1",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.68,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.61,
+     "prev_date": "2026-09-23",
+     "change_bp": 7.0,
+     "change_pct": null
+    }
+   ]
+  },
+  {
+   "id": "savings",
+   "title": "저축은행 정기예금 (1년, 창구 기본상품)",
+   "source": "저축은행중앙회 · 자산순위는 금융감독원",
+   "items": [
+    {
+     "id": "sb_avg",
+     "name": "상위 5개 평균",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.73,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.71,
+     "prev_date": "2026-09-23",
+     "change_bp": 2.0,
+     "change_pct": null
+    },
+    {
+     "id": "sb_1",
+     "name": "SBI · 정기예금",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.7,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.7,
+     "prev_date": "2026-09-23",
+     "change_bp": 0.0,
+     "change_pct": null
+    },
+    {
+     "id": "sb_2",
+     "name": "OK · OK정기예금",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.9,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.8,
+     "prev_date": "2026-09-23",
+     "change_bp": 10.0,
+     "change_pct": null
+    },
+    {
+     "id": "sb_3",
+     "name": "한국투자 · 한투 ACE 정기예금",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.65,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.65,
+     "prev_date": "2026-09-23",
+     "change_bp": 0.0,
+     "change_pct": null
+    },
+    {
+     "id": "sb_4",
+     "name": "웰컴 · 정기예금",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.7,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.7,
+     "prev_date": "2026-09-23",
+     "change_bp": 0.0,
+     "change_pct": null
+    },
+    {
+     "id": "sb_5",
+     "name": "애큐온 · 정기예금",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.7,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.7,
+     "prev_date": "2026-09-23",
+     "change_bp": 0.0,
+     "change_pct": null
+    }
+   ]
+  },
+  {
+   "id": "market",
+   "title": "국내 증시 · 환율",
+   "source": "한국은행 ECOS (한국거래소 종가 · 서울외국환중개 매매기준율)",
+   "items": [
+    {
+     "id": "kospi",
+     "name": "코스피",
+     "dp": 2,
+     "unit": "pt",
+     "value": 7003.74,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 7080.92,
+     "prev_date": "2026-09-23",
+     "change_bp": null,
+     "change_pct": -1.09
+    },
+    {
+     "id": "kosdaq",
+     "name": "코스닥",
+     "dp": 2,
+     "unit": "pt",
+     "value": 893.29,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 844.48,
+     "prev_date": "2026-09-23",
+     "change_bp": null,
+     "change_pct": 5.78
+    },
+    {
+     "id": "usdkrw",
+     "name": "원/미국달러",
+     "dp": 1,
+     "unit": "원",
+     "value": 1359.6,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 1360.0,
+     "prev_date": "2026-09-23",
+     "change_bp": null,
+     "change_pct": -0.03
+    },
+    {
+     "id": "cnykrw",
+     "name": "원/위안",
+     "dp": 2,
+     "unit": "원",
+     "value": 202.55,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 203.28,
+     "prev_date": "2026-09-23",
+     "change_bp": null,
+     "change_pct": -0.36
+    },
+    {
+     "id": "jpykrw",
+     "name": "원/일본엔 (100엔)",
+     "dp": 2,
+     "unit": "원",
+     "value": 860.32,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 863.68,
+     "prev_date": "2026-09-23",
+     "change_bp": null,
+     "change_pct": -0.39
+    },
+    {
+     "id": "eurkrw",
+     "name": "원/유로",
+     "dp": 2,
+     "unit": "원",
+     "value": 1528.67,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 1556.93,
+     "prev_date": "2026-09-23",
+     "change_bp": null,
+     "change_pct": -1.82
+    }
+   ]
+  },
+  {
+   "id": "macro",
+   "title": "가계부채 · 통화량",
+   "source": "한국은행 ECOS (분기)",
+   "items": [
+    {
+     "id": "household",
+     "name": "가계신용",
+     "dp": 1,
+     "unit": "십억원",
+     "value": 2019785.3,
+     "date": "2026Q2",
+     "note": null,
+     "prev": 2019785.3,
+     "prev_date": "2026Q2",
+     "change_bp": null,
+     "change_pct": null
+    },
+    {
+     "id": "m2",
+     "name": "M2 (평잔, 원계열)",
+     "dp": 1,
+     "unit": "십억원",
+     "value": 4209875.1,
+     "date": "2026Q2",
+     "note": null,
+     "prev": 4209875.1,
+     "prev_date": "2026Q2",
+     "change_bp": null,
+     "change_pct": null
+    }
+   ]
+  }
+ ],
+ "errors": []
+}
