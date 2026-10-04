@@ -233,7 +233,7 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
     <h2 id="notes-title">자료 기준과 출처</h2>
     <ul class="notes">
       <li><b>기준일</b>: 지난주 마지막 영업일이에요. 휴일이면 그 전 영업일 값이고, 자료마다 실제 날짜가 다르면 숫자 아래에 따로 적었어요.</li>
-      <li><b>중앙은행 기준금리</b>: 한국은행 ECOS(한국), 미국 연준·유럽중앙은행(FRED), 일본·중국(국제결제은행 BIS) 일별 자료라 월 중간에 바뀌어도 다음 주에 반영돼요. 미국은 목표 범위 상단, 유럽은 주요 정책금리(MRO), 중국은 1년 LPR이에요.</li>
+      <li><b>중앙은행 기준금리</b>: 한국은행 ECOS(한국), 미국 연준·유럽중앙은행(FRED), 일본·중국(국제결제은행 BIS) 일별 자료예요. 모두 <b>결정(발표)일 기준</b>이라, 적용일이 늦은 유럽(다음 주 수요일)·일본(다음 영업일)도 결정한 주에 반영돼요. 미국은 목표 범위 상단, 유럽은 주요 정책금리(MRO), 중국은 1년 LPR이에요.</li>
       <li><b>국채·콜·CD·회사채</b>: 한국은행 ECOS 시장금리(일별). 미국채는 미국 재무부 고시 금리(CMT)라 증권사 화면 값과 0.01~0.03%p 다를 수 있어요.</li>
       <li><b>여전채</b>: 금융투자협회 채권정보센터 시가평가수익률, 금융채 II(무보증) 3년물, 평가사 5곳 평균.</li>
       <li><b>CP</b>: 금융투자협회 채권정보센터 CP 시가평가수익률 1년물, KIS자산평가 기준.</li>
@@ -324,7 +324,7 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
       const sec = document.createElement('section'); sec.className = 'card';
       const chartable = g.id !== 'macro' && g.id !== 'market';
       const rows = g.items.map((it, i) => {
-        const dnote = it.note ? `${md(it.date)} 공시 · ${esc(it.note)}` : (it.date && it.date !== L.asof ? `${md(it.date)} 기준` : '');
+        const dnote = it.note ? (it.id === 'cofix' ? `${md(it.date)} 공시 · ${esc(it.note)}` : esc(it.note)) : (it.date && it.date !== L.asof ? `${md(it.date)} 기준` : '');
         return `<tr><td>${chartable ? `<span class="sw" style="background:${COLORS[i%6]}"></span>` : ''}${esc(it.name)}${dnote ? `<span class="d">${dnote}</span>` : ''}</td>
           <td class="num"><b>${fmt(it.value, it.dp, it.unit)}</b></td>
           <td class="num" style="color:var(--ink-2)">${fmt(it.prev, it.dp, it.unit)}</td>

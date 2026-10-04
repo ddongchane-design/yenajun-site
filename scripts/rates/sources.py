@@ -119,9 +119,11 @@ def bis(country, asof, days=120):
     out = []
     for row in csv.DictReader(io.StringIO(txt)):
         try:
-            out.append((row['TIME_PERIOD'], float(row['OBS_VALUE'])))
+            v = float(row['OBS_VALUE'])
         except (ValueError, KeyError):
-            pass
+            continue
+        if v == v:  # nan 제외
+            out.append((row['TIME_PERIOD'], v))
     out.sort()
     return out
 
@@ -273,6 +275,58 @@ def cofix(year):
     for m in re.finditer(r'(\d{4})/(\d{2})/(\d{2}) (\d{4})/(\d{2}) (\d+\.\d+) (\d+\.\d+) (\d+\.\d+)', t):
         out.append((f'{m[1]}-{m[2]}-{m[3]}', f'{m[4]}-{m[5]}', float(m[6]), float(m[7]), float(m[8])))
     return sorted(set(out))
+
+
+# ───────────────────────── 기준금리: 적용일 → 결정(발표)일 ─────────────────────────
+# FRED·BIS 자료는 '적용일'에 값이 바뀐다. 보고서는 결정일 기준이 맞아서 되돌려 계산한다.
+#   미국 연준: 결정 다음 날 적용 → 하루 전 평일
+#   유럽 ECB: 목요일 결정, 다음 주 수요일 적용 → 6일 전
+#   일본은행: 결정 다음 영업일 적용 → 일본 휴일을 건너 직전 영업일
+# (2024~2026년 실제 결정일 9건과 대조 확인)
+def _prev_business_day(d, hol):
+    d -= timedelta(days=1)
+    while d.weekday() >= 5 or d in hol:
+        d -= timedelta(days=1)
+    return d
+
+
+def policy_decisions(series, bank):
+    """[(적용일, 값)] → (결정일 기준 [(날짜, 값)], [(결정일, 적용일, 이전값, 새값)])."""
+    try:
+        import holidays
+        jp = holidays.JP(years=range(2015, 2040))
+    except Exception:  # 라이브러리가 없으면 주말만 건너뜀
+        jp = set()
+    changes, prev = [], None
+    for k, v in series:
+        if prev is not None and v != prev:
+            e = _d(k)
+            if bank == 'fed':
+                dd = _prev_business_day(e, set())
+            elif bank == 'ecb':
+                dd = e - timedelta(days=6)
+            elif bank == 'boj':
+                dd = _prev_business_day(e, jp)
+            else:
+                dd = e
+            changes.append((_iso(dd), k, prev, v))
+        prev = v
+    if not series:
+        return series, changes
+    out = []
+    for k, v in series:
+        # 결정일 이후·적용일 이전 구간은 새 값으로 본다
+        for dd, e, old, new in changes:
+            if dd <= k < e:
+                v = new
+        out.append((k, v))
+    # 결정일 자체가 자료에 없으면(주말 등) 그날 값을 넣어 둔다
+    have = {k for k, _ in out}
+    for dd, e, old, new in changes:
+        if dd not in have:
+            out.append((dd, new))
+    out.sort()
+    return out, changes
 
 
 def latest_on_or_before(series, asof):

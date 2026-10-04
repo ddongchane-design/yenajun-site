@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - run: pip install openpyxl==3.1.5
+      - run: pip install openpyxl==3.1.5 holidays
 
       - name: 지표 수집
         env:

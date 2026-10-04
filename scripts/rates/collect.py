@@ -122,13 +122,17 @@ class Collector:
             return {k: sorted(set(v)) for k, v in out.items()}
         return self._once('treasury', run) or {}
 
+    # 기준금리는 '적용일'이 기준일보다 뒤일 수 있어서 항상 오늘까지 받는다
+    def _today(self):
+        return datetime.now(KST).strftime('%Y-%m-%d')
+
     def fred(self, sid):
-        days = (datetime.strptime(self.hi, '%Y-%m-%d') - datetime.strptime(self.lo, '%Y-%m-%d')).days + 5
-        return self._once(('fred', sid), lambda: S.fred(sid, self.hi, days=days)) or []
+        days = (datetime.strptime(self._today(), '%Y-%m-%d') - datetime.strptime(self.lo, '%Y-%m-%d')).days + 5
+        return self._once(('fred', sid), lambda: S.fred(sid, self._today(), days=days)) or []
 
     def bis(self, c):
-        days = (datetime.strptime(self.hi, '%Y-%m-%d') - datetime.strptime(self.lo, '%Y-%m-%d')).days + 5
-        return self._once(('bis', c), lambda: S.bis(c, self.hi, days=days)) or []
+        days = (datetime.strptime(self._today(), '%Y-%m-%d') - datetime.strptime(self.lo, '%Y-%m-%d')).days + 5
+        return self._once(('bis', c), lambda: S.bis(c, self._today(), days=days)) or []
 
     def cofix(self):
         def run():
@@ -144,6 +148,24 @@ class Collector:
     def ecos_m(self, stat, item):
         return self._once(('ecosm', stat, item), lambda: S.ecos(stat, 'M', item, f'{int(self.lo[:4]) - 1}01', self.hi[:4] + '12')) or []
 
+    def policy(self, asof):
+        """중앙은행 기준금리 5개. 미국·유럽·일본은 결정(발표)일 기준으로 되돌려서 쓴다."""
+        out = {}
+        for sid, raw, bank in [('kr_base', self.ecos_d('722Y001', '0101000'), None), ('pboc', self.bis('CN'), None),
+                               ('us_fed', self.fred('DFEDTARU'), 'fed'), ('ecb', self.fred('ECBMRRFR'), 'ecb'),
+                               ('boj', self.bis('JP'), 'boj')]:
+            ser, chg = S.policy_decisions(raw, bank) if bank else (raw, [])
+            d, v = S.latest_on_or_before(ser, asof)
+            if v is None:
+                continue
+            out[sid] = {'v': v, 'd': d}
+            last = [c for c in chg if c[0] <= asof]
+            if last:
+                dd, e, old, new = last[-1]
+                if (datetime.strptime(asof, '%Y-%m-%d') - datetime.strptime(dd, '%Y-%m-%d')).days <= 31:
+                    out[sid]['note'] = f'{int(dd[5:7])}/{int(dd[8:])} 결정 · {int(e[5:7])}/{int(e[8:])} 적용'
+        return out
+
     def snapshot(self, asof, with_savings_detail=False):
         """{series_id: {'v': 값, 'd': 그 값의 날짜}}"""
         out = {}
@@ -154,11 +176,7 @@ class Collector:
             if v is not None:
                 out[sid] = {'v': v, 'd': d}
 
-        put('kr_base', self.ecos_d('722Y001', '0101000'))
-        put('us_fed', self.fred('DFEDTARU'))
-        put('ecb', self.fred('ECBMRRFR'))
-        put('boj', self.bis('JP'))
-        put('pboc', self.bis('CN'))
+        out.update(self.policy(asof))
         for sid, item in [('ktb1', '010190000'), ('ktb3', '010200000'), ('ktb10', '010210000'),
                           ('call', '010101000'), ('cd91', '010502000'),
                           ('corp_aa', '010300000'), ('corp_bbb', '010320000')]:
@@ -309,9 +327,15 @@ def main(argv):
         return 1
     if argv[0] == 'weekly':
         asof = argv[argv.index('--asof') + 1] if '--asof' in argv else last_business_day()
-        c = Collector([asof])
+        hist = load_history()
+        recent = [w['asof'] for w in hist['weeks'] if w['asof'] < asof][-4:]
+        c = Collector(recent + [asof])
         snap, detail = c.snapshot(asof, with_savings_detail=True)
-        hist = save_week(load_history(), asof, snap)
+        # 지난 4주 기준금리 다시 계산 (적용일·자료 반영이 늦게 들어온 변경을 결정한 주로 바로잡기)
+        for w in hist['weeks']:
+            if w['asof'] in recent:
+                w['values'].update(c.policy(w['asof']))
+        hist = save_week(hist, asof, snap)
         write_json(DATA / 'history.json', hist)
         write_json(DATA / 'latest.json', build_latest(hist, detail, c.errors))
         if detail:

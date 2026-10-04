@@ -1,7 +1,7 @@
 {
  "asof": "2026-10-02",
  "prev_asof": "2026-09-23",
- "generated_at": "2026-10-04 10:03",
+ "generated_at": "2026-10-04 15:16",
  "groups": [
   {
    "id": "policy",
@@ -17,7 +17,7 @@
      "date": "2026-10-01",
      "note": null,
      "prev": 3.0,
-     "prev_date": "2026-08-27",
+     "prev_date": "2026-09-23",
      "change_bp": 0.0,
      "change_pct": null
     },
@@ -28,7 +28,7 @@
      "unit": "%",
      "value": 4.0,
      "date": "2026-10-02",
-     "note": null,
+     "note": "9/16 결정 · 9/17 적용",
      "prev": 4.0,
      "prev_date": "2026-09-23",
      "change_bp": 0.0,
@@ -41,7 +41,7 @@
      "unit": "%",
      "value": 2.65,
      "date": "2026-10-02",
-     "note": null,
+     "note": "9/10 결정 · 9/16 적용",
      "prev": 2.65,
      "prev_date": "2026-09-23",
      "change_bp": 0.0,
@@ -54,10 +54,10 @@
      "unit": "%",
      "value": 1.25,
      "date": "2026-09-29",
-     "note": null,
-     "prev": 1.0,
+     "note": "9/18 결정 · 9/24 적용",
+     "prev": 1.25,
      "prev_date": "2026-09-23",
-     "change_bp": 25.0,
+     "change_bp": 0.0,
      "change_pct": null
     },
     {
