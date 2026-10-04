@@ -24,7 +24,7 @@
   --rule:#E3E6E2; --rule-2:#EEF0EC;
   --accent:#1F4E79; --accent-soft:#E6EEF6;
   --up:#C0392B; --down:#1F5FAF;
-  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948;
   --font:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){
@@ -35,7 +35,7 @@
     --rule:#2D3237; --rule-2:#262A2F;
     --accent:#8DB8E8; --accent-soft:#1E2B3A;
     --up:#F07A6E; --down:#7FB0F0;
-    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
   }
 }
 :root[data-theme="dark"]{
@@ -45,7 +45,7 @@
   --rule:#2D3237; --rule-2:#262A2F;
   --accent:#8DB8E8; --accent-soft:#1E2B3A;
   --up:#F07A6E; --down:#7FB0F0;
-  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -96,6 +96,7 @@ thead th{font-size:12px;font-weight:500;color:var(--ink-3);border-bottom:1px sol
 td .d{display:block;font-size:11.5px;color:var(--ink-3)}
 td .sw{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl-scroll td:first-child{min-width:108px}
 
 /* 차트 */
 .chart{position:relative}
@@ -130,6 +131,24 @@ tr.pick:hover td{background:var(--panel-2)}
 .err{font-size:13px;color:var(--up)}
 footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 40px}
 .loading{color:var(--ink-3);font-size:14px;padding:20px 0}
+/* 국기 */
+.flag{display:inline-block;width:18px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px;box-shadow:0 0 0 1px var(--rule)}
+/* 용어 설명 (마우스 올리면) */
+.gtip{position:fixed;z-index:60;max-width:280px;background:var(--ink);color:var(--panel);font-size:12.5px;line-height:1.6;padding:9px 12px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);pointer-events:none;opacity:0;transition:opacity .12s}
+.gtip.on{opacity:1}
+/* 선택 버튼 묶음 */
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;padding:3px;border:1px solid var(--rule);border-radius:999px;background:var(--panel-2)}
+.seg button{font:inherit;font-size:13px;border:0;background:transparent;color:var(--ink-2);padding:5px 12px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--panel);font-weight:700}
+.filters{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:2px 0 14px}
+/* 평균선 강조 */
+.chart .line.avg{stroke-width:3.6}
+@media (prefers-reduced-motion: no-preference){
+  .chart .line.avg{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s ease-out .15s forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+}
+.chart .zero{stroke:var(--ink-3)}
+.more.plus{display:flex;align-items:center;justify-content:center;gap:6px;width:100%}
 /* 주간 이슈 카드 */
 .is-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px}
 .is-head .src{margin:0}
@@ -216,7 +235,7 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
   <div id="groups"><p class="loading">자료를 불러오는 중이에요…</p></div>
 
   <section class="card" id="savings" aria-labelledby="sb-title">
-    <h2 id="sb-title">저축은행 정기예금 금리 (1년)</h2>
+    <h2 id="sb-title"><span data-tip="저축은행 1년 정기예금의 기본금리(우대 조건 없이 받는 금리)예요. 은행을 고르면 그 은행의 모든 정기예금 상품을 볼 수 있어요.">저축은행 정기예금 금리 (1년)</span></h2>
     <p class="src" id="sb-src">저축은행중앙회 상품공시 · 자산순위는 금융감독원 핵심경영지표</p>
     <div class="sb-tools">
       <label for="sb-pick" style="font-size:14px;color:var(--ink-2)">은행 선택</label>
@@ -226,7 +245,7 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
     <h3 style="font-size:16px;margin:24px 0 4px">자산순위별 기본 정기예금 금리</h3>
     <p class="src" style="margin-bottom:6px">창구(영업점)에서 가입하는 기본 정기예금의 기본금리예요. 행을 누르면 위 표에 그 은행 상품이 나와요.</p>
     <div class="tbl-scroll"><table id="sb-rank"></table></div>
-    <button class="more" id="sb-more" type="button">전체 은행 보기</button>
+    <button class="more plus" id="sb-more" type="button" aria-expanded="false" aria-controls="sb-rank">+ 더 보기</button>
   </section>
 
   <section class="card" aria-labelledby="notes-title">
@@ -235,10 +254,10 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
       <li><b>기준일</b>: 지난주 마지막 영업일이에요. 휴일이면 그 전 영업일 값이고, 자료마다 실제 날짜가 다르면 숫자 아래에 따로 적었어요.</li>
       <li><b>중앙은행 기준금리</b>: 한국은행 ECOS(한국), 미국 연준·유럽중앙은행(FRED), 일본·중국(국제결제은행 BIS) 일별 자료예요. 모두 <b>결정(발표)일 기준</b>이라, 적용일이 늦은 유럽(다음 주 수요일)·일본(다음 영업일)도 결정한 주에 반영돼요. 미국은 목표 범위 상단, 유럽은 주요 정책금리(MRO), 중국은 1년 LPR이에요.</li>
       <li><b>국채·콜·CD·회사채</b>: 한국은행 ECOS 시장금리(일별). 미국채는 미국 재무부 고시 금리(CMT)라 증권사 화면 값과 0.01~0.03%p 다를 수 있어요.</li>
-      <li><b>여전채</b>: 금융투자협회 채권정보센터 시가평가수익률, 금융채 II(무보증) 3년물, 평가사 5곳 평균.</li>
+      <li><b>여전채·은행채</b>: 금융투자협회 채권정보센터 시가평가수익률(민평금리), 무보증, 평가사 5곳 평균. 금융채 II(여전사·증권사 등 금융기관채)와 금융채 I(은행채)의 등급별 1~5년물이에요.</li>
       <li><b>CP</b>: 금융투자협회 채권정보센터 CP 시가평가수익률 1년물, KIS자산평가 기준.</li>
       <li><b>COFIX</b>: 은행연합회 신규취급액 기준. 매월 15일 무렵 전월분이 공시돼요.</li>
-      <li><b>가계신용·M2</b>: 한국은행 ECOS 분기 자료. M2는 평잔·원계열의 분기 마지막 달 값이에요.</li>
+      <li><b>가계신용·M2</b>: 한국은행 ECOS 분기 자료라 전기(직전 분기)와 비교해요. M2는 평잔·원계열의 분기 마지막 달 값이에요.</li>
       <li>이 페이지는 참고용 정보이며 투자·금융 자문이 아니에요. 정확한 수치는 각 기관 원자료를 확인해 주세요.</li>
     </ul>
     <p class="err" id="errors" hidden></p>
@@ -284,13 +303,61 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
     if (Math.abs(bp) < 0.05) return '<span class="chg flat">0bp</span>';
     return `<span class="chg ${bp>0?'up':'down'}">${bp>0?'▲':'▼'} ${Math.abs(bp).toFixed(Math.abs(bp)%1 ? 1 : 0)}bp</span>`;
   };
-  const COLORS = ['var(--s1)','var(--s2)','var(--s3)','var(--s4)','var(--s5)','var(--s6)'];
+  const COLORS = ['var(--s1)','var(--s2)','var(--s3)','var(--s4)','var(--s5)','var(--s6)','var(--s7)','var(--s8)'];
+  const FLAG_SVG = {
+    KR: '<rect width="36" height="24" fill="#fff"/><g transform="rotate(-33.7 18 12)"><circle cx="18" cy="12" r="6" fill="#cd2e3a"/><path d="M12 12a6 6 0 0 0 12 0a3 3 0 0 0-6 0a3 3 0 0 1-6 0z" fill="#0047a0"/></g><g fill="#000"><rect x="4" y="3.2" width="6" height="1.3" transform="rotate(33.7 7 3.8)"/><rect x="26" y="19.5" width="6" height="1.3" transform="rotate(33.7 29 20.1)"/><rect x="26" y="3.2" width="6" height="1.3" transform="rotate(-33.7 29 3.8)"/><rect x="4" y="19.5" width="6" height="1.3" transform="rotate(-33.7 7 20.1)"/></g>',
+    US: '<rect width="36" height="24" fill="#b22234"/><g fill="#fff"><rect y="1.85" width="36" height="1.85"/><rect y="5.54" width="36" height="1.85"/><rect y="9.23" width="36" height="1.85"/><rect y="12.92" width="36" height="1.85"/><rect y="16.62" width="36" height="1.85"/><rect y="20.31" width="36" height="1.85"/></g><rect width="15" height="12.9" fill="#3c3b6e"/>',
+    JP: '<rect width="36" height="24" fill="#fff"/><circle cx="18" cy="12" r="7" fill="#bc002d"/>',
+    CN: '<rect width="36" height="24" fill="#de2910"/><path d="M7 3l1.2 3.6H12L9 8.8l1.1 3.6L7 10.2 3.9 12.4 5 8.8 2 6.6h3.8z" fill="#ffde00"/>',
+    EU: '<rect width="36" height="24" fill="#003399"/><g fill="#ffcc00">' + Array.from({length:12}, (_, i) => `<circle cx="${(18 + 7 * Math.sin(i * Math.PI / 6)).toFixed(2)}" cy="${(12 - 7 * Math.cos(i * Math.PI / 6)).toFixed(2)}" r="1"/>`).join('') + '</g>'
+  };
+  const FLAG_OF = {kr_base:'KR', ktb1:'KR', ktb3:'KR', ktb10:'KR', us_fed:'US', ust1:'US', ust3:'US', ust10:'US', ecb:'EU', boj:'JP', pboc:'CN'};
+  const flag = id => FLAG_OF[id] ? `<svg class="flag" viewBox="0 0 36 24" aria-hidden="true">${FLAG_SVG[FLAG_OF[id]]}</svg>` : '';
+  // 마우스를 올리면 뜨는 간단한 설명
+  const GLOSS = {
+    policy: '중앙은행이 정하는 정책금리예요. 시장의 모든 금리가 이 금리를 출발점으로 움직여요.',
+    kr_base: '한국은행 금융통화위원회가 정하는 기준금리예요. 예금·대출 금리의 출발점이에요.',
+    us_fed: '미국 연준(Fed)이 정하는 정책금리(연방기금금리) 목표 범위의 위쪽 값이에요. 세계 금리에 가장 큰 영향을 줘요.',
+    ecb: '유럽중앙은행(ECB)이 은행에 1주일짜리 돈을 빌려줄 때 받는 금리(주요 정책금리, MRO)예요.',
+    boj: '일본은행이 정하는 단기 정책금리예요. 은행끼리 하루 동안 돈을 빌리는 금리를 이 수준으로 맞춰요.',
+    pboc: '중국 은행들이 신용 좋은 고객에게 1년 대출할 때 기준이 되는 금리(LPR)예요. 사실상 중국의 기준금리예요.',
+    gov: '정부가 돈을 빌리려고 발행하는 채권(국채)의 수익률이에요. 가장 안전한 채권이라 다른 금리의 기준이 돼요.',
+    ktb1: '만기 1년 국고채 금리예요. 기준금리 전망이 가장 먼저 반영돼요.',
+    ktb3: '만기 3년 국고채 금리예요. 국내 시장금리의 대표 지표로, 대출·회사채 금리의 기준으로 가장 많이 봐요.',
+    ktb10: '만기 10년 국고채 금리예요. 장기 경기와 물가 전망이 반영돼요.',
+    ust1: '미국 정부가 발행한 만기 1년 국채 금리예요. 연준의 금리 방향 전망이 빨리 반영돼요.',
+    ust3: '만기 3년 미국 국채 금리예요.',
+    ust10: '만기 10년 미국 국채 금리예요. 세계 금리와 주식·환율의 기준이 되는 가장 중요한 금리예요.',
+    money: '만기가 짧은 돈(단기자금)의 금리예요. 기준금리 변화가 가장 먼저 반영돼요.',
+    call: '금융회사끼리 하루 동안 아주 짧게 돈을 빌리고 빌려줄 때의 금리예요. 기준금리 근처에서 움직여요.',
+    cd91: '은행이 발행하는 91일 만기 양도성예금증서(CD)의 금리예요. 변동금리 대출의 기준 금리로 많이 쓰여요.',
+    cofix: '은행들이 돈을 모으는 데 든 평균 비용(자금조달비용지수)이에요. 주택담보대출 변동금리의 기준이에요. 신규취급액 기준은 지난달 새로 모은 돈만 계산해요.',
+    corp: '기업이 3년 만기로 돈을 빌리려고 발행하는 채권(회사채)의 금리예요. 신용등급이 낮을수록 금리가 높아요.',
+    corp_aa: '신용등급 AA-인 우량 기업의 3년 회사채 금리예요. 회사채 시장의 대표 지표예요.',
+    corp_bbb: '신용등급 BBB-(투자할 만한 등급의 마지노선) 기업의 3년 회사채 금리예요. AA-와의 차이가 크면 시장이 기업 위험을 크게 본다는 뜻이에요.',
+    bonds: '민평금리는 민간 채권평가회사 여러 곳이 매일 매기는 채권 평가금리의 평균이에요.',
+    fb2: '카드사·캐피탈사 같은 여신전문금융회사(여전사)와 증권사 등 금융기관이 발행하는 채권이에요(금융채 II). 흔히 여전채라고 해요.',
+    fb1: '은행이 발행하는 채권(은행채)이에요. 산금채는 산업은행, 중금채는 기업은행이 발행해요.',
+    grade: '신용등급이에요. AAA가 가장 안전하고 AA, A, BBB 순으로 내려갈수록 위험이 커서 금리가 높아요. +, 0, - 는 같은 등급 안의 세부 단계예요.',
+    cp: '기업이 1년 이내로 짧게 돈을 빌리려고 발행하는 어음(CP)의 금리예요. A1이 가장 우량하고 A3로 갈수록 위험이 커요.',
+    savings: '저축은행 1년 정기예금의 기본금리(우대 조건 없이 받는 금리)예요. 창구에서 가입하는 기본 상품 기준이에요.',
+    sb_avg: '총자산 기준 상위 5개 저축은행의 기본 정기예금 금리를 평균한 값이에요.',
+    market: '국내 주식시장 지수와 원화 환율이에요. 금리와 함께 시장 분위기를 보여 줘요.',
+    kospi: '유가증권시장(코스피)에 상장된 회사 전체의 시가총액을 지수로 나타낸 값이에요.',
+    kosdaq: '코스닥 시장(성장·기술 기업 중심) 전체 시가총액을 지수로 나타낸 값이에요.',
+    usdkrw: '외국 돈 1단위를 사는 데 드는 원화예요(엔은 100엔 기준). 오르면 원화 가치가 떨어졌다는 뜻이에요.',
+    macro: '가계 빚과 시중에 풀린 돈의 양이에요. 한국은행이 분기마다 발표해요.',
+    household: '가계가 금융회사에서 빌린 돈(가계대출)과 카드 할부 같은 외상 구매(판매신용)를 합친 전체 가계 빚이에요.',
+    m2: '현금과 언제든 찾을 수 있는 예금, 2년 미만 정기예금 등을 합친 넓은 의미의 통화량이에요. 시중에 돈이 얼마나 풀렸는지 보여 줘요.'
+  };
+  const tipAttr = key => GLOSS[key] ? ` data-tip="${esc(GLOSS[key])}"` : '';
+  const glossKey = id => GLOSS[id] ? id : (id.startsWith('card_') ? 'fb2' : id.startsWith('cp_') ? 'cp' : id.startsWith('sb_') ? 'savings' : /krw$/.test(id) ? 'usdkrw' : null);
   const TILE_IDS = ['kr_base','ktb3','ust10','corp_aa','card_AA-','sb_avg'];
   const TILE_NAMES = {'kr_base':'한국 기준금리','ktb3':'국고채 3년','ust10':'미국채 10년','corp_aa':'회사채 AA- 3년','card_AA-':'여전채 AA- 3년','sb_avg':'저축은행 상위5 평균'};
 
   async function j(u){ const r = await fetch(u, {cache:'no-cache'}); if(!r.ok) throw new Error(u); return r.json(); }
 
-  Promise.all([j('data/latest.json'), j('data/history.json'), j('data/savings.json').catch(()=>null)]).then(([L0, H, SB]) => {
+  Promise.all([j('data/latest.json'), j('data/history.json'), j('data/savings.json').catch(()=>null), j('data/bonds.json').catch(()=>null), j('data/quarterly.json').catch(()=>null)]).then(([L0, H, SB, B, Q]) => {
     let L = L0;
     // ?w=YYYY-MM-DD 이면 그 주 값으로 다시 구성 (지난 주간 동향)
     const want = new URLSearchParams(location.search).get('w');
@@ -320,16 +387,22 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
       return `<span>${esc(it.name)} <b class="num">${fmt(it.value, it.dp, it.unit)}</b> ${chg(null, it.unit, it.value, it.prev, it.change_pct)} <small>${md(it.date)} 종가 · 지난주 대비</small></span>`; }).join('');
     $('#groups').innerHTML = '';
     L.groups.forEach(g => {
-      if (g.id === 'savings' && SB) { /* 아래 별도 섹션과 함께 보여 줌 */ }
+      if (g.id === 'card' || g.id === 'macro') {
+        const sec = document.createElement('section'); sec.className = 'card'; $('#groups').appendChild(sec);
+        if (g.id === 'card' && B) bondSection(sec, B, L.asof);
+        if (g.id === 'macro' && Q) macroSection(sec, Q);
+        return;
+      }
       const sec = document.createElement('section'); sec.className = 'card';
       const chartable = g.id !== 'macro' && g.id !== 'market';
       const rows = g.items.map((it, i) => {
         const dnote = it.note ? (it.id === 'cofix' ? `${md(it.date)} 공시 · ${esc(it.note)}` : esc(it.note)) : (it.date && it.date !== L.asof ? `${md(it.date)} 기준` : '');
-        return `<tr><td>${chartable ? `<span class="sw" style="background:${COLORS[i%6]}"></span>` : ''}${esc(it.name)}${dnote ? `<span class="d">${dnote}</span>` : ''}</td>
+        const gk = glossKey(it.id);
+        return `<tr><td>${chartable ? `<span class="sw" style="background:${COLORS[i%8]}"></span>` : ''}${flag(it.id)}<span${gk ? tipAttr(gk) : ''}>${esc(it.name)}</span>${dnote ? `<span class="d">${dnote}</span>` : ''}</td>
           <td class="num"><b>${fmt(it.value, it.dp, it.unit)}</b></td>
           <td class="num" style="color:var(--ink-2)">${fmt(it.prev, it.dp, it.unit)}</td>
           <td class="num">${chg(it.change_bp, it.unit, it.value, it.prev, it.change_pct)}</td></tr>`; }).join('');
-      sec.innerHTML = `<h2>${esc(g.title)}</h2><p class="src">${esc(g.source)}</p>
+      sec.innerHTML = `<h2><span${tipAttr(g.id)}>${esc(g.title)}</span></h2><p class="src">${esc(g.source)}</p>
         <div class="${chartable ? 'grid2' : ''}"><div class="tbl-scroll"><table><thead><tr><th>구분</th><th>이번 주</th><th>지난주</th><th>변화</th></tr></thead><tbody>${rows}</tbody></table></div>
         ${chartable ? `<div><div class="range" role="group" aria-label="기간"><button type="button" data-r="all" aria-pressed="true">전체</button><button type="button" data-r="12">1년</button><button type="button" data-r="3">3개월</button></div><div class="legend"></div><div class="chart"><div class="tip"></div></div></div>` : ''}</div>`;
       $('#groups').appendChild(sec);
@@ -353,8 +426,8 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
     const W = 560, Hh = 260, m = {l:44, r:12, t:10, b:26};
     let ws = weeks;
     if (range !== 'all') { const last = new Date(weeks[weeks.length-1].asof); const from = new Date(last); from.setMonth(from.getMonth() - (+range)); ws = weeks.filter(w => new Date(w.asof) >= from); }
-    const ser = items.map((it, i) => ({it, c: COLORS[i%6], pts: ws.map(w => ({d: w.asof, t: +new Date(w.asof), v: w.values[it.id] ? w.values[it.id].v : null})).filter(p => p.v != null)})).filter(s => s.pts.length);
-    legend.innerHTML = ser.length > 1 ? ser.map(s => `<span><i style="background:${s.c}"></i>${esc(s.it.name.split(' · ')[0])}</span>`).join('') : '';
+    const ser = items.map((it, i) => ({it, c: COLORS[i%8], pts: ws.map(w => ({d: w.asof, t: +new Date(w.asof), v: w.values[it.id] ? w.values[it.id].v : null})).filter(p => p.v != null)})).filter(s => s.pts.length);
+    legend.innerHTML = ser.length > 1 ? ser.map(s => `<span><i style="background:${s.c}${s.it.id === 'sb_avg' ? ';height:5px' : ''}"></i>${s.it.id === 'sb_avg' ? '<b>' + esc(s.it.name) + '</b>' : esc(s.it.name.split(' · ')[0])}</span>`).join('') : '';
     const tip = box.querySelector('.tip');
     box.querySelectorAll('svg').forEach(n => n.remove());
     if (!ser.length) return;
@@ -370,7 +443,7 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
     let s = `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="${esc(items.map(i=>i.name).join(', '))} 추이">`;
     s += `<g class="grid">${ticks.map(v => `<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}"/>`).join('')}</g>`;
     s += `<g class="axis">${ticks.map(v => `<text x="${m.l-6}" y="${Y(v)+4}" text-anchor="end">${v.toFixed(step < 0.1 ? 2 : 1)}</text>`).join('')}${xt.map(o => `<text x="${X(o.t)}" y="${Hh-6}" text-anchor="middle">${o.s}</text>`).join('')}</g>`;
-    ser.forEach(se => { s += `<path class="line" stroke="${se.c}" d="${se.pts.map((p,i) => (i?'L':'M') + X(p.t).toFixed(1) + ' ' + Y(p.v).toFixed(1)).join('')}"/>`; });
+    ser.forEach(se => { s += `<path class="line${se.it.id === 'sb_avg' ? ' avg' : ''}"${se.it.id === 'sb_avg' ? ' pathLength="1"' : ''} stroke="${se.c}" d="${se.pts.map((p,i) => (i?'L':'M') + X(p.t).toFixed(1) + ' ' + Y(p.v).toFixed(1)).join('')}"/>`; });
     s += `<line class="cross" y1="${m.t}" y2="${Hh-m.b}" x1="-10" x2="-10"/><g class="dots"></g><rect x="${m.l}" y="0" width="${W-m.l-m.r}" height="${Hh}" fill="transparent"/></svg>`;
     box.insertAdjacentHTML('beforeend', s);
     const svg = box.querySelector('svg'), cross = svg.querySelector('.cross'), dots = svg.querySelector('.dots');
@@ -401,9 +474,126 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
       ${(c.numbers || []).length ? `<div class="is-nums">${c.numbers.map(n => `<span>${esc(n)}</span>`).join('')}</div>` : ''}
       ${(c.sources || []).length ? `<div class="is-src">출처 ${c.sources.map(x => x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener nofollow">${esc(x.title || x.url)}</a>` : esc(x.title)).join(' · ')}</div>` : ''}
     </article>`).join('');
-    if ((I.upcoming || []).length) $('#is-next').innerHTML = `<h3>다음 주 볼 일정</h3><ul>${I.upcoming.map(u => `<li><b>${esc(md2(u.date))}</b><span>${esc(u.title)}${u.note ? ` <small>${esc(u.note)}</small>` : ''}</span></li>`).join('')}</ul>`;
+    if ((I.upcoming || []).length) $('#is-next').innerHTML = `<h3>다음 주 볼 일정</h3><ul>${I.upcoming.map(u => `<li><b>${esc(md2(u.date))}</b><span>${esc(u.title)}${u.note ? ` <small>${esc(u.note)}</small>` : ''}</span></li>`).join('')}</ul>${I.upcoming_source ? `<p class="src" style="margin-top:8px">일정 출처: ${esc(I.upcoming_source)}</p>` : ''}`;
     $('#issues').hidden = false;
   }
+  const RANGE_BTNS = `<div class="range" role="group" aria-label="기간"><button type="button" data-r="all" aria-pressed="true">전체</button><button type="button" data-r="12">1년</button><button type="button" data-r="3">3개월</button></div>`;
+  function wireRange(sec, draw){
+    sec.querySelectorAll('.range button').forEach(b => b.addEventListener('click', () => {
+      sec.querySelectorAll('.range button').forEach(x => x.setAttribute('aria-pressed', x === b));
+      draw(b.dataset.r);
+    }));
+  }
+
+  // 여전채·은행채: 종류(금융채 II/I) × 만기(1~5년) 선택
+  function bondSection(sec, B, asof){
+    const KINDS = {fb2: '금융채 II (여전채 등)', fb1: '금융채 I (은행채)'};
+    let kind = 'fb2', mat = '3', range = 'all';
+    const weeks = B.weeks;
+    let idx = weeks.findIndex(w => w.asof === asof); if (idx < 0) idx = weeks.length - 1;
+    sec.innerHTML = `<h2><span${tipAttr('bonds')}>여전채·은행채 민평금리</span></h2>
+      <p class="src">금융투자협회 채권정보센터 시가평가수익률 · 무보증 · 평가사 5곳 평균</p>
+      <div class="filters">
+        <div class="seg" role="group" aria-label="채권 종류">${Object.entries(KINDS).map(([k, v]) => `<button type="button" data-k="${k}"${tipAttr(k)} aria-pressed="${k === kind}">${v}</button>`).join('')}</div>
+        <div class="seg" role="group" aria-label="만기">${['1','2','3','4','5'].map(m => `<button type="button" data-m="${m}" aria-pressed="${m === mat}">${m}년</button>`).join('')}</div>
+      </div>
+      <div class="grid2"><div class="tbl-scroll"><table class="bt"></table></div>
+      <div>${RANGE_BTNS}<div class="legend"></div><div class="chart"><div class="tip"></div></div></div></div>`;
+    const render = () => {
+      const cur = weeks[idx], prev = weeks[idx - 1];
+      const tbl = (cur.values.table || {})[kind] || {};
+      const grades = Object.keys(tbl);
+      const dnote = cur.values.d && cur.values.d !== asof ? `<span class="d">${md(cur.values.d)} 기준</span>` : '';
+      sec.querySelector('.bt').innerHTML = `<thead><tr><th>등급 (${mat}년)</th><th>이번 주</th><th>지난주</th><th>변화</th></tr></thead><tbody>` +
+        grades.map((g, i) => {
+          const v = tbl[g][mat], p = prev && prev.values.table && prev.values.table[kind] && prev.values.table[kind][g] ? prev.values.table[kind][g][mat] : null;
+          const bp = v != null && p != null ? Math.round((v - p) * 1000) / 10 : null;
+          return `<tr><td><span class="sw" style="background:${COLORS[i % 8]}"></span><span${tipAttr('grade')}>${esc(g)}</span>${i === 0 ? dnote : ''}</td>
+            <td class="num"><b>${v != null ? v.toFixed(3) + '%' : '–'}</b></td><td class="num" style="color:var(--ink-2)">${p != null ? p.toFixed(3) + '%' : '–'}</td><td class="num">${chg(bp, '%')}</td></tr>`;
+        }).join('') + '</tbody>';
+      const pw = weeks.map(w => {
+        const t = ((w.values.table || {})[kind]) || {};
+        const values = {}; grades.forEach(g => { if (t[g] && t[g][mat] != null) values[g] = {v: t[g][mat]}; });
+        return {asof: w.asof, values};
+      });
+      lineChart(sec.querySelector('.chart'), sec.querySelector('.legend'), pw, grades.map(g => ({id: g, name: g, dp: 3})), range);
+    };
+    sec.querySelectorAll('[data-k]').forEach(b => b.addEventListener('click', () => { kind = b.dataset.k; sec.querySelectorAll('[data-k]').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); }));
+    sec.querySelectorAll('[data-m]').forEach(b => b.addEventListener('click', () => { mat = b.dataset.m; sec.querySelectorAll('[data-m]').forEach(x => x.setAttribute('aria-pressed', x === b)); render(); }));
+    wireRange(sec, r => { range = r; render(); });
+    render();
+  }
+
+  // 가계부채·통화량: 분기 발표라 전기(직전 분기)와 비교 + 분기별 증가액 막대
+  function macroSection(sec, Q){
+    const SER = {household: '가계신용', m2: 'M2 (평잔, 원계열)'};
+    const qn = q => q.replace('Q', ' ') + '분기';
+    const jo = v => (v / 1000).toLocaleString('ko-KR', {minimumFractionDigits: 1, maximumFractionDigits: 1});
+    const diff = (a, b) => { const d = (a - b) / 1000, pc = (a / b - 1) * 100;
+      return `<span class="chg ${d > 0 ? 'up' : d < 0 ? 'down' : 'flat'}">${d > 0 ? '▲' : d < 0 ? '▼' : ''} ${Math.abs(d).toFixed(1)}조</span> <small style="color:var(--ink-3)">(${pc >= 0 ? '+' : ''}${pc.toFixed(2)}%)</small>`; };
+    const rows = Object.entries(SER).filter(([k]) => (Q[k] || []).length > 4).map(([k, name]) => {
+      const a = Q[k], n = a.length, cur = a[n - 1], prev = a[n - 2], yago = a[n - 5];
+      return `<tr><td><span${tipAttr(k)}>${esc(name)}</span><span class="d">${qn(cur[0])} 기준</span></td>
+        <td class="num"><b>${jo(cur[1])}조원</b></td><td class="num" style="color:var(--ink-2)">${jo(prev[1])}조원</td>
+        <td class="num">${diff(cur[1], prev[1])}</td><td class="num">${diff(cur[1], yago[1])}</td></tr>`; }).join('');
+    let pick = 'household';
+    sec.innerHTML = `<h2><span${tipAttr('macro')}>가계부채 · 통화량</span></h2><p class="src">한국은행 ECOS · 분기마다 발표돼서 직전 분기(전기)와 비교해요</p>
+      <div class="tbl-scroll"><table><thead><tr><th>구분</th><th>최근 분기</th><th>전기</th><th>전기 대비</th><th>전년 동기 대비</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="filters" style="margin-top:18px"><div class="seg" role="group" aria-label="그래프">${Object.entries(SER).map(([k, v]) => `<button type="button" data-q="${k}" aria-pressed="${k === pick}">${v.split(' ')[0]} 분기별 증가액</button>`).join('')}</div></div>
+      <div class="chart"><div class="tip"></div></div>`;
+    const draw = () => {
+      const a = Q[pick] || [];
+      const data = a.slice(1).map((x, i) => ({label: x[0], v: (x[1] - a[i][1]) / 1000}));
+      barChart(sec.querySelector('.chart'), data, v => (v >= 0 ? '+' : '') + v.toFixed(1) + '조원', SER[pick] + ' 분기별 증가액');
+    };
+    sec.querySelectorAll('[data-q]').forEach(b => b.addEventListener('click', () => { pick = b.dataset.q; sec.querySelectorAll('[data-q]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); }));
+    draw();
+  }
+
+  function barChart(box, data, fv, label){
+    const W = Math.max(320, Math.round(box.clientWidth || 560)), Hh = 240, m = {l: 48, r: 8, t: 12, b: 28};  // 화면 폭 그대로(글자 확대 방지)
+    box.querySelectorAll('svg').forEach(n => n.remove());
+    const tip = box.querySelector('.tip');
+    if (!data.length) return;
+    const vs = data.map(d => d.v);
+    let y0 = Math.min(0, ...vs), y1 = Math.max(0, ...vs); const pad = (y1 - y0) * 0.1 || 1; y1 += pad; if (y0 < 0) y0 -= pad;
+    const n = data.length, bw = (W - m.l - m.r) / n;
+    const X = i => m.l + i * bw, Y = v => m.t + (1 - (v - y0) / (y1 - y0)) * (Hh - m.t - m.b);
+    const step = niceStep((y1 - y0) / 4); const ticks = []; for (let v = Math.ceil(y0 / step) * step; v <= y1; v += step) ticks.push(+v.toFixed(4));
+    let s = `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="${esc(label)}">`;
+    s += `<g class="grid">${ticks.map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}"/>`).join('')}</g>`;
+    s += `<g class="axis">${ticks.map(v => `<text x="${m.l - 6}" y="${Y(v) + 4}" text-anchor="end">${Math.round(v)}</text>`).join('')}` +
+      data.map((d, i) => d.label.endsWith('Q1') ? `<text x="${X(i) + bw / 2}" y="${Hh - 8}" text-anchor="middle">${d.label.slice(2, 4)}년</text>` : '').join('') + `</g>`;
+    s += `<line class="zero" x1="${m.l}" x2="${W - m.r}" y1="${Y(0)}" y2="${Y(0)}"/>`;
+    s += data.map((d, i) => { const y = Math.min(Y(d.v), Y(0)), h = Math.max(1, Math.abs(Y(d.v) - Y(0)));
+      return `<rect class="bar" data-i="${i}" x="${(X(i) + bw * 0.18).toFixed(1)}" y="${y.toFixed(1)}" width="${(bw * 0.64).toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${d.v >= 0 ? 'var(--s1)' : 'var(--s8)'}"/>`; }).join('');
+    s += data.map((d, i) => `<rect class="hit" data-i="${i}" x="${X(i)}" y="0" width="${bw}" height="${Hh}" fill="transparent"/>`).join('') + '</svg>';
+    box.insertAdjacentHTML('beforeend', s);
+    const svg = box.querySelector('svg');
+    svg.querySelectorAll('.hit').forEach(h => {
+      h.addEventListener('pointerenter', () => { const i = +h.dataset.i, d = data[i];
+        svg.querySelectorAll('.bar').forEach(b => b.style.opacity = +b.dataset.i === i ? 1 : .45);
+        tip.innerHTML = `<div class="t">${esc(d.label.replace('Q', '년 ') + '분기')}</div><div class="r"><span>전기 대비</span><b class="num">${fv(d.v)}</b></div>`; tip.style.display = 'block';
+        const r = svg.getBoundingClientRect(), bx = box.getBoundingClientRect(); const left = ((X(i) + bw) / W) * r.width + (r.left - bx.left);
+        tip.style.left = Math.min(Math.max(0, left + 6), bx.width - tip.offsetWidth) + 'px'; tip.style.top = '8px'; });
+      h.addEventListener('pointerleave', () => { tip.style.display = 'none'; svg.querySelectorAll('.bar').forEach(b => b.style.opacity = 1); });
+    });
+  }
+
+  // 마우스를 올리면(휴대폰은 누르면) 용어 설명
+  (function(){
+    const gt = document.createElement('div'); gt.className = 'gtip'; gt.setAttribute('role', 'tooltip'); document.body.appendChild(gt);
+    let cur = null;
+    const show = el => { gt.textContent = el.dataset.tip; gt.classList.add('on'); cur = el;
+      const r = el.getBoundingClientRect(), w = gt.offsetWidth, h = gt.offsetHeight;
+      let x = Math.min(Math.max(8, r.left), innerWidth - w - 8), y = r.bottom + 8; if (y + h > innerHeight - 8) y = r.top - h - 8;
+      gt.style.left = x + 'px'; gt.style.top = y + 'px'; };
+    const hide = () => { gt.classList.remove('on'); cur = null; };
+    const touch = matchMedia('(hover: none)');
+    document.addEventListener('mouseover', e => { if (touch.matches) return; const el = e.target.closest('[data-tip]'); if (el) { if (el !== cur) show(el); } else if (cur) hide(); });
+    document.addEventListener('click', e => { if (!touch.matches) return; const el = e.target.closest('[data-tip]'); if (el && el !== cur) show(el); else hide(); });
+    addEventListener('scroll', hide, {passive: true});
+  })();
   function niceStep(x){ const p = Math.pow(10, Math.floor(Math.log10(x))); const f = x / p; return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p; }
 
   function savings(SB){
@@ -419,13 +609,14 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding:24px 16px 4
     sel.addEventListener('change', () => prod(+sel.value)); prod(0);
     let showAll = false;
     const rank = () => {
-      const list = showAll ? banks : banks.slice(0, 15);
+      const list = showAll ? banks : banks.slice(0, 5);
       $('#sb-rank').innerHTML = `<thead><tr><th>은행</th><th>총자산</th><th>기본 정기예금</th><th>기본금리</th><th>최고금리</th></tr></thead><tbody>` +
         list.map((b, i) => `<tr class="pick${b.rank && b.rank <= 5 ? ' top5' : ''}" data-i="${banks.indexOf(b)}"><td><span class="rank num">${b.rank || '–'}</span>${esc(b.bank)}</td>
           <td class="num">${b.assets ? (b.assets / 1e6).toFixed(1) + '조' : '–'}</td><td style="text-align:left;white-space:normal;font-size:13px;color:var(--ink-2)">${esc(b.basic_product || '–')}</td>
           <td class="num"><b>${b.base != null ? b.base.toFixed(2) + '%' : '–'}</b></td><td class="num">${b.best != null ? b.best.toFixed(2) + '%' : '–'}</td></tr>`).join('') + '</tbody>';
       $('#sb-rank').querySelectorAll('tr.pick').forEach(tr => tr.addEventListener('click', () => { sel.value = tr.dataset.i; prod(+tr.dataset.i); $('#savings').scrollIntoView({behavior:'smooth'}); }));
-      $('#sb-more').textContent = showAll ? '상위 15곳만 보기' : `전체 ${banks.length}곳 보기`;
+      $('#sb-more').innerHTML = showAll ? '− 상위 5곳만 보기' : `+ 더 보기 <span style="color:var(--ink-3)">(전체 ${banks.length}곳)</span>`;
+      $('#sb-more').setAttribute('aria-expanded', showAll);
     };
     $('#sb-more').addEventListener('click', () => { showAll = !showAll; rank(); }); rank();
   }

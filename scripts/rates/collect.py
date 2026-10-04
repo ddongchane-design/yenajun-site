@@ -192,10 +192,11 @@ class Collector:
         if cf:
             out['cofix'] = {'v': cf[-1][2], 'd': cf[-1][0], 'note': f'{cf[-1][1]} 대상월'}
 
-        card, cd = self._once(('card', asof), lambda: S.kofia_latest(S.kofia_card_bonds, asof)) or ({}, None)
+        bt, cd = self.bonds(asof)
         for g in ('A0', 'A+', 'AA-', 'AA+'):
-            if g in card:
-                out[f'card_{g}'] = {'v': card[g], 'd': cd}
+            v = bt.get('fb2', {}).get(g, {}).get('3')
+            if v is not None:
+                out[f'card_{g}'] = {'v': v, 'd': cd}
         cp, cpd = self._once(('cp', asof), lambda: S.kofia_latest(S.kofia_cp, asof)) or ({}, None)
         for g in ('A3', 'A2+', 'A1'):
             if g in cp:
@@ -218,6 +219,10 @@ class Collector:
                     out[f'sb_{i}'] = {'v': b['base'], 'd': detail['asof'], 'name': b['bank'], 'product': b['basic_product']}
                 out['sb_avg'] = {'v': round(sum(b['base'] for b in detail['top5']) / len(detail['top5']), 4), 'd': detail['asof']}
         return out, detail
+
+    def bonds(self, asof):
+        """금융채 I·II 등급×만기 표와 실제 날짜(휴일이면 앞당김)."""
+        return self._once(('bonds', asof), lambda: S.kofia_latest(S.kofia_bond_table, asof)) or ({}, None)
 
     def assets(self):
         return self._once('fss', S.fss_assets) or ('', {})
@@ -283,6 +288,11 @@ def load_history():
     return {'weeks': []}
 
 
+def load_json(name):
+    p = DATA / name
+    return json.loads(p.read_text(encoding='utf-8')) if p.exists() else {'weeks': []}
+
+
 def save_week(hist, asof, snap):
     weeks = [w for w in hist['weeks'] if w['asof'] != asof]
     weeks.append({'asof': asof, 'values': snap})
@@ -337,6 +347,9 @@ def main(argv):
                 w['values'].update(c.policy(w['asof']))
         hist = save_week(hist, asof, snap)
         write_json(DATA / 'history.json', hist)
+        bt, bd = c.bonds(asof)
+        if bt:
+            write_json(DATA / 'bonds.json', save_week(load_json('bonds.json'), asof, {'d': bd, 'table': bt}))
         write_json(DATA / 'latest.json', build_latest(hist, detail, c.errors))
         if detail:
             write_json(DATA / 'savings.json', detail)
@@ -354,6 +367,12 @@ def main(argv):
         hist = save_week(hist, d, snap)
         print(d, len(snap), '개')
     write_json(DATA / 'history.json', hist)
+    bonds = {'weeks': []}
+    for d in dates:
+        bt, bd = c.bonds(d)
+        if bt:
+            bonds = save_week(bonds, d, {'d': bd, 'table': bt})
+    write_json(DATA / 'bonds.json', bonds)
     for e in c.errors:
         print('  오류:', e)
     return 0

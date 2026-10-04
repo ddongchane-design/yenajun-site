@@ -145,19 +145,38 @@ def _kofia(svc, fn, dto, fields):
     return rows
 
 
-def kofia_card_bonds(day):
-    """여전채(금융채 II 무보증) 3년물, 평가사 5곳 평균. day=YYYY-MM-DD. 결과 없으면 {}."""
+BOND_MATS = {'1': 'val4', '2': 'val6', '3': 'val8', '4': 'val9', '5': 'val10'}  # 만기(년) → 열 (getHeadList 로 확인)
+BOND_KINDS = {'fb2': '금융채 II', 'fb1': '금융채 I'}
+
+
+def kofia_bond_table(day):
+    """금융채 I(은행채)·II(여전채 등) 무보증, 등급별 1~5년물, 평가사 5곳 평균.
+    {'fb2': {'AA+': {'1': 4.213, ...}}, 'fb1': {...}} — 결과 없으면 {}."""
     ymd = day.replace('-', '')
     ck = ''.join(f'<val{i + 1}>{c}</val{i + 1}>' for i, c in enumerate(EVALUATORS))
     rows = _kofia('BISBndSrtPrcSrchSO', 'selectDay', 'BISBndSrtPrcDayDTO',
                   f'<standardDt>{ymd}</standardDt><reportCompCd>A20000</reportCompCd><applyGbCd>C00</applyGbCd>{ck}')
     out = {}
     for r in rows:
-        if '금융채 II' in r.get('largeCategoryMrk', '') and r.get('typeNmMrk') == '무보증':
-            v = r.get('val8', '')  # 8번째 열 = 3년
+        cat = r.get('largeCategoryMrk', '')
+        kind = next((k for k, name in BOND_KINDS.items() if name + '(' in cat), None)
+        if not kind or r.get('typeNmMrk') != '무보증':
+            continue
+        grade = r.get('creditRnkMrk')
+        mats = {}
+        for m, col in BOND_MATS.items():
+            v = r.get(col, '')
             if v and v != '-':
-                out[r.get('creditRnkMrk')] = float(v)
+                mats[m] = float(v)
+        if mats:
+            out.setdefault(kind, {})[grade] = mats
     return out
+
+
+def kofia_card_bonds(day):
+    """(호환용) 여전채 3년물 등급별 — kofia_bond_table 의 금융채 II 3년."""
+    t = kofia_bond_table(day)
+    return {g: m['3'] for g, m in t.get('fb2', {}).items() if '3' in m}
 
 
 def kofia_cp(day, evaluator='A10004'):
