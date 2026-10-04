@@ -45,12 +45,13 @@ jobs:
           fi
           python export_excel.py
           python issuance.py weekly || echo "금융채 발행 수집 실패 (다른 지표는 정상 반영)"
+          python prerender.py   # 숫자를 HTML에 직접 써 넣기 (검색 로봇용)
 
       - name: 변경분 커밋
         run: |
           git config user.name "ddongchane-design"
           git config user.email "ddongchane-design@users.noreply.github.com"
-          git add rates/data
+          git add rates/data rates/index.html rates/issuance/index.html index.html sitemap.xml
           if git diff --cached --quiet; then
             echo "바뀐 값 없음"
           else
