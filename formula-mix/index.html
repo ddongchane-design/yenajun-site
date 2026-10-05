@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="분유 브랜드와 만들 양을 고르면 스푼 수와 물 양을 알려드려요. 물 80mL에 4스푼처럼 잘못 타고 있었는지도 바로 확인할 수 있어요.">
+<link rel="canonical" href="https://yenajun.com/formula-mix/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="예나준">
+<meta property="og:title" content="분유 타는 법 계산기 — 스푼 수와 물 양, 농도 확인">
+<meta property="og:description" content="국산은 완성량, 수입은 물 양 기준. 헷갈리는 분유 정량을 계산해 드려요.">
+<meta property="og:url" content="https://yenajun.com/formula-mix/">
+<meta property="og:image" content="https://yenajun.com/assets/og-image.jpg">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>분유 타는 법 계산기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap">
+<style>
+:root {
+  --bg: #F8F5F0;
+  --surface: #FFFFFF;
+  --surface-alt: #FFF7ED;
+  --accent: #5B8A72;
+  --accent-light: #e8f0ec;
+  --coral: #E8977A;
+  --coral-light: #fdf0ec;
+  --warn: #C2553B;
+  --warn-light: #FBEDE8;
+  --text: #2E2E2E;
+  --text-muted: #7A7A7A;
+  --border: #E5E0DA;
+  --input-bg: #FFFFFF;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1A1D1B;
+    --surface: #242824;
+    --surface-alt: #2A2520;
+    --accent: #7BAF96;
+    --accent-light: #2a3a30;
+    --coral: #E8977A;
+    --coral-light: #332a24;
+    --warn: #E8977A;
+    --warn-light: #3a2924;
+    --text: #E8E4DF;
+    --text-muted: #9A9590;
+    --border: #3A3D38;
+    --input-bg: #2C302C;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1A1D1B;
+  --surface: #242824;
+  --surface-alt: #2A2520;
+  --accent: #7BAF96;
+  --accent-light: #2a3a30;
+  --coral: #E8977A;
+  --coral-light: #332a24;
+  --warn: #E8977A;
+  --warn-light: #3a2924;
+  --text: #E8E4DF;
+  --text-muted: #9A9590;
+  --border: #3A3D38;
+  --input-bg: #2C302C;
+}
+
+* { box-sizing: border-box; margin: 0; }
+body {
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding-inline: 16px;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.header { text-align: center; padding: 32px 0 20px; }
+.header-icon { font-size: 48px; margin-bottom: 8px; display: block; }
+.header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+.header p { font-size: 13px; color: var(--text-muted); font-weight: 300; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
+.card + .card, .gap { margin-top: 14px; }
+.step-h { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+.step-h .n { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; flex: none; }
+.field + .field { margin-top: 16px; }
+.lbl { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 8px; }
+select, .input-row input {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px;
+  font-size: 16px; font-family: inherit; background: var(--input-bg); color: var(--text);
+}
+select:focus, .input-row input:focus { outline: none; border-color: var(--accent); }
+.input-row { display: flex; align-items: center; gap: 8px; }
+.input-row input { flex: 1; min-width: 0; width: 0; font-variant-numeric: tabular-nums; }
+.input-row .unit { font-size: 14px; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
+
+.label-box { margin-top: 14px; background: var(--surface-alt); border: 1px dashed var(--border); border-radius: 12px; padding: 14px; }
+.label-box .t { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+.label-box .t small { font-weight: 400; color: var(--text-muted); }
+.lb-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.lb-grid .lbl { font-size: 12px; margin-bottom: 4px; }
+.lb-grid input { padding: 9px 10px; font-size: 15px; }
+.badge { display: inline-block; font-size: 11.5px; font-weight: 700; border-radius: 999px; padding: 1px 8px; margin-left: 4px; vertical-align: 1px; }
+.badge.ok { background: var(--accent-light); color: var(--accent); }
+.badge.ref { background: var(--coral-light); color: var(--warn); }
+
+.seg { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.seg button {
+  padding: 10px 8px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--input-bg);
+  color: var(--text-muted); font-size: 13.5px; font-family: inherit; cursor: pointer; line-height: 1.35;
+}
+.seg button small { display: block; font-size: 11.5px; opacity: .85; margin-top: 2px; }
+.seg button.active { background: var(--accent-light); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+.quick { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.quick button {
+  border: 1px solid var(--border); background: transparent; color: var(--text-muted);
+  border-radius: 8px; padding: 4px 10px; font-size: 12.5px; font-family: inherit; cursor: pointer;
+}
+.quick button:hover { border-color: var(--accent); color: var(--accent); }
+
+.result { margin-top: 16px; }
+.empty { text-align: center; color: var(--text-muted); font-size: 14px; padding: 14px 0 4px; }
+.big { display: flex; gap: 10px; }
+.big > div { flex: 1; min-width: 0; background: var(--accent-light); border-radius: 12px; padding: 12px; text-align: center; }
+.big b { display: block; font-size: 26px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.2; }
+.big span { font-size: 12.5px; color: var(--text-muted); }
+.steps { margin-top: 14px; padding-left: 20px; font-size: 14.5px; line-height: 1.8; }
+.steps li + li { margin-top: 4px; }
+.steps b { color: var(--text); }
+.tip { margin-top: 12px; font-size: 13px; color: var(--text-muted); background: var(--surface-alt); border-radius: 10px; padding: 10px 12px; line-height: 1.7; }
+.warnbox { margin-top: 12px; font-size: 13.5px; background: var(--warn-light); border-radius: 10px; padding: 10px 12px; line-height: 1.7; }
+
+.verdict { border-radius: 12px; padding: 14px 16px; }
+.verdict.good { background: var(--accent-light); }
+.verdict.mid { background: var(--surface-alt); border: 1px solid var(--border); }
+.verdict.bad { background: var(--warn-light); }
+.verdict h3 { font-size: 17px; margin-bottom: 4px; }
+.verdict p { font-size: 14px; line-height: 1.7; }
+.compare { margin-top: 14px; font-size: 13.5px; }
+.compare .row { display: flex; justify-content: space-between; padding: 7px 0; border-top: 1px dashed var(--border); }
+.compare .row:first-child { border-top: 0; }
+.compare .row span:first-child { color: var(--text-muted); }
+.compare .row b { font-variant-numeric: tabular-nums; }
+.meter { position: relative; height: 10px; border-radius: 999px; margin: 16px 0 6px;
+  background: linear-gradient(90deg, var(--coral) 0%, var(--accent-light) 35%, var(--accent) 50%, var(--accent-light) 65%, var(--coral) 100%); }
+.meter i { position: absolute; top: -5px; width: 4px; height: 20px; background: var(--text); border-radius: 2px; transform: translateX(-50%); }
+.meter-l { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-muted); }
+
+/* 브랜드 정리 */
+.groups h2 { font-size: 18px; margin-bottom: 6px; }
+.groups > p { font-size: 14px; color: var(--text-muted); line-height: 1.75; }
+.grp { margin-top: 14px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.grp-h { padding: 12px 14px; background: var(--accent-light); }
+.grp-h b { font-size: 15px; }
+.grp-h p { font-size: 13px; color: var(--text-muted); margin-top: 2px; line-height: 1.6; }
+.grp.water .grp-h { background: var(--coral-light); }
+.grp ul { list-style: none; padding: 4px 14px 10px; }
+.grp li { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; padding: 7px 0; border-top: 1px dashed var(--border); }
+.grp li:first-child { border-top: 0; }
+.grp li span:last-child { color: var(--text-muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.grp .how { padding: 10px 14px 12px; font-size: 13px; background: var(--surface-alt); line-height: 1.7; }
+
+.checks { padding-left: 20px; font-size: 14px; line-height: 1.85; }
+.checks b { color: var(--text); }
+.card h2.sm { font-size: 17px; margin-bottom: 10px; }
+.report { display: block; margin-top: 10px; font-size: 12.5px; color: var(--text-muted); }
+.report a { color: var(--accent); font-weight: 500; }
+details.tbl-wrap { margin-top: 14px; border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; }
+details.tbl-wrap summary { font-size: 14px; font-weight: 600; cursor: pointer; }
+.mtable { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.mtable th { font-size: 12px; color: var(--text-muted); font-weight: 500; text-align: right; padding: 6px 4px; border-bottom: 1px solid var(--border); }
+.mtable th:first-child, .mtable td:first-child { text-align: left; }
+.mtable td { text-align: right; padding: 7px 4px; border-bottom: 1px dashed var(--border); }
+.mtable tr.on td { background: var(--accent-light); font-weight: 700; }
+.mtable-note { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+.note { font-size: 12.5px; color: var(--text-muted); background: var(--coral-light); border-radius: 12px; padding: 12px 14px; line-height: 1.7; margin-top: 14px; }
+.hidden { display: none !important; }
+</style>
+<link rel="stylesheet" href="/assets/related.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-icon">🥄</span>
+  <h1>분유 타는 법 계산기</h1>
+  <p>스푼 수와 물 양, 지금 타는 방법이 맞는지 확인해 드려요</p>
+</div>
+
+<a class="yn-guide-top" href="/formula-mix/guide/" style="--yn-top-accent:#5B8A72">
+  <span class="yn-e">📖</span>
+  <span class="yn-t"><span class="yn-tag">계산기 쓰기 전에 먼저 읽어 보세요</span><b>"물 80mL에 4스푼"이 틀린 이유</b><small>완성량 기준과 물 기준, 분유 가루가 차지하는 부피</small></span>
+</a>
+
+<!-- 1. 분유 고르기 -->
+<div class="card gap">
+  <div class="step-h"><span class="n">1</span>어떤 분유를 쓰세요?</div>
+  <div class="field">
+    <select id="brand" aria-label="분유 브랜드">
+      <option value="">분유를 골라 주세요</option>
+    </select>
+  </div>
+
+  <div class="label-box" id="labelBox">
+    <p class="t">캔 라벨과 같은지 확인해 주세요 <span id="srcBadge"></span><br><small>다르면 라벨 숫자로 고쳐 쓰면 돼요</small></p>
+    <div class="field">
+      <span class="lbl">라벨에 적힌 기준</span>
+      <div class="seg" id="basis">
+        <button data-v="total">완성량 기준<small>"1스푼 + 물 = 20mL"<br>"수유량까지 물을 채우고"</small></button>
+        <button data-v="water">물 양 기준<small>"물 30mL에 1스푼"<br>"물을 먼저 넣고"</small></button>
+      </div>
+    </div>
+    <div class="lb-grid gap">
+      <div>
+        <span class="lbl">1스푼 무게</span>
+        <div class="input-row"><input type="number" id="scoopG" step="0.1" min="1" max="15" inputmode="decimal" placeholder="2.8"><span class="unit">g</span></div>
+      </div>
+      <div>
+        <span class="lbl" id="perLbl">1스푼당 완성량</span>
+        <div class="input-row"><input type="number" id="perMl" step="1" min="5" max="100" inputmode="numeric" placeholder="20"><span class="unit">mL</span></div>
+      </div>
+    </div>
+    <span class="report">라벨 숫자가 다르거나 목록에 없는 분유라면 <a id="reportLink" href="mailto:ddongchane@gmail.com?subject=%EB%B6%84%EC%9C%A0%20%EC%A0%95%EB%9F%89%20%EC%A0%9C%EB%B3%B4">알려 주세요</a>. 캔 뒷면 사진이 있으면 더 좋아요.</span>
+  </div>
+</div>
+
+<!-- 2. 정확히 타기 -->
+<div class="card">
+  <div class="step-h"><span class="n">2</span>얼마나 탈까요?</div>
+  <div class="field">
+    <label class="lbl" for="target" id="targetLbl">만들 양 (완성량)</label>
+    <div class="input-row"><input type="number" id="target" min="10" max="400" step="10" inputmode="numeric" placeholder="예: 80"><span class="unit">mL</span></div>
+    <div class="quick" id="quickTarget"></div>
+  </div>
+  <div class="result" id="makeOut"><p class="empty">분유와 양을 고르면 스푼 수와 물 양이 나와요</p></div>
+  <details class="tbl-wrap hidden" id="tblWrap"><summary>📋 스푼별 한눈에 보기</summary><div id="tblOut"></div></details>
+</div>
+
+<!-- 3. 내가 탄 방법 확인 -->
+<div class="card">
+  <div class="step-h"><span class="n">3</span>지금까지 이렇게 탔어요</div>
+  <div class="field">
+    <span class="lbl">물은 어떻게 넣었어요?</span>
+    <div class="seg" id="howPut">
+      <button data-v="water" class="active">물을 재서 넣었어요<small>예: 물 80mL + 가루</small></button>
+      <button data-v="line">눈금까지 채웠어요<small>가루 녹인 뒤 80 눈금까지</small></button>
+    </div>
+  </div>
+  <div class="lb-grid gap">
+    <div>
+      <label class="lbl" for="usedMl" id="usedLbl">넣은 물</label>
+      <div class="input-row"><input type="number" id="usedMl" min="10" max="400" inputmode="numeric" placeholder="80"><span class="unit">mL</span></div>
+    </div>
+    <div>
+      <label class="lbl" for="usedScoop">넣은 스푼</label>
+      <div class="input-row"><input type="number" id="usedScoop" min="0.5" max="20" step="0.5" inputmode="decimal" placeholder="4"><span class="unit">스푼</span></div>
+    </div>
+  </div>
+  <div class="result" id="checkOut"><p class="empty">물 양과 스푼 수를 넣으면 농도를 비교해 드려요</p></div>
+</div>
+
+<!-- 브랜드 정리 -->
+<div class="card groups gap">
+  <h2>우리 분유는 어느 쪽일까?</h2>
+  <p>분유 타는 법은 크게 두 가지예요. <strong>국산은 대부분 완성량 기준, 유럽에서 들여온 분유는 대부분 물 양 기준</strong>이에요. 같은 쪽 분유끼리는 타는 순서가 같아요.</p>
+  <div class="grp">
+    <div class="grp-h"><b>🇰🇷 완성량 기준</b><p>라벨의 mL = 다 탄 뒤의 양이에요.</p></div>
+    <ul id="listTotal"></ul>
+    <div class="how"><b>타는 순서</b> 물을 2/3쯤 넣고 → 분유를 넣어 녹이고 → <b>젖병 눈금까지 물을 채워요.</b><br>❌ 물을 라벨 양만큼 다 넣고 가루를 넣으면 연해져요.</div>
+  </div>
+  <div class="grp water">
+    <div class="grp-h"><b>🇪🇺 물 양 기준</b><p>라벨의 mL = 넣는 물의 양이에요.</p></div>
+    <ul id="listWater"></ul>
+    <div class="how"><b>타는 순서</b> <b>물을 라벨 양만큼 정확히</b> 넣고 → 분유를 넣어 녹여요. 눈금이 라벨보다 올라가는 게 정상이에요.<br>❌ 가루를 넣고 눈금까지 물을 채우면 진해져요.</div>
+  </div>
+  <p class="note">브랜드 숫자는 1단계 기준 참고값이에요. 같은 브랜드도 단계나 리뉴얼, 20mL 전용 스푼 제품에 따라 다를 수 있으니 <strong>꼭 캔 라벨과 비교</strong>해 주세요. "라벨 확인" 표시는 예나준이 실제 캔 라벨로 확인한 제품이에요.</p>
+</div>
+
+<div class="card gap">
+  <h2 class="sm">스푼으로 잴 때 실수 줄이기</h2>
+  <ol class="checks">
+    <li><b>통에 들어 있는 전용 스푼</b>만 써요. 다른 분유 스푼은 크기가 달라요.</li>
+    <li>가루를 <b>꾹 누르지 말고</b> 수북하게 뜬 뒤 통의 깎는 판으로 <b>평평하게 깎아요.</b></li>
+    <li>스푼 수는 <b>정수로</b> 맞추는 게 정확해요. 반 스푼은 매번 달라져요.</li>
+    <li>물은 <b>70℃ 이상으로 끓였다 식힌 물</b>을 써요(WHO 권고).</li>
+    <li>젖병 눈금은 <b>평평한 곳에 놓고 눈높이에서</b> 읽어요.</li>
+  </ol>
+</div>
+
+<p class="note">이 계산기는 분유 1g이 물에 녹으면 약 0.75mL를 차지한다는 일반적인 값(제품마다 0.7~0.77mL)으로 물 양을 어림해요. 정확한 양은 언제나 캔 라벨이 기준이에요. 의료 조언이 아니며, 미숙아나 특수 분유를 먹는 아기는 의료진 안내를 따라 주세요.</p>
+
+<!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
+<section class="yn-rel yn-dark" aria-label="예나준의 다른 도구">
+  <a class="yn-guide" href="/formula-mix/guide/"><span class="e">📖</span><span><b>분유 타는 법 가이드 읽기</b><small>완성량과 물 기준, 가루 부피, 묽게·진하게 탔을 때</small></span><span class="go">→</span></a>
+  <h2>이런 도구도 있어요</h2>
+  <div class="yn-grid">
+    <a class="yn-card" href="/mixed-feeding/"><span class="e">🍼</span><b>혼합수유 보충량 계산기</b><span>체중과 월령으로 분유 보충량을 알려드려요.</span></a>
+    <a class="yn-card" href="/rsv-antibody/"><span class="e">💉</span><b>RSV 항체주사 도우미</b><span>우리 아기에게 맞는 항체주사를 정리해요.</span></a>
+    <a class="yn-card" href="/baby-name/"><span class="e">👶</span><b>아기 이름짓기</b><span>한자의 뜻과 소리를 살펴보며 이름 후보를 골라요.</span></a>
+  </div>
+  <a class="yn-home" href="/">← 예나준의 모든 도구 보기</a>
+</section>
+<!-- yn-related:end -->
+
+<div style="height:40px"></div>
+
+<script>
+(function () {
+  // 분유 가루 1g이 물에 녹아 차지하는 부피(mL). 제품별 0.70~0.77, 가운데 값 사용
+  var DISP = 0.75;
+
+  // 1단계 참고값. basis: total = 1스푼이 완성 perMl, water = 물 perMl에 1스푼. verified = 예나준이 라벨로 확인
+  var BRANDS = [
+    { id: 'imm100', name: '남양 아이엠마더 첫100일', g: 2.8, per: 20, basis: 'total', verified: true },
+    { id: 'imm', name: '남양 아이엠마더', g: 5.6, per: 40, basis: 'total' },
+    { id: 'xo', name: '남양 임페리얼드림XO', g: 5.6, per: 40, basis: 'total' },
+    { id: 'mj', name: '매일 앱솔루트 명작', g: 5.6, per: 40, basis: 'total' },
+    { id: 'gung', name: '매일 앱솔루트 유기농 궁', g: 5.6, per: 40, basis: 'total' },
+    { id: 'msy', name: '매일 앱솔루트 산양', g: 5.3, per: 40, basis: 'total' },
+    { id: 'hsy', name: '일동후디스 산양분유', g: 5.1, per: 40, basis: 'total' },
+    { id: 'tm', name: '일동후디스 트루맘', g: 5.4, per: 40, basis: 'total' },
+    { id: 'wm', name: '파스퇴르 위드맘', g: 5.4, per: 40, basis: 'total' },
+    { id: 'wmj', name: '파스퇴르 위드맘 제왕', g: 5.4, per: 40, basis: 'total' },
+    { id: 'apt', name: '압타밀', g: 4.6, per: 30, basis: 'water' },
+    { id: 'apte', name: '압타밀 에센시스', g: 4.5, per: 30, basis: 'water' },
+    { id: 'hipp', name: '힙(HiPP)', g: 4.4, per: 30, basis: 'water' },
+    { id: 'nov', name: '노발락', g: 4.3, per: 30, basis: 'water' },
+    { id: 'ill', name: '일루마', g: 4.4, per: 30, basis: 'water' },
+    { id: 'holle', name: '홀레', g: 4.4, per: 30, basis: 'water' },
+    { id: 'kab', name: '카브리타', g: 4.3, per: 30, basis: 'water' },
+    { id: 'loe', name: '뢰벤짠', g: 4.5, per: 30, basis: 'water' }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var st = { basis: null, how: 'water' };
+
+  // ── 브랜드 목록 채우기 ──
+  var sel = $('brand');
+  [['total', '완성량 기준 (국산 대부분)'], ['water', '물 양 기준 (수입 대부분)']].forEach(function (g) {
+    var og = document.createElement('optgroup'); og.label = g[1];
+    BRANDS.filter(function (b) { return b.basis === g[0]; }).forEach(function (b) {
+      var o = document.createElement('option'); o.value = b.id;
+      o.textContent = b.name + (b.verified ? ' ✓' : ''); og.appendChild(o);
+    });
+    sel.appendChild(og);
+  });
+  var custom = document.createElement('option'); custom.value = 'custom'; custom.textContent = '목록에 없어요 (라벨 보고 직접 입력)';
+  sel.appendChild(custom);
+
+  function liHTML(b) {
+    var rule = b.basis === 'total' ? '1스푼(' + b.g + 'g) = 완성 ' + b.per + 'mL' : '물 ' + b.per + 'mL + 1스푼(' + b.g + 'g)';
+    return '<li><span>' + b.name + (b.verified ? ' <span class="badge ok">라벨 확인</span>' : '') + '</span><span>' + rule + '</span></li>';
+  }
+  $('listTotal').innerHTML = BRANDS.filter(function (b) { return b.basis === 'total'; }).map(liHTML).join('');
+  $('listWater').innerHTML = BRANDS.filter(function (b) { return b.basis === 'water'; }).map(liHTML).join('');
+
+  // ── 입력 연결 ──
+  function setBasis(v) {
+    st.basis = v;
+    $('basis').querySelectorAll('button').forEach(function (b) { b.classList.toggle('active', b.dataset.v === v); });
+    $('perLbl').textContent = v === 'water' ? '1스푼당 물' : '1스푼당 완성량';
+    $('targetLbl').textContent = v === 'water' ? '넣을 물 양 (라벨 표의 물 양)' : '만들 양 (완성량)';
+  }
+  sel.addEventListener('change', function () {
+    var b = BRANDS.filter(function (x) { return x.id === sel.value; })[0];
+    if (b) {
+      $('scoopG').value = b.g; $('perMl').value = b.per; setBasis(b.basis);
+      $('srcBadge').innerHTML = b.verified ? '<span class="badge ok">라벨 확인</span>' : '<span class="badge ref">참고값</span>';
+    } else {
+      $('scoopG').value = ''; $('perMl').value = ''; setBasis(null); $('srcBadge').innerHTML = '';
+      if (sel.value === 'custom') $('scoopG').focus();
+    }
+    update();
+  });
+  $('basis').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return; setBasis(b.dataset.v); update();
+  });
+  $('howPut').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    st.how = b.dataset.v;
+    $('howPut').querySelectorAll('button').forEach(function (x) { x.classList.toggle('active', x === b); });
+    $('usedLbl').textContent = st.how === 'water' ? '넣은 물' : '채운 눈금';
+    update();
+  });
+  ['scoopG', 'perMl', 'target', 'usedMl', 'usedScoop'].forEach(function (id) { $(id).addEventListener('input', update); });
+  $('quickTarget').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return; $('target').value = b.dataset.v; update();
+  });
+
+  function num(id) { var v = parseFloat($(id).value); return v > 0 ? v : null; }
+  function r0(x) { return Math.round(x); }
+  function r1(x) { return Math.round(x * 10) / 10; }
+  function fmtScoop(s) { return (Math.abs(s - Math.round(s)) < 0.01 ? Math.round(s) : r1(s)) + ''; }
+
+  // 라벨 기준 정량 농도 (g/mL, 완성액 기준)
+  function stdConc(g, per, basis) { return basis === 'total' ? g / per : g / (per + g * DISP); }
+
+  function update() {
+    var g = num('scoopG'), per = num('perMl'), basis = st.basis;
+    var ready = g && per && basis;
+
+    // 빠른 선택: 스푼 정수배
+    if (ready) {
+      var q = '';
+      for (var k = 2; k <= 10; k++) { var v = per * k; if (v > 260) break; q += '<button data-v="' + v + '">' + v + '</button>'; }
+      $('quickTarget').innerHTML = q;
+    } else { $('quickTarget').innerHTML = ''; }
+
+    renderMake(g, per, basis, ready);
+    renderTable(g, per, basis, ready);
+    save();
+    renderCheck(g, per, basis, ready);
+  }
+
+  function renderMake(g, per, basis, ready) {
+    var out = $('makeOut'), t = num('target');
+    if (!ready || !t) { out.innerHTML = '<p class="empty">분유와 양을 고르면 스푼 수와 물 양이 나와요</p>'; return; }
+    var s = t / per, whole = Math.abs(s - Math.round(s)) < 0.01;
+    var grams = s * g, powderVol = grams * DISP, html = '';
+
+    if (basis === 'total') {
+      var water = t - powderVol;
+      html += '<div class="big"><div><b>' + fmtScoop(s) + '스푼</b><span>분유 ' + r1(grams) + 'g</span></div>' +
+        '<div><b>' + t + 'mL</b><span>젖병 눈금 (완성량)</span></div></div>';
+      html += '<ol class="steps">' +
+        '<li>끓였다 식힌 물을 <b>' + r0(t * 0.66 / 10) * 10 + 'mL쯤</b>(2/3) 먼저 넣어요.</li>' +
+        '<li>분유 <b>' + fmtScoop(s) + '스푼</b>을 넣고 흔들어 녹여요.</li>' +
+        '<li>물을 더 넣어 <b>' + t + 'mL 눈금까지</b> 맞춰요.</li></ol>';
+      html += '<p class="tip">💡 결국 들어가는 물은 <b>약 ' + r0(water) + 'mL</b>예요. 분유 가루가 녹으면서 약 ' + r0(powderVol) + 'mL를 차지해요. 물을 ' + t + 'mL 다 넣고 가루를 넣으면 안 돼요.</p>';
+    } else {
+      var total = t + powderVol;
+      html += '<div class="big"><div><b>' + fmtScoop(s) + '스푼</b><span>분유 ' + r1(grams) + 'g</span></div>' +
+        '<div><b>' + t + 'mL</b><span>넣을 물</span></div></div>';
+      html += '<ol class="steps">' +
+        '<li>끓였다 식힌 물을 <b>정확히 ' + t + 'mL</b> 넣어요.</li>' +
+        '<li>분유 <b>' + fmtScoop(s) + '스푼</b>을 넣고 흔들어 녹여요.</li>' +
+        '<li>물을 더 넣지 마세요. 다 타면 <b>약 ' + r0(total) + 'mL</b>가 돼요.</li></ol>';
+      html += '<p class="tip">💡 눈금이 ' + t + 'mL보다 올라가는 게 정상이에요. 가루를 넣고 ' + t + 'mL 눈금에 맞추면 진해져요.</p>';
+    }
+    if (!whole) {
+      var lo = Math.floor(s) * per, hi = Math.ceil(s) * per;
+      html += '<p class="warnbox">⚠️ ' + fmtScoop(s) + '스푼은 반 스푼을 정확히 재기 어려워요. <b>' + (lo > 0 ? lo + 'mL(' + Math.floor(s) + '스푼)나 ' : '') + hi + 'mL(' + Math.ceil(s) + '스푼)</b>로 타는 걸 추천해요.</p>';
+    }
+    out.innerHTML = html;
+  }
+
+  function renderTable(g, per, basis, ready) {
+    $('tblWrap').classList.toggle('hidden', !ready);
+    if (!ready) return;
+    var t = num('target'), rows = '';
+    for (var k = 1; k <= 12; k++) {
+      var powder = k * g * DISP, a, w;
+      if (basis === 'total') { a = k * per; w = a - powder; } else { w = k * per; a = w + powder; }
+      if ((basis === 'total' ? a : w) > 260) break;
+      var on = t && Math.abs((basis === 'total' ? a : w) - t) < 0.5;
+      rows += '<tr' + (on ? ' class="on"' : '') + '><td>' + k + '스푼</td><td>' + r1(k * g) + 'g</td><td>' +
+        (basis === 'total' ? '<b>' + r0(a) + '</b>' : '약 ' + r0(a)) + '</td><td>' + (basis === 'total' ? '약 ' + r0(w) : '<b>' + r0(w) + '</b>') + '</td></tr>';
+    }
+    $('tblOut').innerHTML = '<table class="mtable"><thead><tr><th>스푼</th><th>가루</th><th>완성량(mL)</th><th>물(mL)</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<p class="mtable-note">' + (basis === 'total' ? '굵은 숫자(완성량)에 젖병 눈금을 맞춰요. 물은 어림값이에요.' : '굵은 숫자(물)를 정확히 넣어요. 완성량은 어림값이에요.') + '</p>';
+  }
+
+  // ── 고른 분유 기억 (이 기기에서만) ──
+  var KEY = 'yn-formula-mix';
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ brand: sel.value, g: $('scoopG').value, per: $('perMl').value, basis: st.basis })); } catch (e) {}
+  }
+  function restore() {
+    try {
+      var d = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (!d || !d.basis) return;
+      if (d.brand) { sel.value = d.brand; sel.dispatchEvent(new Event('change')); }
+      if (d.brand === 'custom' || !d.brand) { $('scoopG').value = d.g; $('perMl').value = d.per; setBasis(d.basis); }
+      else if (d.g && d.per) { $('scoopG').value = d.g; $('perMl').value = d.per; setBasis(d.basis); }
+    } catch (e) {}
+  }
+
+  function renderCheck(g, per, basis, ready) {
+    var out = $('checkOut'), used = num('usedMl'), sc = num('usedScoop');
+    if (!ready) { out.innerHTML = '<p class="empty">먼저 1번에서 분유를 골라 주세요</p>'; return; }
+    if (!used || !sc) { out.innerHTML = '<p class="empty">물 양과 스푼 수를 넣으면 농도를 비교해 드려요</p>'; return; }
+
+    var grams = sc * g;
+    var actualTotal = st.how === 'water' ? used + grams * DISP : used;
+    if (st.how === 'line' && grams * DISP >= used) { out.innerHTML = '<p class="warnbox">눈금 양이 너무 적어요. 숫자를 확인해 주세요.</p>'; return; }
+    var cStd = stdConc(g, per, basis), cAct = grams / actualTotal, ratio = cAct / cStd, diff = (ratio - 1) * 100;
+
+    // 같은 스푼 수로 정량이었다면
+    var rightTotal = basis === 'total' ? sc * per : sc * per + grams * DISP;
+    var rightWater = basis === 'total' ? sc * per - grams * DISP : sc * per;
+
+    var cls, title, msg;
+    if (Math.abs(diff) < 4) {
+      cls = 'good'; title = '✅ 정량에 맞게 타고 있어요';
+      msg = '차이가 ' + r0(Math.abs(diff)) + '% 안쪽이라 괜찮아요. 지금처럼 타면 돼요.';
+    } else if (diff < 0) {
+      cls = Math.abs(diff) < 15 ? 'mid' : 'bad';
+      title = '💧 정량보다 약 ' + r0(-diff) + '% 묽어요';
+      msg = '같은 양을 먹어도 열량과 영양이 그만큼 적게 들어가요. ' +
+        (Math.abs(diff) < 15 ? '이 정도 차이는 바로 고치면 크게 걱정하지 않아도 돼요. 체중이 잘 늘고 있는지 다음 검진 때 확인해 보세요.'
+          : '오래 이렇게 먹였다면 체중 증가가 더딜 수 있어요. 바로 정량으로 바꾸고, 체중이 걱정되면 소아청소년과에 문의해 주세요.');
+    } else {
+      cls = diff < 10 ? 'mid' : 'bad';
+      title = '🧂 정량보다 약 ' + r0(diff) + '% 진해요';
+      msg = '진한 분유는 아기 콩팥에 부담을 주고 변비나 탈수를 부를 수 있어요. ' +
+        (diff < 10 ? '바로 정량으로 바꿔 주세요.' : '바로 정량으로 바꾸고, 소변이 줄거나 처지면 진료를 받아 주세요. 분유를 묽게 하려고 맹물을 따로 먹이지는 마세요.');
+    }
+
+    var pos = Math.max(2, Math.min(98, 50 + diff * 1.5));
+    var html = '<div class="verdict ' + cls + '"><h3>' + title + '</h3><p>' + msg + '</p></div>';
+    html += '<div class="meter"><i style="left:' + pos + '%"></i></div><div class="meter-l"><span>묽게</span><span>정량</span><span>진하게</span></div>';
+    html += '<div class="compare">' +
+      '<div class="row"><span>지금 방법의 실제 완성량</span><b>약 ' + r0(actualTotal) + 'mL</b></div>' +
+      '<div class="row"><span>' + fmtScoop(sc) + '스푼이면 원래 완성량</span><b>약 ' + r0(rightTotal) + 'mL</b></div>' +
+      '<div class="row"><span>' + fmtScoop(sc) + '스푼에 맞는 물</span><b>약 ' + r0(rightWater) + 'mL</b></div></div>';
+    if (Math.abs(diff) >= 4) {
+      html += '<p class="tip">👉 ' + fmtScoop(sc) + '스푼이라면 ' + (basis === 'total'
+        ? '물을 2/3쯤 넣고 가루를 녹인 뒤 <b>' + r0(rightTotal) + 'mL 눈금까지</b> 채우세요.'
+        : '물을 <b>정확히 ' + r0(rightWater) + 'mL</b> 넣고 가루를 녹이세요. 눈금까지 더 채우지 마세요.') + '</p>';
+    }
+    out.innerHTML = html;
+  }
+
+  // 처음 화면
+  restore();
+  update();
+})();
+</script>
+
+</body>
+</html>
