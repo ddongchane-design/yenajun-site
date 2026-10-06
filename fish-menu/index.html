@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="인원과 날짜만 넣으면 수산시장에서 시킬 회·찜·해산물 구성과 kg을 제철에 맞춰 짜 드려요. 노량진수산시장 경매가로 예상 비용 범위까지 계산해요.">
+<link rel="canonical" href="https://yenajun.com/fish-menu/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="예나준">
+<meta property="og:title" content="수산시장 메뉴 구성 계산기 — 제철로 맛있게, 적정가로">
+<meta property="og:description" content="몇 명이 언제 가는지만 넣으면 제철 회·찜 구성과 kg, 예상 비용 범위를 알려 드려요.">
+<meta property="og:url" content="https://yenajun.com/fish-menu/">
+<meta property="og:image" content="https://yenajun.com/assets/og-image.jpg">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>수산시장 메뉴 구성 계산기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<style>
+:root{
+  --ground:#F3F6F8; --panel:#FFFFFF; --field:#EEF3F6;
+  --ink:#14232E; --ink-2:#4F6170; --ink-3:#8494A1; --rule:#D8E1E7; --rule-2:#E9EFF3;
+  --sea:#0F5E7C; --sea-soft:#DDEEF4;
+  --coral:#C4553B; --coral-soft:#F8E4DE;
+  --kelp:#3E7A54; --kelp-soft:#E1EFE5;
+  --sand:#9A6C17; --sand-soft:#F5EBD5;
+  --display:"Gowun Dodum","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F171C; --panel:#172229; --field:#1E2C34;
+    --ink:#E4ECF0; --ink-2:#A7B6C0; --ink-3:#74858F; --rule:#2B3A43; --rule-2:#22313A;
+    --sea:#6CC1DE; --sea-soft:#163541; --coral:#EE917B; --coral-soft:#3D241E;
+    --kelp:#8CCB9F; --kelp-soft:#1C3324; --sand:#E2B762; --sand-soft:#3A2F17;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F171C; --panel:#172229; --field:#1E2C34;
+  --ink:#E4ECF0; --ink-2:#A7B6C0; --ink-3:#74858F; --rule:#2B3A43; --rule-2:#22313A;
+  --sea:#6CC1DE; --sea-soft:#163541; --coral:#EE917B; --coral-soft:#3D241E;
+  --kelp:#8CCB9F; --kelp-soft:#1C3324; --sand:#E2B762; --sand-soft:#3A2F17;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;padding-inline:16px;padding-block:32px 64px;word-break:keep-all}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.wrap > *{min-width:0}   /* 좁은 화면에서 안쪽 표·선택창 때문에 가로로 넘치지 않게 */
+.grid > *{min-width:0}
+h1,h2,h3{margin:0;line-height:1.3;text-wrap:balance}
+h1{font-family:var(--display);font-size:clamp(26px,5vw,34px);font-weight:400;color:var(--sea)}
+h2{font-size:19px}
+h3{font-size:16px}
+p{margin:0}
+a{color:var(--sea)}
+.num{font-variant-numeric:tabular-nums}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--coral)}
+header{display:flex;flex-direction:column;gap:10px}
+header p{color:var(--ink-2)}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:18px;padding:20px 18px}
+@media(min-width:640px){.card{padding:24px}}
+.card > h2{margin-bottom:4px}
+.sub{font-size:13px;color:var(--ink-3)}
+
+/* 입력 */
+.grid{display:grid;gap:16px}
+@media(min-width:640px){.grid.two{grid-template-columns:1fr 1fr}}
+.q label,.q .lab{display:block;font-size:14px;font-weight:700;margin-bottom:6px}
+.q .hint{display:block;font-size:12.5px;color:var(--ink-3);margin-top:4px}
+.stepper{display:flex;align-items:center;gap:8px}
+.stepper button{width:40px;height:40px;border-radius:12px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font-size:20px;cursor:pointer}
+.stepper input{width:72px;height:40px;text-align:center;font:inherit;font-size:18px;font-weight:700;border:1px solid var(--rule);border-radius:12px;background:var(--panel);color:var(--ink)}
+select,input[type=date]{font:inherit;font-size:15px;height:40px;padding:0 10px;border-radius:12px;border:1px solid var(--rule);background:var(--panel);color:var(--ink);width:100%}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:14px;padding:7px 14px;border-radius:999px;border:1px solid var(--rule);background:var(--field);color:var(--ink-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:#fff;font-weight:700}
+.checks{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:14px}
+.checks label{display:flex;align-items:center;gap:6px;font-weight:400;margin:0;cursor:pointer}
+
+/* 결과 요약 */
+.sum{display:grid;gap:12px;background:var(--sea);color:#fff;border-radius:18px;padding:20px}
+@media(min-width:640px){.sum{grid-template-columns:1.3fr 1fr;align-items:end;padding:24px}}
+.sum .k{font-size:13px;opacity:.85}
+.sum .big{font-size:clamp(26px,6vw,34px);font-weight:800;letter-spacing:-.01em;line-height:1.2}
+.sum .pp{font-size:15px;margin-top:4px}
+.sum .meta{font-size:13px;opacity:.9;line-height:1.6}
+.sum .meta b{font-weight:700}
+:root[data-theme="dark"] .sum,:root:not([data-theme="light"]) .sum{color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sum{background:#11475C}}
+:root[data-theme="dark"] .sum{background:#11475C}
+
+/* 코스 */
+.course{margin-top:18px}
+.course:first-of-type{margin-top:6px}
+.course h3{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.course h3 small{font-size:12.5px;font-weight:400;color:var(--ink-3)}
+.item{border:1px solid var(--rule);border-radius:14px;padding:12px 14px;margin-top:8px;background:var(--panel)}
+.item .row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.item .nm{font-weight:700;font-size:16px}
+.badge{display:inline-block;font-size:11.5px;font-weight:700;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.b-peak{background:var(--kelp-soft);color:var(--kelp)}
+.b-ok{background:var(--sea-soft);color:var(--sea)}
+.b-off{background:var(--sand-soft);color:var(--sand)}
+.b-ban{background:var(--coral-soft);color:var(--coral)}
+.b-base{background:var(--field);color:var(--ink-2)}
+.item .qty{margin-left:auto;display:flex;align-items:center;gap:6px}
+.item .qty button{width:30px;height:30px;border-radius:9px;border:1px solid var(--rule);background:var(--field);color:var(--ink);font-size:16px;cursor:pointer;line-height:1}
+.item .qty .kg{min-width:62px;text-align:center;font-weight:800}
+.item .x{border:0;background:none;color:var(--ink-3);font-size:18px;cursor:pointer;padding:0 2px}
+.item .how{font-size:14px;color:var(--ink-2);margin-top:6px}
+.item .how b{color:var(--ink)}
+.item .px{font-size:13px;color:var(--ink-3);margin-top:4px}
+.item .px b{color:var(--ink-2)}
+.item .warn{font-size:13px;color:var(--coral);margin-top:4px}
+.add{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.add select{flex:1;min-width:200px}
+.btn{font:inherit;font-size:14px;font-weight:700;padding:0 16px;height:40px;border-radius:12px;border:1px solid var(--sea);background:var(--sea);color:#fff;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--sea)}
+.fees{margin-top:16px;border-top:1px dashed var(--rule);padding-top:12px;font-size:14px;color:var(--ink-2)}
+.fees div{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
+.fees b{color:var(--ink)}
+.note{font-size:13px;color:var(--ink-3);margin-top:8px}
+
+/* 제철 달력 */
+.cal{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:10px}
+.cal table{border-collapse:separate;border-spacing:2px;font-size:12.5px;min-width:560px;width:100%}
+.cal th{font-weight:500;color:var(--ink-3);padding:2px 0}
+.cal th.now{color:var(--coral);font-weight:800}
+.cal td{height:22px;border-radius:5px;background:var(--rule-2)}
+.cal td.nm{background:none;text-align:left;font-weight:700;white-space:nowrap;padding-right:8px;color:var(--ink)}
+.cal td.p{background:var(--kelp)}
+.cal td.o{background:var(--kelp-soft)}
+.cal td.b{background:repeating-linear-gradient(135deg,var(--coral-soft) 0 4px,transparent 4px 8px);}
+.cal td.now{outline:2px solid var(--coral);outline-offset:-1px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--ink-2);margin-top:8px}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+/* 팁·출처 */
+ul.tips{margin:8px 0 0;padding-left:20px}
+ul.tips li{margin:6px 0;font-size:15px}
+.src li{font-size:13.5px;color:var(--ink-2)}
+.loading{color:var(--ink-3);font-size:14px}
+footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
+</style>
+<link rel="stylesheet" href="/assets/related.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">수산시장 메뉴 구성 계산기</div>
+  <h1>수산시장에서 뭘, 얼마나 시켜야 맛있게 먹을까?</h1>
+  <p>몇 명이 언제 가는지만 넣으면 <b>기본 회 + 그달 제철 회 + 찜·구이 + 매운탕</b>으로 구성과 kg을 짜 드려요. 노량진수산시장 경매가로 <b>예상 비용 범위</b>도 계산해서, 바가지도 아니고 무리하게 깎지도 않는 <b>적정선</b>을 알려 드려요.</p>
+</header>
+
+<section class="card" aria-labelledby="in-title">
+  <h2 id="in-title">① 누가, 언제, 어디서</h2>
+  <div class="grid two" style="margin-top:14px">
+    <div class="q">
+      <span class="lab">인원</span>
+      <div class="stepper">
+        <button type="button" data-step="-1" aria-label="한 명 줄이기">−</button>
+        <input id="people" type="number" inputmode="numeric" min="1" max="40" value="4" aria-label="인원">
+        <button type="button" data-step="1" aria-label="한 명 늘리기">+</button>
+        <span style="color:var(--ink-2)">명</span>
+      </div>
+    </div>
+    <div class="q">
+      <label for="date">가는 날</label>
+      <input id="date" type="date">
+      <span class="hint">이 날짜의 달로 제철을 골라요.</span>
+    </div>
+    <div class="q">
+      <label for="market">시장</label>
+      <select id="market"></select>
+      <span class="hint" id="market-hint"></span>
+    </div>
+    <div class="q">
+      <span class="lab">얼마나 드세요?</span>
+      <div class="seg" id="appetite" role="group" aria-label="먹는 양">
+        <button type="button" data-v="light" aria-pressed="false">가볍게</button>
+        <button type="button" data-v="normal" aria-pressed="true">보통</button>
+        <button type="button" data-v="hearty" aria-pressed="false">든든히</button>
+      </div>
+    </div>
+  </div>
+  <div class="grid two" style="margin-top:16px">
+    <div class="q">
+      <span class="lab">어떻게 드실 거예요?</span>
+      <div class="seg" id="style" role="group" aria-label="구성 방식">
+        <button type="button" data-v="mix" aria-pressed="true">골고루 (회+찜·구이)</button>
+        <button type="button" data-v="raw" aria-pressed="false">회 위주</button>
+        <button type="button" data-v="drink" aria-pressed="false">술안주 여러 가지</button>
+      </div>
+    </div>
+    <div class="q">
+      <span class="lab">빼고 싶은 것</span>
+      <div class="checks">
+        <label><input type="checkbox" id="no-crust"> 게·새우</label>
+        <label><input type="checkbox" id="no-raw-shell"> 멍게·해삼 같은 날것 해산물</label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sum" aria-live="polite">
+  <div>
+    <div class="k" id="sum-k">예상 비용 (생선값 + 상차림·조리비)</div>
+    <div class="big num" id="sum-total">계산 중…</div>
+    <div class="pp num" id="sum-pp"></div>
+  </div>
+  <div class="meta" id="sum-meta"></div>
+</section>
+
+<section class="card" aria-labelledby="menu-title">
+  <h2 id="menu-title">② 추천 구성</h2>
+  <p class="sub">kg은 <b>사는 무게(통째)</b>예요. ＋/－로 바꾸거나 ×로 빼고, 아래에서 다른 제철 수산물을 더할 수 있어요.</p>
+  <div id="menu"><p class="loading">시세 자료를 불러오는 중…</p></div>
+  <div class="add">
+    <select id="add-pick" aria-label="더할 수산물"></select>
+    <button class="btn ghost" type="button" id="add-btn">구성에 더하기</button>
+    <button class="btn ghost" type="button" id="reset-btn">추천으로 되돌리기</button>
+  </div>
+  <div class="fees" id="fees"></div>
+  <p class="note" id="price-note"></p>
+</section>
+
+<section class="card" aria-labelledby="cal-title">
+  <h2 id="cal-title">③ 한눈에 보는 제철 달력</h2>
+  <p class="sub">생선은 알을 낳기(산란) 전후 한 달쯤이 가장 맛이 없어요. 진한 칸이 제철, 빗금은 산란기이거나 잡으면 안 되는 금어기예요.</p>
+  <div class="cal" id="cal"></div>
+  <div class="legend"><span><i style="background:var(--kelp)"></i>제철</span><span><i style="background:var(--kelp-soft)"></i>먹을 만해요</span><span><i style="background:repeating-linear-gradient(135deg,var(--coral-soft) 0 4px,transparent 4px 8px);border:1px solid var(--coral-soft)"></i>산란기·금어기</span><span><i style="background:var(--rule-2)"></i>보통</span></div>
+</section>
+
+<section class="card" aria-labelledby="tip-title">
+  <h2 id="tip-title">④ 시장에서 이렇게 하면 실패가 적어요</h2>
+  <ul class="tips">
+    <li><b>무게는 물 빼고 달아 달라고 하세요.</b> 활어는 물을 머금고 저울에 올라가면 무게가 늘어요.</li>
+    <li><b>회 뜨는 값, 상차림비, 매운탕·찜 조리비를 사기 전에 물어보세요.</b> 가게·식당마다 달라서, 나중에 합치면 예상보다 커지는 경우가 많아요.</li>
+    <li><b>원산지 표시를 확인하세요.</b> 참돔·방어는 국산과 일본산, 대게·킹크랩은 러시아산이 많고, 같은 이름이라도 값 차이가 커요.</li>
+    <li><b>수조의 "대하"는 대부분 양식 흰다리새우예요.</b> 자연산 대하는 수조에서 오래 못 살아요. 대하는 이마 뿔이 코끝보다 길고 수염이 몸보다 길어요.</li>
+    <li><b>우럭·광어 머리와 뼈(서더리)는 꼭 챙기세요.</b> 매운탕 국물이 여기서 나와요.</li>
+    <li><b>계산기의 kg당 예상가보다 훨씬 비싸게 부르면</b> 크기·산지·자연산 여부를 한 번 더 물어보고, <b>훨씬 싸면</b> 크기가 작거나 수입산인지 확인해 보세요.</li>
+  </ul>
+  <h3 style="margin-top:18px">안전하게 드세요</h3>
+  <ul class="tips">
+    <li>간 질환·당뇨 등 만성질환이 있거나 면역이 약한 분은 날것 대신 익혀 드세요.</li>
+    <li>바닷물 온도가 높은 7~9월은 비브리오균이 잘 생겨요. 회는 바로 드시고, 오래 상온에 두지 마세요.</li>
+  </ul>
+  <p class="note">안전 수칙 출처: 노량진수산시장 「생선회 Tip-Tip」</p>
+</section>
+
+<section class="card src" aria-labelledby="src-title">
+  <h2 id="src-title">⑤ 숫자는 어디서 왔나요</h2>
+  <ul class="tips" id="src-list">
+    <li><b>시장 가격</b>: <a href="https://www.susansijang.co.kr/nsis/mim/info/mim9030" target="_blank" rel="noopener">노량진수산주식회사 「오늘의 경락시세」</a> — 경매(도매) 낙찰가 중 kg 단위 거래의 최근 7거래일 물량가중 평균. 매일 아침 자동으로 받아요. <span id="src-window"></span></li>
+    <li><b>가게에서 사는 값(소매) 추정</b>: 경매가 × 1.2~1.6배. 중도매인이 경매가에 kg당 1천~5천 원을 붙이고, 경매가 6,900원짜리 광어가 현장에서 8천~1만1천 원에 팔린 예시를 바탕으로 했어요 (<a href="https://www.hankyung.com/article/202411227888i" target="_blank" rel="noopener">한국경제, 2024.11</a>). 크기·자연산 여부·흥정에 따라 벗어날 수 있어요.</li>
+    <li><b>오늘 실제 소매 시세</b>는 <a href="https://tpirates.com/%EC%8B%9C%EC%84%B8" target="_blank" rel="noopener">인어교주해적단 전국 수산시장 당일 시세</a>에서 함께 확인해 보세요. (인어교주해적단 가격 자료는 로그인이 필요한 서비스라 이 계산기에는 가져오지 않았어요.)</li>
+    <li><b>회 수율(통째 무게 중 회로 나오는 살)</b>: 광어 45~50%, 대방어 40%, 참돔 등 도미류 33~35%, 농어 35%, 숭어 30~33%, 우럭 25~28% (<a href="https://tpirates.com/%EC%BD%98%ED%85%90%EC%B8%A0/158/%EC%88%98%EC%82%B0%EB%AC%BC%EC%A0%95%EB%B3%B4%EC%83%9D%EC%84%A0%ED%9A%8C-%EC%88%9C%EC%82%B4%EC%9D%84-%EA%B8%B0%EC%A4%80%EC%9C%BC%EB%A1%9C-%EA%B0%80%EA%B2%A9%EC%9D%84-%EC%A0%95%EB%A6%AC%ED%96%88%EC%8A%B5%EB%8B%88%EB%8B%A4" target="_blank" rel="noopener">인어교주해적단 순살 기준 정리</a>). 목록에 없는 어종은 비슷한 체형의 값을 썼어요.</li>
+    <li><b>상차림비·조리비</b>: 상차림 1인 3천~5천 원, 매운탕 1인 4천~5천 원, 게 찜 kg당 약 8천 원 (<a href="https://namu.wiki/w/%EC%B4%88%EC%9E%A5%EC%A7%91" target="_blank" rel="noopener">나무위키 초장집</a>, <a href="https://www.siksinhot.com/theme/magazine/12601" target="_blank" rel="noopener">식신 노량진 가이드</a>). 식당마다 달라요.</li>
+    <li><b>제철·산란기·금어기</b>: 우럭 11~3월 제철·4~6월 산란, 광어 가을~겨울 제철·2~6월 산란 (<a href="https://www.a-ha.io/questions/4ed1750445c7ee26946c10fda6bea46b" target="_blank" rel="noopener">아하</a>, <a href="https://tpirates.com/%EC%BD%98%ED%85%90%EC%B8%A0/2069/%EC%A0%9C%EC%B2%A0%ED%9A%8C%EA%B0%80-%EB%B4%84%EC%97%90-%EA%B0%80%EC%9E%A5-%EB%A7%9B%EC%9D%B4-%EC%97%86%EB%8A%94-%EC%9D%B4%EC%9C%A0%EB%8A%94-%EB%AD%98%EA%B9%8C" target="_blank" rel="noopener">인어교주해적단</a>), 방어 11~2월·부시리 여름 (<a href="https://www.munhwa.com/article/11407659" target="_blank" rel="noopener">문화일보</a>), 참돔·숭어 (<a href="https://www.suhyupnews.co.kr/news/articleView.html?idxno=32322" target="_blank" rel="noopener">어업in수산</a>, <a href="https://v.daum.net/v/20251110163502329" target="_blank" rel="noopener">서해 생물 이야기</a>), 도다리·농어·민어 (<a href="https://www.foodnuri.go.kr/portal/bbs/B0000277/view.do?nttId=223748&menuNo=300087&pageIndex=126" target="_blank" rel="noopener">식품의약품안전처 식품안전나라</a>, <a href="https://www.idomin.com/news/articleView.html?idxno=504007" target="_blank" rel="noopener">경남도민일보</a>), 꽃게·대게·킹크랩 (<a href="https://v.daum.net/v/geNLfbx8OD?f=p" target="_blank" rel="noopener">바다정보다잇다</a>, <a href="https://www.mof.go.kr/doc/ko/selectDoc.do?docSeq=51347&bbsSeq=10&menuSeq=971" target="_blank" rel="noopener">해양수산부 금어기 보도자료</a>), 주꾸미·낙지·대하 (<a href="https://www.wikitree.co.kr/articles/1076887" target="_blank" rel="noopener">위키트리</a>, <a href="https://fsis.go.kr/front/contents/cmsView.do?cate_id=0301&cnts_id=16222&select_list_no=6" target="_blank" rel="noopener">수산물안전정보</a>, <a href="http://www.suhyupnews.co.kr/news/articleView.html?idxno=29577" target="_blank" rel="noopener">어업in수산</a>), 가을 전어·꽃게·대하 (<a href="https://tpirates.com/%EC%BD%98%ED%85%90%EC%B8%A0/2339/%EA%B0%80%EC%9D%84%EC%97%90-%EA%BC%AD-%EB%A8%B9%EC%96%B4%EC%95%BC-%ED%95%98%EB%8A%94-%EA%B0%80%EC%9D%84-%EC%A0%9C%EC%B2%A0-%EC%88%98%EC%82%B0%EB%AC%BC" target="_blank" rel="noopener">인어교주해적단</a>). 자료마다 1~2달씩 다르게 말하는 경우가 있어 여러 곳이 겹치는 시기를 골랐고, 바다 온도에 따라 해마다 달라질 수 있어요.</li>
+    <li><b>1인분 양</b>: 회만 먹을 때 1인 순살 약 300g이 기준으로 알려져 있어요(인어교주해적단). 찜·구이·탕을 같이 먹는 상차림이면 이 계산기는 가볍게 120g · 보통 170g · 든든히 230g으로 잡아요.</li>
+  </ul>
+</section>
+
+<!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
+<section class="yn-rel yn-dark" aria-label="예나준의 다른 도구">
+  <h2>이런 도구도 있어요</h2>
+  <div class="yn-grid">
+    <a class="yn-card" href="/wedding-gift/"><span class="e">💌</span><b>축의금 계산기</b><span>관계와 상황에 맞는 축의금을 알려 드려요.</span></a>
+    <a class="yn-card" href="/rates/"><span class="e">📈</span><b>주간 금리 동향</b><span>기준금리·국채·회사채 금리를 매주 정리해요.</span></a>
+    <a class="yn-card" href="/jeonse-wolse/"><span class="e">🏘️</span><b>전세 반전세 월세 비교 계산기</b><span>한 달에 실제로 나가는 돈으로 비교해요.</span></a>
+  </div>
+  <a class="yn-home" href="/">← 예나준의 모든 도구 보기</a>
+</section>
+<!-- yn-related:end -->
+
+<footer>예나준 · 수산시장 메뉴 구성 계산기 · 경매가로 추정한 참고용 계산이에요. 실제 값은 시장에서 확인해 주세요.</footer>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const won = v => Math.round(v).toLocaleString('ko-KR') + '원';
+  const man = v => { const m = v / 10000; return (m >= 10 ? Math.round(m) : Math.round(m * 10) / 10).toLocaleString('ko-KR') + '만'; };
+  const R = n => Array.from({length: 12}, (_, i) => i + 1).filter(m => n.includes(m));
+  const range = (a, b) => { const out = []; for (let m = a; ; m = m % 12 + 1) { out.push(m); if (m === b) break; } return out; };
+
+  // ── 소매가 추정 배율, 상차림·조리비 (출처는 화면 ⑤에) ──
+  const RETAIL = [1.2, 1.6];
+  const TABLE_FEE = [3000, 5000];      // 상차림 1인
+  const STEW_FEE = [4000, 5000];       // 매운탕 1인
+  const STEAM_FEE = 8000;              // 찜 kg당
+  const NET_G = {light: 120, normal: 170, hearty: 230};   // 1인 회 순살(g) — 찜·구이·탕 같이 먹을 때
+
+  // ── 어종 자료 ──
+  // kind: raw(회) · cook(찜·구이) · side(곁들임 해산물)
+  // peak 제철 · ok 먹을 만 · bad 산란기·금어기(이유 why) · yld 회 수율 · per 1인 kg(찜·곁들임)
+  // auc 노량진 경락시세 이름 · sea 많이 나는 바다(west 서해 · south 남해 · east 동해 · import 수입)
+  const SP = [
+    {id:'flatfish', nm:'광어', kind:'raw', base:true, peak:R([11,12,1,2]), ok:R([9,10,3]), bad:R([4,5,6]), why:'산란기 전후(2~6월)라 살이 심심해요', yld:.47, min:1, auc:['(활)넙치'], sea:['south'],
+      how:'<b>회</b>로. 지느러미 쪽 살(엔가와)이 쫄깃하고 고소해요. 시장 광어는 대부분 양식이라 계절 영향이 덜해요.'},
+    {id:'rockfish', nm:'우럭', kind:'raw', base:true, peak:R([11,12,1,2,3]), ok:R([9,10]), bad:R([4,5,6]), why:'4~6월은 산란기라 맛과 영양이 떨어져요', yld:.27, min:1, auc:['(활)우럭'], sea:['west','south'],
+      how:'<b>회</b>는 쫄깃한 식감 담당. 머리가 커서 살은 적지만 <b>머리·뼈로 끓이는 매운탕</b>이 진짜예요.'},
+    {id:'redsnapper', nm:'참돔', kind:'raw', peak:R([11,12,1,2,3]), ok:R([4,9,10]), bad:R([5,6,7]), why:'봄 산란 직후라 살이 빠져요', yld:.34, min:1, auc:['(활)참돔'], sea:['south','import'],
+      how:'<b>껍질째 살짝 데친 회(마츠카와)</b>가 별미예요. 머리는 소금구이나 조림으로. 국산·일본산 값 차이가 커요.'},
+    {id:'blackporgy', nm:'감성돔', kind:'raw', peak:R([10,11,12,1,2]), ok:R([3,9]), bad:R([4,5,6]), why:'4~6월 산란기예요', yld:.34, min:1, auc:['(활)감성돔'], sea:['south','west'],
+      how:'<b>회</b>로. 겨울 감성돔은 기름이 올라 고소해요. 값이 나가는 편이라 소량으로 맛보기 좋아요.'},
+    {id:'seabass', nm:'농어', kind:'raw', peak:R([6,7,8]), ok:R([5,9]), bad:[], yld:.35, min:1, auc:['(활)농어'], sea:['west','south'],
+      how:'<b>여름 회</b>의 대표. 담백하고 탄력 있어요. 뼈는 맑은 지리탕으로도 좋아요.'},
+    {id:'mullet', nm:'숭어', kind:'raw', peak:R([12,1,2,3]), ok:R([11,4]), bad:[], yld:.32, min:1, auc:['(활)참숭어','(활)감숭어'], sea:['west'],
+      how:'<b>겨울 회</b>로 값 대비 만족도가 높아요. 서해에서 겨울엔 가숭어(참숭어), 봄엔 숭어가 제철이에요.'},
+    {id:'yellowtail', nm:'방어', kind:'raw', peak:R([11,12,1,2]), ok:R([10,3]), bad:R([5,6,7,8]), why:'산란 후 여름엔 기름이 빠져 맛이 없어요', yld:.40, min:1, auc:['(활)방어'], sea:['south','east','import'],
+      how:'<b>회</b>로. 클수록(대방어) 기름진 뱃살이 맛있어요. 김·묵은지에 싸 먹는 집이 많아요. 10월은 아직 이른 편이에요.'},
+    {id:'amberjack', nm:'부시리', kind:'raw', peak:R([6,7,8,9]), ok:R([5,10]), bad:[], yld:.40, min:1, auc:['(활)부시리'], sea:['south'],
+      how:'<b>여름 회</b>. 방어와 비슷하지만 여름에 맛이 들어요. 단단하고 고소해요.'},
+    {id:'flounder', nm:'도다리', kind:'raw', peak:R([3,4]), ok:R([2,5]), bad:[], yld:.40, min:1, auc:['(활)도다리','(활)강도다리'], sea:['south'],
+      how:'<b>봄 회(세꼬시)</b>로 뼈째 얇게 썰어 먹어요. 남은 건 도다리쑥국으로. 시장 "도다리"는 강도다리인 경우가 많아요.'},
+    {id:'croaker', nm:'민어', kind:'raw', peak:R([7,8]), ok:R([6,9]), bad:[], yld:.40, min:1, auc:['(활)민어'], sea:['west','south'],
+      how:'<b>여름 보양 회</b>. 부레·껍질이 별미예요. 큰 것일수록 맛있고 값도 올라가요.'},
+    {id:'gizzard', nm:'전어', kind:'raw', peak:R([9,10]), ok:R([8,11]), bad:[], yld:.45, min:.5, auc:['(활)전어'], sea:['west','south'],
+      how:'<b>뼈째 썬 회(세꼬시)·회무침</b>이나 <b>통구이</b>로. 서해 전어는 담백해서 구이가 특히 좋아요.'},
+    {id:'salmon', nm:'연어', kind:'raw', peak:[], ok:R([1,2,3,4,5,6,7,8,9,10,11,12]), bad:[], yld:.60, min:.5, unit:'손질된 살 기준', auc:['(선)연어'], sea:['import'],
+      how:'<b>회</b>로. 대부분 노르웨이산 수입이라 계절을 안 타요. 흰살 회만 있으면 심심할 때 색과 기름기를 더해 줘요.'},
+
+    {id:'crab-m', nm:'수꽃게', kind:'cook', peak:R([9,10,11]), ok:R([12]), bad:R([7,8]), why:'6/21~8/20 금어기예요', per:.3, auc:['(활)수꽃게'], sea:['west'],
+      how:'<b>찜</b>으로. 가을엔 수꽃게 살이 꽉 차고 10월이 절정이에요. 국물 요리엔 꽃게탕도 좋아요.', steam:true},
+    {id:'crab-f', nm:'암꽃게', kind:'cook', peak:R([4,5,6]), ok:R([3]), bad:R([7,8]), why:'6/21~8/20 금어기예요', per:.3, auc:['(활)암꽃게'], sea:['west'],
+      how:'<b>찜</b>이나 간장게장으로. 봄 암꽃게는 알이 꽉 차요.', steam:true},
+    {id:'shrimp', nm:'새우 (흰다리·대하)', kind:'cook', peak:R([9,10,11]), ok:R([8,12]), bad:[], per:.12, auc:['(활)흰다리새우'], sea:['west'],
+      how:'<b>소금구이</b>로. 머리는 따로 버터구이를 부탁하면 별미예요. 수조의 "대하"는 대부분 양식 흰다리새우예요.'},
+    {id:'snowcrab', nm:'대게', kind:'cook', peak:R([12,1,2]), ok:R([11,3,4]), bad:[], per:.45, auc:['(활)대게'], sea:['east','import'],
+      how:'<b>찜</b>으로. 다 먹고 남은 내장에 <b>볶음밥</b>을 꼭 부탁하세요. 국산은 6~10월 금어기라 이때는 러시아산이 대부분이에요.', steam:true},
+    {id:'kingcrab', nm:'킹크랩', kind:'cook', peak:R([10,11,12,1,2]), ok:R([3,4]), bad:[], per:.45, auc:['(활)왕게'], sea:['import'],
+      how:'<b>찜</b>으로. 다리살이 굵어 여럿이 나눠 먹기 좋아요. 대부분 러시아산이에요.', steam:true},
+    {id:'abalone', nm:'전복', kind:'side', peak:[], ok:R([1,2,3,4,5,6,7,8,9,10,11,12]), bad:[], per:.08, auc:['(활)전복'], sea:['south'],
+      how:'<b>회</b>나 <b>버터구이</b>로. 대부분 완도 양식이라 일 년 내내 무난해요.'},
+    {id:'octopus', nm:'산낙지', kind:'side', peak:R([9,10,11]), ok:R([12]), bad:[], per:.07, auc:[], sea:['west','south'],
+      how:'<b>참기름장에 산낙지</b>로. 작게 썰고 꼭꼭 씹어 드세요(어르신·아이는 조심). 가을이 제철이에요.'},
+    {id:'webfoot', nm:'주꾸미', kind:'side', peak:R([3,4]), ok:R([10,11]), bad:R([5,6,7,8]), why:'5/11~8/31 금어기예요', per:.08, auc:['(활)쭈꾸미'], sea:['west'],
+      how:'<b>샤브샤브</b>나 데쳐서 초장에. 봄 주꾸미는 알이 차요.', cookable:true},
+    {id:'squirt', nm:'멍게', kind:'side', raw:true, peak:R([4,5,6]), ok:R([3,7]), bad:[], per:.07, auc:[], sea:['south','east'],
+      how:'<b>그대로 썰어</b> 바다향을 즐기거나 멍게비빔밥으로. 5~6월이 절정이에요.'},
+    {id:'seacuke', nm:'해삼', kind:'side', raw:true, peak:R([11,12,1,2]), ok:R([10,3]), bad:[], per:.06, auc:[], sea:['south','east','west'],
+      how:'<b>썰어서 초장에</b>. 오독한 식감이 별미예요. 찬바람 불 때가 제철이에요.'},
+    {id:'oyster', nm:'굴', kind:'side', peak:R([11,12,1,2]), ok:R([10,3]), bad:R([5,6,7,8]), why:'산란기라 맛이 떨어지고 날것은 피하는 게 좋아요', per:.1, auc:[], sea:['south','west'],
+      how:'<b>생굴</b>이나 <b>굴찜·굴구이</b>로. 찬바람 불 때가 제철이에요.', cookable:true},
+    {id:'scallop', nm:'가리비', kind:'side', peak:R([11,12,1,2]), ok:R([3]), bad:[], per:.12, auc:[], sea:['east','south'],
+      how:'<b>치즈·버터구이</b>나 찜으로. 겨울이 제철이에요.', cookable:true},
+  ];
+  const BY = Object.fromEntries(SP.map(s => [s.id, s]));
+  // 제철 회·찜 고르는 순서 (앞일수록 먼저) — 맛 대비 값이 무난한 쪽을 앞에
+  const RAW_ORDER = ['gizzard','yellowtail','mullet','redsnapper','blackporgy','seabass','amberjack','croaker','flounder','salmon'];
+  const COOK_ORDER = ['crab-m','crab-f','shrimp','snowcrab','kingcrab'];
+  const SIDE_ORDER = ['octopus','webfoot','squirt','seacuke','oyster','scallop','abalone'];
+
+  const MARKETS = [
+    {id:'noryangjin', nm:'노량진수산시장 (서울)', sea:null, hint:'1층에서 사고 2층 식당에서 상차림비를 내고 먹어요. 가격 자료가 이 시장 경매가라 가장 잘 맞아요.'},
+    {id:'garak', nm:'가락시장 (서울 송파)', sea:null, hint:'수도권 시장이라 노량진 경매가와 흐름이 비슷해요. 사서 근처 식당에서 상차림비를 내고 먹는 구조예요.'},
+    {id:'sorae', nm:'소래포구 어시장 (인천)', sea:'west', hint:'서해 시장이라 꽃게·새우·전어 같은 서해 제철을 우선 추천해요.'},
+    {id:'yeonan', nm:'인천 연안부두 종합어시장', sea:'west', hint:'서해 시장이라 꽃게·새우·전어 같은 서해 제철을 우선 추천해요.'},
+    {id:'jagalchi', nm:'자갈치시장 (부산)', sea:'south', hint:'남해 시장이라 남해에서 많이 나는 어종을 우선 추천해요.'},
+    {id:'sokcho', nm:'속초 동명항·중앙시장 (강원)', sea:'east', hint:'동해 시장이라 대게처럼 동해에서 많이 나는 어종을 우선 추천해요.'},
+    {id:'jukdo', nm:'포항 죽도시장 (경북)', sea:'east', hint:'동해 시장이라 대게처럼 동해에서 많이 나는 어종을 우선 추천해요.'},
+    {id:'other', nm:'그 밖의 수산시장', sea:null, hint:'가격은 노량진 경매가 기준이라 시장마다 다를 수 있어요.'},
+  ];
+
+  // ── 상태 ──
+  const st = {people: 4, month: 1, appetite: 'normal', style: 'mix', noCrust: false, noRawShell: false, market: 'noryangjin', items: []};
+  let P = null;   // prices.json
+
+  function season(s, m){
+    if (s.bad.includes(m)) return 'bad';
+    if (s.peak.includes(m)) return 'peak';
+    if (s.ok.includes(m)) return 'ok';
+    return 'off';
+  }
+  const SEASON_TXT = {peak:'제철', ok:'먹을 만해요', off:'제철 아님', bad:'산란기·금어기'};
+  const SEASON_CLS = {peak:'b-peak', ok:'b-ok', off:'b-off', bad:'b-ban'};
+
+  function priceOf(s){
+    if (!P || !s.auc.length) return null;
+    let kg = 0, amt = 0, dom = null, imp = null, days = 0, last = '';
+    s.auc.forEach(k => { const it = P.items[k]; if (!it) return;
+      kg += it.kg; amt += it.kg * it.avg; days = Math.max(days, it.days); if (it.last > last) last = it.last;
+      if (it.domestic) dom = it.domestic; if (it.import) imp = it.import; });
+    if (!kg) return null;
+    return {avg: amt / kg, kg, days, last, dom, imp};
+  }
+
+  const roundKg = (kg, min) => Math.max(min, Math.round(kg * 2) / 2);   // 0.5kg 단위 반올림, 최소 한 마리
+
+  // ── 추천 구성 만들기 ──
+  function recommend(){
+    const n = st.people, m = st.month, sea = (MARKETS.find(x => x.id === st.market) || {}).sea;
+    let net = NET_G[st.appetite] * n;                      // 회 순살 g
+    if (st.style === 'raw') net *= 1.5;
+    if (st.style === 'drink') net *= 0.85;
+    const good = s => { const v = season(s, m); return v === 'peak' || v === 'ok'; };
+    const score = s => (season(s, m) === 'peak' ? 0 : 10) + (sea && s.sea.includes(sea) ? -3 : 0);
+    const pick = (order, k) => order.map(id => BY[id]).filter(good).sort((a, b) => score(a) - score(b) || order.indexOf(a.id) - order.indexOf(b.id)).slice(0, k);
+
+    // ① 기본 회: 광어 + 우럭 (우럭이 산란기면 그달 맛있는 흰살 생선으로 바꿈)
+    // 생선은 한 마리(1kg 안팎) 단위라, 적은 인원은 가짓수를 줄여야 양이 넘치지 않는다
+    const base = [BY.flatfish];
+    if (n <= 2) {}
+    else if (season(BY.rockfish, m) === 'bad') {
+      const alt = pick(['seabass','redsnapper','mullet','flounder','amberjack','croaker'], 1)[0];
+      base.push(alt || BY.rockfish);
+    } else base.push(BY.rockfish);
+    // ② 제철 회
+    const nSeason = (n <= 4 ? 1 : n <= 8 ? 2 : 3) + (st.style === 'raw' && n > 2 ? 1 : 0);
+    const seasonal = pick(RAW_ORDER.filter(id => !base.some(b => b.id === id)), nSeason).filter(s => season(s, m) === 'peak' || nSeason > 1);
+    // 회 순살 나누기: 기본 60%, 제철 40%
+    const rawList = [...base, ...seasonal];
+    const baseShare = base.length === 1 ? [0.6] : [0.35, 0.25];
+    const share = seasonal.length ? [...baseShare, ...seasonal.map(() => 0.40 / seasonal.length)] : (base.length === 1 ? [1] : [0.55, 0.45]);
+    const items = rawList.map((s, i) => ({id: s.id, course: i < base.length ? 'base' : 'season', kg: roundKg(net * share[i] / 1000 / s.yld, s.min)}));
+
+    // ③ 찜·구이
+    if (!st.noCrust) {
+      const nCook = st.style === 'raw' ? (n >= 6 ? 1 : 0) : (n <= 4 ? 1 : n <= 8 ? 2 : 3);
+      // 대게·킹크랩은 비싸서 10명 미만이면 둘 중 하나만
+      let cooks = pick(COOK_ORDER, nCook + 1);
+      if (n < 10) { let prem = 0; cooks = cooks.filter(s => !['snowcrab','kingcrab'].includes(s.id) || prem++ < 1); }
+      cooks = cooks.slice(0, nCook);
+      const f = cooks.length > 1 ? 0.65 : 1;
+      cooks.forEach(s => items.push({id: s.id, course: 'cook', kg: roundKg(s.per * n * f * (st.appetite === 'light' ? .8 : st.appetite === 'hearty' ? 1.2 : 1), .5)}));
+    }
+    // ④ 곁들임 해산물
+    const nSide = st.style === 'drink' ? (n <= 4 ? 2 : 3) : (n <= 3 ? 0 : 1);
+    const sides = pick(SIDE_ORDER.filter(id => !(st.noRawShell && BY[id].raw)), nSide);
+    sides.forEach(s => items.push({id: s.id, course: 'side', kg: roundKg(s.per * n, .5)}));
+    st.items = items;
+  }
+
+  // ── 그리기 ──
+  const COURSES = [['base','기본 회','값이 무난하고 회 양을 책임져요'], ['season','제철 회','이달 가장 맛있는 생선'], ['cook','찜·구이','따뜻한 요리로 속을 채워요'], ['side','곁들임 해산물','술안주로 한두 가지'], ['extra','더한 것','직접 고른 수산물']];
+
+  function render(){
+    const m = st.month;
+    let lo = 0, hi = 0, steamKg = 0, missing = [];
+    const html = COURSES.map(([key, title, sub]) => {
+      const list = st.items.filter(x => x.course === key);
+      if (!list.length) return '';
+      return `<div class="course"><h3>${title} <small>${sub}</small></h3>` + list.map(x => {
+        const s = BY[x.id], ss = season(s, m), p = priceOf(s);
+        let px = '<span>오늘 경매 기록이 없어 <b>현장 시세</b>로 확인해 주세요.</span>';
+        if (p) {
+          const a = p.avg * RETAIL[0], b = p.avg * RETAIL[1];
+          lo += a * x.kg; hi += b * x.kg;
+          const split = p.dom && p.imp ? ` · 국산 ${won(p.dom.avg)} / 수입 ${won(p.imp.avg)}` : '';
+          px = `가게 예상 <b>kg당 ${man(a)}~${man(b)}원</b> · 경매 평균 ${won(p.avg)}${split} → 이만큼이면 <b>약 ${man(a * x.kg)}~${man(b * x.kg)}원</b>`;
+        } else missing.push(s.nm);
+        if (s.steam) steamKg += x.kg;
+        const badge = x.course === 'base' ? `<span class="badge b-base">기본</span> ` : '';
+        const warn = ss === 'bad' ? (x.course === 'base'
+            ? `<div class="warn">⚠ ${esc(s.why || '이달은 산란기예요')}. 그래도 값이 무난한 기본 회라 넣었어요. 양을 줄이고 제철 회를 늘려도 좋아요.</div>`
+            : `<div class="warn">⚠ ${esc(s.why || '이달은 산란기·금어기예요')}. 다른 제철 수산물로 바꾸는 걸 추천해요.</div>`) : ss === 'off' && !s.base ? `<div class="warn">이달은 제철이 아니에요.</div>` : '';
+        return `<div class="item" data-id="${s.id}">
+          <div class="row"><span class="nm">${esc(s.nm)}</span>${badge}<span class="badge ${SEASON_CLS[ss]}">${SEASON_TXT[ss]}</span>
+            <span class="qty"><button type="button" data-d="-0.5" aria-label="${esc(s.nm)} 0.5kg 줄이기">−</button><span class="kg num">${x.kg.toFixed(1)}kg</span><button type="button" data-d="0.5" aria-label="${esc(s.nm)} 0.5kg 늘리기">+</button><button type="button" class="x" data-rm aria-label="${esc(s.nm)} 빼기">×</button></span></div>
+          <div class="how">${s.how}${s.yld ? ` <span class="sub">(회로 뜨면 약 ${Math.round(x.kg * s.yld * 1000 / 10) * 10}g)</span>` : ''}${s.unit ? ` <span class="sub">${s.unit}</span>` : ''}</div>
+          <div class="px num">${px}</div>${warn}</div>`;
+      }).join('') + '</div>';
+    }).join('');
+    $('#menu').innerHTML = html || '<p class="loading">구성이 비어 있어요. 아래에서 더하거나 추천으로 되돌려 보세요.</p>';
+
+    // 상차림·조리비
+    const n = st.people;
+    const feeLo = TABLE_FEE[0] * n + STEW_FEE[0] * n + STEAM_FEE * steamKg;
+    const feeHi = TABLE_FEE[1] * n + STEW_FEE[1] * n + STEAM_FEE * steamKg;
+    $('#fees').innerHTML = `<div><span>상차림 (${n}명 × 3천~5천 원)</span><b class="num">${man(TABLE_FEE[0] * n)}~${man(TABLE_FEE[1] * n)}원</b></div>
+      <div><span>매운탕 (기본 회 머리·뼈로, ${n}명 × 4천~5천 원)</span><b class="num">${man(STEW_FEE[0] * n)}~${man(STEW_FEE[1] * n)}원</b></div>
+      ${steamKg ? `<div><span>게 찜 조리비 (${steamKg.toFixed(1)}kg × 약 8천 원)</span><b class="num">약 ${man(STEAM_FEE * steamKg)}원</b></div>` : ''}`;
+
+    const tLo = lo + feeLo, tHi = hi + feeHi;
+    $('#sum-total').textContent = lo ? `약 ${man(tLo)}~${man(tHi)}원` : '–';
+    $('#sum-pp').textContent = lo ? `1인 약 ${man(tLo / n)}~${man(tHi / n)}원` : '';
+    const rawKg = st.items.filter(x => BY[x.id].kind === 'raw').reduce((a, x) => a + x.kg * BY[x.id].yld, 0);
+    $('#sum-meta').innerHTML = `<b>${n}명 · ${m}월 · ${esc((MARKETS.find(x => x.id === st.market) || {}).nm || '')}</b><br>회 순살 약 <b>${(rawKg).toFixed(1)}kg</b> (1인 약 ${Math.round(rawKg * 1000 / n)}g)` +
+      (n <= 4 ? '<br>생선은 한 마리 단위라 적은 인원은 조금 넉넉하게 나와요' : '') +
+      (missing.length ? `<br>${esc(missing.join('·'))}은(는) 경매 기록이 없어 합계에서 빠졌어요` : '');
+    renderAdd();
+  }
+
+  function renderAdd(){
+    const m = st.month, have = new Set(st.items.map(x => x.id));
+    const rank = {peak: 0, ok: 1, off: 2, bad: 3};
+    const opts = SP.filter(s => !have.has(s.id)).sort((a, b) => rank[season(a, m)] - rank[season(b, m)]);
+    $('#add-pick').innerHTML = opts.map(s => `<option value="${s.id}">${esc(s.nm)} — ${SEASON_TXT[season(s, m)]}</option>`).join('');
+    $('#add-btn').disabled = !opts.length;
+  }
+
+  function renderCal(){
+    const m = st.month;
+    const list = SP.filter(s => s.peak.length || s.bad.length);
+    $('#cal').innerHTML = `<table><thead><tr><th></th>${Array.from({length: 12}, (_, i) => `<th class="${i + 1 === m ? 'now' : ''}">${i + 1}월</th>`).join('')}</tr></thead><tbody>` +
+      list.map(s => `<tr><td class="nm">${esc(s.nm)}</td>${Array.from({length: 12}, (_, i) => { const v = season(s, i + 1);
+        return `<td class="${v === 'peak' ? 'p' : v === 'ok' ? 'o' : v === 'bad' ? 'b' : ''}${i + 1 === m ? ' now' : ''}" title="${esc(s.nm)} ${i + 1}월: ${SEASON_TXT[v]}"></td>`; }).join('')}</tr>`).join('') + '</tbody></table>';
+  }
+
+  function refresh(rebuild){
+    if (rebuild) recommend();
+    render();
+    renderCal();
+  }
+
+  // ── 입력 연결 ──
+  const peopleEl = $('#people');
+  const setPeople = v => { st.people = Math.max(1, Math.min(40, Math.round(v) || 1)); peopleEl.value = st.people; refresh(true); };
+  document.querySelectorAll('[data-step]').forEach(b => b.addEventListener('click', () => setPeople(st.people + +b.dataset.step)));
+  peopleEl.addEventListener('change', () => setPeople(+peopleEl.value));
+
+  const dateEl = $('#date');
+  const today = new Date();
+  dateEl.value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  st.month = today.getMonth() + 1;
+  dateEl.addEventListener('change', () => { const d = dateEl.value; if (d) { st.month = +d.slice(5, 7); refresh(true); } });
+
+  $('#market').innerHTML = MARKETS.map(x => `<option value="${x.id}">${esc(x.nm)}</option>`).join('');
+  const showHint = () => { $('#market-hint').textContent = (MARKETS.find(x => x.id === st.market) || {}).hint || ''; };
+  $('#market').addEventListener('change', e => { st.market = e.target.value; showHint(); refresh(true); });
+  showHint();
+
+  const seg = (sel, key) => document.querySelectorAll(`${sel} button`).forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll(`${sel} button`).forEach(x => x.setAttribute('aria-pressed', x === b));
+    st[key] = b.dataset.v; refresh(true);
+  }));
+  seg('#appetite', 'appetite');
+  seg('#style', 'style');
+  $('#no-crust').addEventListener('change', e => { st.noCrust = e.target.checked; refresh(true); });
+  $('#no-raw-shell').addEventListener('change', e => { st.noRawShell = e.target.checked; refresh(true); });
+
+  $('#menu').addEventListener('click', e => {
+    const box = e.target.closest('.item'); if (!box) return;
+    const x = st.items.find(i => i.id === box.dataset.id); if (!x) return;
+    if (e.target.matches('[data-rm]')) st.items = st.items.filter(i => i !== x);
+    else if (e.target.dataset.d) x.kg = Math.max(.5, Math.round((x.kg + +e.target.dataset.d) * 2) / 2);
+    else return;
+    refresh(false);
+  });
+  $('#add-btn').addEventListener('click', () => {
+    const s = BY[$('#add-pick').value]; if (!s) return;
+    const kg = s.kind === 'raw' ? roundKg(NET_G[st.appetite] * st.people * 0.2 / 1000 / s.yld, s.min) : roundKg((s.per || .1) * st.people * .6, .5);
+    st.items.push({id: s.id, course: 'extra', kg});
+    refresh(false);
+  });
+  $('#reset-btn').addEventListener('click', () => refresh(true));
+
+  // 주소로 받은 설정 (?n=인원&d=날짜&mk=시장) — 링크로 공유할 때
+  const q = new URLSearchParams(location.search);
+  if (+q.get('n')) { st.people = Math.max(1, Math.min(40, Math.round(+q.get('n')))); peopleEl.value = st.people; }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(q.get('d') || '')) { dateEl.value = q.get('d'); st.month = +q.get('d').slice(5, 7); }
+  if (MARKETS.some(x => x.id === q.get('mk'))) { st.market = q.get('mk'); $('#market').value = st.market; showHint(); }
+
+  // ── 시세 불러오기 ──
+  fetch('data/prices.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null).then(p => {
+    P = p;
+    if (P && P.window) {
+      $('#src-window').textContent = `(지금 자료: ${P.window[0]} ~ ${P.window[1]}, ${P.trading_days}거래일 · ${P.generated_at} 갱신)`;
+      $('#price-note').innerHTML = `가게 예상가 = 노량진 경매 평균(${esc(P.window[0])}~${esc(P.window[1])}) × 1.2~1.6배. 실제 값은 크기·산지·흥정에 따라 달라요. <a href="https://tpirates.com/%EC%8B%9C%EC%84%B8" target="_blank" rel="noopener">오늘 소매 시세 확인 (인어교주해적단) →</a>`;
+    } else {
+      $('#price-note').textContent = '시세 자료를 불러오지 못했어요. 구성과 kg만 참고해 주세요.';
+    }
+    refresh(true);
+  });
+})();
+</script>
+</body>
+</html>
