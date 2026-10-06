@@ -59,6 +59,14 @@ a{color:var(--sea)}
 .eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--coral)}
 header{display:flex;flex-direction:column;gap:10px}
 header p{color:var(--ink-2)}
+.guide-first{display:flex;align-items:center;gap:12px;background:var(--sand-soft);border:1px solid var(--sand);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--ink);transition:transform .15s}
+.guide-first:hover{transform:translateY(-1px)}
+.gf-ico{font-size:26px;flex:none}
+.gf-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.gf-txt small{font-size:12.5px;font-weight:700;color:var(--sand)}
+.gf-txt b{font-size:16px;line-height:1.4}
+.gf-txt span{font-size:13px;color:var(--ink-2);line-height:1.5}
+.gf-go{margin-left:auto;font-size:20px;color:var(--sand);flex:none}
 .card{background:var(--panel);border:1px solid var(--rule);border-radius:18px;padding:20px 18px}
 @media(min-width:640px){.card{padding:24px}}
 .card > h2{margin-bottom:4px}
@@ -154,6 +162,11 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
   <div class="eyebrow">수산시장 메뉴 구성 계산기</div>
   <h1>수산시장에서 뭘, 얼마나 시켜야 맛있게 먹을까?</h1>
   <p>몇 명이 언제 가는지만 넣으면 <b>기본 회 + 그달 제철 회 + 찜·구이 + 매운탕</b>으로 구성과 kg을 짜 드려요. 노량진수산시장 경매가로 <b>예상 비용 범위</b>도 계산해서, 바가지도 아니고 무리하게 깎지도 않는 <b>적정선</b>을 알려 드려요.</p>
+  <a class="guide-first" href="/fish-menu/guide/">
+    <span class="gf-ico" aria-hidden="true">📖</span>
+    <span class="gf-txt"><small>사용하기 전에 읽어 보는 걸 추천해요 · 4분</small><b>수산시장 처음 가도 실패 없이 시키는 법</b><span>제철과 산란기, 수율로 kg 계산하기, 경매가로 적정가 감 잡기, 사기 전에 물어볼 것까지</span></span>
+    <span class="gf-go" aria-hidden="true">→</span>
+  </a>
 </header>
 
 <section class="card" aria-labelledby="in-title">
@@ -269,6 +282,7 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
 
 <!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
 <section class="yn-rel yn-dark" aria-label="예나준의 다른 도구">
+  <a class="yn-guide" href="/fish-menu/guide/"><span class="e">📖</span><span><b>수산시장 가이드 읽기</b><small>제철·산란기, 수율로 kg 계산, 적정가 감 잡기, 물어볼 것</small></span><span class="go">→</span></a>
   <h2>이런 도구도 있어요</h2>
   <div class="yn-grid">
     <a class="yn-card" href="/wedding-gift/"><span class="e">💌</span><b>축의금 계산기</b><span>관계와 상황에 맞는 축의금을 알려 드려요.</span></a>
