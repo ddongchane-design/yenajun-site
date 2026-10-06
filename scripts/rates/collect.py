@@ -44,6 +44,10 @@ SERIES = [
     ('cp_A3', 'CP 1년 A3', 'cp', 2, '%'),
     ('cp_A2+', 'CP 1년 A2+', 'cp', 2, '%'),
     ('cp_A1', 'CP 1년 A1', 'cp', 2, '%'),
+    ('cp_A3-', 'CP 1년 A3-', 'cp', 2, '%'),  # 아래 4개는 화면 필터에서 골라 보는 추가 등급
+    ('cp_A3+', 'CP 1년 A3+', 'cp', 2, '%'),
+    ('cp_A2-', 'CP 1년 A2-', 'cp', 2, '%'),
+    ('cp_A2', 'CP 1년 A2', 'cp', 2, '%'),
     ('sb_avg', '상위 5개 평균', 'savings', 2, '%'),
     ('sb_1', '자산 1위', 'savings', 2, '%'),
     ('sb_2', '자산 2위', 'savings', 2, '%'),
@@ -198,7 +202,7 @@ class Collector:
             if v is not None:
                 out[f'card_{g}'] = {'v': v, 'd': cd}
         cp, cpd = self._once(('cp', asof), lambda: S.kofia_latest(S.kofia_cp, asof)) or ({}, None)
-        for g in ('A3', 'A2+', 'A1'):
+        for g in ('A1', 'A2+', 'A2', 'A2-', 'A3+', 'A3', 'A3-'):
             if g in cp:
                 out[f'cp_{g}'] = {'v': cp[g], 'd': cpd}
 

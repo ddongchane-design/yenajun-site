@@ -341,6 +341,58 @@
      "prev_date": "2026-09-23",
      "change_bp": 7.0,
      "change_pct": null
+    },
+    {
+     "id": "cp_A3-",
+     "name": "CP 1년 A3-",
+     "dp": 2,
+     "unit": "%",
+     "value": 6.92,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 6.84,
+     "prev_date": "2026-09-23",
+     "change_bp": 8.0,
+     "change_pct": null
+    },
+    {
+     "id": "cp_A3+",
+     "name": "CP 1년 A3+",
+     "dp": 2,
+     "unit": "%",
+     "value": 5.56,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 5.48,
+     "prev_date": "2026-09-23",
+     "change_bp": 8.0,
+     "change_pct": null
+    },
+    {
+     "id": "cp_A2-",
+     "name": "CP 1년 A2-",
+     "dp": 2,
+     "unit": "%",
+     "value": 4.15,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 4.07,
+     "prev_date": "2026-09-23",
+     "change_bp": 8.0,
+     "change_pct": null
+    },
+    {
+     "id": "cp_A2",
+     "name": "CP 1년 A2",
+     "dp": 2,
+     "unit": "%",
+     "value": 3.99,
+     "date": "2026-10-02",
+     "note": null,
+     "prev": 3.91,
+     "prev_date": "2026-09-23",
+     "change_bp": 8.0,
+     "change_pct": null
     }
    ]
   },
