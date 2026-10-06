@@ -39,6 +39,11 @@ def main(path):
         for k in ('category', 'title', 'summary'):
             if not (c.get(k) or '').strip():
                 errs.append(f'{i}번 카드 {k} 가 비었어요')
+        summ = c.get('summary') or ''
+        if summ.count('**') % 2:
+            errs.append(f'{i}번 카드 요약의 강조 표시(**)가 짝이 안 맞아요')
+        elif not 1 <= summ.count('**') // 2 <= 5:
+            errs.append(f'{i}번 카드 요약에 강조(**핵심 단어**)를 1~5곳 넣어 주세요 (지금 {summ.count("**") // 2}곳)')
         if c.get('category') and c['category'] not in CATS:
             errs.append(f'{i}번 카드 카테고리 "{c["category"]}" 는 목록에 없어요: {sorted(CATS)}')
         srcs = c.get('sources') or []

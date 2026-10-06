@@ -16,6 +16,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / 'rates' / 'data'
 e = lambda s: html.escape(str(s if s is not None else ''), quote=True)
+# 이슈 요약의 **핵심 단어** → <strong> (화면에서 빨간 굵은 글씨)
+rich = lambda s: re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', e(s))
 
 
 def load(name):
@@ -106,7 +108,7 @@ def rates_page(L, I):
         for c in I['cards']:
             nums = ''.join(f'<span>{e(n)}</span>' for n in c.get('numbers') or [])
             srcs = ' · '.join(f'<a href="{e(s.get("url"))}" target="_blank" rel="noopener nofollow">{e(s.get("title") or s.get("url"))}</a>' for s in c.get('sources') or [])
-            cards.append(f'<article class="is-card"><span class="is-cat">{e(c.get("category"))}</span><h3>{e(c["title"])}</h3><p>{e(c["summary"])}</p>'
+            cards.append(f'<article class="is-card"><span class="is-cat">{e(c.get("category"))}</span><h3>{e(c["title"])}</h3><p>{rich(c["summary"])}</p>'
                          + (f'<div class="is-nums">{nums}</div>' if nums else '') + (f'<div class="is-src">출처 {srcs}</div>' if srcs else '') + '</article>')
         doc = fill(doc, 'iscards', ''.join(cards))
         up = I.get('upcoming') or []
