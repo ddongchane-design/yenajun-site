@@ -40,3 +40,20 @@
 .yn-guide-top small { display: block; font-size: 13px; opacity: .75; margin-top: 2px; }
 .yn-guide-top .yn-go { flex: none; font-size: 14px; font-weight: 700; color: var(--yn-top-accent); white-space: nowrap; }
 @media (max-width: 420px) { .yn-guide-top .yn-go .yn-w { display: none; } }
+
+/* "커피 한 잔" 후원 카드 (buymeacoffee.com/yenajun) — 계산기 페이지 하단 공통 블록 안, "이런 도구도 있어요" 위.
+   BMC 위젯 스크립트는 페이지를 무겁게 하고 화면 위에 떠다녀서 쓰지 않고 링크만 둬요 */
+.yn-rel .yn-coffee { --yn-cf-bg: #FFF5DC; --yn-cf-line: #EED38E; --yn-cf-accent: #9A6512;
+  display: flex; align-items: center; gap: 12px; margin: 0 0 20px; padding: 14px 16px; border-radius: 14px;
+  background: var(--yn-cf-bg); border: 1px solid var(--yn-cf-line); color: var(--yn-text); text-decoration: none; transition: border-color .15s, transform .15s; }
+.yn-rel .yn-coffee:hover { border-color: var(--yn-cf-accent); transform: translateY(-1px); color: var(--yn-text); }
+.yn-rel .yn-coffee .e { font-size: 24px; flex: none; }
+.yn-rel .yn-coffee .t { flex: 1; min-width: 0; }
+.yn-rel .yn-coffee b { display: block; font-size: 15.5px; font-weight: 700; line-height: 1.4; }
+.yn-rel .yn-coffee small { display: block; font-size: 13px; color: var(--yn-muted); margin-top: 2px; line-height: 1.5; }
+.yn-rel .yn-coffee .go { flex: none; font-size: 14px; font-weight: 700; color: var(--yn-cf-accent); white-space: nowrap; }
+@media (max-width: 420px) { .yn-rel .yn-coffee .go { display: none; } }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .yn-rel.yn-dark .yn-coffee { --yn-cf-bg: #332B1A; --yn-cf-line: #5A4A26; --yn-cf-accent: #F0C26A; }
+}
+:root[data-theme="dark"] .yn-rel.yn-dark .yn-coffee { --yn-cf-bg: #332B1A; --yn-cf-line: #5A4A26; --yn-cf-accent: #F0C26A; }
