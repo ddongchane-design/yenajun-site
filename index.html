@@ -33,6 +33,9 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
        crossorigin="anonymous"></script>
 <style>
+/* 상단 메뉴: 분류 이름이 길어 중간 폭에선 간격을 좁힘 */
+.nav a{white-space:nowrap}
+@media(min-width:900px) and (max-width:1199px){.nav{gap:18px;font-size:15px}.nav .pill{padding:8px 14px}}
 /* 소개 + 분류 */
 .intro-section{padding-bottom:0}
 .intro-title{margin:0 0 20px;font-size:clamp(22px,3vw,30px);color:var(--navy)}
@@ -50,7 +53,7 @@
 @media(min-width:900px){.cat+.cat{margin-top:88px}}
 .cat-head{max-width:760px;margin-bottom:22px}
 .cat-head .eyebrow{margin:0}
-.cat-head h3{margin:8px 0 10px;font-size:clamp(20px,2.6vw,26px);color:var(--navy)}
+.cat-head h3{margin:8px 0 10px;font-family:var(--serif);font-weight:900;font-size:clamp(26px,3.4vw,36px);letter-spacing:-.01em;color:var(--navy)}
 .cat-head p:last-child{margin:0;color:var(--muted);font-size:15px;line-height:1.75}
 .cat-reads{margin-top:16px;padding:18px 22px;background:#fff;border:1px solid var(--line);border-radius:20px}
 .cat-reads strong{display:block;font-size:14.5px;color:var(--navy);margin-bottom:8px}
@@ -105,9 +108,9 @@
       <span>예나준</span>
     </a>
     <nav class="nav" aria-label="주요 메뉴">
-      <a href="#baby">육아</a>
-      <a href="#money">돈·집</a>
-      <a href="#life">생활·가족</a>
+      <a href="#baby">아이를 키울 때</a>
+      <a href="#money">집과 돈을 셈할 때</a>
+      <a href="#life">사람과 마주할 때</a>
       <a href="/rates/">주간 금리 동향</a>
       <a href="/about">이야기</a>
       <a class="pill" href="mailto:ddongchane@gmail.com">문의하기</a>
@@ -117,9 +120,9 @@
     </button>
   </div>
   <nav class="mobile-nav" id="mobile-nav" aria-label="모바일 메뉴">
-    <a href="#baby">육아</a>
-    <a href="#money">돈·집</a>
-    <a href="#life">생활·가족</a>
+    <a href="#baby">아이를 키울 때</a>
+    <a href="#money">집과 돈을 셈할 때</a>
+    <a href="#life">사람과 마주할 때</a>
     <a href="/rates/">주간 금리 동향</a>
     <a href="/about">이야기</a>
     <a href="mailto:ddongchane@gmail.com">문의하기</a>
@@ -157,9 +160,9 @@
         <li><b>결과를 읽는 법까지 알려 드려요</b><span>도구마다 가이드 글이 있어서 숫자가 무슨 뜻인지, 다음에 무엇을 하면 되는지 알 수 있어요.</span></li>
       </ul>
       <nav class="cat-nav" aria-label="도구 분류">
-        <a href="#baby">육아 <small>5</small></a>
-        <a href="#money">돈·집 <small>4</small></a>
-        <a href="#life">생활·가족 <small>3</small></a>
+        <a href="#baby">아이를 키울 때 <small>5</small></a>
+        <a href="#money">집과 돈을 셈할 때 <small>4</small></a>
+        <a href="#life">사람과 마주할 때 <small>3</small></a>
       </nav>
     </div>
   </section>
@@ -178,7 +181,7 @@
       <div class="cat" id="baby">
         <div class="cat-head">
           <p class="eyebrow">육아</p>
-          <h3>아기를 기다리고 키우며 필요했던 도구</h3>
+          <h3>아이를 키울 때</h3>
           <p>임신 중 성별 궁금증부터 이름 짓기, 분유 타기, 혼합수유, RSV 주사까지. 아이를 키우며 매번 다시 찾아보던 기준을 계산기로 정리했어요. 의료 판단이 필요한 부분은 출처와 함께 "꼭 확인할 것"을 따로 적어 두었어요.</p>
         </div>
         <div class="tool-grid">
@@ -243,7 +246,7 @@
       <div class="cat" id="money">
         <div class="cat-head">
           <p class="eyebrow">돈·집</p>
-          <h3>집 구하기, 대출, 투자 전에 숫자부터</h3>
+          <h3>집과 돈을 셈할 때</h3>
           <p>전세냐 월세냐, 대출이 얼마나 나오냐, 물을 탈까 말까. 막연히 감으로 정하기 쉬운 돈 문제를 직접 계산해 볼 수 있게 만들었어요. 매주 월요일에는 예금·대출 금리에 영향을 주는 시장 금리 흐름도 정리해요.</p>
         </div>
         <div class="tool-grid">
@@ -299,7 +302,7 @@
       <div class="cat" id="life">
         <div class="cat-head">
           <p class="eyebrow">생활·가족</p>
-          <h3>경조사, 상속, 가족 모임 준비</h3>
+          <h3>사람과 마주할 때</h3>
           <p>얼마를 내야 실례가 아닐지, 가족 사이 상속은 어떻게 나뉘는지, 여럿이 수산시장에 가면 무엇을 얼마나 사야 할지. 막상 닥치면 물어볼 데가 마땅치 않은 생활 속 계산을 모았어요.</p>
         </div>
         <div class="tool-grid">
