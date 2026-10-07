@@ -106,7 +106,45 @@ def summarize(days):
         for side, o in it['org'].items():
             rec[side] = {'avg': round(o['amt'] / o['kg']), 'kg': round(o['kg'], 1)}
         items[name] = rec
+    add_trend(days, items)
     return {'window': [dates[0], dates[-1]] if dates else None, 'trading_days': len(dates), 'items': items}
+
+
+RECENT = 3   # '최근'으로 볼 거래일 수
+
+
+def add_trend(days, items):
+    """최근 RECENT 거래일과 그 전(남겨 둔 날 전부)의 하루 평균 물량·가격을 비교한다.
+    끝물이거나 갑자기 안 잡히는 어종(예: 2026년 10월 전어)을 화면에서 알려 주려고."""
+    dates = sorted(days)
+    if len(dates) <= RECENT:
+        return
+    recent, base = set(dates[-RECENT:]), dates[:-RECENT]
+    acc = {}
+    for d in dates:
+        for name, origin, size, q, h, l, a in days[d]:
+            r = acc.setdefault(name, {'rk': 0.0, 'ra': 0.0, 'bk': 0.0, 'ba': 0.0, 'rdays': set()})
+            if d in recent:
+                r['rk'] += q; r['ra'] += q * a; r['rdays'].add(d)
+            else:
+                r['bk'] += q; r['ba'] += q * a
+    for name, it in items.items():
+        r = acc.get(name)
+        if not r or not r['bk']:
+            continue   # 비교할 예전 기록이 없으면 판단하지 않는다
+        it['trend'] = {
+            'recent_kg_day': round(r['rk'] / RECENT, 1),
+            'base_kg_day': round(r['bk'] / len(base), 1),
+            'recent_days': len(r['rdays']),
+            'recent_avg': round(r['ra'] / r['rk']) if r['rk'] else None,
+            'base_avg': round(r['ba'] / r['bk']),
+        }
+    # 예전엔 있었는데 최근 7거래일에 아예 안 들어온 어종도 '물량 없음'으로 남긴다
+    for name, r in acc.items():
+        if name not in items and r['bk'] and not r['rk']:
+            items[name] = {'avg': None, 'kg': 0, 'days': 0, 'last': None,
+                           'trend': {'recent_kg_day': 0, 'base_kg_day': round(r['bk'] / len(base), 1), 'recent_days': 0,
+                                     'recent_avg': None, 'base_avg': round(r['ba'] / r['bk'])}}
 
 
 def main(argv):
@@ -121,8 +159,8 @@ def main(argv):
         if d.weekday() == 6:      # 일요일은 경매 없음
             continue
         ds = d.isoformat()
-        if ds in store['days'] and ds != today.isoformat():
-            continue              # 이미 받은 지난 날은 다시 안 받는다
+        if ds in store['days'] and (today - d).days > 2:
+            continue              # 사흘 넘은 날은 다시 안 받는다 (최근 이틀은 경매 도중에 받았을 수 있어 다시 받음)
         rows = fetch_day(ds)
         if rows:
             store['days'][ds] = rows

@@ -271,6 +271,7 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
   <h2 id="src-title">⑤ 숫자는 어디서 왔나요</h2>
   <ul class="tips" id="src-list">
     <li><b>시장 가격</b>: <a href="https://www.susansijang.co.kr/nsis/mim/info/mim9030" target="_blank" rel="noopener">노량진수산주식회사 「오늘의 경락시세」</a> — 경매(도매) 낙찰가 중 kg 단위 거래의 최근 7거래일 물량가중 평균. 매일 아침 자동으로 받아요. <span id="src-window"></span></li>
+    <li><b>"시장에 없을 수 있어요" 경고</b>: 같은 경매 자료에서 최근 3거래일 하루 물량·값을 그 전과 비교해요. 물량이 3분의 1 아래로 줄고 값이 크게 오르면(끝물·흉어) 추천 순서를 뒤로 미루고 알려 드려요. 가는 날이 오늘에서 2주 안일 때만 써요.</li>
     <li><b>가게에서 사는 값(소매) 추정</b>: 경매가 × 1.2~1.6배. 중도매인이 경매가에 kg당 1천~5천 원을 붙이고, 경매가 6,900원짜리 광어가 현장에서 8천~1만1천 원에 팔린 예시를 바탕으로 했어요 (<a href="https://www.hankyung.com/article/202411227888i" target="_blank" rel="noopener">한국경제, 2024.11</a>). 크기·자연산 여부·흥정에 따라 벗어날 수 있어요.</li>
     <li><b>오늘 실제 소매 시세</b>는 <a href="https://tpirates.com/%EC%8B%9C%EC%84%B8" target="_blank" rel="noopener">인어교주해적단 전국 수산시장 당일 시세</a>에서 함께 확인해 보세요. (인어교주해적단 가격 자료는 로그인이 필요한 서비스라 이 계산기에는 가져오지 않았어요.)</li>
     <li><b>회 수율(통째 무게 중 회로 나오는 살)</b>: 광어 45~50%, 대방어 40%, 참돔 등 도미류 33~35%, 농어 35%, 숭어 30~33%, 우럭 25~28% (<a href="https://tpirates.com/%EC%BD%98%ED%85%90%EC%B8%A0/158/%EC%88%98%EC%82%B0%EB%AC%BC%EC%A0%95%EB%B3%B4%EC%83%9D%EC%84%A0%ED%9A%8C-%EC%88%9C%EC%82%B4%EC%9D%84-%EA%B8%B0%EC%A4%80%EC%9C%BC%EB%A1%9C-%EA%B0%80%EA%B2%A9%EC%9D%84-%EC%A0%95%EB%A6%AC%ED%96%88%EC%8A%B5%EB%8B%88%EB%8B%A4" target="_blank" rel="noopener">인어교주해적단 순살 기준 정리</a>). 목록에 없는 어종은 비슷한 체형의 값을 썼어요. 썰어서 파는 큰 생선은 "통째 경매가 ÷ 수율"로 썬 회 kg당 값을 환산해요. 마리 수는 시장에서 흔한 크기(광어·참돔 1~2kg, 우럭 0.5~1kg 등)로 어림한 값이라 가게마다 달라요.</li>
@@ -386,7 +387,7 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
   ];
 
   // ── 상태 ──
-  const st = {people: 4, month: 1, appetite: 'normal', style: 'mix', noCrust: false, noRawShell: false, market: 'noryangjin', items: []};
+  const st = {live: true, people: 4, month: 1, appetite: 'normal', style: 'mix', noCrust: false, noRawShell: false, market: 'noryangjin', items: []};
   let P = null;   // prices.json
 
   function season(s, m){
@@ -408,6 +409,28 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
     return {avg: amt / kg, kg, days, last, dom, imp};
   }
 
+  // 최근 물량·가격 흐름 (collect.py 의 trend: 최근 3거래일 vs 그 전 하루 평균)
+  // 가는 날이 오늘에서 2주 안일 때만 쓴다 — 지금 시장 사정이라 먼 달 추천에는 안 맞는다
+  function supplyOf(s){
+    if (!P || !s.auc.length || !st.live) return null;
+    let rk = 0, bk = 0, ra = 0, ba = 0, rdays = 0, any = false;
+    s.auc.forEach(k => { const t = (P.items[k] || {}).trend; if (!t) return; any = true;
+      rk += t.recent_kg_day; bk += t.base_kg_day; rdays = Math.max(rdays, t.recent_days);
+      if (t.recent_avg) ra += t.recent_avg * t.recent_kg_day; ba += t.base_avg * t.base_kg_day; });
+    if (!any || !bk) return null;
+    const ratio = rk / bk, pr = rk && ba ? (ra / rk) / (ba / bk) : null;
+    let flag = null;
+    if (!rk) flag = 'gone';                                                  // 최근 3거래일 경매 물량 없음
+    else if (ratio < 0.35 && ((pr && pr >= 1.3) || rdays < 3)) flag = 'low'; // 물량 급감 + 값 급등이나 빠진 날
+    else if (pr && pr >= 1.4) flag = 'pricey';                               // 값만 급등
+    return {ratio, pr, flag};
+  }
+  const SUPPLY_TXT = {
+    gone: '최근 3거래일 노량진 경매 물량이 없어요. 시장에 없을 수 있어요.',
+    low: '최근 경매 물량이 크게 줄었어요{pr}. 끝물이거나 잘 안 잡히는 때라 시장에 없을 수 있어요.',
+    pricey: '최근 경매가가 많이 올랐어요{pr}. 생각보다 비쌀 수 있어요.'};
+  const supplyTxt = sp => SUPPLY_TXT[sp.flag].replace('{pr}', sp.pr ? ` (값은 그 전보다 약 ${sp.pr.toFixed(1)}배)` : '');
+
   // 썰어서 파는 큰 생선(cut)은 '회 g'(x.g)으로, 나머지는 '사는 무게 kg'(x.kg)으로 들고 있는다
   const wholeKg = x => BY[x.id].cut ? x.g / 1000 / BY[x.id].yld : x.kg;     // 통째로 치면 몇 kg 분량
   const netG = x => BY[x.id].cut ? x.g : x.kg * (BY[x.id].yld || 0) * 1000;  // 회로 나오는 살 g
@@ -423,7 +446,8 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
     if (st.style === 'raw') net *= 1.5;
     if (st.style === 'drink') net *= 0.85;
     const good = s => { const v = season(s, m); return v === 'peak' || v === 'ok'; };
-    const score = s => (season(s, m) === 'peak' ? 0 : 10) + (sea && s.sea.includes(sea) ? -3 : 0);
+    const SUP = {gone: 30, low: 12, pricey: 4};   // 시장에 없거나 끝물이면 뒤로
+    const score = s => (season(s, m) === 'peak' ? 0 : 10) + (sea && s.sea.includes(sea) ? -3 : 0) + (SUP[(supplyOf(s) || {}).flag] || 0);
     const pick = (order, k) => order.map(id => BY[id]).filter(good).sort((a, b) => score(a) - score(b) || order.indexOf(a.id) - order.indexOf(b.id)).slice(0, k);
 
     // ① 기본 회: 광어 + 우럭 (우럭이 산란기면 그달 맛있는 흰살 생선으로 바꿈)
@@ -484,9 +508,11 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
         } else missing.push(s.nm);
         if (s.steam) steamKg += wk;
         const badge = x.course === 'base' ? `<span class="badge b-base">기본</span> ` : '';
-        const warn = ss === 'bad' ? (x.course === 'base'
+        const sp = supplyOf(s);
+        const supWarn = sp && sp.flag ? `<div class="warn">⚠ ${supplyTxt(sp)}</div>` : '';
+        const warn = supWarn + (ss === 'bad' ? (x.course === 'base'
             ? `<div class="warn">⚠ ${esc(s.why || '이달은 산란기예요')}. 그래도 값이 무난한 기본 회라 넣었어요. 양을 줄이고 제철 회를 늘려도 좋아요.</div>`
-            : `<div class="warn">⚠ ${esc(s.why || '이달은 산란기·금어기예요')}. 다른 제철 수산물로 바꾸는 걸 추천해요.</div>`) : ss === 'off' && !s.base ? `<div class="warn">이달은 제철이 아니에요.</div>` : '';
+            : `<div class="warn">⚠ ${esc(s.why || '이달은 산란기·금어기예요')}. 다른 제철 수산물로 바꾸는 걸 추천해요.</div>`) : ss === 'off' && !s.base ? `<div class="warn">이달은 제철이 아니에요.</div>` : '');
         return `<div class="item" data-id="${s.id}">
           <div class="row"><span class="nm">${esc(s.nm)}</span>${badge}<span class="badge ${SEASON_CLS[ss]}">${SEASON_TXT[ss]}</span>
             <span class="qty">${s.cut
@@ -521,7 +547,8 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
     const m = st.month, have = new Set(st.items.map(x => x.id));
     const rank = {peak: 0, ok: 1, off: 2, bad: 3};
     const opts = SP.filter(s => !have.has(s.id)).sort((a, b) => rank[season(a, m)] - rank[season(b, m)]);
-    $('#add-pick').innerHTML = opts.map(s => `<option value="${s.id}">${esc(s.nm)} — ${SEASON_TXT[season(s, m)]}</option>`).join('');
+    const supTag = s => { const f = (supplyOf(s) || {}).flag; return f === 'gone' ? ' · 최근 물량 없음' : f === 'low' ? ' · 최근 물량 적음' : ''; };
+    $('#add-pick').innerHTML = opts.map(s => `<option value="${s.id}">${esc(s.nm)} — ${SEASON_TXT[season(s, m)]}${supTag(s)}</option>`).join('');
     $('#add-btn').disabled = !opts.length;
   }
 
@@ -549,7 +576,9 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
   const today = new Date();
   dateEl.value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   st.month = today.getMonth() + 1;
-  dateEl.addEventListener('change', () => { const d = dateEl.value; if (d) { st.month = +d.slice(5, 7); refresh(true); } });
+  dateEl.dataset.today = dateEl.value;   // 오늘 — 시장 물량 경고를 쓸지 판단할 때 기준
+  const isLive = d => Math.abs(new Date(d) - new Date(dateEl.dataset.today)) <= 14 * 864e5;
+  dateEl.addEventListener('change', () => { const d = dateEl.value; if (d) { st.month = +d.slice(5, 7); st.live = isLive(d); refresh(true); } });
 
   $('#market').innerHTML = MARKETS.map(x => `<option value="${x.id}">${esc(x.nm)}</option>`).join('');
   const showHint = () => { $('#market-hint').textContent = (MARKETS.find(x => x.id === st.market) || {}).hint || ''; };
@@ -585,7 +614,7 @@ footer{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
   // 주소로 받은 설정 (?n=인원&d=날짜&mk=시장) — 링크로 공유할 때
   const q = new URLSearchParams(location.search);
   if (+q.get('n')) { st.people = Math.max(1, Math.min(40, Math.round(+q.get('n')))); peopleEl.value = st.people; }
-  if (/^\d{4}-\d{2}-\d{2}$/.test(q.get('d') || '')) { dateEl.value = q.get('d'); st.month = +q.get('d').slice(5, 7); }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(q.get('d') || '')) { dateEl.value = q.get('d'); st.month = +q.get('d').slice(5, 7); st.live = isLive(q.get('d')); }
   if (MARKETS.some(x => x.id === q.get('mk'))) { st.market = q.get('mk'); $('#market').value = st.market; showHint(); }
 
   // ── 시세 불러오기 ──
