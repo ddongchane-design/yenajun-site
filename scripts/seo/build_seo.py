@@ -21,7 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SITE = 'https://yenajun.com'
 # 구글 애널리틱스 4 측정 ID (예: 'G-ABC123XYZ'). 넣고 이 스크립트를 다시 돌리면 모든 페이지에 들어가요. 비우면 빠져요.
-GA4_ID = ''
+GA4_ID = 'G-7J20CMXV0R'
 OG_DIR = ROOT / 'assets' / 'og'
 
 if sys.platform == 'win32':
