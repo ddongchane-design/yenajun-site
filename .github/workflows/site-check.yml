@@ -1,0 +1,50 @@
+# 예나준 사이트 점검 (E2E) — 매주 월요일 오전, 배포된 사이트를 브라우저로 열어 보고 문제를 찾는다.
+# 점검 내용은 scripts/check/site_check.py 맨 위 설명 참고.
+# 문제가 있으면: 워크플로가 실패로 표시되고(GitHub가 메일로 알림), "사이트 점검" 이슈를 연다.
+name: site-check
+
+on:
+  schedule:
+    - cron: '17 2 * * 1'    # 월 11:17 KST (일요일 금리 갱신·월요일 아침 이슈 글 반영 뒤)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: site-check
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 브라우저 준비
+        run: |
+          pip install playwright==1.62.0
+          python -m playwright install --with-deps chromium
+
+      - name: 사이트 점검
+        id: check
+        run: python scripts/check/site_check.py --report report.md
+
+      - name: 결과 요약
+        if: always()
+        run: cat report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 문제가 있으면 이슈 열기
+        if: failure() && steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title "사이트 점검: 문제 발견 ($(TZ=Asia/Seoul date +%Y-%m-%d))" \
+            --body-file report.md
