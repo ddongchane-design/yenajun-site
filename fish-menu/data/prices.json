@@ -1,7 +1,7 @@
 {
  "window": [
-  "2026-10-01",
-  "2026-10-08"
+  "2026-10-02",
+  "2026-10-09"
  ],
  "trading_days": 7,
  "items": {
@@ -37,29 +37,29 @@
    },
    "trend": {
     "recent_kg_day": 0.0,
-    "base_kg_day": 2.5,
+    "base_kg_day": 2.2,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 636
    }
   },
   "(선)가오리": {
-   "avg": 5509,
+   "avg": 5658,
    "lo": 1000.0,
    "hi": 12000.0,
-   "kg": 1096.2,
+   "kg": 1019.3,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 5509,
-    "kg": 1096.2
+    "avg": 5658,
+    "kg": 1019.3
    },
    "trend": {
-    "recent_kg_day": 88.9,
-    "base_kg_day": 221.5,
+    "recent_kg_day": 63.5,
+    "base_kg_day": 214.9,
     "recent_days": 3,
-    "recent_avg": 6148,
-    "base_avg": 5606
+    "recent_avg": 6172,
+    "base_avg": 5665
    }
   },
   "(선)가자미": {
@@ -74,30 +74,30 @@
     "kg": 40.9
    },
    "trend": {
-    "recent_kg_day": 8.1,
-    "base_kg_day": 22.2,
-    "recent_days": 2,
-    "recent_avg": 3057,
-    "base_avg": 6202
+    "recent_kg_day": 4.6,
+    "base_kg_day": 21.0,
+    "recent_days": 1,
+    "recent_avg": 3000,
+    "base_avg": 6049
    }
   },
   "(선)간재미": {
-   "avg": 1702,
-   "lo": 700.0,
+   "avg": 1796,
+   "lo": 1000.0,
    "hi": 4000.0,
-   "kg": 324.0,
+   "kg": 296.0,
    "days": 4,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 1702,
-    "kg": 324.0
+    "avg": 1796,
+    "kg": 296.0
    },
    "trend": {
-    "recent_kg_day": 96.7,
-    "base_kg_day": 259.6,
+    "recent_kg_day": 93.3,
+    "base_kg_day": 235.2,
     "recent_days": 3,
-    "recent_avg": 1792,
-    "base_avg": 1156
+    "recent_avg": 1798,
+    "base_avg": 1160
    }
   },
   "(선)감성돔": {
@@ -113,7 +113,7 @@
    },
    "trend": {
     "recent_kg_day": 0.0,
-    "base_kg_day": 2.3,
+    "base_kg_day": 2.1,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 7130
@@ -132,29 +132,29 @@
    },
    "trend": {
     "recent_kg_day": 0.0,
-    "base_kg_day": 1.7,
+    "base_kg_day": 1.6,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 3000
    }
   },
   "(선)갯장어": {
-   "avg": 1683,
+   "avg": 1822,
    "lo": 700.0,
    "hi": 2500.0,
-   "kg": 94.3,
+   "kg": 124.8,
    "days": 4,
-   "last": "2026-10-06",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 1683,
-    "kg": 94.3
+    "avg": 1822,
+    "kg": 124.8
    },
    "trend": {
-    "recent_kg_day": 3.1,
-    "base_kg_day": 25.4,
+    "recent_kg_day": 22.9,
+    "base_kg_day": 23.8,
     "recent_days": 1,
-    "recent_avg": 2000,
-    "base_avg": 1418
+    "recent_avg": 1947,
+    "base_avg": 1441
    }
   },
   "(선)금태": {
@@ -169,53 +169,53 @@
     "kg": 121.4
    },
    "trend": {
-    "recent_kg_day": 36.8,
-    "base_kg_day": 1.2,
-    "recent_days": 2,
-    "recent_avg": 11868,
-    "base_avg": 4500
+    "recent_kg_day": 31.1,
+    "base_kg_day": 2.8,
+    "recent_days": 1,
+    "recent_avg": 10414,
+    "base_avg": 13811
    }
   },
   "(선)넙치": {
-   "avg": 5260,
+   "avg": 4222,
    "lo": 1000.0,
-   "hi": 16000.0,
-   "kg": 176.9,
+   "hi": 12000.0,
+   "kg": 168.0,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 5260,
-    "kg": 176.9
+    "avg": 4222,
+    "kg": 168.0
    },
    "trend": {
-    "recent_kg_day": 13.7,
-    "base_kg_day": 87.9,
+    "recent_kg_day": 17.2,
+    "base_kg_day": 80.3,
     "recent_days": 3,
-    "recent_avg": 3787,
-    "base_avg": 2719
+    "recent_avg": 4862,
+    "base_avg": 2699
    }
   },
   "(선)농어": {
-   "avg": 10792,
+   "avg": 10039,
    "lo": 300.0,
    "hi": 17000.0,
-   "kg": 296.6,
+   "kg": 488.6,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 9543,
-    "kg": 86.7
+    "avg": 9423,
+    "kg": 82.2
    },
    "domestic": {
-    "avg": 11308,
-    "kg": 209.9
+    "avg": 10163,
+    "kg": 406.4
    },
    "trend": {
-    "recent_kg_day": 53.1,
-    "base_kg_day": 92.7,
+    "recent_kg_day": 82.8,
+    "base_kg_day": 94.5,
     "recent_days": 3,
-    "recent_avg": 9994,
-    "base_avg": 6494
+    "recent_avg": 9398,
+    "base_avg": 6826
    }
   },
   "(선)능성어": {
@@ -230,11 +230,11 @@
     "kg": 14.7
    },
    "trend": {
-    "recent_kg_day": 3.7,
-    "base_kg_day": 8.7,
-    "recent_days": 2,
+    "recent_kg_day": 3.3,
+    "base_kg_day": 8.0,
+    "recent_days": 1,
     "recent_avg": 10000,
-    "base_avg": 10907
+    "base_avg": 10892
    }
   },
   "(선)다랑어": {
@@ -250,190 +250,190 @@
    }
   },
   "(선)대게": {
-   "avg": 9501,
+   "avg": 10357,
    "lo": 500.0,
    "hi": 40000.0,
-   "kg": 555.7,
+   "kg": 677.0,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 9501,
-    "kg": 555.7
+    "avg": 10357,
+    "kg": 677.0
    },
    "trend": {
-    "recent_kg_day": 100.9,
-    "base_kg_day": 43.4,
+    "recent_kg_day": 119.1,
+    "base_kg_day": 45.9,
     "recent_days": 3,
-    "recent_avg": 8575,
-    "base_avg": 12182
+    "recent_avg": 10249,
+    "base_avg": 11888
    }
   },
   "(선)대구": {
-   "avg": 4539,
+   "avg": 4827,
    "lo": 2000.0,
    "hi": 6000.0,
-   "kg": 191.9,
-   "days": 4,
-   "last": "2026-10-07",
+   "kg": 457.9,
+   "days": 5,
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 4539,
-    "kg": 191.9
+    "avg": 4827,
+    "kg": 457.9
    },
    "trend": {
-    "recent_kg_day": 15.6,
-    "base_kg_day": 24.6,
+    "recent_kg_day": 101.3,
+    "base_kg_day": 23.0,
     "recent_days": 2,
-    "recent_avg": 4362,
-    "base_avg": 5505
+    "recent_avg": 4962,
+    "base_avg": 5446
    }
   },
   "(선)대하(새우)": {
-   "avg": 2102,
-   "lo": 300.0,
+   "avg": 2810,
+   "lo": 800.0,
    "hi": 5200.0,
-   "kg": 1024.0,
-   "days": 5,
+   "kg": 592.0,
+   "days": 4,
    "last": "2026-10-08",
    "domestic": {
-    "avg": 2102,
-    "kg": 1024.0
+    "avg": 2810,
+    "kg": 592.0
    },
    "trend": {
-    "recent_kg_day": 107.3,
-    "base_kg_day": 78.3,
-    "recent_days": 2,
-    "recent_avg": 2529,
-    "base_avg": 2133
+    "recent_kg_day": 25.3,
+    "base_kg_day": 95.1,
+    "recent_days": 1,
+    "recent_avg": 4241,
+    "base_avg": 2098
    }
   },
   "(선)도다리": {
-   "avg": 1500,
-   "lo": 1500.0,
-   "hi": 1500.0,
-   "kg": 3.0,
-   "days": 1,
-   "last": "2026-10-07",
+   "avg": 1836,
+   "lo": 1000.0,
+   "hi": 3000.0,
+   "kg": 6.1,
+   "days": 2,
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 1500,
-    "kg": 3.0
+    "avg": 1836,
+    "kg": 6.1
    }
   },
   "(선)무늬오징어": {
-   "avg": 73347,
-   "lo": 56000.0,
-   "hi": 78000.0,
-   "kg": 31.5,
+   "avg": 73400,
+   "lo": 70000.0,
+   "hi": 85000.0,
+   "kg": 12.0,
    "days": 2,
-   "last": "2026-10-02",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 73347,
-    "kg": 31.5
+    "avg": 73400,
+    "kg": 12.0
    },
    "trend": {
-    "recent_kg_day": 0.0,
-    "base_kg_day": 4.9,
-    "recent_days": 0,
-    "recent_avg": null,
+    "recent_kg_day": 0.5,
+    "base_kg_day": 4.4,
+    "recent_days": 1,
+    "recent_avg": 85000,
     "base_avg": 77032
    }
   },
   "(선)무점매가리": {
-   "avg": 5554,
+   "avg": 3000,
    "lo": 3000.0,
-   "hi": 7000.0,
-   "kg": 21.3,
-   "days": 3,
+   "hi": 3000.0,
+   "kg": 7.7,
+   "days": 2,
    "last": "2026-10-07",
    "import": {
-    "avg": 5554,
-    "kg": 21.3
+    "avg": 3000,
+    "kg": 7.7
    },
    "trend": {
     "recent_kg_day": 0.4,
-    "base_kg_day": 4.9,
+    "base_kg_day": 4.5,
     "recent_days": 1,
     "recent_avg": 3000,
     "base_avg": 6139
    }
   },
   "(선)문어": {
-   "avg": 22294,
-   "lo": 18000.0,
-   "hi": 26000.0,
-   "kg": 56.1,
+   "avg": 20949,
+   "lo": 15000.0,
+   "hi": 25000.0,
+   "kg": 67.0,
    "days": 6,
-   "last": "2026-10-07",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 22294,
-    "kg": 56.1
+    "avg": 20949,
+    "kg": 67.0
    },
    "trend": {
-    "recent_kg_day": 3.0,
-    "base_kg_day": 10.4,
+    "recent_kg_day": 11.4,
+    "base_kg_day": 9.7,
     "recent_days": 2,
-    "recent_avg": 21944,
-    "base_avg": 23246
+    "recent_avg": 19675,
+    "base_avg": 23309
    }
   },
   "(선)민어": {
-   "avg": 10590,
+   "avg": 11037,
    "lo": 5000.0,
    "hi": 28000.0,
-   "kg": 3256.3,
+   "kg": 1870.8,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 10590,
-    "kg": 3256.3
+    "avg": 11037,
+    "kg": 1870.8
    },
    "trend": {
-    "recent_kg_day": 118.3,
-    "base_kg_day": 642.7,
+    "recent_kg_day": 28.4,
+    "base_kg_day": 607.6,
     "recent_days": 3,
-    "recent_avg": 12102,
-    "base_avg": 11856
+    "recent_avg": 16489,
+    "base_avg": 11822
    }
   },
   "(선)바다가재": {
-   "avg": 12341,
-   "lo": 2000.0,
+   "avg": 13514,
+   "lo": 3000.0,
    "hi": 25000.0,
-   "kg": 199.4,
+   "kg": 178.9,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 12341,
-    "kg": 199.4
+    "avg": 13514,
+    "kg": 178.9
    },
    "trend": {
-    "recent_kg_day": 26.0,
+    "recent_kg_day": 26.2,
     "base_kg_day": 26.1,
     "recent_days": 3,
-    "recent_avg": 11703,
-    "base_avg": 12828
+    "recent_avg": 12851,
+    "base_avg": 12943
    }
   },
   "(선)방어": {
-   "avg": 4251,
+   "avg": 4169,
    "lo": 100.0,
    "hi": 20000.0,
-   "kg": 1829.2,
+   "kg": 2075.3,
    "days": 7,
-   "last": "2026-10-08",
-   "domestic": {
-    "avg": 1765,
-    "kg": 343.8
-   },
+   "last": "2026-10-09",
    "import": {
-    "avg": 4826,
-    "kg": 1485.4
+    "avg": 4754,
+    "kg": 1693.9
+   },
+   "domestic": {
+    "avg": 1575,
+    "kg": 381.4
    },
    "trend": {
-    "recent_kg_day": 340.7,
-    "base_kg_day": 163.4,
+    "recent_kg_day": 299.4,
+    "base_kg_day": 198.6,
     "recent_days": 3,
-    "recent_avg": 3284,
-    "base_avg": 4630
+    "recent_avg": 4108,
+    "base_avg": 3956
    }
   },
   "(선)백조기": {
@@ -449,66 +449,78 @@
    },
    "trend": {
     "recent_kg_day": 0.7,
-    "base_kg_day": 12.1,
+    "base_kg_day": 10.9,
     "recent_days": 1,
     "recent_avg": 5000,
     "base_avg": 4468
    }
   },
   "(선)벤자리": {
-   "avg": 3000,
+   "avg": 5722,
    "lo": 3000.0,
-   "hi": 3000.0,
-   "kg": 1.0,
-   "days": 1,
-   "last": "2026-10-02",
+   "hi": 6000.0,
+   "kg": 10.8,
+   "days": 2,
+   "last": "2026-10-09",
    "import": {
-    "avg": 3000,
-    "kg": 1.0
+    "avg": 5722,
+    "kg": 10.8
    },
    "trend": {
-    "recent_kg_day": 0.0,
-    "base_kg_day": 1.3,
-    "recent_days": 0,
-    "recent_avg": null,
+    "recent_kg_day": 3.3,
+    "base_kg_day": 1.1,
+    "recent_days": 1,
+    "recent_avg": 6000,
     "base_avg": 3435
    }
   },
   "(선)병어": {
-   "avg": 18404,
+   "avg": 18674,
    "lo": 1000.0,
-   "hi": 32000.0,
-   "kg": 521.6,
+   "hi": 35000.0,
+   "kg": 343.2,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 18404,
-    "kg": 521.6
+    "avg": 18674,
+    "kg": 343.2
    },
    "trend": {
-    "recent_kg_day": 42.2,
-    "base_kg_day": 91.3,
+    "recent_kg_day": 26.0,
+    "base_kg_day": 87.7,
     "recent_days": 3,
-    "recent_avg": 18373,
-    "base_avg": 20101
+    "recent_avg": 21898,
+    "base_avg": 19791
+   }
+  },
+  "(선)보리새우": {
+   "avg": 1000,
+   "lo": 1000.0,
+   "hi": 1000.0,
+   "kg": 7.0,
+   "days": 1,
+   "last": "2026-10-09",
+   "domestic": {
+    "avg": 1000,
+    "kg": 7.0
    }
   },
   "(선)복어": {
-   "avg": 6464,
+   "avg": 5416,
    "lo": 2000.0,
    "hi": 9000.0,
-   "kg": 257.8,
+   "kg": 195.3,
    "days": 6,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 6464,
-    "kg": 257.8
+    "avg": 5416,
+    "kg": 195.3
    },
    "trend": {
-    "recent_kg_day": 16.9,
-    "base_kg_day": 82.9,
-    "recent_days": 2,
-    "recent_avg": 2795,
+    "recent_kg_day": 22.6,
+    "base_kg_day": 74.6,
+    "recent_days": 3,
+    "recent_avg": 2611,
     "base_avg": 7213
    }
   },
@@ -524,30 +536,49 @@
     "kg": 76.0
    },
    "trend": {
-    "recent_kg_day": 23.4,
-    "base_kg_day": 8.1,
+    "recent_kg_day": 0.0,
+    "base_kg_day": 14.3,
+    "recent_days": 0,
+    "recent_avg": null,
+    "base_avg": 3192
+   }
+  },
+  "(선)붉바리": {
+   "avg": 1500,
+   "lo": 1500.0,
+   "hi": 1500.0,
+   "kg": 1.0,
+   "days": 1,
+   "last": "2026-10-09",
+   "domestic": {
+    "avg": 1500,
+    "kg": 1.0
+   },
+   "trend": {
+    "recent_kg_day": 0.3,
+    "base_kg_day": 0.3,
     "recent_days": 1,
-    "recent_avg": 2953,
-    "base_avg": 3422
+    "recent_avg": 1500,
+    "base_avg": 5235
    }
   },
   "(선)삼치": {
-   "avg": 10743,
+   "avg": 10359,
    "lo": 2500.0,
    "hi": 100000.0,
-   "kg": 5203.8,
+   "kg": 4873.2,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 10743,
-    "kg": 5203.8
+    "avg": 10359,
+    "kg": 4873.2
    },
    "trend": {
-    "recent_kg_day": 755.4,
-    "base_kg_day": 462.5,
+    "recent_kg_day": 670.4,
+    "base_kg_day": 503.0,
     "recent_days": 3,
-    "recent_avg": 11607,
-    "base_avg": 11061
+    "recent_avg": 10411,
+    "base_avg": 11413
    }
   },
   "(선)상어": {
@@ -582,19 +613,19 @@
    }
   },
   "(선)서대": {
-   "avg": 6143,
+   "avg": 6342,
    "lo": 3000.0,
    "hi": 9000.0,
-   "kg": 83.6,
-   "days": 3,
+   "kg": 62.6,
+   "days": 2,
    "last": "2026-10-03",
    "domestic": {
-    "avg": 6143,
-    "kg": 83.6
+    "avg": 6342,
+    "kg": 62.6
    },
    "trend": {
     "recent_kg_day": 0.0,
-    "base_kg_day": 46.1,
+    "base_kg_day": 41.5,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 5127
@@ -613,66 +644,66 @@
    },
    "trend": {
     "recent_kg_day": 0.0,
-    "base_kg_day": 0.8,
+    "base_kg_day": 0.7,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 4411
    }
   },
   "(선)수조기": {
-   "avg": 5558,
+   "avg": 5844,
    "lo": 3000.0,
    "hi": 7000.0,
-   "kg": 33.5,
-   "days": 1,
-   "last": "2026-10-02",
+   "kg": 41.8,
+   "days": 2,
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 5558,
-    "kg": 33.5
+    "avg": 5844,
+    "kg": 41.8
    },
    "trend": {
-    "recent_kg_day": 0.0,
-    "base_kg_day": 6.1,
-    "recent_days": 0,
-    "recent_avg": null,
+    "recent_kg_day": 2.8,
+    "base_kg_day": 5.5,
+    "recent_days": 1,
+    "recent_avg": 7000,
     "base_avg": 6209
    }
   },
   "(선)아귀": {
-   "avg": 4795,
+   "avg": 5309,
    "lo": 2000.0,
-   "hi": 6500.0,
-   "kg": 198.5,
-   "days": 5,
-   "last": "2026-10-08",
+   "hi": 7000.0,
+   "kg": 459.6,
+   "days": 6,
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 4795,
-    "kg": 198.5
+    "avg": 5309,
+    "kg": 459.6
    },
    "trend": {
-    "recent_kg_day": 42.5,
-    "base_kg_day": 221.3,
+    "recent_kg_day": 110.0,
+    "base_kg_day": 205.0,
     "recent_days": 3,
-    "recent_avg": 4680,
-    "base_avg": 4238
+    "recent_avg": 5759,
+    "base_avg": 4207
    }
   },
   "(선)양태": {
-   "avg": 3561,
-   "lo": 1100.0,
+   "avg": 3544,
+   "lo": 100.0,
    "hi": 6000.0,
-   "kg": 252.5,
+   "kg": 251.1,
    "days": 5,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 3561,
-    "kg": 252.5
+    "avg": 3544,
+    "kg": 251.1
    },
    "trend": {
-    "recent_kg_day": 5.7,
-    "base_kg_day": 34.9,
-    "recent_days": 1,
-    "recent_avg": 3663,
+    "recent_kg_day": 7.9,
+    "base_kg_day": 31.4,
+    "recent_days": 2,
+    "recent_avg": 3122,
     "base_avg": 3780
    }
   },
@@ -689,68 +720,68 @@
    },
    "trend": {
     "recent_kg_day": 0.3,
-    "base_kg_day": 2.9,
+    "base_kg_day": 2.6,
     "recent_days": 1,
     "recent_avg": 1500,
     "base_avg": 3000
    }
   },
   "(선)연어": {
-   "avg": 8880,
-   "lo": 3500.0,
+   "avg": 10692,
+   "lo": 4000.0,
    "hi": 12000.0,
-   "kg": 201.3,
-   "days": 4,
+   "kg": 146.8,
+   "days": 3,
    "last": "2026-10-08",
-   "domestic": {
-    "avg": 4000,
-    "kg": 78.5
-   },
    "import": {
     "avg": 12000,
     "kg": 122.8
    },
+   "domestic": {
+    "avg": 4000,
+    "kg": 24.0
+   },
    "trend": {
-    "recent_kg_day": 8.0,
-    "base_kg_day": 56.8,
-    "recent_days": 2,
+    "recent_kg_day": 6.3,
+    "base_kg_day": 51.6,
+    "recent_days": 1,
     "recent_avg": 4000,
-    "base_avg": 6346
+    "base_avg": 6323
    }
   },
   "(선)왕게": {
-   "avg": 12472,
-   "lo": 500.0,
+   "avg": 14477,
+   "lo": 1000.0,
    "hi": 46000.0,
-   "kg": 511.6,
+   "kg": 515.5,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 12472,
-    "kg": 511.6
+    "avg": 14477,
+    "kg": 515.5
    },
    "trend": {
-    "recent_kg_day": 54.6,
-    "base_kg_day": 93.4,
+    "recent_kg_day": 81.5,
+    "base_kg_day": 87.2,
     "recent_days": 3,
-    "recent_avg": 15736,
-    "base_avg": 11576
+    "recent_avg": 16322,
+    "base_avg": 11971
    }
   },
   "(선)우럭": {
-   "avg": 10043,
+   "avg": 10000,
    "lo": 10000.0,
-   "hi": 11000.0,
-   "kg": 231.8,
-   "days": 2,
+   "hi": 10000.0,
+   "kg": 221.8,
+   "days": 1,
    "last": "2026-10-07",
    "domestic": {
-    "avg": 10043,
-    "kg": 231.8
+    "avg": 10000,
+    "kg": 221.8
    },
    "trend": {
     "recent_kg_day": 73.9,
-    "base_kg_day": 36.5,
+    "base_kg_day": 32.9,
     "recent_days": 1,
     "recent_avg": 10000,
     "base_avg": 12057
@@ -769,156 +800,118 @@
    }
   },
   "(선)자바리": {
-   "avg": 10184,
+   "avg": 11157,
    "lo": 500.0,
    "hi": 18000.0,
-   "kg": 42.6,
+   "kg": 38.3,
    "days": 5,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 10184,
-    "kg": 42.6
+    "avg": 11157,
+    "kg": 38.3
    },
    "trend": {
-    "recent_kg_day": 9.1,
-    "base_kg_day": 9.5,
+    "recent_kg_day": 9.9,
+    "base_kg_day": 8.7,
     "recent_days": 3,
-    "recent_avg": 9706,
-    "base_avg": 9851
+    "recent_avg": 10882,
+    "base_avg": 9698
    }
   },
   "(선)잡어": {
-   "avg": 3707,
+   "avg": 3341,
    "lo": 100.0,
    "hi": 23000.0,
-   "kg": 781.8,
+   "kg": 865.3,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 4186,
-    "kg": 644.7
+    "avg": 3694,
+    "kg": 727.8
    },
    "import": {
-    "avg": 1458,
-    "kg": 137.1
+    "avg": 1474,
+    "kg": 137.5
    },
    "trend": {
-    "recent_kg_day": 169.7,
-    "base_kg_day": 96.7,
+    "recent_kg_day": 115.5,
+    "base_kg_day": 117.0,
     "recent_days": 3,
-    "recent_avg": 3351,
-    "base_avg": 4396
+    "recent_avg": 3079,
+    "base_avg": 4150
    }
   },
   "(선)잿방어": {
-   "avg": 5309,
+   "avg": 6543,
    "lo": 1000.0,
-   "hi": 8000.0,
-   "kg": 49.6,
-   "days": 6,
-   "last": "2026-10-08",
+   "hi": 17000.0,
+   "kg": 88.9,
+   "days": 7,
+   "last": "2026-10-09",
    "import": {
-    "avg": 5309,
-    "kg": 49.6
+    "avg": 6543,
+    "kg": 88.9
    },
    "trend": {
-    "recent_kg_day": 11.4,
-    "base_kg_day": 19.4,
+    "recent_kg_day": 21.2,
+    "base_kg_day": 18.4,
     "recent_days": 3,
-    "recent_avg": 5904,
-    "base_avg": 5898
-   }
-  },
-  "(선)전갱이": {
-   "avg": 2000,
-   "lo": 2000.0,
-   "hi": 2000.0,
-   "kg": 1.0,
-   "days": 1,
-   "last": "2026-10-01",
-   "domestic": {
-    "avg": 2000,
-    "kg": 1.0
-   },
-   "trend": {
-    "recent_kg_day": 0.0,
-    "base_kg_day": 0.1,
-    "recent_days": 0,
-    "recent_avg": null,
-    "base_avg": 2000
-   }
-  },
-  "(선)전복": {
-   "avg": 3000,
-   "lo": 3000.0,
-   "hi": 3000.0,
-   "kg": 25.0,
-   "days": 1,
-   "last": "2026-10-01",
-   "domestic": {
-    "avg": 3000,
-    "kg": 25.0
-   },
-   "trend": {
-    "recent_kg_day": 0.0,
-    "base_kg_day": 2.8,
-    "recent_days": 0,
-    "recent_avg": null,
-    "base_avg": 3000
+    "recent_avg": 7293,
+    "base_avg": 5887
    }
   },
   "(선)전어": {
-   "avg": 16465,
+   "avg": 16300,
    "lo": 14000.0,
-   "hi": 18000.0,
-   "kg": 324.4,
+   "hi": 23000.0,
+   "kg": 277.0,
    "days": 5,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 16465,
-    "kg": 324.4
+    "avg": 16300,
+    "kg": 277.0
    },
    "trend": {
-    "recent_kg_day": 27.5,
-    "base_kg_day": 109.0,
-    "recent_days": 2,
-    "recent_avg": 16255,
+    "recent_kg_day": 30.7,
+    "base_kg_day": 98.1,
+    "recent_days": 3,
+    "recent_avg": 16729,
     "base_avg": 12648
    }
   },
   "(선)점성어": {
-   "avg": 932,
+   "avg": 845,
    "lo": 100.0,
    "hi": 4000.0,
-   "kg": 357.2,
+   "kg": 395.4,
    "days": 6,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 932,
-    "kg": 357.2
+    "avg": 845,
+    "kg": 395.4
    },
    "trend": {
-    "recent_kg_day": 55.0,
-    "base_kg_day": 67.5,
-    "recent_days": 2,
-    "recent_avg": 1130,
+    "recent_kg_day": 71.1,
+    "base_kg_day": 60.7,
+    "recent_days": 3,
+    "recent_avg": 952,
     "base_avg": 804
    }
   },
   "(선)졸복": {
-   "avg": 1994,
+   "avg": 1888,
    "lo": 1500.0,
-   "hi": 2500.0,
-   "kg": 78.3,
-   "days": 3,
+   "hi": 2000.0,
+   "kg": 64.8,
+   "days": 2,
    "last": "2026-10-03",
    "domestic": {
-    "avg": 1994,
-    "kg": 78.3
+    "avg": 1888,
+    "kg": 64.8
    },
    "trend": {
     "recent_kg_day": 0.0,
-    "base_kg_day": 14.8,
+    "base_kg_day": 13.3,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 1791
@@ -934,109 +927,97 @@
    "domestic": {
     "avg": 3000,
     "kg": 8.8
+   },
+   "trend": {
+    "recent_kg_day": 0.0,
+    "base_kg_day": 0.9,
+    "recent_days": 0,
+    "recent_avg": null,
+    "base_avg": 3000
    }
   },
   "(선)줄돔": {
-   "avg": 2315,
+   "avg": 2959,
    "lo": 1000.0,
-   "hi": 3500.0,
-   "kg": 9.2,
-   "days": 3,
-   "last": "2026-10-08",
+   "hi": 5000.0,
+   "kg": 14.6,
+   "days": 4,
+   "last": "2026-10-09",
    "domestic": {
     "avg": 3116,
     "kg": 4.3
    },
    "import": {
-    "avg": 1612,
-    "kg": 4.9
+    "avg": 2893,
+    "kg": 10.3
    },
    "trend": {
-    "recent_kg_day": 1.0,
-    "base_kg_day": 1.0,
-    "recent_days": 2,
-    "recent_avg": 1367,
+    "recent_kg_day": 2.8,
+    "base_kg_day": 0.9,
+    "recent_days": 3,
+    "recent_avg": 3095,
     "base_avg": 2196
    }
   },
   "(선)쥐치": {
-   "avg": 2853,
+   "avg": 2127,
    "lo": 1500.0,
-   "hi": 4500.0,
-   "kg": 119.0,
-   "days": 2,
+   "hi": 3300.0,
+   "kg": 82.6,
+   "days": 1,
    "last": "2026-10-07",
    "domestic": {
-    "avg": 2853,
-    "kg": 119.0
+    "avg": 2127,
+    "kg": 82.6
    },
    "trend": {
     "recent_kg_day": 27.5,
-    "base_kg_day": 6.6,
+    "base_kg_day": 5.9,
     "recent_days": 1,
     "recent_avg": 2127,
     "base_avg": 3542
    }
   },
   "(선)참가자미": {
-   "avg": 6961,
+   "avg": 7148,
    "lo": 2000.0,
    "hi": 10000.0,
-   "kg": 29.8,
-   "days": 2,
-   "last": "2026-10-06",
+   "kg": 67.8,
+   "days": 3,
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 6961,
-    "kg": 29.8
+    "avg": 7148,
+    "kg": 67.8
    },
    "trend": {
-    "recent_kg_day": 8.2,
-    "base_kg_day": 5.5,
+    "recent_kg_day": 12.7,
+    "base_kg_day": 7.4,
     "recent_days": 1,
-    "recent_avg": 7165,
-    "base_avg": 6984
+    "recent_avg": 7295,
+    "base_avg": 7044
    }
   },
   "(선)참돔": {
-   "avg": 2996,
+   "avg": 2880,
    "lo": 100.0,
-   "hi": 12000.0,
-   "kg": 2742.0,
+   "hi": 11000.0,
+   "kg": 2534.4,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 2339,
-    "kg": 2366.1
+    "avg": 2147,
+    "kg": 2152.7
    },
    "domestic": {
-    "avg": 7133,
-    "kg": 375.9
+    "avg": 7015,
+    "kg": 381.7
    },
    "trend": {
-    "recent_kg_day": 172.6,
-    "base_kg_day": 433.0,
+    "recent_kg_day": 173.1,
+    "base_kg_day": 406.1,
     "recent_days": 3,
-    "recent_avg": 4878,
-    "base_avg": 3302
-   }
-  },
-  "(선)참조기": {
-   "avg": 22865,
-   "lo": 11500.0,
-   "hi": 52000.0,
-   "kg": 78.0,
-   "days": 1,
-   "last": "2026-10-01",
-   "domestic": {
-    "avg": 22865,
-    "kg": 78.0
-   },
-   "trend": {
-    "recent_kg_day": 0.0,
-    "base_kg_day": 8.7,
-    "recent_days": 0,
-    "recent_avg": null,
-    "base_avg": 22865
+    "recent_avg": 4975,
+    "base_avg": 3342
    }
   },
   "(선)학꽁치": {
@@ -1052,41 +1033,41 @@
    }
   },
   "(선)홍어": {
-   "avg": 4436,
+   "avg": 4729,
    "lo": 3500.0,
-   "hi": 8000.0,
-   "kg": 189.8,
-   "days": 5,
-   "last": "2026-10-08",
+   "hi": 10000.0,
+   "kg": 239.3,
+   "days": 6,
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 4436,
-    "kg": 189.8
+    "avg": 4729,
+    "kg": 239.3
    },
    "trend": {
-    "recent_kg_day": 6.0,
-    "base_kg_day": 121.3,
-    "recent_days": 2,
-    "recent_avg": 6034,
+    "recent_kg_day": 22.5,
+    "base_kg_day": 109.2,
+    "recent_days": 3,
+    "recent_avg": 5899,
     "base_avg": 4980
    }
   },
   "(선)흑점줄전갱이": {
-   "avg": 8667,
+   "avg": 10333,
    "lo": 100.0,
    "hi": 20000.0,
-   "kg": 31.5,
-   "days": 6,
-   "last": "2026-10-08",
+   "kg": 51.4,
+   "days": 7,
+   "last": "2026-10-09",
    "import": {
-    "avg": 8667,
-    "kg": 31.5
+    "avg": 10333,
+    "kg": 51.4
    },
    "trend": {
-    "recent_kg_day": 2.6,
-    "base_kg_day": 61.2,
+    "recent_kg_day": 8.0,
+    "base_kg_day": 55.4,
     "recent_days": 3,
-    "recent_avg": 9078,
-    "base_avg": 5352
+    "recent_avg": 13517,
+    "base_avg": 5323
    }
   },
   "(활)가오리": {
@@ -1121,132 +1102,132 @@
    },
    "trend": {
     "recent_kg_day": 1.1,
-    "base_kg_day": 12.7,
+    "base_kg_day": 11.4,
     "recent_days": 1,
     "recent_avg": 13000,
     "base_avg": 18041
    }
   },
   "(활)감성돔": {
-   "avg": 31098,
-   "lo": 10000.0,
+   "avg": 31239,
+   "lo": 9000.0,
    "hi": 56000.0,
-   "kg": 906.0,
+   "kg": 934.7,
    "days": 7,
-   "last": "2026-10-08",
-   "import": {
-    "avg": 33803,
-    "kg": 384.0
-   },
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 29109,
-    "kg": 522.0
+    "avg": 29043,
+    "kg": 545.1
+   },
+   "import": {
+    "avg": 34311,
+    "kg": 389.6
    },
    "trend": {
-    "recent_kg_day": 135.0,
-    "base_kg_day": 192.7,
+    "recent_kg_day": 122.8,
+    "base_kg_day": 186.9,
     "recent_days": 3,
-    "recent_avg": 31152,
-    "base_avg": 32207
+    "recent_avg": 31820,
+    "base_avg": 32134
    }
   },
   "(활)감숭어": {
-   "avg": 9147,
-   "lo": 1000.0,
+   "avg": 9280,
+   "lo": 500.0,
    "hi": 14000.0,
-   "kg": 1530.4,
+   "kg": 2696.4,
    "days": 6,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 9147,
-    "kg": 1530.4
+    "avg": 9280,
+    "kg": 2696.4
    },
    "trend": {
-    "recent_kg_day": 191.3,
-    "base_kg_day": 599.9,
+    "recent_kg_day": 653.5,
+    "base_kg_day": 544.9,
     "recent_days": 3,
-    "recent_avg": 10093,
-    "base_avg": 7791
+    "recent_avg": 9621,
+    "base_avg": 7811
    }
   },
   "(활)강도다리": {
-   "avg": 22777,
+   "avg": 22665,
    "lo": 18500.0,
    "hi": 24000.0,
-   "kg": 159.6,
+   "kg": 164.5,
    "days": 5,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 22777,
-    "kg": 159.6
+    "avg": 22665,
+    "kg": 164.5
    },
    "trend": {
-    "recent_kg_day": 14.0,
-    "base_kg_day": 23.2,
+    "recent_kg_day": 18.9,
+    "base_kg_day": 22.6,
     "recent_days": 2,
-    "recent_avg": 23715,
-    "base_avg": 22588
+    "recent_avg": 23217,
+    "base_avg": 22642
    }
   },
   "(활)갯장어": {
-   "avg": 3446,
-   "lo": 2500.0,
+   "avg": 4000,
+   "lo": 4000.0,
    "hi": 4000.0,
-   "kg": 49.7,
+   "kg": 20.2,
    "days": 1,
-   "last": "2026-10-01",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 3446,
-    "kg": 49.7
+    "avg": 4000,
+    "kg": 20.2
    },
    "trend": {
-    "recent_kg_day": 0.0,
-    "base_kg_day": 16.1,
-    "recent_days": 0,
-    "recent_avg": null,
+    "recent_kg_day": 6.7,
+    "base_kg_day": 14.5,
+    "recent_days": 1,
+    "recent_avg": 4000,
     "base_avg": 4679
    }
   },
   "(활)넙치": {
-   "avg": 28793,
+   "avg": 28827,
    "lo": 3000.0,
    "hi": 60000.0,
-   "kg": 13640.7,
+   "kg": 13927.8,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 28793,
-    "kg": 13640.7
+    "avg": 28827,
+    "kg": 13927.8
    },
    "trend": {
-    "recent_kg_day": 2100.6,
-    "base_kg_day": 2385.5,
+    "recent_kg_day": 2043.7,
+    "base_kg_day": 2379.1,
     "recent_days": 3,
-    "recent_avg": 28402,
-    "base_avg": 27765
+    "recent_avg": 28652,
+    "base_avg": 27837
    }
   },
   "(활)농어": {
-   "avg": 22774,
+   "avg": 22862,
    "lo": 4000.0,
-   "hi": 45000.0,
-   "kg": 9217.8,
+   "hi": 36000.0,
+   "kg": 10483.1,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 22874,
-    "kg": 7670.4
+    "avg": 23080,
+    "kg": 8109.2
    },
    "domestic": {
-    "avg": 22280,
-    "kg": 1547.4
+    "avg": 22119,
+    "kg": 2373.9
    },
    "trend": {
-    "recent_kg_day": 1158.6,
-    "base_kg_day": 1681.8,
+    "recent_kg_day": 1556.1,
+    "base_kg_day": 1654.9,
     "recent_days": 3,
-    "recent_avg": 22815,
-    "base_avg": 22282
+    "recent_avg": 22611,
+    "base_avg": 22329
    }
   },
   "(활)능성어": {
@@ -1261,110 +1242,110 @@
     "kg": 127.9
    },
    "trend": {
-    "recent_kg_day": 32.8,
-    "base_kg_day": 89.7,
-    "recent_days": 3,
-    "recent_avg": 31394,
-    "base_avg": 35202
+    "recent_kg_day": 25.7,
+    "base_kg_day": 82.9,
+    "recent_days": 2,
+    "recent_avg": 29440,
+    "base_avg": 35287
    }
   },
   "(활)대게": {
-   "avg": 37135,
+   "avg": 34942,
    "lo": 1000.0,
    "hi": 62000.0,
-   "kg": 9040.1,
+   "kg": 11379.1,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 37135,
-    "kg": 9040.1
+    "avg": 34942,
+    "kg": 11379.1
    },
    "trend": {
-    "recent_kg_day": 1118.3,
-    "base_kg_day": 1693.6,
+    "recent_kg_day": 2092.2,
+    "base_kg_day": 1583.5,
     "recent_days": 3,
-    "recent_avg": 34300,
-    "base_avg": 42279
+    "recent_avg": 36838,
+    "base_avg": 41302
    }
   },
   "(활)도다리": {
-   "avg": 25343,
-   "lo": 1000.0,
-   "hi": 42000.0,
-   "kg": 32.1,
-   "days": 3,
+   "avg": 26753,
+   "lo": 10000.0,
+   "hi": 40000.0,
+   "kg": 19.4,
+   "days": 2,
    "last": "2026-10-08",
    "domestic": {
-    "avg": 25343,
-    "kg": 32.1
+    "avg": 26753,
+    "kg": 19.4
    },
    "trend": {
     "recent_kg_day": 6.5,
-    "base_kg_day": 2.9,
+    "base_kg_day": 2.6,
     "recent_days": 2,
     "recent_avg": 26753,
     "base_avg": 24678
    }
   },
   "(활)돌게": {
-   "avg": 4801,
-   "lo": 2800.0,
+   "avg": 4673,
+   "lo": 3000.0,
    "hi": 6500.0,
-   "kg": 1420.0,
+   "kg": 1696.0,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 4801,
-    "kg": 1420.0
+    "avg": 4673,
+    "kg": 1696.0
    },
    "trend": {
-    "recent_kg_day": 204.7,
-    "base_kg_day": 120.9,
+    "recent_kg_day": 229.0,
+    "base_kg_day": 139.5,
     "recent_days": 3,
-    "recent_avg": 5198,
-    "base_avg": 4139
+    "recent_avg": 4780,
+    "base_avg": 4278
    }
   },
   "(활)돔": {
-   "avg": 4948,
-   "lo": 2000.0,
-   "hi": 11000.0,
-   "kg": 120.1,
+   "avg": 4998,
+   "lo": 3000.0,
+   "hi": 8000.0,
+   "kg": 112.0,
    "days": 3,
-   "last": "2026-10-06",
-   "domestic": {
-    "avg": 4153,
-    "kg": 13.7
-   },
+   "last": "2026-10-09",
    "import": {
     "avg": 5051,
     "kg": 106.4
    },
+   "domestic": {
+    "avg": 4000,
+    "kg": 5.6
+   },
    "trend": {
-    "recent_kg_day": 25.0,
-    "base_kg_day": 15.6,
+    "recent_kg_day": 1.9,
+    "base_kg_day": 21.5,
     "recent_days": 1,
-    "recent_avg": 4315,
-    "base_avg": 4305
+    "recent_avg": 4000,
+    "base_avg": 4308
    }
   },
   "(활)딱돔": {
-   "avg": 22799,
+   "avg": 22354,
    "lo": 5000.0,
    "hi": 26000.0,
-   "kg": 170.9,
-   "days": 3,
-   "last": "2026-10-08",
+   "kg": 184.1,
+   "days": 4,
+   "last": "2026-10-09",
    "import": {
-    "avg": 22799,
-    "kg": 170.9
+    "avg": 22354,
+    "kg": 184.1
    },
    "trend": {
-    "recent_kg_day": 30.6,
-    "base_kg_day": 28.5,
+    "recent_kg_day": 27.4,
+    "base_kg_day": 27.9,
     "recent_days": 2,
-    "recent_avg": 25193,
-    "base_avg": 20019
+    "recent_avg": 23590,
+    "base_avg": 20504
    }
   },
   "(활)무점매가리": {
@@ -1380,66 +1361,66 @@
    },
    "trend": {
     "recent_kg_day": 2.5,
-    "base_kg_day": 4.1,
+    "base_kg_day": 3.7,
     "recent_days": 1,
     "recent_avg": 8440,
     "base_avg": 9000
    }
   },
   "(활)문어": {
-   "avg": 17609,
-   "lo": 10000.0,
+   "avg": 17648,
+   "lo": 11000.0,
    "hi": 26000.0,
-   "kg": 876.5,
+   "kg": 866.8,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 17609,
-    "kg": 876.5
+    "avg": 17648,
+    "kg": 866.8
    },
    "trend": {
-    "recent_kg_day": 157.8,
-    "base_kg_day": 156.8,
+    "recent_kg_day": 160.2,
+    "base_kg_day": 145.6,
     "recent_days": 3,
-    "recent_avg": 18183,
-    "base_avg": 16713
+    "recent_avg": 17441,
+    "base_avg": 16923
    }
   },
   "(활)민어": {
-   "avg": 19568,
-   "lo": 10000.0,
+   "avg": 21282,
+   "lo": 9000.0,
    "hi": 40000.0,
-   "kg": 1411.4,
+   "kg": 1551.2,
    "days": 6,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 19568,
-    "kg": 1411.4
+    "avg": 21282,
+    "kg": 1551.2
    },
    "trend": {
-    "recent_kg_day": 44.3,
-    "base_kg_day": 475.5,
+    "recent_kg_day": 200.1,
+    "base_kg_day": 440.3,
     "recent_days": 3,
-    "recent_avg": 16465,
-    "base_avg": 23158
+    "recent_avg": 23336,
+    "base_avg": 22959
    }
   },
   "(활)바다가재": {
-   "avg": 34639,
-   "lo": 10000.0,
+   "avg": 35747,
+   "lo": 15000.0,
    "hi": 42000.0,
-   "kg": 127.4,
+   "kg": 118.3,
    "days": 6,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 34639,
-    "kg": 127.4
+    "avg": 35747,
+    "kg": 118.3
    },
    "trend": {
-    "recent_kg_day": 8.7,
-    "base_kg_day": 33.9,
-    "recent_days": 2,
-    "recent_avg": 32494,
+    "recent_kg_day": 16.1,
+    "base_kg_day": 30.5,
+    "recent_days": 3,
+    "recent_avg": 33051,
     "base_avg": 28076
    }
   },
@@ -1456,128 +1437,132 @@
    },
    "trend": {
     "recent_kg_day": 0.0,
-    "base_kg_day": 5.0,
+    "base_kg_day": 4.5,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 3100
    }
   },
   "(활)방어": {
-   "avg": 13443,
+   "avg": 13929,
    "lo": 500.0,
    "hi": 35000.0,
-   "kg": 16983.3,
+   "kg": 16985.9,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 17425,
-    "kg": 8456.5
+    "avg": 17767,
+    "kg": 9340.3
    },
    "domestic": {
-    "avg": 9493,
-    "kg": 8526.8
+    "avg": 9240,
+    "kg": 7645.6
    },
    "trend": {
-    "recent_kg_day": 1953.5,
-    "base_kg_day": 1609.4,
+    "recent_kg_day": 1948.9,
+    "base_kg_day": 1614.7,
     "recent_days": 3,
-    "recent_avg": 14950,
-    "base_avg": 12795
+    "recent_avg": 15643,
+    "base_avg": 13057
    }
   },
   "(활)벤자리": {
-   "avg": 22226,
+   "avg": 24719,
    "lo": 500.0,
    "hi": 42000.0,
-   "kg": 276.6,
+   "kg": 238.3,
    "days": 6,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 22226,
-    "kg": 276.6
+    "avg": 24719,
+    "kg": 238.3
    },
    "trend": {
-    "recent_kg_day": 29.9,
-    "base_kg_day": 39.5,
+    "recent_kg_day": 36.6,
+    "base_kg_day": 37.4,
     "recent_days": 3,
-    "recent_avg": 18924,
-    "base_avg": 23563
+    "recent_avg": 23734,
+    "base_avg": 23564
    }
   },
   "(활)벵에돔": {
-   "avg": 32995,
+   "avg": 25808,
    "lo": 12000.0,
    "hi": 42000.0,
-   "kg": 25.0,
+   "kg": 41.8,
    "days": 2,
-   "last": "2026-10-02",
+   "last": "2026-10-09",
    "import": {
-    "avg": 32995,
-    "kg": 25.0
+    "avg": 33790,
+    "kg": 13.9
+   },
+   "domestic": {
+    "avg": 21831,
+    "kg": 27.9
    },
    "trend": {
-    "recent_kg_day": 0.0,
-    "base_kg_day": 3.0,
-    "recent_days": 0,
-    "recent_avg": null,
+    "recent_kg_day": 9.3,
+    "base_kg_day": 2.7,
+    "recent_days": 1,
+    "recent_avg": 21831,
     "base_avg": 32153
    }
   },
   "(활)보리새우": {
-   "avg": 5472,
+   "avg": 5657,
    "lo": 1500.0,
    "hi": 9000.0,
-   "kg": 1186.0,
-   "days": 2,
-   "last": "2026-10-07",
+   "kg": 1338.0,
+   "days": 3,
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 5472,
-    "kg": 1186.0
+    "avg": 5657,
+    "kg": 1338.0
    },
    "trend": {
-    "recent_kg_day": 360.0,
-    "base_kg_day": 38.6,
-    "recent_days": 1,
-    "recent_avg": 5200,
+    "recent_kg_day": 410.7,
+    "base_kg_day": 34.7,
+    "recent_days": 2,
+    "recent_avg": 5434,
     "base_avg": 6547
    }
   },
   "(활)부시리": {
-   "avg": 9913,
+   "avg": 10338,
    "lo": 1000.0,
    "hi": 17000.0,
-   "kg": 3652.6,
+   "kg": 4613.4,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 9913,
-    "kg": 3652.6
+    "avg": 10338,
+    "kg": 4613.4
    },
    "trend": {
-    "recent_kg_day": 408.6,
-    "base_kg_day": 330.2,
+    "recent_kg_day": 498.1,
+    "base_kg_day": 383.8,
     "recent_days": 3,
-    "recent_avg": 8742,
-    "base_avg": 10911
+    "recent_avg": 11816,
+    "base_avg": 10245
    }
   },
   "(활)붉바리": {
-   "avg": 67716,
+   "avg": 64389,
    "lo": 4000.0,
    "hi": 130000.0,
-   "kg": 329.1,
+   "kg": 193.0,
    "days": 6,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 67716,
-    "kg": 329.1
+    "avg": 64389,
+    "kg": 193.0
    },
    "trend": {
-    "recent_kg_day": 24.8,
-    "base_kg_day": 54.8,
+    "recent_kg_day": 14.1,
+    "base_kg_day": 53.0,
     "recent_days": 2,
-    "recent_avg": 64194,
-    "base_avg": 60494
+    "recent_avg": 66641,
+    "base_avg": 60465
    }
   },
   "(활)상어": {
@@ -1612,7 +1597,7 @@
    },
    "trend": {
     "recent_kg_day": 0.0,
-    "base_kg_day": 0.9,
+    "base_kg_day": 0.8,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 9000
@@ -1631,287 +1616,287 @@
    },
    "trend": {
     "recent_kg_day": 8.0,
-    "base_kg_day": 0.9,
+    "base_kg_day": 0.8,
     "recent_days": 1,
     "recent_avg": 3800,
     "base_avg": 4000
    }
   },
   "(활)수꽃게": {
-   "avg": 18880,
-   "lo": 2500.0,
+   "avg": 18623,
+   "lo": 3000.0,
    "hi": 47200.0,
-   "kg": 22782.0,
+   "kg": 24339.0,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 18880,
-    "kg": 22782.0
+    "avg": 18623,
+    "kg": 24339.0
    },
    "trend": {
-    "recent_kg_day": 3403.7,
-    "base_kg_day": 4565.3,
+    "recent_kg_day": 4539.7,
+    "base_kg_day": 4320.9,
     "recent_days": 3,
-    "recent_avg": 16713,
-    "base_avg": 20153
+    "recent_avg": 14938,
+    "base_avg": 20223
    }
   },
   "(활)수조기": {
-   "avg": 8238,
-   "lo": 6000.0,
+   "avg": 7429,
+   "lo": 5000.0,
    "hi": 10000.0,
-   "kg": 8.4,
-   "days": 2,
-   "last": "2026-10-08",
+   "kg": 11.2,
+   "days": 3,
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 8238,
-    "kg": 8.4
+    "avg": 7429,
+    "kg": 11.2
    },
    "trend": {
-    "recent_kg_day": 1.6,
+    "recent_kg_day": 2.5,
     "base_kg_day": 0.5,
-    "recent_days": 1,
-    "recent_avg": 10000,
+    "recent_days": 2,
+    "recent_avg": 8133,
     "base_avg": 6917
    }
   },
   "(활)암꽃게": {
-   "avg": 15373,
+   "avg": 14995,
    "lo": 3000.0,
    "hi": 32500.0,
-   "kg": 9906.0,
+   "kg": 11394.0,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 15373,
-    "kg": 9906.0
+    "avg": 14995,
+    "kg": 11394.0
    },
    "trend": {
-    "recent_kg_day": 1397.3,
-    "base_kg_day": 1430.2,
+    "recent_kg_day": 1757.3,
+    "base_kg_day": 1441.9,
     "recent_days": 3,
-    "recent_avg": 14874,
-    "base_avg": 12084
+    "recent_avg": 12580,
+    "base_avg": 12683
    }
   },
   "(활)어름돔": {
-   "avg": 15817,
+   "avg": 14389,
    "lo": 6000.0,
-   "hi": 23000.0,
-   "kg": 42.9,
+   "hi": 20000.0,
+   "kg": 34.9,
    "days": 4,
-   "last": "2026-10-07",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 15817,
-    "kg": 42.9
+    "avg": 14389,
+    "kg": 34.9
    },
    "trend": {
-    "recent_kg_day": 9.1,
-    "base_kg_day": 13.9,
+    "recent_kg_day": 1.8,
+    "base_kg_day": 15.0,
     "recent_days": 2,
-    "recent_avg": 14860,
-    "base_avg": 6283
+    "recent_avg": 16222,
+    "base_avg": 7815
    }
   },
   "(활)왕게": {
-   "avg": 57782,
+   "avg": 60792,
    "lo": 1000.0,
    "hi": 83000.0,
-   "kg": 6632.2,
+   "kg": 6417.0,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 57782,
-    "kg": 6632.2
+    "avg": 60792,
+    "kg": 6417.0
    },
    "trend": {
-    "recent_kg_day": 606.1,
-    "base_kg_day": 1747.3,
+    "recent_kg_day": 1086.4,
+    "base_kg_day": 1577.7,
     "recent_days": 3,
-    "recent_avg": 67658,
-    "base_avg": 55125
+    "recent_avg": 68795,
+    "base_avg": 55092
    }
   },
   "(활)우럭": {
-   "avg": 28123,
+   "avg": 28005,
    "lo": 18000.0,
    "hi": 29000.0,
-   "kg": 157.3,
+   "kg": 133.9,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 28123,
-    "kg": 157.3
+    "avg": 28005,
+    "kg": 133.9
    },
    "trend": {
-    "recent_kg_day": 9.0,
-    "base_kg_day": 30.8,
+    "recent_kg_day": 6.8,
+    "base_kg_day": 28.7,
     "recent_days": 3,
     "recent_avg": 29000,
-    "base_avg": 28085
+    "base_avg": 28118
    }
   },
   "(활)자바리": {
-   "avg": 27080,
+   "avg": 28250,
    "lo": 4000.0,
    "hi": 125000.0,
-   "kg": 2643.6,
+   "kg": 2492.5,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 23484,
-    "kg": 2520.7
+    "avg": 23345,
+    "kg": 2332.9
    },
    "domestic": {
-    "avg": 100832,
-    "kg": 122.9
+    "avg": 99945,
+    "kg": 159.6
    },
    "trend": {
-    "recent_kg_day": 363.6,
-    "base_kg_day": 471.8,
+    "recent_kg_day": 308.4,
+    "base_kg_day": 463.1,
     "recent_days": 3,
-    "recent_avg": 26193,
-    "base_avg": 26344
+    "recent_avg": 28499,
+    "base_avg": 26270
    }
   },
   "(활)잡어": {
-   "avg": 9877,
+   "avg": 10396,
    "lo": 500.0,
    "hi": 158000.0,
-   "kg": 220.2,
+   "kg": 219.1,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 9877,
-    "kg": 220.2
+    "avg": 10396,
+    "kg": 219.1
    },
    "trend": {
-    "recent_kg_day": 36.6,
-    "base_kg_day": 59.4,
+    "recent_kg_day": 8.9,
+    "base_kg_day": 62.1,
     "recent_days": 3,
-    "recent_avg": 7856,
-    "base_avg": 8972
+    "recent_avg": 11852,
+    "base_avg": 8789
    }
   },
   "(활)잿방어": {
-   "avg": 23450,
+   "avg": 21949,
    "lo": 1000.0,
-   "hi": 38000.0,
-   "kg": 1731.4,
+   "hi": 33000.0,
+   "kg": 2139.3,
    "days": 7,
-   "last": "2026-10-08",
-   "import": {
-    "avg": 24251,
-    "kg": 1587.1
-   },
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 14635,
-    "kg": 144.3
+    "avg": 14224,
+    "kg": 299.1
+   },
+   "import": {
+    "avg": 23205,
+    "kg": 1840.2
    },
    "trend": {
-    "recent_kg_day": 241.8,
-    "base_kg_day": 387.2,
+    "recent_kg_day": 309.9,
+    "base_kg_day": 382.2,
     "recent_days": 3,
-    "recent_avg": 21273,
-    "base_avg": 28232
+    "recent_avg": 19684,
+    "base_avg": 27598
    }
   },
   "(활)전갱이": {
    "avg": 28000,
    "lo": 28000.0,
    "hi": 28000.0,
-   "kg": 284.0,
-   "days": 2,
-   "last": "2026-10-06",
+   "kg": 420.0,
+   "days": 3,
+   "last": "2026-10-09",
    "domestic": {
     "avg": 28000,
-    "kg": 284.0
+    "kg": 420.0
    },
    "trend": {
-    "recent_kg_day": 46.7,
-    "base_kg_day": 47.8,
+    "recent_kg_day": 45.3,
+    "base_kg_day": 57.0,
     "recent_days": 1,
     "recent_avg": 28000,
     "base_avg": 28000
    }
   },
   "(활)전복": {
-   "avg": 23195,
+   "avg": 23702,
    "lo": 5000.0,
    "hi": 85000.0,
-   "kg": 9529.8,
+   "kg": 9335.0,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 23195,
-    "kg": 9529.8
+    "avg": 23702,
+    "kg": 9335.0
    },
    "trend": {
-    "recent_kg_day": 1100.3,
-    "base_kg_day": 1645.7,
+    "recent_kg_day": 1252.8,
+    "base_kg_day": 1581.1,
     "recent_days": 3,
-    "recent_avg": 25123,
-    "base_avg": 21600
+    "recent_avg": 25428,
+    "base_avg": 21724
    }
   },
   "(활)전어": {
-   "avg": 33988,
+   "avg": 32795,
    "lo": 10000.0,
    "hi": 60000.0,
-   "kg": 1808.0,
+   "kg": 2109.0,
    "days": 5,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 33988,
-    "kg": 1808.0
+    "avg": 32795,
+    "kg": 2109.0
    },
    "trend": {
-    "recent_kg_day": 385.0,
-    "base_kg_day": 441.1,
-    "recent_days": 2,
-    "recent_avg": 26411,
+    "recent_kg_day": 520.0,
+    "base_kg_day": 396.9,
+    "recent_days": 3,
+    "recent_avg": 27700,
     "base_avg": 28397
    }
   },
   "(활)점성어": {
-   "avg": 7374,
+   "avg": 7965,
    "lo": 100.0,
-   "hi": 13000.0,
-   "kg": 4999.7,
+   "hi": 14000.0,
+   "kg": 5001.3,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 7374,
-    "kg": 4999.7
+    "avg": 7965,
+    "kg": 5001.3
    },
    "trend": {
-    "recent_kg_day": 681.6,
-    "base_kg_day": 790.3,
+    "recent_kg_day": 607.9,
+    "base_kg_day": 797.3,
     "recent_days": 3,
-    "recent_avg": 6905,
-    "base_avg": 7559
+    "recent_avg": 8905,
+    "base_avg": 7384
    }
   },
   "(활)줄돔": {
-   "avg": 98114,
+   "avg": 99998,
    "lo": 25000.0,
-   "hi": 160000.0,
-   "kg": 15.1,
+   "hi": 150000.0,
+   "kg": 59.7,
    "days": 5,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 102235,
-    "kg": 14.1
+    "avg": 101020,
+    "kg": 58.7
    },
    "import": {
     "avg": 40000,
     "kg": 1.0
    },
    "trend": {
-    "recent_kg_day": 2.0,
-    "base_kg_day": 28.1,
-    "recent_days": 2,
-    "recent_avg": 87667,
+    "recent_kg_day": 17.6,
+    "base_kg_day": 25.3,
+    "recent_days": 3,
+    "recent_avg": 101746,
     "base_avg": 48549
    }
   },
@@ -1928,7 +1913,7 @@
    },
    "trend": {
     "recent_kg_day": 0.0,
-    "base_kg_day": 22.5,
+    "base_kg_day": 20.2,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 3446
@@ -1947,109 +1932,109 @@
    },
    "trend": {
     "recent_kg_day": 13.8,
-    "base_kg_day": 2.4,
+    "base_kg_day": 2.1,
     "recent_days": 1,
     "recent_avg": 18700,
     "base_avg": 13900
    }
   },
   "(활)참돔": {
-   "avg": 16076,
+   "avg": 16477,
    "lo": 1000.0,
    "hi": 42000.0,
-   "kg": 27652.9,
+   "kg": 28559.0,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 16308,
-    "kg": 23545.9
+    "avg": 16772,
+    "kg": 24437.4
    },
    "domestic": {
-    "avg": 14745,
-    "kg": 4107.0
+    "avg": 14729,
+    "kg": 4121.6
    },
    "trend": {
-    "recent_kg_day": 3619.3,
-    "base_kg_day": 4547.4,
+    "recent_kg_day": 3704.7,
+    "base_kg_day": 4445.9,
     "recent_days": 3,
-    "recent_avg": 15142,
-    "base_avg": 16540
+    "recent_avg": 16202,
+    "base_avg": 16420
    }
   },
   "(활)참숭어": {
-   "avg": 9054,
-   "lo": 200.0,
+   "avg": 8925,
+   "lo": 1000.0,
    "hi": 15000.0,
-   "kg": 6614.0,
+   "kg": 6550.9,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 9054,
-    "kg": 6614.0
+    "avg": 8925,
+    "kg": 6550.9
    },
    "trend": {
-    "recent_kg_day": 735.1,
-    "base_kg_day": 886.4,
+    "recent_kg_day": 907.9,
+    "base_kg_day": 832.0,
     "recent_days": 3,
-    "recent_avg": 9404,
-    "base_avg": 7777
+    "recent_avg": 8398,
+    "base_avg": 7911
    }
   },
   "(활)혹돔": {
-   "avg": 13539,
+   "avg": 14799,
    "lo": 9500.0,
    "hi": 28000.0,
-   "kg": 22.0,
-   "days": 3,
-   "last": "2026-10-08",
+   "kg": 28.6,
+   "days": 4,
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 13539,
-    "kg": 22.0
+    "avg": 14799,
+    "kg": 28.6
    },
    "trend": {
-    "recent_kg_day": 1.2,
-    "base_kg_day": 2.0,
-    "recent_days": 1,
-    "recent_avg": 28000,
+    "recent_kg_day": 3.4,
+    "base_kg_day": 1.8,
+    "recent_days": 2,
+    "recent_avg": 22176,
     "base_avg": 10709
    }
   },
   "(활)흑점줄전갱이": {
-   "avg": 40556,
+   "avg": 40253,
    "lo": 5000.0,
    "hi": 46500.0,
-   "kg": 2726.8,
+   "kg": 3375.3,
    "days": 7,
-   "last": "2026-10-08",
+   "last": "2026-10-09",
    "import": {
-    "avg": 40556,
-    "kg": 2726.8
+    "avg": 40253,
+    "kg": 3375.3
    },
    "trend": {
-    "recent_kg_day": 322.2,
-    "base_kg_day": 638.5,
+    "recent_kg_day": 521.1,
+    "base_kg_day": 607.9,
     "recent_days": 3,
-    "recent_avg": 39869,
-    "base_avg": 38907
+    "recent_avg": 39242,
+    "base_avg": 38945
    }
   },
   "(활)흰다리새우": {
-   "avg": 19172,
+   "avg": 20037,
    "lo": 17200.0,
    "hi": 24000.0,
-   "kg": 740.0,
-   "days": 3,
-   "last": "2026-10-08",
+   "kg": 990.0,
+   "days": 4,
+   "last": "2026-10-09",
    "domestic": {
-    "avg": 19172,
-    "kg": 740.0
+    "avg": 20037,
+    "kg": 990.0
    },
    "trend": {
-    "recent_kg_day": 246.7,
-    "base_kg_day": 2.1,
+    "recent_kg_day": 311.7,
+    "base_kg_day": 7.4,
     "recent_days": 3,
-    "recent_avg": 19172,
-    "base_avg": 16000
+    "recent_avg": 19804,
+    "base_avg": 21938
    }
   },
   "(선)벵에돔": {
@@ -2059,7 +2044,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 13.7,
+    "base_kg_day": 12.3,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 1853
@@ -2072,7 +2057,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 7.5,
+    "base_kg_day": 6.7,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 4794
@@ -2085,7 +2070,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 4.8,
+    "base_kg_day": 4.3,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 12716
@@ -2111,7 +2096,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 15.3,
+    "base_kg_day": 13.8,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 19555
@@ -2124,23 +2109,10 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 2.3,
+    "base_kg_day": 2.1,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 7700
-   }
-  },
-  "(선)붉바리": {
-   "avg": null,
-   "kg": 0,
-   "days": 0,
-   "last": null,
-   "trend": {
-    "recent_kg_day": 0,
-    "base_kg_day": 0.4,
-    "recent_days": 0,
-    "recent_avg": null,
-    "base_avg": 5235
    }
   },
   "(선)돔": {
@@ -2150,7 +2122,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 45.4,
+    "base_kg_day": 40.9,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 5247
@@ -2163,7 +2135,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 6.1,
+    "base_kg_day": 5.5,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 6734
@@ -2176,7 +2148,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 11.1,
+    "base_kg_day": 10.0,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 5500
@@ -2189,7 +2161,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 17.7,
+    "base_kg_day": 15.9,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 300
@@ -2202,7 +2174,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 2.0,
+    "base_kg_day": 1.8,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 17700
@@ -2215,7 +2187,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 6.2,
+    "base_kg_day": 5.6,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 2300
@@ -2228,7 +2200,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 14.4,
+    "base_kg_day": 13.0,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 1898
@@ -2254,7 +2226,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 0.9,
+    "base_kg_day": 0.8,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 9100
@@ -2267,7 +2239,7 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 0.6,
+    "base_kg_day": 0.5,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 8000
@@ -2319,15 +2291,54 @@
    "last": null,
    "trend": {
     "recent_kg_day": 0,
-    "base_kg_day": 0.2,
+    "base_kg_day": 0.1,
     "recent_days": 0,
     "recent_avg": null,
     "base_avg": 8000
+   }
+  },
+  "(선)전갱이": {
+   "avg": null,
+   "kg": 0,
+   "days": 0,
+   "last": null,
+   "trend": {
+    "recent_kg_day": 0,
+    "base_kg_day": 0.1,
+    "recent_days": 0,
+    "recent_avg": null,
+    "base_avg": 2000
+   }
+  },
+  "(선)참조기": {
+   "avg": null,
+   "kg": 0,
+   "days": 0,
+   "last": null,
+   "trend": {
+    "recent_kg_day": 0,
+    "base_kg_day": 7.8,
+    "recent_days": 0,
+    "recent_avg": null,
+    "base_avg": 22865
+   }
+  },
+  "(선)전복": {
+   "avg": null,
+   "kg": 0,
+   "days": 0,
+   "last": null,
+   "trend": {
+    "recent_kg_day": 0,
+    "base_kg_day": 2.5,
+    "recent_days": 0,
+    "recent_avg": null,
+    "base_avg": 3000
    }
   }
  },
  "source": "노량진수산주식회사 오늘의 경락시세",
  "source_url": "https://www.susansijang.co.kr/nsis/mim/info/mim9030",
- "generated_at": "2026-10-08 19:58",
+ "generated_at": "2026-10-09 16:26",
  "note": "경매(도매) 낙찰가, kg 단위 거래만, 최근 거래일 물량가중 평균"
 }
