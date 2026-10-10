@@ -38,6 +38,7 @@ TOOLS = {
     'rsv-antibody':   ('RSV 항체주사 도우미', '육아', 'HealthApplication', 'icon-calc.png'),
     'nub-angle':      ('각도법 판독 도우미', '육아', 'LifestyleApplication', 'icon-calc.png'),
     'lump-sum':       ('고금리 투자 비교 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
+    'robotaxi':       ('로보택시 회수 기간 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
     'jeonse-wolse':   ('전세 반전세 월세 비교 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
     'room-deduction': ('방공제 한도 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
     'avg-down':       ('물타기 평단가 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
