@@ -1,5 +1,5 @@
 {
- "asof": "2026-10-02",
+ "asof": "2026-10-09",
  "assets_asof": "2026-06-30",
  "banks": [
   {
@@ -1044,17 +1044,17 @@
    "bank": "JT",
    "assets": 2163785.0,
    "basic_product": "정기예금",
-   "base": 3.85,
-   "best": 3.95,
+   "base": 3.9,
+   "best": 4.0,
    "products": [
     {
      "product": "정기예금",
      "channels": [
       "영업점"
      ],
-     "base": 3.85,
-     "max": 3.95,
-     "changed": "2026-10-01",
+     "base": 3.9,
+     "max": 4.0,
+     "changed": "2026-10-06",
      "url": "https://www.jt-bank.co.kr/"
     },
     {
@@ -1062,9 +1062,9 @@
      "channels": [
       "영업점"
      ],
-     "base": 3.85,
-     "max": 3.95,
-     "changed": "2026-10-01",
+     "base": 3.9,
+     "max": 4.0,
+     "changed": "2026-10-06",
      "url": "https://www.jt-bank.co.kr/"
     },
     {
@@ -1451,17 +1451,17 @@
    "bank": "바로",
    "assets": 1883070.0,
    "basic_product": "정기예금",
-   "base": 3.9,
-   "best": 3.92,
+   "base": 3.92,
+   "best": 4.0,
    "products": [
     {
      "product": "SB톡톡 정기예금(비대면)",
      "channels": [
       "스마트폰"
      ],
-     "base": 3.92,
-     "max": 3.92,
-     "changed": "2026-09-16",
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-10-07",
      "url": "https://www.barosavings.com/DepDein0100.act"
     },
     {
@@ -1469,9 +1469,9 @@
      "channels": [
       "인터넷"
      ],
-     "base": 3.92,
-     "max": 3.92,
-     "changed": "2026-09-16",
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-10-07",
      "url": "https://www.barosavings.com/DepDein0100.act"
     },
     {
@@ -1479,9 +1479,9 @@
      "channels": [
       "영업점"
      ],
-     "base": 3.9,
-     "max": 3.9,
-     "changed": "2026-08-10",
+     "base": 3.92,
+     "max": 3.92,
+     "changed": "2026-10-07",
      "url": "https://www.barosavings.com/DepDein0100.act"
     }
    ],
@@ -1544,16 +1544,16 @@
    "assets": 1696343.0,
    "basic_product": "정기예금",
    "base": 3.9,
-   "best": 3.96,
+   "best": 4.03,
    "products": [
     {
      "product": "e-회전정기예금",
      "channels": [
       "인터넷"
      ],
-     "base": 3.96,
-     "max": 3.96,
-     "changed": "2026-09-09",
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-02",
      "url": "http://www.hbsb.co.kr"
     },
     {
@@ -1561,9 +1561,9 @@
      "channels": [
       "스마트폰"
      ],
-     "base": 3.96,
-     "max": 3.96,
-     "changed": "2026-09-09",
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-02",
      "url": "http://www.hbsb.co.kr"
     },
     {
@@ -1571,9 +1571,9 @@
      "channels": [
       "인터넷"
      ],
-     "base": 3.95,
-     "max": 3.95,
-     "changed": "2026-09-09",
+     "base": 4.02,
+     "max": 4.02,
+     "changed": "2026-10-02",
      "url": "http://www.hbsb.co.kr"
     },
     {
@@ -1581,9 +1581,9 @@
      "channels": [
       "스마트폰"
      ],
-     "base": 3.95,
-     "max": 3.95,
-     "changed": "2026-09-09",
+     "base": 4.02,
+     "max": 4.02,
+     "changed": "2026-10-02",
      "url": "http://www.hbsb.co.kr"
     },
     {
@@ -1591,9 +1591,9 @@
      "channels": [
       "영업점"
      ],
-     "base": 3.91,
-     "max": 3.91,
-     "changed": "2026-09-09",
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-10-02",
      "url": "http://www.hbsb.co.kr"
     },
     {
@@ -1603,7 +1603,7 @@
      ],
      "base": 3.9,
      "max": 3.9,
-     "changed": "2026-09-09",
+     "changed": "2026-10-02",
      "url": "http://www.hbsb.co.kr"
     }
    ],
@@ -1799,7 +1799,7 @@
      ],
      "base": 3.98,
      "max": 3.98,
-     "changed": "2026-09-28",
+     "changed": "2026-10-07",
      "url": "https://www.smartbank.co.kr/ProdList_001.act?rnum=11"
     },
     {
@@ -1810,7 +1810,7 @@
      ],
      "base": 3.98,
      "max": 3.98,
-     "changed": "2026-09-28",
+     "changed": "2026-10-07",
      "url": "https://www.smartbank.co.kr/ProdList_001.act?rnum=11"
     },
     {
@@ -1820,7 +1820,7 @@
      ],
      "base": 3.96,
      "max": 3.96,
-     "changed": "2026-09-28",
+     "changed": "2026-10-07",
      "url": "https://www.smartbank.co.kr/ProdList_001.act?rnum=11"
     }
    ],
@@ -1841,7 +1841,7 @@
      ],
      "base": 4.03,
      "max": 4.03,
-     "changed": "2026-10-02",
+     "changed": "2026-10-06",
      "url": "https://www.sangsanginplussb.com/service/savings/e_regular_large.jsp"
     },
     {
@@ -1851,7 +1851,7 @@
      ],
      "base": 4.03,
      "max": 4.03,
-     "changed": "2026-10-02",
+     "changed": "2026-10-06",
      "url": "https://www.sangsanginplussb.com/service/savings/nonface_regular_large.jsp"
     },
     {
@@ -1861,7 +1861,7 @@
      ],
      "base": 4.03,
      "max": 4.03,
-     "changed": "2026-10-02",
+     "changed": "2026-10-06",
      "url": "https://www.sangsanginplussb.com/service/savings/regular_large.jsp"
     },
     {
@@ -1871,7 +1871,7 @@
      ],
      "base": 4.03,
      "max": 4.03,
-     "changed": "2026-10-02",
+     "changed": "2026-10-06",
      "url": "https://www.sangsanginplussb.com/service/savings/kkk_regular_large.jsp"
     },
     {
@@ -1881,7 +1881,7 @@
      ],
      "base": 4.03,
      "max": 4.03,
-     "changed": "2026-10-02",
+     "changed": "2026-10-06",
      "url": "https://www.sangsanginplussb.com/service/savings/kkk_circulate_large.jsp"
     },
     {
@@ -1892,7 +1892,7 @@
      ],
      "base": 4.03,
      "max": 4.03,
-     "changed": "2026-10-02",
+     "changed": "2026-10-06",
      "url": "https://www.sangsanginplussb.com/service/savings/e_circulate_large.jsp"
     },
     {
@@ -1902,7 +1902,7 @@
      ],
      "base": 4.03,
      "max": 4.03,
-     "changed": "2026-10-02",
+     "changed": "2026-10-06",
      "url": "https://www.sangsanginplussb.com/service/savings/circulate_large.jsp"
     },
     {
@@ -1912,7 +1912,7 @@
      ],
      "base": 4.03,
      "max": 4.03,
-     "changed": "2026-10-02",
+     "changed": "2026-10-06",
      "url": "https://www.sangsanginplussb.com/service/savings/nonface_circulate_large.jsp"
     }
    ],
@@ -2333,17 +2333,27 @@
    "bank": "조은",
    "assets": 653552.0,
    "basic_product": "정기예금(서울본점)",
-   "base": 3.9,
-   "best": 3.9,
+   "base": 4.1,
+   "best": 4.1,
    "products": [
+    {
+     "product": "(특판한도)SB톡톡 정기예금",
+     "channels": [
+      "스마트폰"
+     ],
+     "base": 4.1,
+     "max": 4.1,
+     "changed": "2026-10-08",
+     "url": "https://choeunbank.com"
+    },
     {
      "product": "정기예금(서울본점)",
      "channels": [
       "영업점"
      ],
-     "base": 3.9,
-     "max": 3.9,
-     "changed": "2026-09-08",
+     "base": 4.1,
+     "max": 4.1,
+     "changed": "2026-10-08",
      "url": "https://www.choeunbank.com/"
     },
     {
@@ -2354,7 +2364,7 @@
      ],
      "base": 2.5,
      "max": 2.5,
-     "changed": "2026-09-08",
+     "changed": "2026-10-08",
      "url": "https://www.choeunbank.com/"
     }
    ],
@@ -3133,17 +3143,17 @@
    "bank": "우리",
    "assets": 371052.0,
    "basic_product": "정기예금",
-   "base": 4.0,
-   "best": 4.0,
+   "base": 3.7,
+   "best": 3.7,
    "products": [
     {
      "product": "정기예금",
      "channels": [
       "영업점"
      ],
-     "base": 4.0,
-     "max": 4.0,
-     "changed": "2026-09-21",
+     "base": 3.7,
+     "max": 3.7,
+     "changed": "2026-10-08",
      "url": "https://www.wooleebank.co.kr/ProdList_001.act?rnum=14"
     },
     {
@@ -3236,16 +3246,16 @@
    "assets": 313102.0,
    "basic_product": "정기예금",
    "base": 3.0,
-   "best": 4.05,
+   "best": 3.8,
    "products": [
     {
      "product": "e-정기예금",
      "channels": [
       "인터넷"
      ],
-     "base": 4.05,
-     "max": 4.05,
-     "changed": "2026-10-02",
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-10-07",
      "url": "https://www.samilbank.co.kr/DepDein0100.act"
     },
     {
@@ -3253,9 +3263,9 @@
      "channels": [
       "스마트폰"
      ],
-     "base": 4.05,
-     "max": 4.05,
-     "changed": "2026-10-02",
+     "base": 3.8,
+     "max": 3.8,
+     "changed": "2026-10-07",
      "url": "https://www.samilbank.co.kr/DepDein0100.act"
     },
     {
@@ -3612,7 +3622,7 @@
    "bank": "국제",
    "assets": 223477.0,
    "basic_product": "꿈 찾아 정기예금",
-   "base": 3.3,
+   "base": 3.5,
    "best": 3.8,
    "products": [
     {
@@ -3630,9 +3640,9 @@
      "channels": [
       "영업점"
      ],
-     "base": 3.3,
-     "max": 3.3,
-     "changed": "2026-07-10",
+     "base": 3.5,
+     "max": 3.5,
+     "changed": "2026-10-07",
      "url": "https://kukjebank.co.kr/DepositGoogs_1"
     }
    ],
@@ -3642,17 +3652,17 @@
    "bank": "대명",
    "assets": 209568.0,
    "basic_product": "정기예금",
-   "base": 3.75,
-   "best": 3.75,
+   "base": 3.65,
+   "best": 3.65,
    "products": [
     {
      "product": "정기예금",
      "channels": [
       "영업점"
      ],
-     "base": 3.75,
-     "max": 3.75,
-     "changed": "2026-07-23",
+     "base": 3.65,
+     "max": 3.65,
+     "changed": "2026-10-08",
      "url": "http://www.daemyungbank.co.kr"
     },
     {
@@ -3673,17 +3683,17 @@
    "bank": "솔브레인",
    "assets": 188497.0,
    "basic_product": "정기예금",
-   "base": 3.95,
-   "best": 3.95,
+   "base": 4.0,
+   "best": 4.0,
    "products": [
     {
      "product": "정기예금",
      "channels": [
       "영업점"
      ],
-     "base": 3.95,
-     "max": 3.95,
-     "changed": "2026-09-18",
+     "base": 4.0,
+     "max": 4.0,
+     "changed": "2026-10-06",
      "url": "https://www.soulbrainsb.co.kr/02_deposit/deposit01_1.asp"
     },
     {
@@ -3692,9 +3702,9 @@
       "인터넷",
       "스마트폰"
      ],
-     "base": 3.9,
-     "max": 3.9,
-     "changed": "2026-09-09",
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-10-06",
      "url": "https://www.soulbrainsb.co.kr/02_deposit/deposit01_1.asp"
     },
     {
@@ -3702,9 +3712,9 @@
      "channels": [
       "스마트폰"
      ],
-     "base": 3.9,
-     "max": 3.9,
-     "changed": "2026-09-09",
+     "base": 3.95,
+     "max": 3.95,
+     "changed": "2026-10-06",
      "url": "https://www.soulbrainsb.co.kr/02_deposit/deposit01_1.asp"
     }
    ],
@@ -4001,7 +4011,7 @@
    "assets": null,
    "basic_product": "정기예금",
    "base": 3.93,
-   "best": 4.04,
+   "best": 4.03,
    "products": [
     {
      "product": "정기예금(인터넷뱅킹,스마트뱅킹)",
@@ -4009,9 +4019,9 @@
       "인터넷",
       "스마트폰"
      ],
-     "base": 4.04,
-     "max": 4.04,
-     "changed": "2026-10-01",
+     "base": 4.03,
+     "max": 4.03,
+     "changed": "2026-10-08",
      "url": "https://www.linesb.co.kr"
     },
     {
