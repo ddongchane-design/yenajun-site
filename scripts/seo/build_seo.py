@@ -194,7 +194,8 @@ def process(rel):
         '<meta name="twitter:card" content="summary_large_image">',
         *([f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>',
            '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
-           f"gtag('js',new Date());gtag('config','{GA4_ID}');</script>"] if GA4_ID else []),
+           f"gtag('js',new Date());gtag('config','{GA4_ID}');</script>",
+           '<script defer src="/assets/ga-events.js"></script>'] if GA4_ID else []),
         '<script type="application/ld+json">',
         json.dumps(graph, ensure_ascii=False, indent=1).replace('</', '<\\/'),
         '</script>',
