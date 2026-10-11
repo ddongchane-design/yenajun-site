@@ -1,0 +1,42 @@
+# 예나준 (yenajun.com)
+
+> 육아·돈·생활 속 계산을 대신 해 주는 무료 계산기 모음이에요. 모든 계산은 방문자 브라우저 안에서 하고 입력값을 저장하거나 전송하지 않아요. 도구마다 가이드 글에 계산 기준과 공식 출처(법령·정부 발표·공공 데이터)를 밝혀요. 운영자 이동찬, 문의 ddongchane@gmail.com.
+
+## 육아
+
+- [각도법 판독 도우미](https://yenajun.com/nub-angle/): 11~14주 초음파 사진에 점 4개만 찍으면 nub 각도로 아들·딸 경향을 재미로 봐드려요. 가이드: [태아 성별 언제 알 수 있을까? 주수별 확인 방법 비교](https://yenajun.com/nub-angle/guide/)
+- [아기 이름짓기](https://yenajun.com/baby-name/): 한자의 뜻과 소리를 살펴보며 아이 이름 후보를 함께 골라봐요. 가이드: [아기 이름 짓기 가이드 — 출생신고 전 확인할 것](https://yenajun.com/baby-name/guide/)
+- [백일 계산기](https://yenajun.com/baby-100days/): 생일만 넣으면 백일·돌 날짜와 생후 며칠인지, 출생신고·부모급여 신청 기한까지 캘린더에 한 번에 넣어요. 가이드: [백일, 이렇게 준비하세요](https://yenajun.com/baby-100days/guide/)
+- [예방접종 일정 계산기](https://yenajun.com/baby-vaccine/): 생일만 넣으면 국가예방접종 날짜와 영유아 건강검진 기간을 정리하고, 맞은 접종 체크와 캘린더 저장까지 해요. 가이드: [아기 예방접종·영유아 건강검진, 이것만 알면 돼요](https://yenajun.com/baby-vaccine/guide/)
+- [분유 타는 법 계산기](https://yenajun.com/formula-mix/): 스푼 수와 물 양을 알려주고, 지금 타는 방법이 묽거나 진하지 않은지 확인해 드려요. 가이드: [분유 타는 법 가이드 — 물 80mL에 4스푼이 틀린 이유](https://yenajun.com/formula-mix/guide/)
+- [혼합수유 보충량 계산기](https://yenajun.com/mixed-feeding/): 아기 체중과 월령만 넣으면 분유를 얼마나 보충하면 되는지 알려드려요. 가이드: [혼합수유 가이드 — 모유 부족 신호와 분유 보충 요령](https://yenajun.com/mixed-feeding/guide/)
+- [RSV 항체주사 도우미](https://yenajun.com/rsv-antibody/): 생년월일과 몇 가지 조건만 넣으면 베이포투스·엔플론시아 중 무엇이 해당되는지 정리해 드려요. 가이드: [아기 RSV 가이드 — 증상, 병원 가야 하는 신호, 예방법](https://yenajun.com/rsv-antibody/guide/)
+
+## 집과 돈
+
+- [고금리 투자 비교 계산기](https://yenajun.com/lump-sum/): 목돈을 예금·파킹형 ETF·미국 단기채·장기채·S&P500에 넣으면 세후 얼마가 될지, 금리·환율 시나리오별로 비교해요. 가이드: [미국 금리 5%, 누가 웃고 누가 울까](https://yenajun.com/lump-sum/guide/)
+- [전세 반전세 월세 비교 계산기](https://yenajun.com/jeonse-wolse/): 조건 세 가지와 내 현금·금리만 넣으면 한 달에 실제로 나가는 돈을 비교해요. 가이드: [전세 vs 반전세 vs 월세, 뭐가 이득일까](https://yenajun.com/jeonse-wolse/guide/)
+- [방공제 한도 계산기](https://yenajun.com/room-deduction/): 집값과 소득을 넣으면 방공제가 내 대출 한도를 얼마나 깎는지 계산해요. 가이드: [주택담보대출 한도 가이드 — LTV·DSR·방공제 한 번에](https://yenajun.com/room-deduction/guide/)
+- [물타기 평단가 계산기](https://yenajun.com/avg-down/): 여유 자금으로 물을 타면 평단가가 얼마나 내려가는지, 갈아타기와 비교하고 분할 매수도 짜 봐요. 가이드: [물타기 vs 갈아타기 가이드 — 판단 전에 숫자부터](https://yenajun.com/avg-down/guide/)
+- [P2P 상품 고르기 계산기](https://yenajun.com/p2p-invest/): 크플 상품 엑셀을 올리면 담보 안전 등급과 세후 수익률로 투자 상품을 골라드려요. 가이드: [P2P 투자 가이드 — 아파트담보 투자, 이것만 알고 시작하세요](https://yenajun.com/p2p-invest/guide/)
+- [로보택시 회수 기간 계산기](https://yenajun.com/robotaxi/): 하루 95% 주차된 내 차, 갖는 비용과 불러 타는 비용을 비교하고 사이버캡이 차값을 몇 달 만에 버는지 계산해요. 가이드: [자동차, 소유에서 공유로 넘어갈까](https://yenajun.com/robotaxi/guide/)
+
+## 일상과 관계
+
+- [축의금 계산기](https://yenajun.com/wedding-gift/): 관계, 예식장, 내 월급을 고르면 부담 없이 적당한 축의금을 알려드려요. 가이드: [경조사비 가이드 — 금액 기준과 봉투 쓰는 법](https://yenajun.com/wedding-gift/guide/)
+- [유류분 계산기](https://yenajun.com/yuryubun/): 상속인과 생전 증여·유증을 넣으면 청구할 수 있는 유류분과 누가 얼마를 돌려줘야 하는지 계산해요. 가이드: [유류분 소송 가이드 — 2026 개정 민법 반영](https://yenajun.com/yuryubun/guide/)
+- [수산시장 메뉴 구성 계산기](https://yenajun.com/fish-menu/): 몇 명이 언제 가는지만 넣으면 제철 회·찜 구성과 kg, 노량진 경매가로 예상 비용 범위까지 짜 드려요. 가이드: [수산시장 처음 가도 실패 없이](https://yenajun.com/fish-menu/guide/)
+
+## 매주·매일 갱신되는 데이터
+
+- [주간 금리 동향](https://yenajun.com/rates/): 한국은행 ECOS·미 재무부·금융투자협회·저축은행중앙회 자료로 기준금리, 국고채·미국채, 회사채·여전채, CP, 저축은행 예금 금리를 매주 월요일 정리
+- [금융채 발행 동향](https://yenajun.com/rates/issuance/): 은행채·여전채 주간 발행액과 발행금리
+- [수산시장 메뉴 구성 계산기](https://yenajun.com/fish-menu/): 노량진수산시장 경락시세 최근 7거래일 평균을 매일(일요일 제외) 반영
+
+## 소개·정책
+
+- [소개](https://yenajun.com/about): 누가, 왜 만드는지
+- [개인정보처리방침](https://yenajun.com/privacy)
+- [이용약관](https://yenajun.com/terms)
+
+마지막 업데이트: 2026-10-11

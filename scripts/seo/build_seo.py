@@ -305,6 +305,64 @@ def write_stats(book):
         p.write_text(new, encoding='utf-8', newline='')
 
 
+def rel_of(loc):
+    """사이트맵 주소 → 파일 경로"""
+    path = loc.replace(SITE, '').strip('/')
+    if not path:
+        return 'index.html'
+    return path + '/index.html' if (ROOT / path / 'index.html').exists() else path + '.html'
+
+
+def write_sitemap_lastmod(book):
+    """사이트맵 모든 주소에 lastmod. 기록부의 실제 수정일과 기존 값(금리 prerender가 넣은 것) 중 늦은 날짜.
+    형식은 rates/prerender.py가 고치는 한 줄 형식(<url><loc>…</loc><lastmod>…</lastmod></url>)을 그대로 지킨다."""
+    p = ROOT / 'sitemap.xml'
+    src = p.read_text(encoding='utf-8')
+
+    def fix(m):
+        loc, old = m.group(1), m.group(2) or ''
+        rec = book.get(rel_of(loc))
+        new = max(old, rec['modified'][:10]) if rec else old
+        return f'<url><loc>{loc}</loc>' + (f'<lastmod>{new}</lastmod>' if new else '') + '</url>'
+    out = re.sub(r'<url><loc>([^<]+)</loc>(?:<lastmod>([^<]*)</lastmod>)?</url>', fix, src)
+    if out != src:
+        p.write_text(out, encoding='utf-8', newline='')
+
+
+def write_llms(book):
+    """/llms.txt — AI(ChatGPT·Claude·Perplexity 등)에게 주는 사이트 안내서. 홈의 분류·카드에서 자동으로 만든다."""
+    home = (ROOT / 'index.html').read_text(encoding='utf-8')
+    lines = ['# 예나준 (yenajun.com)', '',
+             '> 육아·돈·생활 속 계산을 대신 해 주는 무료 계산기 모음이에요. 모든 계산은 방문자 브라우저 안에서 하고 '
+             '입력값을 저장하거나 전송하지 않아요. 도구마다 가이드 글에 계산 기준과 공식 출처(법령·정부 발표·공공 데이터)를 밝혀요. '
+             '운영자 이동찬, 문의 ddongchane@gmail.com.', '']
+    for cat in re.finditer(r'<div class="cat" id="([^"]+)">(.*?)<div class="cat-reads">', home, re.S):
+        name = text((re.search(r'<p class="eyebrow">(.*?)</p>', cat.group(2), re.S) or [0, cat.group(1)])[1])
+        lines += ['## ' + name, '']
+        for href, strong, span in re.findall(r'<a class="tool-card" href="([^"]+)">.*?<strong>(.*?)</strong>\s*<span>(.*?)</span>', cat.group(2), re.S):
+            slug = href.strip('/')
+            item = f'- [{text(strong)}]({SITE}{href}): {text(span)}'
+            g = ROOT / slug / 'guide' / 'index.html'
+            if g.exists():
+                gt = meta(g.read_text(encoding='utf-8'), 'property', 'og:title')
+                item += f' 가이드: [{gt}]({SITE}/{slug}/guide/)'
+            lines.append(item)
+        lines.append('')
+    lines += ['## 매주·매일 갱신되는 데이터', '',
+              f'- [주간 금리 동향]({SITE}/rates/): 한국은행 ECOS·미 재무부·금융투자협회·저축은행중앙회 자료로 기준금리, 국고채·미국채, 회사채·여전채, CP, 저축은행 예금 금리를 매주 월요일 정리',
+              f'- [금융채 발행 동향]({SITE}/rates/issuance/): 은행채·여전채 주간 발행액과 발행금리',
+              f'- [수산시장 메뉴 구성 계산기]({SITE}/fish-menu/): 노량진수산시장 경락시세 최근 7거래일 평균을 매일(일요일 제외) 반영',
+              '', '## 소개·정책', '',
+              f'- [소개]({SITE}/about): 누가, 왜 만드는지',
+              f'- [개인정보처리방침]({SITE}/privacy)',
+              f'- [이용약관]({SITE}/terms)', '',
+              '마지막 업데이트: ' + max(v['modified'] for v in book.values())[:10], '']
+    out = '\n'.join(lines)
+    p = ROOT / 'llms.txt'
+    if not p.exists() or p.read_text(encoding='utf-8') != out:
+        p.write_text(out, encoding='utf-8', newline='')
+
+
 def main():
     force = '--images' in sys.argv
     files = subprocess.run(['git', 'ls-files', '*.html'], cwd=ROOT, capture_output=True, text=True,
@@ -339,6 +397,8 @@ def main():
             jobs.append((OG_DIR / f'{key}.png', '매주 월요일 업데이트', CAT_COLOR['금리'], title.split(' — ')[0],
                          fixed, 'icon-calc.png'))
     write_stats(book)
+    write_sitemap_lastmod(book)
+    write_llms(book)
     DATES_FILE.write_text(json.dumps(book, ensure_ascii=False, indent=1, sort_keys=True) + chr(10), encoding='utf-8')
     asyncio.run(make_images(jobs, force))
 

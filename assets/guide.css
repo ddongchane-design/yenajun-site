@@ -61,3 +61,11 @@
 .sources h2 { margin-top: 0; border: 0; padding: 0; font-size: 18px; }
 .sources li { font-size: 13px !important; line-height: 1.7 !important; word-break: break-all; }
 .sources a { color: var(--muted-2); }
+
+/* 한눈에 답 (가이드 맨 위 핵심 요약) */
+.answer { margin: 22px 0 0; border: 1px solid var(--line); border-left: 5px solid var(--coral); border-radius: 14px; background: #fff; padding: 16px 18px; }
+.answer-h { margin: 0 0 10px; font-size: 13px; font-weight: 700; letter-spacing: .02em; color: var(--coral); }
+.answer dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; }
+.answer dt { font-weight: 700; color: var(--navy); font-size: 14.5px; }
+.answer dd { margin: 0; font-size: 14.5px; color: var(--text); line-height: 1.6; }
+@media (max-width: 560px) { .answer dl { grid-template-columns: 1fr; gap: 2px; } .answer dd { margin-bottom: 8px; } }
