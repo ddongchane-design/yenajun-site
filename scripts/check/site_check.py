@@ -37,6 +37,7 @@ KST = timezone(timedelta(hours=9))
 TOOLS = {
     '/lump-sum/': '#verdict',
     '/baby-100days/': '#heroDate',
+    '/baby-vaccine/': '#nextWhen',
     '/robotaxi/': '#o4',
     '/jeonse-wolse/': '#result',
     '/room-deduction/': '#verdict',

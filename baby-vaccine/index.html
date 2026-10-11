@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="아기 생일만 넣으면 국가예방접종(BCG·B형간염·DTaP·폐렴구균·로타·MMR·수두·일본뇌염 등) 날짜와 영유아 건강검진 8회·구강검진 4회 기간을 한 번에 계산해요. 맞은 접종 체크, 휴대폰 캘린더 저장까지. 2026년 질병관리청·건강보험공단 기준.">
+<link rel="canonical" href="https://yenajun.com/baby-vaccine/">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>예방접종 일정 계산기 — 아기 국가예방접종·영유아 건강검진 날짜</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{
+  --ground:#F4F7F7;--panel:#FFFFFF;--ink:#22303A;--ink-2:#5D6B74;--rule:#DCE5E6;--field:#EEF3F3;
+  --teal:#1F6F78;--teal-soft:#DDEFF0;--rose:#B5566A;--rose-soft:#F8E6EA;--amber:#9A6A12;--amber-soft:#F6ECD6;
+  --sage:#4F7F5E;--sage-soft:#E3F0E7;--violet:#6A5AA8;--violet-soft:#ECE8F7;
+  --display:"Gowun Dodum","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#131A1C;--panel:#1B2427;--ink:#E5ECEE;--ink-2:#A3B1B5;--rule:#2E3B3F;--field:#223035;
+    --teal:#74C2CB;--teal-soft:#1B3438;--rose:#E796A7;--rose-soft:#3A2329;--amber:#E1B65E;--amber-soft:#3A2F17;
+    --sage:#90C4A0;--sage-soft:#1F3226;--violet:#B5A8EC;--violet-soft:#2A2540;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#131A1C;--panel:#1B2427;--ink:#E5ECEE;--ink-2:#A3B1B5;--rule:#2E3B3F;--field:#223035;
+  --teal:#74C2CB;--teal-soft:#1B3438;--rose:#E796A7;--rose-soft:#3A2329;--amber:#E1B65E;--amber-soft:#3A2F17;
+  --sage:#90C4A0;--sage-soft:#1F3226;--violet:#B5A8EC;--violet-soft:#2A2540;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;padding-inline:16px;padding-block:32px 64px;word-break:keep-all}
+.wrap{max-width:740px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.3}
+h1{font-family:var(--display);font-size:clamp(26px,5vw,34px);font-weight:400;color:var(--teal)}
+h2{font-size:18px;font-weight:700}
+p{margin:0}
+a{color:var(--teal)}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--ink-2)}
+header{display:flex;flex-direction:column;gap:12px}
+.guide-first{display:flex;align-items:center;gap:12px;background:var(--amber-soft);border:1px solid var(--amber);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--ink)}
+.gf-ico{font-size:26px;flex:none}
+.gf-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.gf-txt small{font-size:12.5px;font-weight:700;color:var(--amber)}
+.gf-txt b{font-size:16px;line-height:1.4}
+.gf-txt span{font-size:13px;color:var(--ink-2);line-height:1.5}
+.gf-go{margin-left:auto;font-size:20px;color:var(--amber);flex:none}
+
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:16px;padding:20px 18px;display:flex;flex-direction:column;gap:14px}
+.inputs{display:grid;grid-template-columns:1.2fr 1fr;gap:12px}
+@media (max-width:520px){ .inputs{grid-template-columns:1fr} }
+.q{display:flex;flex-direction:column;gap:5px;min-width:0}
+.q label{font-weight:500;font-size:14.5px}
+.q label small{font-weight:400;color:var(--ink-2)}
+.hint{font-size:13px;color:var(--ink-2);line-height:1.55}
+input[type=date],input[type=text]{font:inherit;font-size:17px;font-weight:700;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:10px;padding:10px 12px;width:100%;min-height:48px}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.remember{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2)}
+.remember input{width:18px;height:18px;accent-color:var(--teal)}
+
+.next{background:var(--teal-soft);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:6px;text-align:center}
+.next .lab{font-size:14px;color:var(--ink-2)}
+.next .what{font-family:var(--display);font-size:clamp(22px,5.5vw,30px);color:var(--teal);line-height:1.35}
+.next .when{font-size:16px;font-weight:700}
+.next .ex{display:inline-block;align-self:center;font-size:12px;font-weight:700;color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:1px 10px}
+.next .ex[hidden]{display:none}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stats div{background:var(--field);border-radius:12px;padding:10px 8px;text-align:center}
+.stats b{display:block;font-size:19px;font-variant-numeric:tabular-nums}
+.stats span{font-size:12.5px;color:var(--ink-2)}
+
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.filters button{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:999px;padding:5px 12px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink);font-weight:700}
+
+.tl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.tl li{border:1px solid var(--rule);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:start;background:var(--panel)}
+.tl .chk{margin-top:3px}
+.tl .chk input{width:20px;height:20px;accent-color:var(--sage)}
+.tl .body b{font-size:15px;display:block}
+.tl .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.tl .tag{font-size:12px;border-radius:6px;padding:1px 7px;background:var(--field);color:var(--ink-2)}
+.tl .tag.v{background:var(--teal-soft);color:var(--teal)}
+.tl .tag.h{background:var(--violet-soft);color:var(--violet)}
+.tl .tag.o{background:var(--amber-soft);color:var(--amber)}
+.tl .note{font-size:12.5px;color:var(--ink-2);margin-top:4px;line-height:1.5}
+.tl .d{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tl .d b{display:block;font-size:14px}
+.tl .d small{display:block;font-size:12px;color:var(--ink-2)}
+.tl .d em{font-style:normal;font-size:12.5px;font-weight:700}
+.tl li.now{border-color:var(--teal);background:var(--teal-soft)}
+.tl li.now .d em{color:var(--teal)}
+.tl li.late .d em{color:var(--rose)}
+.tl li.done{opacity:.5}
+.tl li.done .body b{text-decoration:line-through}
+.tl li.past:not(.done) .d em{color:var(--ink-2)}
+@media (max-width:480px){ .tl li{grid-template-columns:auto 1fr} .tl .d{grid-column:2;text-align:left} }
+
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:inherit;font-size:15px;font-weight:700;border-radius:12px;padding:12px 16px;cursor:pointer;border:1px solid var(--rule);background:var(--panel);color:var(--ink);display:inline-flex;align-items:center;gap:8px;min-height:48px}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#fff}
+.toast{font-size:13.5px;color:var(--sage);min-height:1.2em}
+.cal-help{background:var(--field);border-radius:12px;padding:12px 14px;font-size:13.5px;color:var(--ink-2);line-height:1.6;display:flex;flex-direction:column;gap:6px}
+.cal-help b{color:var(--ink)}
+.cal-help ol{margin:0;padding-left:18px}
+details.gcal summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--teal)}
+details.gcal ul{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+@media (max-width:520px){ details.gcal ul{grid-template-columns:1fr} }
+details.gcal a{display:flex;justify-content:space-between;gap:8px;padding:9px 12px;border:1px solid var(--rule);border-radius:10px;background:var(--panel);color:var(--ink);text-decoration:none;font-size:13.5px}
+details.gcal a small{color:var(--ink-2)}
+
+.xp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:520px){ .xp-grid{grid-template-columns:1fr} }
+.xp{display:grid;grid-template-columns:auto 1fr;column-gap:12px;row-gap:2px;align-items:center;padding:14px 16px;border:1px solid var(--rule);border-radius:12px;background:var(--field);color:var(--ink);text-decoration:none}
+.xp:hover{border-color:var(--teal)}
+.xp-e{grid-row:1 / span 2;font-size:24px}
+.xp b{font-size:15px;color:var(--teal)}
+.xp span:not(.xp-e){font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--ink-2)}
+.basis{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+.guide{background:var(--panel);border:1px solid var(--rule);border-radius:16px;padding:22px 18px;display:flex;flex-direction:column;gap:12px}
+.guide h2{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,25px);color:var(--teal)}
+.guide h3{margin-top:12px;font-size:15px}
+.guide p,.guide li{font-size:15px}
+.guide ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.guide details{border:1px solid var(--rule);border-radius:10px;padding:12px 14px}
+.guide details summary{cursor:pointer;font-weight:700;font-size:15px}
+.guide details p{margin-top:8px;font-size:14.5px}
+footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:var(--ink-2)}
+</style>
+<link rel="stylesheet" href="/assets/related.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
+     crossorigin="anonymous"></script>
+<!-- yn-seo:start (scripts/seo/build_seo.py가 만듦 — 직접 고치지 말 것) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="예나준">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="예방접종 일정 계산기 — 아기 국가예방접종·영유아 건강검진 날짜">
+<meta property="og:description" content="생일만 넣으면 접종 날짜와 건강검진 기간을 한 번에. 맞은 접종 체크와 캘린더 저장까지.">
+<meta property="og:url" content="https://yenajun.com/baby-vaccine/">
+<meta property="og:image" content="https://yenajun.com/assets/og/baby-vaccine.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7J20CMXV0R"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-7J20CMXV0R');</script>
+<script defer src="/assets/ga-events.js"></script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebApplication",
+   "name": "예방접종 일정 계산기",
+   "alternateName": "예방접종 일정 계산기 — 아기 국가예방접종·영유아 건강검진 날짜",
+   "url": "https://yenajun.com/baby-vaccine/",
+   "description": "아기 생일만 넣으면 국가예방접종(BCG·B형간염·DTaP·폐렴구균·로타·MMR·수두·일본뇌염 등) 날짜와 영유아 건강검진 8회·구강검진 4회 기간을 한 번에 계산해요. 맞은 접종 체크, 휴대폰 캘린더 저장까지. 2026년 질병관리청·건강보험공단 기준.",
+   "applicationCategory": "HealthApplication",
+   "operatingSystem": "Any",
+   "browserRequirements": "JavaScript 필요",
+   "inLanguage": "ko-KR",
+   "isAccessibleForFree": true,
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "KRW"
+   },
+   "image": "https://yenajun.com/assets/og/baby-vaccine.png",
+   "datePublished": "2026-10-11T12:36:24+09:00",
+   "dateModified": "2026-10-11T12:36:24+09:00",
+   "author": {
+    "@type": "Person",
+    "name": "이동찬",
+    "url": "https://yenajun.com/about"
+   },
+   "publisher": {
+    "@id": "https://yenajun.com/#org"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "예나준",
+     "item": "https://yenajun.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "예방접종 일정 계산기",
+     "item": "https://yenajun.com/baby-vaccine/"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "＋ 구글 캘린더에 하나씩 추가하기 (안드로이드 구글 캘린더용) 함께 챙기면 좋은 도구 🎂백일 계산기백일·돌 날짜와 부모급여·출생신고 기한 🛡️RSV 항체주사 도우미국가접종표에 없는 RSV 예방 주사, 해당 여부 확인 🍼분유 타는 법 계산기스푼 수와 물 양, 묽거나 진하지 않은지 확인 🤱혼합수유 보충량 계산기체중과 월령으로 분유를 얼마나 보충할지 이 계산기는 표준 일정을 보여 줘요. 아기 건강 상태, 이미 맞은 백신, 혼합백신 선택에 따라 실제 날짜는 소아청소년과에서 정해요. 접종이 늦어졌다면 의사와 상의해 지연 접종 일정을 따르세요. 건강검진은 정해진 기간 안에서만 무료예요. 하루라도 지나면 그 차수는 받을 수 없어서 마감일을 함께 보여 드려요. 실제 기간은 건강보험공단이 보내는 안내문 날짜가 기준이에요. 맞은 접종 기록은 질병관리청 예방접종도우미에서 확인할 수 있어요. 이 계산기의 체크는 내 기기 안에만 저장돼요. 기준: 질병관리청 표준예방접종일정표(어린이)를 옮긴 보건소 안내(동대문구 보건소 2026년, 고양시 보건소 2026-06-12) — 출생 시 B형간염, 4주 이내 BCG, 2·4·6개월 DTaP·IPV·Hib·폐렴구균·로타, 12~15개월 Hib·폐렴구균 추가·MMR·수두, 12~23개월 A형간염·일본뇌염, 15~18개월 DTaP, 만 4~6세 DTaP·IPV·MMR, 만 11~12세 Tdap/Td, 만 12세 HPV(2026년 5월 6일부터 남아 확대). 인플루엔자 2026~2027절기 생후 6개월~14세. 영유아 건강검진 — 국민건강보험공단(일반 8회: 14~35일, 4~6·9~12·18~24·30~36·42~48·54~60·66~71개월 / 구강 4회: 18~29·30~41·42~53·54~65개월). 입력한 내용은 저장하거나 전송하지 않아요. 이 계산기, 이렇게 보세요 맨 위 \"다음 일정\"만 봐도 돼요. 오늘 기준으로 지금 맞을 수 있거나 곧 다가오는 접종·검진을 골라 보여 줘요. 맞은 접종이나 받은 검진은 왼쪽 칸을 체크하세요. 흐리게 바뀌고, 캘린더 저장에서 빠져요. 기간이 지났는데 체크하지 않은 일정은 \"놓쳤나요?\"로 표시돼요. 예방접종은 늦어도 맞을 수 있으니 소아청소년과에 상의하세요. \"남은 일정 캘린더에 저장\"을 누르면 다가올 일정만 하루 전 알림과 함께 저장돼요. 건강검진은 시작일과 마감 7일 전을 따로 넣어 줘요. 자주 묻는 질문 2·4·6개월에 주사를 한꺼번에 여러 대 맞아도 되나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "네. 같은 날 여러 백신을 맞는 동시 접종은 표준 일정에 포함된 방법이에요. 주사 횟수를 줄이려면 DTaP·소아마비·Hib(·B형간염)을 합친 4가·5가·6가 혼합백신을 고를 수도 있어요. 어떤 백신을 쓸지는 접종 기관과 상의하세요."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "로타바이러스는 왜 2회인 곳도 있고 3회인 곳도 있나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "백신 제품이 달라서예요. 로타릭스는 2·4개월 2회, 로타텍은 2·4·6개월 3회예요. 1차는 생후 15주 전에 시작해야 하고 생후 8개월 0일까지 끝내야 해요. 처음 맞은 제품으로 끝까지 맞는 게 원칙이에요."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "RSV 주사는 왜 일정에 없나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "RSV 항체주사(베이포투스·엔플론시아)는 표준 국가예방접종 일정과 별도로 운영돼요. 해당 여부는 RSV 항체주사 도우미에서 생년월일로 확인할 수 있어요."
+     }
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://yenajun.com/#org",
+   "name": "예나준",
+   "url": "https://yenajun.com/",
+   "logo": "https://yenajun.com/assets/logo-512.png",
+   "email": "ddongchane@gmail.com"
+  }
+ ]
+}
+</script>
+<!-- yn-seo:end -->
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">예방접종 일정 계산기 · 국가예방접종 · 영유아 건강검진</div>
+  <h1>우리 아기 다음 주사는 언제일까?</h1>
+  <p>생일만 넣으면 <b>국가예방접종 날짜</b>와 <b>영유아 건강검진 8회·구강검진 4회 기간</b>을 한 화면에 정리해 드려요. 맞은 접종은 체크해 두고, 남은 일정은 휴대폰 캘린더에 한 번에 넣을 수 있어요. 백일 계산기에 생일을 저장했다면 그대로 이어받아요.</p>
+  <a class="guide-first" href="/baby-vaccine/guide/">
+    <span class="gf-ico" aria-hidden="true">📖</span>
+    <span class="gf-txt"><small>함께 읽으면 좋아요 · 4분</small><b>아기 예방접종·건강검진, 이것만 알면 돼요 가이드</b><span>2·4·6개월에 몰리는 이유, 혼합백신, 접종이 늦어졌을 때, 검진 기간 놓치면 생기는 일</span></span>
+    <span class="gf-go" aria-hidden="true">→</span>
+  </a>
+</header>
+
+<section class="card" aria-label="아기 정보">
+  <div class="inputs">
+    <div class="q"><label for="birth">아기 생일</label><input type="date" id="birth" min="2013-01-01" max="2035-12-31"></div>
+    <div class="q"><label for="nick">아기 이름이나 태명 <small>(선택)</small></label><input type="text" id="nick" maxlength="12" placeholder="예: 튼튼이"><span class="hint">캘린더 일정 이름에 들어가요.</span></div>
+  </div>
+  <label class="remember"><input type="checkbox" id="remember"> 이 기기에 생일과 체크 기록 기억하기 <span class="hint">(서버로 보내지 않아요)</span></label>
+</section>
+
+<section id="result" aria-live="polite" class="card">
+  <div class="next">
+    <span class="ex" id="exTag" hidden>예시 날짜예요 · 생일을 넣어 주세요</span>
+    <span class="lab" id="nextLab">다음 일정</span>
+    <span class="what" id="nextWhat">–</span>
+    <span class="when" id="nextWhen"></span>
+  </div>
+  <div class="stats">
+    <div><b id="stAge">–</b><span>지금 나이</span></div>
+    <div><b id="stDone">–</b><span>체크한 일정</span></div>
+    <div><b id="stLeft">–</b><span>남은 일정</span></div>
+  </div>
+
+  <h2 style="margin-top:4px">한눈에 보는 일정</h2>
+  <div class="filters" role="group" aria-label="일정 고르기" id="filters">
+    <button type="button" data-f="all" aria-pressed="true">전체</button>
+    <button type="button" data-f="v" aria-pressed="false">💉 예방접종</button>
+    <button type="button" data-f="h" aria-pressed="false">🩺 건강검진</button>
+    <button type="button" data-f="up" aria-pressed="false">남은 것만</button>
+  </div>
+  <ol class="tl" id="tl"></ol>
+
+  <div class="acts">
+    <button type="button" class="btn primary" id="icsBtn">📅 남은 일정 캘린더에 저장</button>
+    <button type="button" class="btn" id="copyBtn">결과 복사</button>
+    <button type="button" class="btn" id="shareBtn" hidden>공유하기</button>
+  </div>
+  <p class="toast" id="toast" role="status"></p>
+  <div class="cal-help">
+    <p><b>캘린더 저장은 이렇게 해요.</b> 보안 때문에 웹사이트가 휴대폰 캘린더에 직접 쓸 수는 없어서, <b>일정 파일을 받은 뒤 열어서 '추가'</b>를 눌러야 해요. 아이폰·안드로이드 모두 같은 파일이에요. 이미 지난 일정과 체크한 일정은 빼고 저장해요.</p>
+    <ol id="calSteps"></ol>
+    <details class="gcal" id="gcalBox">
+      <summary>＋ 구글 캘린더에 하나씩 추가하기 (안드로이드 구글 캘린더용)</summary>
+      <ul id="gcalList"></ul>
+    </details>
+  </div>
+</section>
+
+<section class="card yn-xpromo" aria-labelledby="nx">
+  <h2 id="nx">함께 챙기면 좋은 도구</h2>
+  <div class="xp-grid">
+    <a class="xp" href="/baby-100days/"><span class="xp-e" aria-hidden="true">🎂</span><b>백일 계산기</b><span>백일·돌 날짜와 부모급여·출생신고 기한</span></a>
+    <a class="xp" href="/rsv-antibody/"><span class="xp-e" aria-hidden="true">🛡️</span><b>RSV 항체주사 도우미</b><span>국가접종표에 없는 RSV 예방 주사, 해당 여부 확인</span></a>
+    <a class="xp" href="/formula-mix/"><span class="xp-e" aria-hidden="true">🍼</span><b>분유 타는 법 계산기</b><span>스푼 수와 물 양, 묽거나 진하지 않은지 확인</span></a>
+    <a class="xp" href="/mixed-feeding/"><span class="xp-e" aria-hidden="true">🤱</span><b>혼합수유 보충량 계산기</b><span>체중과 월령으로 분유를 얼마나 보충할지</span></a>
+  </div>
+</section>
+
+<ul class="notes">
+  <li>이 계산기는 <b>표준 일정</b>을 보여 줘요. 아기 건강 상태, 이미 맞은 백신, 혼합백신 선택에 따라 실제 날짜는 소아청소년과에서 정해요. 접종이 늦어졌다면 의사와 상의해 <b>지연 접종 일정</b>을 따르세요.</li>
+  <li>건강검진은 정해진 기간 안에서만 무료예요. 하루라도 지나면 그 차수는 받을 수 없어서 <b>마감일</b>을 함께 보여 드려요. 실제 기간은 건강보험공단이 보내는 안내문 날짜가 기준이에요.</li>
+  <li>맞은 접종 기록은 <a href="https://nip.kdca.go.kr" target="_blank" rel="noopener">질병관리청 예방접종도우미</a>에서 확인할 수 있어요. 이 계산기의 체크는 내 기기 안에만 저장돼요.</li>
+</ul>
+<p class="basis">기준: 질병관리청 표준예방접종일정표(어린이)를 옮긴 보건소 안내(동대문구 보건소 2026년, 고양시 보건소 2026-06-12) — 출생 시 B형간염, 4주 이내 BCG, 2·4·6개월 DTaP·IPV·Hib·폐렴구균·로타, 12~15개월 Hib·폐렴구균 추가·MMR·수두, 12~23개월 A형간염·일본뇌염, 15~18개월 DTaP, 만 4~6세 DTaP·IPV·MMR, 만 11~12세 Tdap/Td, 만 12세 HPV(2026년 5월 6일부터 남아 확대). 인플루엔자 2026~2027절기 생후 6개월~14세. 영유아 건강검진 — 국민건강보험공단(일반 8회: 14~35일, 4~6·9~12·18~24·30~36·42~48·54~60·66~71개월 / 구강 4회: 18~29·30~41·42~53·54~65개월). 입력한 내용은 저장하거나 전송하지 않아요.</p>
+
+<section class="guide" aria-labelledby="g-title">
+  <h2 id="g-title">이 계산기, 이렇게 보세요</h2>
+  <p>맨 위 <b>"다음 일정"</b>만 봐도 돼요. 오늘 기준으로 지금 맞을 수 있거나 곧 다가오는 접종·검진을 골라 보여 줘요.</p>
+  <ol>
+    <li>맞은 접종이나 받은 검진은 왼쪽 칸을 체크하세요. 흐리게 바뀌고, 캘린더 저장에서 빠져요.</li>
+    <li>기간이 지났는데 체크하지 않은 일정은 <b>"놓쳤나요?"</b>로 표시돼요. 예방접종은 늦어도 맞을 수 있으니 소아청소년과에 상의하세요.</li>
+    <li>"남은 일정 캘린더에 저장"을 누르면 다가올 일정만 하루 전 알림과 함께 저장돼요. 건강검진은 시작일과 마감 7일 전을 따로 넣어 줘요.</li>
+  </ol>
+  <h3>자주 묻는 질문</h3>
+  <details><summary>2·4·6개월에 주사를 한꺼번에 여러 대 맞아도 되나요?</summary>
+    <p>네. 같은 날 여러 백신을 맞는 동시 접종은 표준 일정에 포함된 방법이에요. 주사 횟수를 줄이려면 DTaP·소아마비·Hib(·B형간염)을 합친 4가·5가·6가 혼합백신을 고를 수도 있어요. 어떤 백신을 쓸지는 접종 기관과 상의하세요.</p></details>
+  <details><summary>로타바이러스는 왜 2회인 곳도 있고 3회인 곳도 있나요?</summary>
+    <p>백신 제품이 달라서예요. 로타릭스는 2·4개월 2회, 로타텍은 2·4·6개월 3회예요. 1차는 생후 15주 전에 시작해야 하고 생후 8개월 0일까지 끝내야 해요. 처음 맞은 제품으로 끝까지 맞는 게 원칙이에요.</p></details>
+  <details><summary>RSV 주사는 왜 일정에 없나요?</summary>
+    <p>RSV 항체주사(베이포투스·엔플론시아)는 표준 국가예방접종 일정과 별도로 운영돼요. 해당 여부는 RSV 항체주사 도우미에서 생년월일로 확인할 수 있어요.</p></details>
+  <p><a href="/baby-vaccine/guide/">아기 예방접종·건강검진 가이드 자세히 읽기 →</a></p>
+</section>
+
+<!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
+<section class="yn-rel" aria-label="예나준의 다른 도구">
+  <a class="yn-guide" href="/baby-vaccine/guide/"><span class="e">📖</span><span><b>예방접종·건강검진 가이드 읽기</b><small>2·4·6개월, 혼합백신, 지연 접종, 검진 기간</small></span><span class="go">→</span></a>
+  <a class="yn-coffee" href="https://buymeacoffee.com/yenajun" target="_blank" rel="noopener"><span class="e" aria-hidden="true">☕</span><span class="t"><b>도움이 됐다면 커피 한 잔 사 주세요</b><small>예나준은 퇴근 후 밤에 만드는 무료 도구예요. 응원해 주시면 더 좋은 도구로 보답할게요.</small></span><span class="go">후원하기 →</span></a>
+  <h2>이런 도구도 있어요</h2>
+  <div class="yn-grid">
+    <a class="yn-card" href="/baby-100days/"><span class="e">🎂</span><b>백일 계산기</b><span>백일·돌 날짜와 신청 기한을 정리해요.</span></a>
+    <a class="yn-card" href="/rsv-antibody/"><span class="e">💉</span><b>RSV 항체주사 도우미</b><span>우리 아기에게 맞는 항체주사를 정리해요.</span></a>
+    <a class="yn-card" href="/baby-name/"><span class="e">✍️</span><b>아기 이름짓기</b><span>한자의 뜻과 소리로 이름 후보를 골라요.</span></a>
+  </div>
+  <a class="yn-home" href="/">← 예나준의 모든 도구 보기</a>
+</section>
+<!-- yn-related:end -->
+
+<footer>예나준 · 예방접종 일정 계산기 · 표준 일정 안내이며 의료 상담을 대신하지 않아요. 실제 접종은 소아청소년과·보건소와 상의하세요.</footer>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var KEY = 'yn-baby-birth', DONE_KEY = 'yn-vaccine-done';
+  var WD = ['일','월','화','수','목','금','토'];
+  var filter = 'all', items = [], birth = null, isExample = false, done = {};
+
+  function d0(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function addDays(d, n){ var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+  function addMonths(d, n){ var y = d.getFullYear(), m = d.getMonth() + n, day = d.getDate(); var last = new Date(y, m + 1, 0).getDate(); return new Date(y, m, Math.min(day, last)); }
+  function diff(a, b){ return Math.round((d0(b) - d0(a)) / 864e5); }
+  function fmt(d){ return d.getFullYear() + '. ' + (d.getMonth() + 1) + '. ' + d.getDate() + '.'; }
+  function fmtW(d){ return fmt(d) + ' (' + WD[d.getDay()] + ')'; }
+  function iso(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function name(){ var n = $('nick').value.trim(); return n || '우리 아기'; }
+  // 개월 범위 a~b개월: a개월 되는 날부터 (b+1)개월 되기 전날까지
+  function mRange(b, a, z){ return [addMonths(b, a), addDays(addMonths(b, z + 1), -1)]; }
+
+  // 표준 일정 (질병관리청 표준예방접종일정표 · 건강보험공단 영유아 건강검진)
+  // t: v=예방접종, h=건강검진
+  function build(b){
+    var L = [];
+    function V(id, title, vac, s, e, note){ L.push({ id:id, t:'v', title:title, vac:vac, s:s, e:e, note:note || '' }); }
+    function H(id, title, s, e, note){ L.push({ id:id, t:'h', title:title, vac:[], s:s, e:e, note:note || '' }); }
+    V('v0', '출생 직후', ['B형간염 1차'], b, addDays(b, 1), '보통 태어난 병원에서 맞아요.');
+    V('v1', '생후 4주 이내 · 1개월', ['BCG(결핵)', 'B형간염 2차'], addDays(b, 1), addMonths(b, 1), 'BCG는 생후 4주(28일) 이내 1회(국가 지원은 피내용), B형간염 2차는 생후 1개월이에요.');
+    H('h1', '영유아 건강검진 1차', addDays(b, 14), addDays(b, 35), '생후 14~35일. 기간 안에서만 무료예요.');
+    V('v2', '생후 2개월', ['DTaP 1차', '소아마비(IPV) 1차', 'Hib 1차', '폐렴구균 1차', '로타바이러스 1차'], addMonths(b, 2), addDays(addMonths(b, 3), -1), '로타 1차는 생후 15주 전에 시작해야 해요.');
+    V('v4', '생후 4개월', ['DTaP 2차', '소아마비(IPV) 2차', 'Hib 2차', '폐렴구균 2차', '로타바이러스 2차'], addMonths(b, 4), addDays(addMonths(b, 5), -1));
+    var r = mRange(b, 4, 6); H('h2', '영유아 건강검진 2차', r[0], r[1], '생후 4~6개월');
+    V('v6', '생후 6개월', ['DTaP 3차', '소아마비(IPV) 3차', 'Hib 3차', '폐렴구균 3차', 'B형간염 3차', '로타바이러스 3차(로타텍만)'], addMonths(b, 6), addDays(addMonths(b, 7), -1), '로타릭스는 2회로 끝나요. 로타는 생후 8개월 0일까지 마쳐요.');
+    // 첫 독감: 생후 6개월 이후 처음 오는 절기(대략 10월~다음 해 4월). 5~9월에 6개월이 되면 그해 10월부터.
+    var f6 = addMonths(b, 6), fy = f6.getFullYear(), fm = f6.getMonth();
+    var fs = fm >= 4 && fm <= 8 ? new Date(fy, 9, 1) : f6;
+    var fe = new Date(fm <= 3 ? fy : fy + 1, 3, 30);
+    V('vf', '첫 독감 시즌', ['인플루엔자 (처음엔 4주 간격 2회)'], fs, fe, '생후 6개월이 지난 뒤 처음 맞는 독감 시즌이에요. 시즌 시작일은 해마다 질병관리청이 공지해요(2026~2027절기는 9월 21일부터, 생후 6개월~14세 무료). 그 뒤로는 해마다 가을에 1회.');
+    r = mRange(b, 9, 12); H('h3', '영유아 건강검진 3차', r[0], r[1], '생후 9~12개월. 이번부터 발달선별검사지를 함께 써요.');
+    r = mRange(b, 12, 15); V('v12', '생후 12~15개월', ['Hib 4차', '폐렴구균 4차', 'MMR 1차', '수두'], r[0], r[1]);
+    r = mRange(b, 12, 23); V('v1223', '생후 12~23개월', ['A형간염 1차', '일본뇌염 1차 (불활성화 또는 약독화)'], r[0], r[1], 'A형간염 2차는 1차 뒤 6~12개월. 불활성화 일본뇌염은 1차 뒤 1개월에 2차를 맞아요.');
+    r = mRange(b, 15, 18); V('v15', '생후 15~18개월', ['DTaP 4차'], r[0], r[1]);
+    r = mRange(b, 18, 24); H('h4', '영유아 건강검진 4차', r[0], r[1], '생후 18~24개월');
+    r = mRange(b, 18, 29); H('o1', '영유아 구강검진 1차', r[0], r[1], '생후 18~29개월');
+    r = mRange(b, 24, 35); V('v24', '생후 24~35개월', ['일본뇌염 불활성화 3차 또는 약독화 2차'], r[0], r[1], '불활성화는 2차 뒤 12개월, 약독화는 1차 뒤 12개월에 맞아요.');
+    r = mRange(b, 30, 36); H('h5', '영유아 건강검진 5차', r[0], r[1], '생후 30~36개월');
+    r = mRange(b, 30, 41); H('o2', '영유아 구강검진 2차', r[0], r[1], '생후 30~41개월');
+    r = mRange(b, 42, 48); H('h6', '영유아 건강검진 6차', r[0], r[1], '생후 42~48개월');
+    r = mRange(b, 42, 53); H('o3', '영유아 구강검진 3차', r[0], r[1], '생후 42~53개월');
+    r = mRange(b, 48, 83); V('v4y', '만 4~6세', ['DTaP 5차', '소아마비(IPV) 4차', 'MMR 2차'], r[0], r[1], '초등학교 입학 전에 마치는 게 좋아요.');
+    r = mRange(b, 54, 60); H('h7', '영유아 건강검진 7차', r[0], r[1], '생후 54~60개월');
+    r = mRange(b, 54, 65); H('o4', '영유아 구강검진 4차', r[0], r[1], '생후 54~65개월');
+    r = mRange(b, 66, 71); H('h8', '영유아 건강검진 8차', r[0], r[1], '생후 66~71개월. 마지막 영유아 검진이에요.');
+    r = mRange(b, 72, 83); V('v6y', '만 6세', ['일본뇌염 불활성화 4차'], r[0], r[1], '불활성화 백신으로 맞은 경우만');
+    r = mRange(b, 132, 155); V('v11', '만 11~12세', ['Tdap(또는 Td) 6차'], r[0], r[1]);
+    r = mRange(b, 144, 155); V('v12y', '만 12세', ['HPV 1차 (6개월 뒤 2차)', '일본뇌염 불활성화 5차'], r[0], r[1], 'HPV는 2026년 5월 6일부터 12세 남아도 국가 지원. 일본뇌염은 불활성화로 맞은 경우만.');
+    return L.sort(function(a, c){ return a.s - c.s || (a.t > c.t ? 1 : -1); });
+  }
+
+  function status(x, today){
+    if(done[x.id]) return 'done';
+    var a = diff(today, x.s), z = diff(today, x.e);
+    if(z < 0) return 'late';
+    if(a <= 0) return 'now';
+    return 'soon';
+  }
+
+  function render(){
+    var v = $('birth').value, today = d0(new Date());
+    isExample = !v;
+    birth = v ? new Date(v + 'T00:00:00') : addMonths(today, -2);
+    $('exTag').hidden = !isExample;
+    items = build(birth);
+
+    // 다음 일정: 지금 기간인 것 → 곧 올 것
+    var open = items.filter(function(x){ return !done[x.id] && diff(today, x.e) >= 0; });
+    var nx = open[0];
+    if(nx){
+      var a = diff(today, nx.s), z = diff(today, nx.e);
+      $('nextLab').textContent = (isExample ? '예: 2개월 아기라면 ' : name() + '의 ') + '다음 일정';
+      $('nextWhat').textContent = (nx.t === 'v' ? '💉 ' : '🩺 ') + nx.title;
+      $('nextWhen').textContent = a > 0 ? fmtW(nx.s) + '부터 · ' + a + '일 남았어요'
+        : '지금 할 수 있어요 · ' + fmtW(nx.e) + '까지 (' + z + '일 남음)';
+    } else {
+      $('nextWhat').textContent = '표준 일정을 모두 지났어요';
+      $('nextWhen').textContent = '';
+    }
+
+    var m = (today.getFullYear() - birth.getFullYear()) * 12 + today.getMonth() - birth.getMonth();
+    if(today.getDate() < birth.getDate()) m--;
+    $('stAge').textContent = m < 0 ? '탄생 전' : m < 24 ? m + '개월' : '만 ' + Math.floor(m / 12) + '세';
+    var nDone = items.filter(function(x){ return done[x.id]; }).length;
+    $('stDone').textContent = nDone + '개';
+    $('stLeft').textContent = open.length + '개';
+
+    $('tl').innerHTML = items.map(function(x){
+      var st = status(x, today);
+      if(filter === 'v' && x.t !== 'v') return '';
+      if(filter === 'h' && x.t !== 'h') return '';
+      if(filter === 'up' && (st === 'done' || st === 'late')) return '';
+      var a = diff(today, x.s), z = diff(today, x.e);
+      var em = st === 'done' ? '완료' : st === 'late' ? '놓쳤나요?' : st === 'now' ? '지금 · ' + z + '일 남음' : 'D-' + a;
+      var range = diff(x.s, x.e) <= 1 ? fmtW(x.s) : fmt(x.s) + ' ~';
+      var tags = x.t === 'h' ? '<span class="tag ' + (x.id.charAt(0) === 'o' ? 'o' : 'h') + '">' + (x.id.charAt(0) === 'o' ? '구강검진' : '건강검진') + '</span>'
+        : x.vac.map(function(n){ return '<span class="tag v">' + n + '</span>'; }).join('');
+      return '<li class="' + st + (st === 'late' || st === 'done' ? ' past' : '') + '">' +
+        '<label class="chk"><input type="checkbox" data-id="' + x.id + '"' + (done[x.id] ? ' checked' : '') + ' aria-label="' + x.title + ' 완료"></label>' +
+        '<div class="body"><b>' + (x.t === 'v' ? '💉 ' : '🩺 ') + x.title + '</b><div class="tags">' + tags + '</div>' + (x.note ? '<p class="note">' + x.note + '</p>' : '') + '</div>' +
+        '<div class="d"><b>' + range + '</b>' + (diff(x.s, x.e) > 1 ? '<small>' + fmt(x.e) + '까지</small>' : '') + '<em>' + em + '</em></div></li>';
+    }).join('') || '<li><div class="body" style="grid-column:1/-1">이 조건에 맞는 일정이 없어요.</div></li>';
+
+    gcalLinks();
+    save();
+  }
+
+  function save(){
+    try {
+      if($('remember').checked && $('birth').value){
+        localStorage.setItem(KEY, JSON.stringify({ b:$('birth').value, n:$('nick').value }));
+        localStorage.setItem(DONE_KEY, JSON.stringify(done));
+      }
+    } catch(e){}
+  }
+
+  // 캘린더 일정: 남은 것만. 접종은 시작일, 검진은 시작일 + 마감 7일 전
+  function calEvents(){
+    var today = d0(new Date()), ev = [];
+    items.forEach(function(x){
+      if(done[x.id] || diff(today, x.e) < 0) return;
+      var what = x.t === 'v' ? x.vac.join(', ') : x.note;
+      if(diff(today, x.s) >= 0) ev.push({ d:x.s, t:name() + ' ' + x.title + (x.t === 'h' ? ' 시작' : ''), s:what + (x.t === 'h' ? ' / ' + fmt(x.e) + '까지' : '') });
+      if(x.t === 'h'){ var w = addDays(x.e, -7); if(diff(today, w) >= 0 && diff(x.s, w) > 0) ev.push({ d:w, t:name() + ' ' + x.title + ' 마감 7일 전', s:fmt(x.e) + '까지 받아야 무료예요' }); }
+    });
+    return ev.sort(function(a, b){ return a.d - b.d; });
+  }
+  function esc(t){ return String(t).replace(/[\\,;]/g, function(c){ return '\\' + c; }); }
+  var ua = navigator.userAgent;
+  var OS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document) ? 'ios' : /Android/.test(ua) ? 'android' : 'pc';
+  function calHelp(){
+    var steps = {
+      ios: ['위의 <b>📅 남은 일정 캘린더에 저장</b>을 눌러요.', '화면에 일정 목록이 뜨면 <b>모두 추가</b>를 눌러요.', '넣을 캘린더를 고르면 끝이에요. 일정마다 하루 전 알림이 와요.'],
+      android: ['위의 <b>📅 남은 일정 캘린더에 저장</b>을 눌러 파일을 받아요.', "알림창이나 '내 파일 → 다운로드'에서 받은 파일을 열고 <b>추가(저장)</b>를 눌러요. 삼성 캘린더 등에서 열려요.", "<b>구글 캘린더 앱만 쓴다면</b> 파일이 열리지 않을 수 있어요. 아래 '구글 캘린더에 하나씩 추가'를 눌러 주세요."],
+      pc: ['위의 <b>📅 남은 일정 캘린더에 저장</b>을 눌러 파일을 받아요.', '아웃룩·애플 캘린더는 받은 파일을 열면 추가돼요.', '구글 캘린더는 웹(calendar.google.com) → 설정 → <b>가져오기 및 내보내기</b>에서 파일을 올리면 한 번에 들어가요.']
+    }[OS];
+    $('calSteps').innerHTML = steps.map(function(t){ return '<li>' + t + '</li>'; }).join('');
+    if(OS === 'android') $('gcalBox').open = true;
+  }
+  function gcalLinks(){
+    var ev = calEvents();
+    $('gcalList').innerHTML = ev.length ? ev.map(function(x){
+      var s = iso(x.d).replace(/-/g, ''), e = iso(addDays(x.d, 1)).replace(/-/g, '');
+      var u = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(x.t) + '&dates=' + s + '/' + e +
+        '&details=' + encodeURIComponent(x.s + ' (예나준 예방접종 일정 계산기 https://yenajun.com/baby-vaccine/)');
+      return '<li><a href="' + u + '" target="_blank" rel="noopener">' + x.t.replace(name() + ' ', '') + ' <small>' + (x.d.getMonth() + 1) + '/' + x.d.getDate() + '</small></a></li>';
+    }).join('') : '<li class="hint">남은 일정이 없어요.</li>';
+  }
+  function toast(t){ $('toast').textContent = t; setTimeout(function(){ $('toast').textContent = ''; }, 3500); }
+
+  $('icsBtn').addEventListener('click', function(){
+    if(isExample){ toast('먼저 아기 생일을 넣어 주세요.'); $('birth').focus(); return; }
+    var ev = calEvents();
+    if(!ev.length){ toast('저장할 남은 일정이 없어요.'); return; }
+    var stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+    var body = ev.map(function(x, i){
+      var s = iso(x.d).replace(/-/g, ''), e = iso(addDays(x.d, 1)).replace(/-/g, '');
+      return ['BEGIN:VEVENT', 'UID:yn-vac-' + s + '-' + i + '@yenajun.com', 'DTSTAMP:' + stamp, 'DTSTART;VALUE=DATE:' + s, 'DTEND;VALUE=DATE:' + e,
+        'SUMMARY:' + esc(x.t), 'DESCRIPTION:' + esc(x.s + ' (예나준 예방접종 일정 계산기)'),
+        'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:' + esc(x.t + ' 하루 전'), 'END:VALARM', 'END:VEVENT'].join('\r\n');
+    });
+    var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//yenajun//baby-vaccine//KO', 'CALSCALE:GREGORIAN'].concat(body, ['END:VCALENDAR']).join('\r\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([ics], { type:'text/calendar;charset=utf-8' }));
+    a.download = '예방접종-건강검진-일정.ics';
+    document.body.appendChild(a); a.click(); a.remove();
+    toast(OS === 'ios' ? "파일을 받았어요. 화면에 뜬 일정 목록에서 '모두 추가'를 눌러 주세요."
+      : "파일을 받았어요. 받은 파일을 열고 '추가'를 눌러 주세요. 일정 " + ev.length + '개가 하루 전 알림과 함께 들어가요.');
+  });
+  function summary(){
+    var today = d0(new Date()), lines = [name() + ' 예방접종·건강검진 남은 일정 (예나준)'];
+    items.forEach(function(x){ if(!done[x.id] && diff(today, x.e) >= 0) lines.push('· ' + x.title + ': ' + fmt(x.s) + (diff(x.s, x.e) > 1 ? ' ~ ' + fmt(x.e) : '') + (x.t === 'v' ? ' (' + x.vac.join(', ') + ')' : '')); });
+    lines.push('https://yenajun.com/baby-vaccine/');
+    return lines.join('\n');
+  }
+  $('copyBtn').addEventListener('click', function(){
+    (navigator.clipboard ? navigator.clipboard.writeText(summary()) : Promise.reject()).then(function(){ toast('복사했어요. 가족 단톡방에 붙여 넣어 보세요.'); }, function(){ toast('복사가 안 되는 브라우저예요.'); });
+  });
+  if(navigator.share){
+    $('shareBtn').hidden = false;
+    $('shareBtn').addEventListener('click', function(){ navigator.share({ title:'예방접종 일정', text:summary() }).catch(function(){}); });
+  }
+  $('tl').addEventListener('change', function(e){
+    var c = e.target; if(!c.dataset || !c.dataset.id) return;
+    if(c.checked) done[c.dataset.id] = 1; else delete done[c.dataset.id];
+    render();
+  });
+  $('filters').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    filter = b.dataset.f;
+    document.querySelectorAll('#filters button').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    render();
+  });
+  $('remember').addEventListener('change', function(){
+    try { if(!this.checked){ localStorage.removeItem(KEY); localStorage.removeItem(DONE_KEY); } } catch(e){}
+    render();
+  });
+  ['birth', 'nick'].forEach(function(id){ $(id).addEventListener('input', render); });
+
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if(saved && saved.b){ $('birth').value = saved.b; $('nick').value = saved.n || ''; $('remember').checked = true; }
+    done = JSON.parse(localStorage.getItem(DONE_KEY) || '{}') || {};
+  } catch(e){ done = {}; }
+  calHelp();
+  render();
+})();
+</script>
+</body>
+</html>

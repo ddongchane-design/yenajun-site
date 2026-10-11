@@ -15,13 +15,13 @@
   "published": "2026-09-30T15:37:24+09:00"
  },
  "baby-100days/guide/index.html": {
-  "hash": "8bdfe627401ed8ba",
-  "modified": "2026-10-11T11:42:04+09:00",
+  "hash": "d373a3a3c6b0af69",
+  "modified": "2026-10-11T12:36:24+09:00",
   "published": "2026-10-11T11:42:04+09:00"
  },
  "baby-100days/index.html": {
-  "hash": "59147d7bdd9cea29",
-  "modified": "2026-10-11T11:42:04+09:00",
+  "hash": "30cbca26e7fac943",
+  "modified": "2026-10-11T12:36:24+09:00",
   "published": "2026-10-11T11:42:04+09:00"
  },
  "baby-name/guide/index.html": {
@@ -33,6 +33,16 @@
   "hash": "8d839eaa8772ff68",
   "modified": "2026-10-11T09:14:15+09:00",
   "published": "2026-09-25T15:44:20+09:00"
+ },
+ "baby-vaccine/guide/index.html": {
+  "hash": "d2fa0d140ad0eebe",
+  "modified": "2026-10-11T12:36:24+09:00",
+  "published": "2026-10-11T12:36:24+09:00"
+ },
+ "baby-vaccine/index.html": {
+  "hash": "fd6529482faa8701",
+  "modified": "2026-10-11T12:36:24+09:00",
+  "published": "2026-10-11T12:36:24+09:00"
  },
  "fish-menu/guide/index.html": {
   "hash": "7d6e6dcdf6c9a2db",
@@ -55,8 +65,8 @@
   "published": "2026-10-05T19:45:19+09:00"
  },
  "index.html": {
-  "hash": "02ecd3fd9d2f4a81",
-  "modified": "2026-10-11T11:42:04+09:00",
+  "hash": "7c836daff3efa679",
+  "modified": "2026-10-11T12:36:24+09:00",
   "published": "2026-09-25T15:44:20+09:00"
  },
  "jeonse-wolse/guide/index.html": {
