@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="아기 생일만 넣으면 백일(100일)·50일·200일·돌 날짜와 요일, 오늘 생후 며칠인지 바로 계산해요. 출생신고·부모급여·첫만남이용권 신청 기한과 백일 준비 체크리스트, 휴대폰 캘린더 저장까지 한 번에.">
+<link rel="canonical" href="https://yenajun.com/baby-100days/">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>백일 계산기 — 아기 100일·돌 날짜와 첫해 꼭 챙길 일정</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{
+  --ground:#FAF7F2;--panel:#FFFFFF;--ink:#2B2A33;--ink-2:#64606E;--rule:#ECE5DA;--field:#F5F0E8;
+  --rose:#B5566A;--rose-soft:#F8E6EA;--sage:#4F7F5E;--sage-soft:#E3F0E7;--amber:#9A6A12;--amber-soft:#F6ECD6;
+  --navy:#2F4A78;--navy-soft:#E4EAF5;--past:#B9B3A8;
+  --display:"Gowun Dodum","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#16151A;--panel:#1F1E25;--ink:#ECE9F1;--ink-2:#ABA6B5;--rule:#34323C;--field:#2A2831;
+    --rose:#E796A7;--rose-soft:#3A2329;--sage:#90C4A0;--sage-soft:#1F3226;--amber:#E1B65E;--amber-soft:#3A2F17;
+    --navy:#9BB4E4;--navy-soft:#1E2A40;--past:#5E5A66;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#16151A;--panel:#1F1E25;--ink:#ECE9F1;--ink-2:#ABA6B5;--rule:#34323C;--field:#2A2831;
+  --rose:#E796A7;--rose-soft:#3A2329;--sage:#90C4A0;--sage-soft:#1F3226;--amber:#E1B65E;--amber-soft:#3A2F17;
+  --navy:#9BB4E4;--navy-soft:#1E2A40;--past:#5E5A66;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;padding-inline:16px;padding-block:32px 64px;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.3}
+h1{font-family:var(--display);font-size:clamp(26px,5vw,34px);font-weight:400;color:var(--rose)}
+h2{font-size:18px;font-weight:700}
+h3{font-size:15px;font-weight:700}
+p{margin:0}
+a{color:var(--rose)}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--ink-2)}
+header{display:flex;flex-direction:column;gap:12px}
+.guide-first{display:flex;align-items:center;gap:12px;background:var(--amber-soft);border:1px solid var(--amber);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--ink)}
+.gf-ico{font-size:26px;flex:none}
+.gf-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.gf-txt small{font-size:12.5px;font-weight:700;color:var(--amber)}
+.gf-txt b{font-size:16px;line-height:1.4}
+.gf-txt span{font-size:13px;color:var(--ink-2);line-height:1.5}
+.gf-go{margin-left:auto;font-size:20px;color:var(--amber);flex:none}
+
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:16px;padding:20px 18px;display:flex;flex-direction:column;gap:16px}
+.inputs{display:grid;grid-template-columns:1.2fr 1fr;gap:12px}
+@media (max-width:520px){ .inputs{grid-template-columns:1fr} }
+.q{display:flex;flex-direction:column;gap:5px;min-width:0}
+.q label{font-weight:500;font-size:14.5px}
+.q label small{font-weight:400;color:var(--ink-2)}
+.hint{font-size:13px;color:var(--ink-2);line-height:1.55}
+input[type=date],input[type=text]{font:inherit;font-size:17px;font-weight:700;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:10px;padding:10px 12px;width:100%;min-height:48px}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--rose);outline-offset:2px}
+.remember{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2)}
+.remember input{width:18px;height:18px;accent-color:var(--rose)}
+
+/* 결과 */
+.hero{background:var(--rose-soft);border-radius:14px;padding:20px 18px;display:flex;flex-direction:column;gap:6px;text-align:center}
+.hero .lab{font-size:14px;color:var(--ink-2)}
+.hero .date{font-family:var(--display);font-size:clamp(28px,7vw,40px);color:var(--rose);line-height:1.25}
+.hero .dd{font-size:16px;font-weight:700}
+.hero .ex[hidden]{display:none}
+.hero .ex{display:inline-block;align-self:center;font-size:12px;font-weight:700;color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:1px 10px}
+.age{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.age div{background:var(--field);border-radius:12px;padding:10px 8px;text-align:center}
+.age b{display:block;font-size:20px;font-variant-numeric:tabular-nums}
+.age span{font-size:12.5px;color:var(--ink-2)}
+.why{font-size:13.5px;color:var(--ink-2);background:var(--field);border-radius:10px;padding:10px 12px;line-height:1.6}
+.why b{color:var(--ink)}
+
+.tl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.tl li{display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:center;padding:12px 4px;border-top:1px solid var(--rule)}
+.tl li:first-child{border-top:0}
+.tl .ic{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--field)}
+.tl .t b{display:block;font-size:15px}
+.tl .t small{display:block;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.tl .d{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl .d b{display:block;font-size:14.5px}
+.tl .d small{font-size:12.5px;font-weight:700}
+.tl li.must .ic{background:var(--amber-soft)}
+.tl li.big .ic{background:var(--rose-soft)}
+.tl li.past{opacity:.55}
+.tl li.past .d small{color:var(--ink-2);font-weight:400}
+.tl li.soon .d small{color:var(--rose)}
+.tl li.next{background:var(--rose-soft);border-radius:12px;border-top-color:transparent}
+.tl li.next + li{border-top-color:transparent}
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.filters button{font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:999px;padding:5px 12px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink);font-weight:700}
+
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:inherit;font-size:15px;font-weight:700;border-radius:12px;padding:12px 16px;cursor:pointer;border:1px solid var(--rule);background:var(--panel);color:var(--ink);display:inline-flex;align-items:center;gap:8px;min-height:48px}
+.btn.primary{background:var(--rose);border-color:var(--rose);color:#fff}
+.btn:hover{transform:translateY(-1px)}
+.toast{font-size:13.5px;color:var(--sage);min-height:1.2em}
+
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.check li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;background:var(--field);border-radius:12px;padding:12px 14px}
+.check .when{font-size:12.5px;font-weight:700;color:var(--rose);background:var(--panel);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.check b{display:block;font-size:14.5px}
+.check span{font-size:13.5px;color:var(--ink-2)}
+
+.xp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:520px){ .xp-grid{grid-template-columns:1fr} }
+.xp{display:grid;grid-template-columns:auto 1fr;column-gap:12px;row-gap:2px;align-items:center;padding:14px 16px;border:1px solid var(--rule);border-radius:12px;background:var(--field);color:var(--ink);text-decoration:none}
+.xp:hover{border-color:var(--rose)}
+.xp-e{grid-row:1 / span 2;font-size:24px}
+.xp b{font-size:15px;color:var(--rose)}
+.xp span:not(.xp-e){font-size:12.5px;color:var(--ink-2);line-height:1.5}
+
+.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--ink-2)}
+.basis{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+.guide{background:var(--panel);border:1px solid var(--rule);border-radius:16px;padding:22px 18px;display:flex;flex-direction:column;gap:12px}
+.guide h2{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,25px);color:var(--rose)}
+.guide h3{margin-top:12px}
+.guide p,.guide li{font-size:15px}
+.guide ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.guide details{border:1px solid var(--rule);border-radius:10px;padding:12px 14px}
+.guide details summary{cursor:pointer;font-weight:700;font-size:15px}
+.guide details p{margin-top:8px;font-size:14.5px}
+footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:var(--ink-2)}
+</style>
+<link rel="stylesheet" href="/assets/related.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
+     crossorigin="anonymous"></script>
+<!-- yn-seo:start (scripts/seo/build_seo.py가 만듦 — 직접 고치지 말 것) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="예나준">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="백일 계산기 — 100일·돌 날짜와 첫해 꼭 챙길 일정">
+<meta property="og:description" content="생일만 넣으면 백일 날짜, 생후 며칠, 출생신고·부모급여 기한까지. 캘린더에 한 번에 저장해요.">
+<meta property="og:url" content="https://yenajun.com/baby-100days/">
+<meta property="og:image" content="https://yenajun.com/assets/og/baby-100days.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7J20CMXV0R"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-7J20CMXV0R');</script>
+<script defer src="/assets/ga-events.js"></script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebApplication",
+   "name": "백일 계산기",
+   "alternateName": "백일 계산기 — 100일·돌 날짜와 첫해 꼭 챙길 일정",
+   "url": "https://yenajun.com/baby-100days/",
+   "description": "아기 생일만 넣으면 백일(100일)·50일·200일·돌 날짜와 요일, 오늘 생후 며칠인지 바로 계산해요. 출생신고·부모급여·첫만남이용권 신청 기한과 백일 준비 체크리스트, 휴대폰 캘린더 저장까지 한 번에.",
+   "applicationCategory": "LifestyleApplication",
+   "operatingSystem": "Any",
+   "browserRequirements": "JavaScript 필요",
+   "inLanguage": "ko-KR",
+   "isAccessibleForFree": true,
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "KRW"
+   },
+   "image": "https://yenajun.com/assets/og/baby-100days.png",
+   "datePublished": "2026-10-11T11:40:30+09:00",
+   "dateModified": "2026-10-11T11:40:30+09:00",
+   "author": {
+    "@type": "Person",
+    "name": "이동찬",
+    "url": "https://yenajun.com/about"
+   },
+   "publisher": {
+    "@id": "https://yenajun.com/#org"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "예나준",
+     "item": "https://yenajun.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "백일 계산기",
+     "item": "https://yenajun.com/baby-100days/"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "백일은 태어난 날부터 100일 뒤인가요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "아니요. 태어난 날을 1일로 세기 때문에 출생일에서 99일 뒤가 백일이에요. 예를 들어 2026년 1월 1일에 태어났다면 백일은 2026년 4월 10일이에요. 100일 뒤로 계산하면 하루 늦어져요."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "백일 잔치를 꼭 백일 당일에 해야 하나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "꼭 그렇지는 않아요. 요즘은 가족이 모이기 쉬운 백일 전후 주말에 하는 경우가 많아요. 사진 촬영도 아기 컨디션과 스튜디오 일정에 맞춰 백일 전후로 잡는 편이에요."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "부모급여 신청을 60일 넘기면 어떻게 되나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "신청한 달부터 받게 돼서 그 전 달 몫은 받을 수 없어요. 0세 부모급여가 월 100만 원이라 한두 달만 늦어도 손해가 커요. 출생신고할 때 원스톱 서비스로 같이 신청하는 게 가장 확실해요."
+     }
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://yenajun.com/#org",
+   "name": "예나준",
+   "url": "https://yenajun.com/",
+   "logo": "https://yenajun.com/assets/logo-512.png",
+   "email": "ddongchane@gmail.com"
+  }
+ ]
+}
+</script>
+<!-- yn-seo:end -->
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">백일 계산기 · 100일 · 돌 · 첫해 일정</div>
+  <h1>우리 아기 백일은 언제일까?</h1>
+  <p>생일만 넣으면 <b>백일 날짜와 요일</b>, 오늘이 생후 며칠째인지 바로 알려 드려요. 50일·200일·돌 같은 기념일과 함께, 놓치면 손해인 <b>출생신고·부모급여·첫만남이용권 기한</b>까지 한 줄로 정리하고 휴대폰 캘린더에 한 번에 넣을 수 있어요.</p>
+  <a class="guide-first" href="/baby-100days/guide/">
+    <span class="gf-ico" aria-hidden="true">📖</span>
+    <span class="gf-txt"><small>함께 읽으면 좋아요 · 3분</small><b>백일, 이렇게 준비하세요 가이드</b><span>백일 세는 법, 백설기·수수팥떡의 의미, 사진·백일상 준비 시기, 출생 직후 챙길 신청</span></span>
+    <span class="gf-go" aria-hidden="true">→</span>
+  </a>
+</header>
+
+<section class="card" aria-label="아기 정보">
+  <div class="inputs">
+    <div class="q"><label for="birth">아기 생일</label><input type="date" id="birth" min="2015-01-01" max="2035-12-31"><span class="hint">아직 태어나기 전이면 출산 예정일을 넣어 보세요.</span></div>
+    <div class="q"><label for="nick">아기 이름이나 태명 <small>(선택)</small></label><input type="text" id="nick" maxlength="12" placeholder="예: 튼튼이"><span class="hint">캘린더 일정 이름에 들어가요.</span></div>
+  </div>
+  <label class="remember"><input type="checkbox" id="remember"> 이 기기에 생일 기억하기 <span class="hint">(서버로 보내지 않아요)</span></label>
+</section>
+
+<section id="result" aria-live="polite" class="card">
+  <div class="hero">
+    <span class="ex" id="exTag" hidden>예시 날짜예요</span>
+    <span class="lab" id="heroLab">백일 (태어난 날을 1일로 셈)</span>
+    <span class="date" id="heroDate">–</span>
+    <span class="dd" id="heroDd"></span>
+  </div>
+  <div class="age" aria-label="오늘 기준 아기 나이">
+    <div><b id="ageDay">–</b><span>생후 일수</span></div>
+    <div><b id="ageWeek">–</b><span>주</span></div>
+    <div><b id="ageMonth">–</b><span>개월</span></div>
+  </div>
+  <p class="why">왜 <b>출생일 + 99일</b>일까요? 우리는 아기가 <b>태어난 날을 1일째</b>로 세요. 그래서 100번째 날은 99일 뒤예요. 날짜 계산기에서 "+100일"로 계산하면 <b>하루 늦게</b> 나와요. 50일·200일·300일도 같은 방식이고, 돌은 첫 번째 생일(만 1세 되는 날)이에요.</p>
+
+  <h2 style="margin-top:4px">첫해 일정 한눈에</h2>
+  <div class="filters" role="group" aria-label="일정 고르기" id="filters">
+    <button type="button" data-f="all" aria-pressed="true">전체</button>
+    <button type="button" data-f="big" aria-pressed="false">기념일</button>
+    <button type="button" data-f="must" aria-pressed="false">꼭 할 신청</button>
+  </div>
+  <ol class="tl" id="tl"></ol>
+
+  <div class="acts">
+    <button type="button" class="btn primary" id="icsBtn">📅 캘린더에 저장</button>
+    <button type="button" class="btn" id="copyBtn">결과 복사</button>
+    <button type="button" class="btn" id="shareBtn" hidden>공유하기</button>
+  </div>
+  <p class="toast" id="toast" role="status"></p>
+</section>
+
+<section class="card" aria-labelledby="ck">
+  <h2 id="ck">백일 준비 체크리스트</h2>
+  <p class="hint" id="ckSub">백일 날짜를 기준으로 언제 무엇을 하면 좋은지 정리했어요.</p>
+  <ul class="check" id="checklist"></ul>
+</section>
+
+<section class="card yn-xpromo" aria-labelledby="nx">
+  <h2 id="nx">함께 챙기면 좋은 도구</h2>
+  <div class="xp-grid">
+    <a class="xp" href="/formula-mix/"><span class="xp-e" aria-hidden="true">🍼</span><b>분유 타는 법 계산기</b><span>스푼 수와 물 양, 묽거나 진하지 않은지 확인</span></a>
+    <a class="xp" href="/mixed-feeding/"><span class="xp-e" aria-hidden="true">🤱</span><b>혼합수유 보충량 계산기</b><span>체중과 월령으로 분유를 얼마나 보충할지</span></a>
+    <a class="xp" href="/rsv-antibody/"><span class="xp-e" aria-hidden="true">💉</span><b>RSV 항체주사 도우미</b><span>생년월일로 베이포투스·엔플론시아 해당 여부</span></a>
+    <a class="xp" href="/baby-name/"><span class="xp-e" aria-hidden="true">✍️</span><b>아기 이름짓기</b><span>출생신고 전, 한자의 뜻과 소리로 이름 고르기</span></a>
+  </div>
+</section>
+
+<ul class="notes">
+  <li>신청 기한은 2026년 10월 기준 제도예요. 부모급여·아동수당은 <b>출생일로부터 60일 안에</b> 신청해야 태어난 달부터 받을 수 있어서, 하루라도 여유 있게 <b>출생일 포함 60일째</b> 날짜를 보여 드려요.</li>
+  <li>출생신고와 함께 '행복출산 원스톱 서비스'로 부모급여·아동수당·첫만남이용권을 한 번에 신청할 수 있어요.</li>
+  <li>입력한 생일과 이름은 이 화면에서만 계산에 쓰고 서버로 보내지 않아요. "기억하기"를 켜면 이 기기 브라우저에만 저장돼요.</li>
+</ul>
+<p class="basis">기준: 출생신고 — 가족관계의 등록 등에 관한 법률 제44조(출생 후 1개월 이내, 기한을 넘기면 5만 원 이하 과태료). 부모급여 — 보건복지부 2026년 안내(만 2세 미만, 0세 월 100만 원·1세 월 50만 원, 출생일로부터 60일 이내 신청 시 출생 월부터 소급). 아동수당 — 2026년 만 9세 미만, 수도권 월 10만 원(지역별 차등), 60일 이내 신청 시 출생 월부터 지급. 첫만남이용권 — 첫째 200만 원·둘째 이상 300만 원, 2024년 1월 1일 이후 출생아는 출생일부터 2년 안에 사용.</p>
+
+<section class="guide" aria-labelledby="g-title">
+  <h2 id="g-title">이 계산기, 이렇게 보세요</h2>
+  <p>백일 날짜만 궁금해서 들어왔더라도 <b>"꼭 할 신청"</b> 필터를 한 번 눌러 보세요. 아기가 태어나고 두 달 안에 기한이 몰려 있어서, 백일보다 먼저 챙겨야 할 일이 더 많아요.</p>
+  <ol>
+    <li>생일을 넣으면 오늘 기준으로 <b>다음에 올 일정</b>이 분홍색으로 강조돼요.</li>
+    <li>"캘린더에 저장"을 누르면 기념일과 신청 기한이 들어간 파일이 받아져요. 휴대폰에서 열면 구글·아이폰 캘린더에 추가돼요.</li>
+    <li>출산 예정일로 미리 넣어 보면, 산후조리원에 있는 동안 해야 할 일을 미리 볼 수 있어요.</li>
+  </ol>
+  <h3>자주 묻는 질문</h3>
+  <details><summary>백일은 태어난 날부터 100일 뒤인가요?</summary>
+    <p>아니요. 태어난 날을 1일로 세기 때문에 출생일에서 99일 뒤가 백일이에요. 예를 들어 2026년 1월 1일에 태어났다면 백일은 2026년 4월 10일이에요. 100일 뒤로 계산하면 하루 늦어져요.</p></details>
+  <details><summary>백일 잔치를 꼭 백일 당일에 해야 하나요?</summary>
+    <p>꼭 그렇지는 않아요. 요즘은 가족이 모이기 쉬운 백일 전후 주말에 하는 경우가 많아요. 사진 촬영도 아기 컨디션과 스튜디오 일정에 맞춰 백일 전후로 잡는 편이에요.</p></details>
+  <details><summary>부모급여 신청을 60일 넘기면 어떻게 되나요?</summary>
+    <p>신청한 달부터 받게 돼서 그 전 달 몫은 받을 수 없어요. 0세 부모급여가 월 100만 원이라 한두 달만 늦어도 손해가 커요. 출생신고할 때 원스톱 서비스로 같이 신청하는 게 가장 확실해요.</p></details>
+  <p><a href="/baby-100days/guide/">백일, 이렇게 준비하세요 가이드 자세히 읽기 →</a></p>
+</section>
+
+<!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
+<section class="yn-rel" aria-label="예나준의 다른 도구">
+  <a class="yn-guide" href="/baby-100days/guide/"><span class="e">📖</span><span><b>백일 준비 가이드 읽기</b><small>백일 세는 법, 백일상의 의미, 출생 직후 챙길 신청</small></span><span class="go">→</span></a>
+  <a class="yn-coffee" href="https://buymeacoffee.com/yenajun" target="_blank" rel="noopener"><span class="e" aria-hidden="true">☕</span><span class="t"><b>도움이 됐다면 커피 한 잔 사 주세요</b><small>예나준은 퇴근 후 밤에 만드는 무료 도구예요. 응원해 주시면 더 좋은 도구로 보답할게요.</small></span><span class="go">후원하기 →</span></a>
+  <h2>이런 도구도 있어요</h2>
+  <div class="yn-grid">
+    <a class="yn-card" href="/baby-name/"><span class="e">✍️</span><b>아기 이름짓기</b><span>한자의 뜻과 소리로 이름 후보를 골라요.</span></a>
+    <a class="yn-card" href="/formula-mix/"><span class="e">🍼</span><b>분유 타는 법 계산기</b><span>스푼 수와 물 양을 알려 드려요.</span></a>
+    <a class="yn-card" href="/rsv-antibody/"><span class="e">💉</span><b>RSV 항체주사 도우미</b><span>우리 아기에게 맞는 항체주사를 정리해요.</span></a>
+  </div>
+  <a class="yn-home" href="/">← 예나준의 모든 도구 보기</a>
+</section>
+<!-- yn-related:end -->
+
+<footer>예나준 · 백일 계산기 · 제도 기한은 바뀔 수 있으니 신청 전 복지로·정부24에서 확인하세요.</footer>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var KEY = 'yn-baby-birth';
+  var WD = ['일','월','화','수','목','금','토'];
+  var filter = 'all', items = [], birth = null, isExample = false;
+
+  function d0(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function addDays(d, n){ var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+  function addMonths(d, n){ // 같은 날짜, 없으면 그달 말일
+    var y = d.getFullYear(), m = d.getMonth() + n, day = d.getDate();
+    var last = new Date(y, m + 1, 0).getDate();
+    return new Date(y, m, Math.min(day, last));
+  }
+  function addYears(d, n){ return addMonths(d, n * 12); }
+  function diff(a, b){ return Math.round((d0(b) - d0(a)) / 864e5); }
+  function fmt(d){ return d.getFullYear() + '. ' + (d.getMonth() + 1) + '. ' + d.getDate() + '. (' + WD[d.getDay()] + ')'; }
+  function fmtLong(d){ return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + WD[d.getDay()] + '요일'; }
+  function dday(n){ return n === 0 ? '오늘' : n > 0 ? 'D-' + n : (-n) + '일 지남'; }
+  function iso(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function name(){ var n = $('nick').value.trim(); return n || '우리 아기'; }
+
+  function build(b){
+    // kind: big(기념일) / must(꼭 할 신청)
+    return [
+      { k:'must', ic:'📝', t:'출생신고 기한', s:'태어난 날부터 1개월 안. 넘기면 5만 원 이하 과태료', d:addMonths(b, 1) },
+      { k:'big', ic:'🌱', t:'50일', s:'태어난 날을 1일로 셈', d:addDays(b, 49) },
+      { k:'must', ic:'💰', t:'부모급여·아동수당 신청', s:'이 날까지 신청해야 태어난 달부터 받아요 (0세 부모급여 월 100만 원)', d:addDays(b, 59) },
+      { k:'big', ic:'🎂', t:'백일 (100일)', s:'출생일 + 99일', d:addDays(b, 99), hero:true },
+      { k:'big', ic:'🌼', t:'200일', s:'출생일 + 199일', d:addDays(b, 199) },
+      { k:'big', ic:'🌻', t:'300일', s:'출생일 + 299일', d:addDays(b, 299) },
+      { k:'big', ic:'🎉', t:'첫돌', s:'첫 번째 생일, 만 1세', d:addYears(b, 1) },
+      { k:'big', ic:'✨', t:'1000일', s:'출생일 + 999일', d:addDays(b, 999) },
+      { k:'must', ic:'🎫', t:'첫만남이용권 사용 기한', s:'첫째 200만 원·둘째 이상 300만 원. 출생일부터 2년이 지나면 남은 금액이 사라져요 (2024년 이후 출생아)', d:addDays(addYears(b, 2), -1) }
+    ].sort(function(a, c){ return a.d - c.d; });
+  }
+
+  function render(){
+    var v = $('birth').value;
+    isExample = !v;
+    var today = d0(new Date());
+    birth = v ? new Date(v + 'T00:00:00') : addDays(today, -30);
+    $('exTag').hidden = !isExample;
+    items = build(birth);
+    var hero = items.filter(function(x){ return x.hero; })[0];
+    var hd = diff(today, hero.d);
+    $('heroLab').textContent = (isExample ? '예: 30일 전에 태어났다면 ' : name() + '의 ') + '백일은';
+    $('heroDate').textContent = fmtLong(hero.d);
+    $('heroDd').textContent = hd > 0 ? '백일까지 ' + hd + '일 남았어요 (D-' + hd + ')' : hd === 0 ? '오늘이 백일이에요! 🎉' : '백일이 ' + (-hd) + '일 지났어요';
+
+    var age = diff(birth, today) + 1; // 태어난 날 = 1일째
+    if(age >= 1){
+      $('ageDay').textContent = age + '일째';
+      $('ageWeek').textContent = Math.floor((age - 1) / 7) + '주 ' + ((age - 1) % 7) + '일';
+      var m = (today.getFullYear() - birth.getFullYear()) * 12 + today.getMonth() - birth.getMonth();
+      if(today.getDate() < birth.getDate()) m--;
+      $('ageMonth').textContent = Math.max(m, 0) + '개월';
+    } else {
+      $('ageDay').textContent = '탄생 D-' + (1 - age);
+      $('ageWeek').textContent = '–'; $('ageMonth').textContent = '–';
+    }
+
+    var nextIdx = -1;
+    items.forEach(function(x, i){ if(nextIdx < 0 && diff(today, x.d) >= 0) nextIdx = i; });
+    $('tl').innerHTML = items.map(function(x, i){
+      var n = diff(today, x.d);
+      if(filter !== 'all' && x.k !== filter) return '';
+      var cls = [x.k, n < 0 ? 'past' : '', i === nextIdx ? 'next' : '', n >= 0 && n <= 14 ? 'soon' : ''].join(' ');
+      return '<li class="' + cls + '"><span class="ic" aria-hidden="true">' + x.ic + '</span><span class="t"><b>' + x.t + '</b><small>' + x.s + '</small></span><span class="d"><b>' + fmt(x.d) + '</b><small>' + dday(n) + '</small></span></li>';
+    }).join('');
+
+    // 체크리스트 (백일 기준)
+    var h = hero.d;
+    var ck = [
+      ['D-30', addDays(h, -30), '촬영·장소 예약', '백일 사진 스튜디오나 셀프 촬영 소품, 가족 식사 장소를 미리 알아봐요. 주말은 빨리 차요.'],
+      ['D-14', addDays(h, -14), '백일상·떡 주문', '백일상 대여나 백설기·수수팥떡 주문을 넣어요. 떡집은 날짜를 정해 미리 주문해요.'],
+      ['D-7', addDays(h, -7), '가족에게 알리기', '양가 가족에게 날짜를 알리고, 아기 컨디션을 생각해 짧게 계획해요.'],
+      ['당일', h, '백설기·수수팥떡 나누기', '백설기는 깨끗하고 오래 살라는 뜻, 붉은 팥 수수팥떡은 나쁜 기운을 막는다는 뜻으로 전해져요.']
+    ];
+    $('ckSub').textContent = '백일(' + fmt(h) + ')을 기준으로 언제 무엇을 하면 좋은지 정리했어요.';
+    $('checklist').innerHTML = ck.map(function(c){
+      return '<li><span class="when">' + c[0] + ' · ' + (c[1].getMonth() + 1) + '/' + c[1].getDate() + '</span><span><b>' + c[2] + '</b><span>' + c[3] + '</span></span></li>';
+    }).join('');
+
+    try { if($('remember').checked && v) localStorage.setItem(KEY, JSON.stringify({ b:v, n:$('nick').value })); } catch(e){}
+  }
+
+  function summary(){
+    var lines = [name() + ' 첫해 일정 (예나준 백일 계산기)'];
+    items.forEach(function(x){ lines.push('· ' + x.t + ': ' + fmt(x.d)); });
+    lines.push('https://yenajun.com/baby-100days/');
+    return lines.join('\n');
+  }
+  function toast(t){ $('toast').textContent = t; setTimeout(function(){ $('toast').textContent = ''; }, 3000); }
+
+  // 캘린더(.ics) 파일 — 브라우저 안에서 만들어요
+  $('icsBtn').addEventListener('click', function(){
+    if(isExample){ toast('먼저 아기 생일을 넣어 주세요.'); $('birth').focus(); return; }
+    var stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+    var ev = items.map(function(x, i){
+      var s = iso(x.d).replace(/-/g, ''), e = iso(addDays(x.d, 1)).replace(/-/g, '');
+      return ['BEGIN:VEVENT', 'UID:yn-' + s + '-' + i + '@yenajun.com', 'DTSTAMP:' + stamp,
+        'DTSTART;VALUE=DATE:' + s, 'DTEND;VALUE=DATE:' + e,
+        'SUMMARY:' + name() + ' ' + x.t, 'DESCRIPTION:' + x.s.replace(/,/g, '\\,') + ' (예나준 백일 계산기)',
+        'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY', 'DESCRIPTION:' + name() + ' ' + x.t + ' 하루 전', 'END:VALARM', 'END:VEVENT'].join('\r\n');
+    });
+    var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//yenajun//baby-100days//KO', 'CALSCALE:GREGORIAN'].concat(ev, ['END:VCALENDAR']).join('\r\n');
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([ics], { type:'text/calendar;charset=utf-8' }));
+    a.download = '백일-첫해일정.ics';
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('캘린더 파일을 받았어요. 열면 일정 ' + items.length + '개가 하루 전 알림과 함께 추가돼요.');
+  });
+  $('copyBtn').addEventListener('click', function(){
+    var t = summary();
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function(){ toast('복사했어요. 가족 단톡방에 붙여 넣어 보세요.'); }, function(){ toast('복사가 안 되는 브라우저예요.'); });
+  });
+  if(navigator.share){
+    $('shareBtn').hidden = false;
+    $('shareBtn').addEventListener('click', function(){ navigator.share({ title:'백일 계산기', text:summary() }).catch(function(){}); });
+  }
+  $('filters').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    filter = b.dataset.f;
+    document.querySelectorAll('#filters button').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    render();
+  });
+  $('remember').addEventListener('change', function(){
+    try { if(!this.checked) localStorage.removeItem(KEY); } catch(e){}
+    render();
+  });
+  ['birth', 'nick'].forEach(function(id){ $(id).addEventListener('input', render); });
+
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if(saved && saved.b){ $('birth').value = saved.b; $('nick').value = saved.n || ''; $('remember').checked = true; }
+  } catch(e){}
+  render();
+})();
+</script>
+</body>
+</html>

@@ -33,6 +33,7 @@ if sys.platform == 'win32':
 # slug: (도구 이름, 분류, schema.org applicationCategory, 아이콘)
 TOOLS = {
     'baby-name':      ('아기 이름짓기', '육아', 'LifestyleApplication', 'icon-name.png'),
+    'baby-100days':   ('백일 계산기', '육아', 'LifestyleApplication', 'icon-calc.png'),
     'mixed-feeding':  ('혼합수유 보충량 계산기', '육아', 'HealthApplication', 'icon-calc.png'),
     'formula-mix':    ('분유 타는 법 계산기', '육아', 'HealthApplication', 'icon-calc.png'),
     'rsv-antibody':   ('RSV 항체주사 도우미', '육아', 'HealthApplication', 'icon-calc.png'),
