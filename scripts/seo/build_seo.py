@@ -10,6 +10,7 @@
 - 날짜(작성일·수정일)는 git 커밋 기록에서 가져온다.
 """
 import asyncio
+import hashlib
 import html
 import json
 import re
@@ -61,6 +62,26 @@ def git_dates(path):
     return (out[-1] if out else today), (out[0] if out else today)
 
 
+# 작성일·수정일 기록부. 수정일은 "이 스크립트가 넣는 블록을 뺀 본문"이 실제로 바뀐 때만 오늘로 바꾼다.
+# (git 마지막 커밋 날짜를 쓰면 이 스크립트가 블록만 고쳐도 모든 페이지 수정일이 바뀌어 버림)
+DATES_FILE = ROOT / 'scripts' / 'seo' / 'page_dates.json'
+
+
+def page_dates(rel, body, old_block, book):
+    h = hashlib.sha256(body.encode('utf-8')).hexdigest()[:16]
+    now = datetime.now().astimezone().replace(microsecond=0).isoformat()
+    rec = book.get(rel)
+    if rec is None:  # 처음: 기존 블록의 날짜가 있으면 그대로 이어받고, 없으면 git 기록
+        gp, gm = git_dates(ROOT / rel)
+        op = re.search(r'"datePublished": "([^"]+)"', old_block or '')
+        om = re.search(r'"dateModified": "([^"]+)"', old_block or '')
+        rec = {'hash': h, 'published': op.group(1) if op else gp, 'modified': om.group(1) if om else gm}
+    elif rec['hash'] != h:
+        rec = {'hash': h, 'published': rec['published'], 'modified': now}
+    book[rel] = rec
+    return rec['published'], rec['modified']
+
+
 def text(s):
     s = re.sub(r'<br\s*/?>', ' ', s)
     s = re.sub(r'<[^>]+>', '', s)
@@ -107,8 +128,7 @@ def page_info(rel):
     return 'static', rel.replace('.html', '')
 
 
-def build_graph(rel, src, kind, key, url, title, desc, image):
-    published, modified = git_dates(ROOT / rel)
+def build_graph(rel, src, kind, key, url, title, desc, image, published, modified):
     h1 = text((re.search(r'<h1[^>]*>(.*?)</h1>', src, re.S) or [None, title])[1])
     home = ('예나준', SITE + '/')
     g = []
@@ -163,7 +183,7 @@ def og_image_for(kind, key):
     return f'{SITE}/assets/og-image.jpg'
 
 
-def process(rel):
+def process(rel, book):
     p = ROOT / rel
     src = p.read_text(encoding='utf-8')
     kind, key = page_info(rel)
@@ -176,10 +196,12 @@ def process(rel):
     otype = 'article' if kind == 'guide' else 'website'
 
     # 기존 og·twitter 메타와 예전 블록을 지우고 한 블록으로 다시 넣는다
+    old = re.search(r'<!-- yn-seo:start.*?<!-- yn-seo:end -->', src, re.S)
     src = re.sub(r'\n?[ \t]*<!-- yn-seo:start.*?<!-- yn-seo:end -->', '', src, flags=re.S)
     src = re.sub(r'\n?[ \t]*<!-- 공유 미리보기[^>]*-->', '', src)
     src = re.sub(r'\n?[ \t]*<meta\s+(property="og:[^"]+"|name="twitter:[^"]+")[^>]*>', '', src)
-    graph = build_graph(rel, src, kind, key, url, title, desc, image)
+    published, modified = page_dates(rel, src, old.group(0) if old else '', book)
+    graph = build_graph(rel, src, kind, key, url, title, desc, image, published, modified)
     e = lambda s: html.escape(s, quote=True)
     block = [
         '<!-- yn-seo:start (scripts/seo/build_seo.py가 만듦 — 직접 고치지 말 것) -->',
@@ -273,8 +295,12 @@ def main():
             if (ROOT / f).exists() and f not in files:
                 files.append(f)
     jobs = []
+    try:
+        book = json.loads(DATES_FILE.read_text(encoding='utf-8'))
+    except Exception:
+        book = {}
     for rel in sorted(files):
-        kind, key, title, image = process(rel)
+        kind, key, title, image = process(rel, book)
         print(f'{kind:6s} {rel}')
         if kind == 'tool':
             name, cat, _, icon = TOOLS[key]
@@ -291,6 +317,7 @@ def main():
                      'issuance': '은행채·여전채가 이번 주 얼마나, 몇 % 금리로 발행됐는지 정리해요.'}[key]
             jobs.append((OG_DIR / f'{key}.png', '매주 월요일 업데이트', CAT_COLOR['금리'], title.split(' — ')[0],
                          fixed, 'icon-calc.png'))
+    DATES_FILE.write_text(json.dumps(book, ensure_ascii=False, indent=1, sort_keys=True) + chr(10), encoding='utf-8')
     asyncio.run(make_images(jobs, force))
 
 
