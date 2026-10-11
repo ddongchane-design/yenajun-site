@@ -23,6 +23,14 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
        crossorigin="anonymous"></script>
 <style>
+/* 운영 지표 배지 */
+.ops{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.ops span{display:inline-flex;align-items:center;gap:0;white-space:pre;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13.5px;color:var(--muted);font-weight:500}
+.ops b{color:var(--navy);font-variant-numeric:tabular-nums}
+.ops .live{color:#2E7D5B;border-color:#C9DFD1;background:#F1F8F3}
+.ops .live i{margin-right:7px;width:8px;height:8px;border-radius:50%;background:#2E9E62;box-shadow:0 0 0 0 rgba(46,158,98,.5);animation:ynPulse 2s infinite}
+@keyframes ynPulse{0%{box-shadow:0 0 0 0 rgba(46,158,98,.5)}70%{box-shadow:0 0 0 7px rgba(46,158,98,0)}100%{box-shadow:0 0 0 0 rgba(46,158,98,0)}}
+@media (prefers-reduced-motion: reduce){.ops .live i{animation:none}}
 /* 소개 + 분류 */
 .intro-section{padding-bottom:0}
 .intro-title{margin:0 0 20px;font-size:clamp(22px,3vw,30px);color:var(--navy)}
@@ -87,6 +95,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<script defer src="/assets/ux.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7J20CMXV0R"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-7J20CMXV0R');</script>
 <script defer src="/assets/ga-events.js"></script>
@@ -188,6 +197,11 @@
   <!-- 예나준은 이런 곳 -->
   <section class="section intro-section" aria-labelledby="intro-title">
     <div class="wrap">
+      <div class="ops" aria-label="운영 현황">
+        <!-- yn-stats:start (scripts/seo/build_seo.py가 숫자를 채움) -->
+        <span class="live"><i aria-hidden="true"></i>운영 <b data-since="2026-09-25">·</b>일째</span><span>🧮 도구 <b>16</b>개</span><span>📖 가이드 <b>16</b>편</span><span>🛠 업데이트 <b data-updated="2026-10-11">2026. 10. 11.</b></span>
+        <!-- yn-stats:end -->
+      </div>
       <h2 id="intro-title" class="intro-title">예나준은 생활 속 계산을 대신 해 주는 곳이에요</h2>
       <ul class="promise">
         <li><b>직접 겪은 문제에서 출발해요</b><span>아이를 키우고, 집을 구하고, 투자를 고민하며 실제로 필요했던 계산만 도구로 만들어요.</span></li>

@@ -216,6 +216,7 @@ def process(rel, book):
         '<meta property="og:image:width" content="1200">',
         '<meta property="og:image:height" content="630">',
         '<meta name="twitter:card" content="summary_large_image">',
+        '<script defer src="/assets/ux.js"></script>',
         *([f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA4_ID}"></script>',
            '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
            f"gtag('js',new Date());gtag('config','{GA4_ID}');</script>",
@@ -285,6 +286,25 @@ def card_desc(slug):
     return text(m.group(1)) if m else ''
 
 
+SITE_START = '2026-09-25'  # yenajun.com 첫 배포일
+
+
+def write_stats(book):
+    """홈 운영 지표 배지(<!-- yn-stats -->)에 도구 수·가이드 수·마지막 업데이트를 채운다. 운영 일수는 ux.js가 그날그날 계산."""
+    p = ROOT / 'index.html'
+    src = p.read_text(encoding='utf-8')
+    tools = src.count('class="tool-card"')
+    guides = sum(1 for k in TOOLS if (ROOT / k / 'guide' / 'index.html').exists())
+    last = max(v['modified'] for v in book.values())[:10]
+    nl = chr(10) + ' ' * 8
+    inner = (nl + '<span class="live"><i aria-hidden="true"></i>운영 <b data-since="%s">·</b>일째</span>'
+             '<span>🧮 도구 <b>%d</b>개</span><span>📖 가이드 <b>%d</b>편</span>'
+             '<span>🛠 업데이트 <b data-updated="%s">%s</b></span>' + nl) % (SITE_START, tools, guides, last, last.replace('-', '. ') + '.')
+    new = re.sub(r'(<!-- yn-stats:start[^>]*-->).*?(<!-- yn-stats:end -->)', lambda m: m.group(1) + inner + m.group(2), src, flags=re.S)
+    if new != src:
+        p.write_text(new, encoding='utf-8', newline='')
+
+
 def main():
     force = '--images' in sys.argv
     files = subprocess.run(['git', 'ls-files', '*.html'], cwd=ROOT, capture_output=True, text=True,
@@ -318,6 +338,7 @@ def main():
                      'issuance': '은행채·여전채가 이번 주 얼마나, 몇 % 금리로 발행됐는지 정리해요.'}[key]
             jobs.append((OG_DIR / f'{key}.png', '매주 월요일 업데이트', CAT_COLOR['금리'], title.split(' — ')[0],
                          fixed, 'icon-calc.png'))
+    write_stats(book)
     DATES_FILE.write_text(json.dumps(book, ensure_ascii=False, indent=1, sort_keys=True) + chr(10), encoding='utf-8')
     asyncio.run(make_images(jobs, force))
 
