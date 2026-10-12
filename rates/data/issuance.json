@@ -12798,7 +12798,493 @@
     }
    ],
    "asof": "2026-10-02"
+  },
+  {
+   "start": "2026-10-03",
+   "end": "2026-10-09",
+   "complete": true,
+   "total": {
+    "amt": 6880000000000.0,
+    "cnt": 71
+   },
+   "groups": {
+    "은행채": {
+     "amt": 3780000000000.0,
+     "cnt": 15
+    },
+    "여전채": {
+     "amt": 2200000000000.0,
+     "cnt": 53
+    },
+    "통안채": {
+     "amt": 600000000000.0,
+     "cnt": 1
+    },
+    "기타": {
+     "amt": 300000000000.0,
+     "cnt": 2
+    }
+   },
+   "kinds": {
+    "일반은행채": {
+     "amt": 3210000000000.0,
+     "cnt": 12,
+     "group": "은행채"
+    },
+    "할부금융채": {
+     "amt": 1050000000000.0,
+     "cnt": 31,
+     "group": "여전채"
+    },
+    "신용카드채": {
+     "amt": 880000000000.0,
+     "cnt": 18,
+     "group": "여전채"
+    },
+    "통화안정채권": {
+     "amt": 600000000000.0,
+     "cnt": 1,
+     "group": "통안채"
+    },
+    "특수은행채": {
+     "amt": 570000000000.0,
+     "cnt": 3,
+     "group": "은행채"
+    },
+    "금융지주회사채": {
+     "amt": 300000000000.0,
+     "cnt": 2,
+     "group": "기타"
+    },
+    "시설대여채(리스)": {
+     "amt": 270000000000.0,
+     "cnt": 4,
+     "group": "여전채"
+    }
+   },
+   "yj": {
+    "AA-": {
+     "avg": 4.62,
+     "n": 6,
+     "min": 4.557,
+     "max": 4.654
+    },
+    "AA0": {
+     "avg": 4.531,
+     "n": 2,
+     "min": 4.531,
+     "max": 4.531
+    },
+    "AA+": {
+     "avg": 4.513,
+     "n": 2,
+     "min": 4.513,
+     "max": 4.514
+    }
+   },
+   "mp": {
+    "AA+": 4.572,
+    "AA0": 4.629,
+    "AA-": 4.722,
+    "A+": 5.506,
+    "A0": 6.279,
+    "A-": 6.921
+   },
+   "mp_date": "2026-10-08",
+   "top": [
+    {
+     "issuer": "하나은행",
+     "name": "하나은행49-10이0.75갑-06",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-06",
+     "maturity": "2027-07-06",
+     "years": 0.75,
+     "amount": 700000000000.0,
+     "coupon": 4.0,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "한국은행",
+     "name": "통화안정증권 DC027-0105-0910",
+     "kind": "통화안정채권",
+     "group": "통안채",
+     "issued": "2026-10-06",
+     "maturity": "2027-01-05",
+     "years": 0.25,
+     "amount": 600000000000.0,
+     "coupon": 3.17,
+     "grade": "",
+     "senior": true
+    },
+    {
+     "issuer": "우리은행",
+     "name": "우리은행30-10-할인9M-갑-08",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-08",
+     "maturity": "2027-07-08",
+     "years": 0.75,
+     "amount": 500000000000.0,
+     "coupon": 3.86,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "우리은행",
+     "name": "우리은행30-10-할인9M-갑-06",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-06",
+     "maturity": "2027-07-06",
+     "years": 0.75,
+     "amount": 500000000000.0,
+     "coupon": 3.89,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "한국수출입은행",
+     "name": "한국수출입금융 2610다-이표-92",
+     "kind": "특수은행채",
+     "group": "은행채",
+     "issued": "2026-10-06",
+     "maturity": "2027-01-06",
+     "years": 0.25,
+     "amount": 360000000000.0,
+     "coupon": 3.34,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "하나은행",
+     "name": "하나은행4910이0.75갑08(1-변)",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-08",
+     "maturity": "2027-07-08",
+     "years": 0.75,
+     "amount": 350000000000.0,
+     "coupon": 3.65,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "KB금융지주",
+     "name": "KB금융지주66-1",
+     "kind": "금융지주회사채",
+     "group": "기타",
+     "issued": "2026-10-07",
+     "maturity": "2029-10-07",
+     "years": 3.0,
+     "amount": 260000000000.0,
+     "coupon": 4.351,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "아이엠뱅크",
+     "name": "아이엠뱅크47-10이(변)12A-06",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-06",
+     "maturity": "2027-10-06",
+     "years": 1.0,
+     "amount": 230000000000.0,
+     "coupon": 3.65,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "한국스탠다드차타드은행",
+     "name": "스탠다드차타드은행26-10-이(변)01-06",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-06",
+     "maturity": "2027-10-06",
+     "years": 1.0,
+     "amount": 200000000000.0,
+     "coupon": 3.63,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "산은캐피탈",
+     "name": "산은캐피탈795-1",
+     "kind": "시설대여채(리스)",
+     "group": "여전채",
+     "issued": "2026-10-08",
+     "maturity": "2028-10-06",
+     "years": 2.0,
+     "amount": 170000000000.0,
+     "coupon": 4.509,
+     "grade": "AA-",
+     "senior": true
+    },
+    {
+     "issuer": "하나은행",
+     "name": "하나은행49-10이1갑-08",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-08",
+     "maturity": "2027-10-08",
+     "years": 1.0,
+     "amount": 160000000000.0,
+     "coupon": 4.02,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "한국수출입은행",
+     "name": "한국수출입금융(변) 2610라-이표-304",
+     "kind": "특수은행채",
+     "group": "은행채",
+     "issued": "2026-10-08",
+     "maturity": "2027-08-08",
+     "years": 0.83,
+     "amount": 150000000000.0,
+     "coupon": 3.56,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "아이엠뱅크",
+     "name": "아이엠뱅크47-10이(변)12A-08",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-08",
+     "maturity": "2027-10-08",
+     "years": 1.0,
+     "amount": 140000000000.0,
+     "coupon": 3.65,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "하나카드",
+     "name": "하나카드311-1",
+     "kind": "신용카드채",
+     "group": "여전채",
+     "issued": "2026-10-08",
+     "maturity": "2029-10-05",
+     "years": 2.99,
+     "amount": 140000000000.0,
+     "coupon": 4.531,
+     "grade": "AA0",
+     "senior": true
+    },
+    {
+     "issuer": "우리은행",
+     "name": "우리은행30-10-이(변)01-갑-06",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-06",
+     "maturity": "2027-10-06",
+     "years": 1.0,
+     "amount": 140000000000.0,
+     "coupon": 3.62,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "우리은행",
+     "name": "우리은행30-10-이표1.25-갑-08",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-08",
+     "maturity": "2028-01-08",
+     "years": 1.25,
+     "amount": 130000000000.0,
+     "coupon": 4.1,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "롯데카드",
+     "name": "롯데카드599-8",
+     "kind": "신용카드채",
+     "group": "여전채",
+     "issued": "2026-10-08",
+     "maturity": "2028-10-06",
+     "years": 2.0,
+     "amount": 120000000000.0,
+     "coupon": 5.04,
+     "grade": "AA-",
+     "senior": true
+    },
+    {
+     "issuer": "한국스탠다드차타드은행",
+     "name": "스탠다드차타드은행26-10-이(변)02-08",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-08",
+     "maturity": "2027-10-08",
+     "years": 1.0,
+     "amount": 100000000000.0,
+     "coupon": 3.628,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "우리카드",
+     "name": "우리카드298",
+     "kind": "신용카드채",
+     "group": "여전채",
+     "issued": "2026-10-06",
+     "maturity": "2029-03-06",
+     "years": 2.41,
+     "amount": 100000000000.0,
+     "coupon": 4.19,
+     "grade": "AA0",
+     "senior": true
+    },
+    {
+     "issuer": "롯데카드",
+     "name": "롯데카드599-1",
+     "kind": "신용카드채",
+     "group": "여전채",
+     "issued": "2026-10-08",
+     "maturity": "2027-10-07",
+     "years": 1.0,
+     "amount": 80000000000.0,
+     "coupon": 4.627,
+     "grade": "AA-",
+     "senior": true
+    },
+    {
+     "issuer": "현대카드",
+     "name": "현대카드974-3",
+     "kind": "신용카드채",
+     "group": "여전채",
+     "issued": "2026-10-07",
+     "maturity": "2028-10-06",
+     "years": 2.0,
+     "amount": 80000000000.0,
+     "coupon": 4.473,
+     "grade": "AA+",
+     "senior": true
+    },
+    {
+     "issuer": "제이비우리캐피탈",
+     "name": "JB 우리캐피탈573-3",
+     "kind": "할부금융채",
+     "group": "여전채",
+     "issued": "2026-10-08",
+     "maturity": "2028-10-06",
+     "years": 2.0,
+     "amount": 70000000000.0,
+     "coupon": 4.58,
+     "grade": "AA-",
+     "senior": true
+    },
+    {
+     "issuer": "신한캐피탈",
+     "name": "신한캐피탈537-8",
+     "kind": "할부금융채",
+     "group": "여전채",
+     "issued": "2026-10-06",
+     "maturity": "2031-10-06",
+     "years": 5.0,
+     "amount": 70000000000.0,
+     "coupon": 4.793,
+     "grade": "AA-",
+     "senior": true
+    },
+    {
+     "issuer": "부산은행",
+     "name": "부산은행2026-10할9M-08",
+     "kind": "일반은행채",
+     "group": "은행채",
+     "issued": "2026-10-08",
+     "maturity": "2027-07-08",
+     "years": 0.75,
+     "amount": 60000000000.0,
+     "coupon": 3.88,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "하나카드",
+     "name": "하나카드311-2",
+     "kind": "신용카드채",
+     "group": "여전채",
+     "issued": "2026-10-08",
+     "maturity": "2029-10-08",
+     "years": 3.0,
+     "amount": 60000000000.0,
+     "coupon": 4.531,
+     "grade": "AA0",
+     "senior": true
+    },
+    {
+     "issuer": "현대커머셜",
+     "name": "현대커머셜587-3",
+     "kind": "할부금융채",
+     "group": "여전채",
+     "issued": "2026-10-08",
+     "maturity": "2028-07-07",
+     "years": 1.75,
+     "amount": 60000000000.0,
+     "coupon": 3.84,
+     "grade": "AA-",
+     "senior": true
+    },
+    {
+     "issuer": "수협은행",
+     "name": "수산금융채권(은행) 26-10이(변)12-06",
+     "kind": "특수은행채",
+     "group": "은행채",
+     "issued": "2026-10-06",
+     "maturity": "2027-10-06",
+     "years": 1.0,
+     "amount": 60000000000.0,
+     "coupon": 3.57,
+     "grade": "AAA",
+     "senior": true
+    },
+    {
+     "issuer": "신한캐피탈",
+     "name": "신한캐피탈537-7",
+     "kind": "할부금융채",
+     "group": "여전채",
+     "issued": "2026-10-06",
+     "maturity": "2029-10-05",
+     "years": 3.0,
+     "amount": 60000000000.0,
+     "coupon": 4.654,
+     "grade": "AA-",
+     "senior": true
+    },
+    {
+     "issuer": "롯데카드",
+     "name": "롯데카드599-6 (녹)",
+     "kind": "신용카드채",
+     "group": "여전채",
+     "issued": "2026-10-08",
+     "maturity": "2028-03-21",
+     "years": 1.45,
+     "amount": 50000000000.0,
+     "coupon": 4.832,
+     "grade": "AA-",
+     "senior": true
+    },
+    {
+     "issuer": "롯데카드",
+     "name": "롯데카드599-7",
+     "kind": "신용카드채",
+     "group": "여전채",
+     "issued": "2026-10-08",
+     "maturity": "2028-04-07",
+     "years": 1.5,
+     "amount": 50000000000.0,
+     "coupon": 4.48,
+     "grade": "AA-",
+     "senior": true
+    }
+   ],
+   "asof": "2026-10-09"
   }
  ],
- "updated": "2026-10-05 08:36"
+ "updated": "2026-10-12 12:43"
 }
