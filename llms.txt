@@ -15,6 +15,7 @@
 ## 집과 돈
 
 - [고금리 투자 비교 계산기](https://yenajun.com/lump-sum/): 목돈을 예금·파킹형 ETF·미국 단기채·장기채·S&P500에 넣으면 세후 얼마가 될지, 금리·환율 시나리오별로 비교해요. 가이드: [미국 금리 5%, 누가 웃고 누가 울까](https://yenajun.com/lump-sum/guide/)
+- [엔화 투자 계산기](https://yenajun.com/yen-sp500/): 엔화로 바꿔 일본에 상장된 S&P500 ETF를 사면 얼마가 될지, 미국 증시와 원/엔·원/달러를 움직이며 그래프로 확인해요. 가이드: [엔화로 미국 ETF 사면 정말 두 번 벌까](https://yenajun.com/yen-sp500/guide/)
 - [전세 반전세 월세 비교 계산기](https://yenajun.com/jeonse-wolse/): 조건 세 가지와 내 현금·금리만 넣으면 한 달에 실제로 나가는 돈을 비교해요. 가이드: [전세 vs 반전세 vs 월세, 뭐가 이득일까](https://yenajun.com/jeonse-wolse/guide/)
 - [방공제 한도 계산기](https://yenajun.com/room-deduction/): 집값과 소득을 넣으면 방공제가 내 대출 한도를 얼마나 깎는지 계산해요. 가이드: [주택담보대출 한도 가이드 — LTV·DSR·방공제 한 번에](https://yenajun.com/room-deduction/guide/)
 - [물타기 평단가 계산기](https://yenajun.com/avg-down/): 여유 자금으로 물을 타면 평단가가 얼마나 내려가는지, 갈아타기와 비교하고 분할 매수도 짜 봐요. 가이드: [물타기 vs 갈아타기 가이드 — 판단 전에 숫자부터](https://yenajun.com/avg-down/guide/)
@@ -39,4 +40,4 @@
 - [개인정보처리방침](https://yenajun.com/privacy)
 - [이용약관](https://yenajun.com/terms)
 
-마지막 업데이트: 2026-10-11
+마지막 업데이트: 2026-10-13

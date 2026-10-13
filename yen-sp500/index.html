@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="엔화로 바꿔서 일본에 상장된 S&P500 ETF를 사면 얼마가 될까요? 미국 증시, 원/엔, 원/달러 환율을 움직여 보면 엔 헤지 상품과 헤지 없는 상품, 달러 직접 투자의 수익률이 그래프로 바로 바뀌어요.">
+<link rel="canonical" href="https://yenajun.com/yen-sp500/">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>엔화로 S&P500 사면 얼마가 될까? 엔화 투자 계산기 | 예나준</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{
+  --ground:#F7F7F4;
+  --panel:#FFFFFF;
+  --ink:#1F2A44;
+  --ink-2:#5A6274;
+  --rule:#DFE1E6;
+  --field:#F1F2F5;
+  --navy:#2A4A7F;
+  --navy-soft:#E2E9F5;
+  --coral:#B8503C;
+  --coral-soft:#F6E2DD;
+  --sage:#3F7A55;
+  --sage-soft:#E0EEE5;
+  --amber:#9A6A12;
+  --amber-soft:#F4E9D2;
+  --m-a:#2A4A7F; --m-b:#7A4F9A; --m-c:#5B7F95; --m-d:#9A6A12;
+  --gain:63,122,85; --loss:184,80,60;
+  --display:"Gowun Dodum","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#13161D;--panel:#1B2029;--ink:#E7EAF0;--ink-2:#A6ADBB;--rule:#2F3644;--field:#232A36;
+    --navy:#8FB0E8;--navy-soft:#1E2A40;--coral:#E48B78;--coral-soft:#3C2420;--sage:#8FC49C;--sage-soft:#1F3226;
+    --amber:#E1B65E;--amber-soft:#3A2F17;
+    --m-a:#8FB0E8;--m-b:#C39BE0;--m-c:#8FB3C8;--m-d:#E1B65E;
+    --gain:143,196,156;--loss:228,139,120;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#13161D;--panel:#1B2029;--ink:#E7EAF0;--ink-2:#A6ADBB;--rule:#2F3644;--field:#232A36;
+  --navy:#8FB0E8;--navy-soft:#1E2A40;--coral:#E48B78;--coral-soft:#3C2420;--sage:#8FC49C;--sage-soft:#1F3226;
+  --amber:#E1B65E;--amber-soft:#3A2F17;
+  --m-a:#8FB0E8;--m-b:#C39BE0;--m-c:#8FB3C8;--m-d:#E1B65E;
+  --gain:143,196,156;--loss:228,139,120;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;padding-inline:16px;padding-block:32px 64px;word-break:keep-all}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.3}
+h1{font-family:var(--display);font-size:clamp(26px,5vw,34px);font-weight:400;color:var(--navy)}
+h2{font-size:17px;font-weight:700}
+h3{font-size:15px;font-weight:700}
+p{margin:0}
+a{color:var(--navy)}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--ink-2)}
+
+header{display:flex;flex-direction:column;gap:12px}
+.chips5{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.chips5 span{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--rule);border-radius:999px;padding:3px 11px;font-size:13.5px;color:var(--ink-2)}
+.chips5 i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+.guide-first{display:flex;align-items:center;gap:12px;background:var(--amber-soft);border:1px solid var(--amber);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--ink);transition:transform .15s}
+.guide-first:hover{transform:translateY(-1px)}
+.gf-ico{font-size:26px;flex:none}
+.gf-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.gf-txt small{font-size:12.5px;font-weight:700;color:var(--amber)}
+.gf-txt b{font-size:16px;line-height:1.4}
+.gf-txt span{font-size:13px;color:var(--ink-2);line-height:1.5}
+.gf-go{margin-left:auto;font-size:20px;color:var(--amber);flex:none}
+
+/* 입력 */
+fieldset{border:1px solid var(--rule);background:var(--panel);border-radius:12px;padding:18px 16px;margin:0;display:flex;flex-direction:column;gap:16px;min-width:0}
+legend{font-weight:700;font-size:16px;padding:0 6px}
+.q{display:flex;flex-direction:column;gap:6px;min-width:0}
+.q > label,.q > .lab{font-weight:500;font-size:14.5px}
+.hint{font-size:13px;color:var(--ink-2);line-height:1.55}
+.box{position:relative;display:flex;align-items:center}
+input[type=text]{
+  font:inherit;font-size:17px;font-weight:700;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:8px;
+  padding:10px 52px 10px 12px;width:100%;font-variant-numeric:tabular-nums}
+input:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.unit{position:absolute;right:12px;font-size:14px;color:var(--ink-2);pointer-events:none}
+.say{font-size:12.5px;color:var(--navy);font-weight:500;min-height:1em}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:14.5px;font-weight:500;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:999px;padding:7px 14px;cursor:pointer;touch-action:manipulation}
+.seg button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--panel);font-weight:700}
+.seg.small button{font-size:13.5px;padding:5px 12px}
+details.opt-in{border-top:1px dashed var(--rule);padding-top:12px}
+details.opt-in summary{cursor:pointer;font-weight:700;font-size:15px;color:var(--navy)}
+details.opt-in[open] summary{margin-bottom:12px}
+.assume{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:560px){ .assume{grid-template-columns:1fr} }
+.assume .q > label{font-size:13.5px}
+.assume input[type=text]{font-size:15px;padding:8px 52px 8px 10px}
+.asof{font-size:12.5px;color:var(--ink-2)}
+
+/* 슬라이더 */
+.sl{display:flex;flex-direction:column;gap:4px}
+.sl .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.sl .top label{font-weight:500;font-size:14.5px}
+.sl .top output{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sl .row{display:flex;align-items:center;gap:8px}
+.sl .row button{font:inherit;font-size:18px;line-height:1;width:36px;height:36px;border-radius:50%;border:1px solid var(--rule);background:var(--field);color:var(--ink);cursor:pointer;flex:none;touch-action:manipulation}
+input[type=range]{flex:1;min-width:0;height:36px;margin:0;accent-color:var(--navy);background:transparent;cursor:pointer}
+.sl .ends{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2);padding:0 44px}
+.cross{background:var(--field);border-radius:10px;padding:10px 14px;font-size:14px;line-height:1.65}
+.cross b{font-variant-numeric:tabular-nums}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.presets button{font:inherit;font-size:13.5px;color:var(--navy);background:var(--navy-soft);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer;touch-action:manipulation}
+.presets button:hover{border-color:var(--navy)}
+
+/* 결과 */
+#result{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.card.main{border-color:var(--navy);border-width:2px}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;padding:2px 9px;border-radius:999px;align-self:flex-start;background:var(--navy-soft);color:var(--navy)}
+.verdict{font-family:var(--display);font-size:clamp(21px,4.2vw,27px);line-height:1.45}
+.verdict em{font-style:normal;color:var(--navy)}
+.verdict-sub{font-size:15px;color:var(--ink-2)}
+.verdict-sub b{color:var(--ink)}
+
+.bars{display:flex;flex-direction:column;gap:16px}
+.bar .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.bar .top b{font-size:15.5px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.bar .top b i{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.bar .top b small{font-weight:500;color:var(--ink-2);font-size:12.5px}
+.bar .top .amt{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.bar .top .amt small{display:block;font-size:12.5px;font-weight:500;color:var(--ink-2);line-height:1.3}
+.bar .track{position:relative;height:14px;background:var(--field);border-radius:99px;overflow:hidden;margin-top:6px}
+.bar .fill{position:absolute;top:0;bottom:0;border-radius:99px;transition:left .2s,width .2s}
+.bar .zero{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink-2);opacity:.5}
+.bar .risk{font-size:12.5px;color:var(--ink-2);margin-top:5px}
+.up{color:var(--sage)} .dn{color:var(--coral)}
+
+/* 그래프 */
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{font-family:var(--body);fill:var(--ink-2);font-size:12px}
+.chart .grid{stroke:var(--rule);stroke-width:1}
+.chart .zero{stroke:var(--ink-2);stroke-width:1.2;opacity:.7}
+.chart .now{stroke:var(--ink);stroke-width:1.2;stroke-dasharray:4 4;opacity:.6}
+.chart .ln{fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.chart .lab{font-weight:700;font-size:12.5px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
+
+/* 수익률 지도 */
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);border-radius:10px}
+table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;font-size:13.5px;font-variant-numeric:tabular-nums}
+.hm th,.hm td{padding:0;text-align:center;white-space:nowrap}
+.hm thead th{font-size:12px;color:var(--ink-2);font-weight:700;background:var(--field);padding:7px 4px;border-bottom:1px solid var(--rule)}
+.hm tbody th{font-size:12px;color:var(--ink-2);font-weight:700;background:var(--field);padding:0 8px;text-align:right;border-right:1px solid var(--rule)}
+.hm thead th.on,.hm tbody th.on{color:var(--navy);background:var(--navy-soft)}
+.hm td button{font:inherit;font-weight:500;width:100%;border:0;margin:0;padding:9px 2px;color:var(--ink);cursor:pointer;background:transparent;display:block;touch-action:manipulation}
+.hm td.on button{font-weight:700;box-shadow:inset 0 0 0 2px var(--ink)}
+.hm td button:hover{box-shadow:inset 0 0 0 1px var(--ink-2)}
+.hm .corner{font-size:11.5px;text-align:left;padding-left:8px;line-height:1.3}
+@media (max-width:480px){ table.hm{min-width:0;font-size:12px} .hm tbody th{padding:0 4px;font-size:11px} .hm thead th{font-size:11px;padding:7px 1px} .hm .corner{font-size:10px;padding-left:4px} .hm td button{padding:9px 0} }
+
+.howto{display:flex;flex-direction:column;gap:8px}
+.howto details{border:1px solid var(--rule);border-radius:10px;padding:10px 14px;background:var(--ground)}
+.howto summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;gap:10px}
+.howto summary::-webkit-details-marker{display:none}
+.howto summary::after{content:"펼치기 ▾";font-size:12.5px;font-weight:500;color:var(--navy);white-space:nowrap}
+.howto details[open] summary::after{content:"접기 ▴"}
+.howto .lines{display:flex;flex-direction:column;margin-top:8px}
+.howto .ln{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:7px 0;border-top:1px dashed var(--rule);font-size:14px}
+.howto .ln .k{color:var(--ink-2)}
+.howto .ln .k small{display:block;font-size:12.5px;opacity:.85}
+.howto .ln .v{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.howto .ln.total{border-top:2px solid var(--rule)}
+.howto .ln.total .k,.howto .ln.total .v{color:var(--ink);font-size:15px}
+.easy{background:var(--navy-soft);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.easy h3{color:var(--navy)}
+.easy p,.easy li{font-size:14.5px;line-height:1.7}
+.easy ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--ink-2)}
+.notes b{color:var(--ink)}
+.basis{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+
+/* 설명 글 */
+.guide{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:22px 18px;display:flex;flex-direction:column;gap:12px}
+.guide h2{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,25px);color:var(--navy)}
+.guide h3{margin-top:14px}
+.guide p,.guide li{font-size:15px}
+.guide ol,.guide ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.guide details{border:1px solid var(--rule);border-radius:10px;padding:12px 14px}
+.guide details summary{cursor:pointer;font-weight:700;font-size:15px}
+.guide details p{margin-top:8px;font-size:14.5px}
+.guide-note{background:var(--amber-soft);border-left:4px solid var(--amber);padding:12px 14px;font-size:14px!important;border-radius:0 6px 6px 0}
+.guide-note b{color:var(--amber)}
+footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:var(--ink-2)}
+</style>
+<link rel="stylesheet" href="/assets/related.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
+     crossorigin="anonymous"></script>
+<!-- yn-seo:start (scripts/seo/build_seo.py가 만듦 — 직접 고치지 말 것) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="예나준">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="엔화로 S&amp;P500 사면 얼마가 될까? 엔화 투자 계산기">
+<meta property="og:description" content="미국 증시·원/엔·원/달러를 움직이면 엔 헤지, 헤지 없음, 달러 직접 투자 수익률이 그래프로 바뀌어요.">
+<meta property="og:url" content="https://yenajun.com/yen-sp500/">
+<meta property="og:image" content="https://yenajun.com/assets/og/yen-sp500.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script defer src="/assets/ux.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7J20CMXV0R"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-7J20CMXV0R');</script>
+<script defer src="/assets/ga-events.js"></script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebApplication",
+   "name": "엔화 투자 계산기",
+   "alternateName": "엔화로 S&P500 사면 얼마가 될까? 엔화 투자 계산기",
+   "url": "https://yenajun.com/yen-sp500/",
+   "description": "엔화로 바꿔서 일본에 상장된 S&P500 ETF를 사면 얼마가 될까요? 미국 증시, 원/엔, 원/달러 환율을 움직여 보면 엔 헤지 상품과 헤지 없는 상품, 달러 직접 투자의 수익률이 그래프로 바로 바뀌어요.",
+   "applicationCategory": "FinanceApplication",
+   "operatingSystem": "Any",
+   "browserRequirements": "JavaScript 필요",
+   "inLanguage": "ko-KR",
+   "isAccessibleForFree": true,
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "KRW"
+   },
+   "image": "https://yenajun.com/assets/og/yen-sp500.png",
+   "datePublished": "2026-10-13T14:59:07+09:00",
+   "dateModified": "2026-10-13T15:00:59+09:00",
+   "author": {
+    "@type": "Person",
+    "name": "이동찬",
+    "url": "https://yenajun.com/about"
+   },
+   "publisher": {
+    "@id": "https://yenajun.com/#org"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "예나준",
+     "item": "https://yenajun.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "엔화 투자 계산기",
+     "item": "https://yenajun.com/yen-sp500/"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "엔화로 산 S&P500 ETF인데 왜 엔화가 올라도 수익이 안 늘어요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "헤지 없는 상품의 엔화 가격은 \"S&P500 지수 × 달러당 엔 환율\"로 움직여요. 엔화가 강해지면 달러당 엔 환율이 내려가서 ETF의 엔화 가격이 그만큼 떨어져요. 엔화를 원화로 바꿀 때 얻는 이득과 정확히 상쇄돼요. 그래서 결과는 달러로 미국 ETF를 직접 산 것과 같아져요."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "환헤지 비용은 왜 생기고 얼마나 돼요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "환헤지는 \"나중에 지금 환율로 달러를 엔화로 바꾸겠다\"는 약속을 미리 걸어 두는 거예요. 이 약속의 값은 대략 두 나라 단기 금리 차이예요. 미국 금리가 일본보다 높은 동안에는 그 차이만큼 해마다 수익이 깎여요. 계산기는 미국과 일본의 기준금리 차이를 기본값으로 넣어요."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "원/엔과 원/달러를 따로 넣는 이유가 뭐예요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "엔화와 달러는 원화에 대해 따로 움직여요. 엔화만 오를 수도 있고, 둘 다 같이 내릴 수도 있어요. 두 값을 따로 정하면 달러당 엔 환율이 자동으로 정해지는데, 계산기가 그 값을 바로 아래에 보여 줘요. 현실에서 나오기 어려운 조합인지 확인하는 데 쓰세요."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "100만 원으로도 살 수 있어요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "살 수 있어요. 도쿄 상장 S&P500 ETF는 1주나 10주 단위로 거래돼서 최소 금액이 수천 엔에서 수만 엔 정도예요. 다만 금액이 작으면 환전 수수료 비중이 커요. 살 때와 팔 때 환전·매매 수수료를 합친 왕복 비용이 수익보다 큰지 먼저 확인하세요."
+     }
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://yenajun.com/#org",
+   "name": "예나준",
+   "url": "https://yenajun.com/",
+   "logo": "https://yenajun.com/assets/logo-512.png",
+   "email": "ddongchane@gmail.com"
+  }
+ ]
+}
+</script>
+<!-- yn-seo:end -->
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">엔화 투자 계산기 · 엔화로 사는 미국 S&P500</div>
+  <h1>엔화로 S&P500을 사면 얼마가 될까?</h1>
+  <p>엔화가 쌀 때 엔화로 바꿔 미국 주식을 사 두면, 주가도 오르고 엔화도 올라 <b>두 번 번다</b>는 이야기가 있어요. 정말 그런지 직접 움직여 보세요. <b>미국 증시, 원/엔 환율, 원/달러 환율</b> 세 가지를 바꾸면 네 가지 방법의 수익률이 그래프로 바로 바뀌어요.</p>
+  <div class="chips5" aria-label="비교하는 방법">
+    <span><i style="background:var(--m-a)"></i>엔 헤지 S&P500 ETF</span>
+    <span><i style="background:var(--m-b)"></i>헤지 없는 S&P500 ETF</span>
+    <span><i style="background:var(--m-c)"></i>달러로 직접 매수</span>
+    <span><i style="background:var(--m-d)"></i>엔화만 보유</span>
+  </div>
+  <a class="guide-first" href="/yen-sp500/guide/">
+    <span class="gf-ico" aria-hidden="true">📖</span>
+    <span class="gf-txt"><small>계산기 쓰기 전에 먼저 읽어 보세요 · 6분</small><b>엔화로 미국 ETF 사면 정말 두 번 벌까? 가이드</b><span>환헤지에 따라 엔화 효과가 사라지는 이유, 종목 코드, 증권사 수수료와 세금</span></span>
+    <span class="gf-go" aria-hidden="true">→</span>
+  </a>
+</header>
+
+<form id="f" autocomplete="off" onsubmit="return false">
+  <fieldset>
+    <legend>① 얼마를, 얼마 동안</legend>
+    <div class="q">
+      <label for="amt">넣을 돈</label>
+      <div class="box"><input type="text" id="amt" class="money" inputmode="numeric" value="100"><span class="unit">만원</span></div>
+      <span class="say" id="say-amt"></span>
+    </div>
+    <div class="q">
+      <span class="lab" id="lab-yrs">기간</span>
+      <div class="seg" role="group" aria-labelledby="lab-yrs" data-key="yrs">
+        <button type="button" data-v="1" aria-pressed="true">1년</button>
+        <button type="button" data-v="2">2년</button>
+        <button type="button" data-v="3">3년</button>
+        <button type="button" data-v="5">5년</button>
+      </div>
+      <span class="hint">기간이 길수록 환헤지 비용이 쌓여요. 아래 변화율은 모두 <b>기간이 끝났을 때 지금보다 몇 % 달라졌는지</b>예요.</span>
+    </div>
+  </fieldset>
+
+  <fieldset style="margin-top:14px">
+    <legend>② 가정: 끝날 때 세상이 이렇게 됐다면</legend>
+    <div class="sl">
+      <div class="top"><label for="sp">미국 증시 (S&P500, 달러 기준)</label><output id="o-sp" for="sp">+10%</output></div>
+      <div class="row"><button type="button" data-step="sp:-1" aria-label="미국 증시 1% 내리기">−</button><input type="range" id="sp" min="-40" max="60" step="1" value="10"><button type="button" data-step="sp:1" aria-label="미국 증시 1% 올리기">+</button></div>
+      <div class="ends"><span>−40%</span><span>+60%</span></div>
+    </div>
+    <div class="sl">
+      <div class="top"><label for="jpy">원/엔 환율 <small style="font-weight:400;color:var(--ink-2)">(오르면 엔화 강세)</small></label><output id="o-jpy" for="jpy">0%</output></div>
+      <div class="row"><button type="button" data-step="jpy:-1" aria-label="원/엔 1% 내리기">−</button><input type="range" id="jpy" min="-25" max="25" step="1" value="0"><button type="button" data-step="jpy:1" aria-label="원/엔 1% 올리기">+</button></div>
+      <div class="ends"><span>−25% 엔화 약세</span><span>엔화 강세 +25%</span></div>
+    </div>
+    <div class="sl">
+      <div class="top"><label for="usd">원/달러 환율 <small style="font-weight:400;color:var(--ink-2)">(오르면 달러 강세)</small></label><output id="o-usd" for="usd">0%</output></div>
+      <div class="row"><button type="button" data-step="usd:-1" aria-label="원/달러 1% 내리기">−</button><input type="range" id="usd" min="-25" max="25" step="1" value="0"><button type="button" data-step="usd:1" aria-label="원/달러 1% 올리기">+</button></div>
+      <div class="ends"><span>−25% 달러 약세</span><span>달러 강세 +25%</span></div>
+    </div>
+    <p class="cross" id="cross"></p>
+    <div class="q">
+      <span class="lab">자주 나오는 이야기로 바로 넣기</span>
+      <div class="presets" id="presets">
+        <button type="button" data-p="10,10,0">엔화 강세 + 증시 상승</button>
+        <button type="button" data-p="-20,10,0">엔화 강세 + 증시 급락</button>
+        <button type="button" data-p="10,-10,0">엔화 더 약세 + 증시 상승</button>
+        <button type="button" data-p="-15,15,-5">엔 캐리 청산 (엔 급등·증시 하락)</button>
+        <button type="button" data-p="10,-8,-8">원화 강세 (엔·달러 모두 하락)</button>
+        <button type="button" data-p="0,0,0">아무 일도 없음</button>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset style="margin-top:14px">
+    <legend>③ 비용</legend>
+    <p class="hint">기본값은 신한투자증권 기준이에요. 엔화 환전 수수료 1.7%는 2026년 10월 13일 앱 화면의 적용 환율로 계산한 값이에요. 환전 우대를 받으면 우대율을 넣어 보세요.</p>
+    <div class="assume">
+      <div class="q"><label for="sJ">엔화 환전 수수료 <small>(한 번 바꿀 때)</small></label><div class="box"><input type="text" id="sJ" inputmode="decimal" value="1.7"><span class="unit">%</span></div></div>
+      <div class="q"><label for="pref">환전 우대율 <small>(엔·달러 공통)</small></label><div class="box"><input type="text" id="pref" inputmode="decimal" value="0"><span class="unit">%</span></div></div>
+    </div>
+    <details class="opt-in" id="assumeBox">
+      <summary>＋ 나머지 비용·세금 가정 직접 바꾸기</summary>
+      <p><span class="asof" id="asof">환헤지 비용 기본값은 예나준 주간 금리 동향 자료로 계산해요.</span></p>
+      <div class="assume" style="margin-top:10px">
+        <div class="q"><label for="sU">달러 환전 수수료 <small>(한 번 바꿀 때)</small></label><div class="box"><input type="text" id="sU" inputmode="decimal" value="1.0"><span class="unit">%</span></div></div>
+        <div class="q"><label for="fee">매매 수수료 <small>(살 때·팔 때 각각)</small></label><div class="box"><input type="text" id="fee" inputmode="decimal" value="0.25"><span class="unit">%</span></div></div>
+        <div class="q"><label for="hc">환헤지 비용 <small id="hcSrc">(연, 미국·일본 금리 차이)</small></label><div class="box"><input type="text" id="hc" inputmode="decimal" value="2.6"><span class="unit">%</span></div></div>
+        <div class="q"><label for="er">ETF 보수 <small>(연)</small></label><div class="box"><input type="text" id="er" inputmode="decimal" value="0.07"><span class="unit">%</span></div></div>
+      </div>
+      <div class="q" style="margin-top:12px">
+        <span class="lab" id="lab-tax">세금</span>
+        <div class="seg small" role="group" aria-labelledby="lab-tax" data-key="tax">
+          <button type="button" data-v="1" aria-pressed="true">양도소득세 반영</button>
+          <button type="button" data-v="0">세금 빼고 보기</button>
+        </div>
+        <span class="hint">해외 주식·ETF 매매 차익은 한 해 250만 원을 빼고 22%예요. 엔화만 보유해서 생긴 환차익에는 세금이 없어요.</span>
+      </div>
+    </details>
+  </fieldset>
+</form>
+
+<section id="result" aria-live="polite">
+  <div class="card main">
+    <span class="tag">결과 · 비용과 세금 떼고</span>
+    <p class="verdict" id="verdict">–</p>
+    <p class="verdict-sub" id="verdictSub"></p>
+    <div class="bars" id="bars"></div>
+    <div class="easy" id="easy"></div>
+  </div>
+
+  <div class="card">
+    <h2>조건을 바꾸면 수익률이 이렇게 달라져요</h2>
+    <p class="hint">가로축을 골라 보세요. 나머지 두 조건은 위에서 정한 값 그대로예요. 점선은 지금 고른 값이에요. <b>수평선으로 나오는 방법은 그 조건에 영향을 받지 않는다</b>는 뜻이에요.</p>
+    <div class="seg small" role="group" aria-label="그래프 가로축" data-key="axis">
+      <button type="button" data-v="jpy" aria-pressed="true">원/엔 환율</button>
+      <button type="button" data-v="usd">원/달러 환율</button>
+      <button type="button" data-v="sp">미국 증시</button>
+    </div>
+    <svg class="chart" id="chart" viewBox="0 0 640 340" role="img" aria-labelledby="chartDesc"></svg>
+    <p class="hint" id="chartDesc"></p>
+    <div class="legend" aria-hidden="true">
+      <span><i style="background:var(--m-a)"></i>엔 헤지 S&P500</span>
+      <span><i style="background:var(--m-b)"></i>헤지 없는 S&P500</span>
+      <span><i style="background:var(--m-c)"></i>달러로 직접</span>
+      <span><i style="background:var(--m-d)"></i>엔화만 보유</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>수익률 지도: 어느 조합에서 잃을까</h2>
+    <p class="hint" id="hmHint"></p>
+    <div class="seg small" role="group" aria-label="지도에 그릴 방법" data-key="hm">
+      <button type="button" data-v="A" aria-pressed="true">엔 헤지 S&P500</button>
+      <button type="button" data-v="B">헤지 없는 S&P500</button>
+    </div>
+    <div class="tblwrap"><table class="hm" id="hm"></table></div>
+    <p class="hint">칸을 누르면 위 가정이 그 조합으로 바뀌어요. 초록은 수익, 붉은색은 손실이고 색이 진할수록 폭이 커요.</p>
+  </div>
+
+  <div class="card">
+    <h2>이렇게 계산했어요</h2>
+    <p class="hint">눌러서 방법별 계산을 펼쳐 보세요. 환전 → 매수 → 가격 변화 → 매도 → 환전 → 세금 순서예요.</p>
+    <div class="howto" id="howto"></div>
+  </div>
+
+  <ul class="notes" id="notes"></ul>
+  <p class="basis" id="basis">기준: 환율과 기준금리는 한국은행·미 재무부 자료를 모은 <a href="/rates/">예나준 주간 금리 동향</a>. 매매 수수료 0.25%는 신한투자증권 일본 주식 온라인 수수료, 달러 환전 수수료 1.0%는 같은 증권사의 우대 전 기준이에요. 세금은 2026년 10월 기준 소득세법(국외 주식 양도소득 연 250만 원 기본공제 후 22%)을 단순화해 적용했어요. 분배금과 분배금에 붙는 세금은 따로 계산하지 않고, 미국 증시 변화율에 배당이 포함됐다고 봐요. 입력한 내용은 저장하거나 전송하지 않아요.</p>
+</section>
+
+<section class="guide" aria-labelledby="g-title">
+  <h2 id="g-title">이 계산기, 이렇게 보세요</h2>
+  <p>엔화로 미국 주식을 사는 길은 <b>도쿄 증시에 상장된 엔화 표시 S&P500 ETF</b>를 사는 거예요. 그런데 이 ETF는 환헤지를 했는지에 따라 <b>무엇에 돈을 거는지</b>가 완전히 달라져요.</p>
+  <h3>한 줄 요약: 엔화 강세에 걸고 싶다면 "엔 헤지" 상품이어야 해요</h3>
+  <ol>
+    <li><b>헤지 없는 상품</b>(예: 1655, 2558)은 엔화 가격 안에 이미 달러 환율이 들어 있어요. 원화로 되돌리면 엔화가 약분돼서 <b>미국 증시 × 원/달러</b>만 남아요. 엔화가 올라도 얻는 게 없어요.</li>
+    <li><b>엔 헤지 상품</b>(예: 2563, 2630)은 달러 환율을 지워서 <b>미국 증시 × 원/엔</b>이 돼요. 엔화가 오르면 그만큼 더 벌어요. 대신 미국과 일본의 금리 차이만큼 <b>환헤지 비용</b>이 해마다 빠져요.</li>
+    <li>어느 쪽이든 원화 → 엔화 → 원화로 두 번 환전하니 <b>환전 수수료</b>가 수익을 먼저 깎아요. 그래프의 출발점이 0%보다 아래인 이유예요.</li>
+  </ol>
+  <p class="guide-note"><b>꼭 기억할 것</b> — 이 계산기는 미래를 맞히는 도구가 아니에요. 엔화가 강세로 돌아설지, 미국 증시가 오를지는 아무도 몰라요. 조건을 여러 번 바꿔 보면서 <b>내가 틀렸을 때 얼마를 잃는지</b>를 확인하는 도구예요. 투자 판단과 결과의 책임은 본인에게 있어요.</p>
+
+  <h3>자주 묻는 질문</h3>
+  <details><summary>엔화로 산 S&P500 ETF인데 왜 엔화가 올라도 수익이 안 늘어요?</summary>
+    <p>헤지 없는 상품의 엔화 가격은 "S&P500 지수 × 달러당 엔 환율"로 움직여요. 엔화가 강해지면 달러당 엔 환율이 내려가서 ETF의 엔화 가격이 그만큼 떨어져요. 엔화를 원화로 바꿀 때 얻는 이득과 정확히 상쇄돼요. 그래서 결과는 달러로 미국 ETF를 직접 산 것과 같아져요.</p></details>
+  <details><summary>환헤지 비용은 왜 생기고 얼마나 돼요?</summary>
+    <p>환헤지는 "나중에 지금 환율로 달러를 엔화로 바꾸겠다"는 약속을 미리 걸어 두는 거예요. 이 약속의 값은 대략 두 나라 단기 금리 차이예요. 미국 금리가 일본보다 높은 동안에는 그 차이만큼 해마다 수익이 깎여요. 계산기는 미국과 일본의 기준금리 차이를 기본값으로 넣어요.</p></details>
+  <details><summary>원/엔과 원/달러를 따로 넣는 이유가 뭐예요?</summary>
+    <p>엔화와 달러는 원화에 대해 따로 움직여요. 엔화만 오를 수도 있고, 둘 다 같이 내릴 수도 있어요. 두 값을 따로 정하면 달러당 엔 환율이 자동으로 정해지는데, 계산기가 그 값을 바로 아래에 보여 줘요. 현실에서 나오기 어려운 조합인지 확인하는 데 쓰세요.</p></details>
+  <details><summary>100만 원으로도 살 수 있어요?</summary>
+    <p>살 수 있어요. 도쿄 상장 S&P500 ETF는 1주나 10주 단위로 거래돼서 최소 금액이 수천 엔에서 수만 엔 정도예요. 다만 금액이 작으면 환전 수수료 비중이 커요. 살 때와 팔 때 환전·매매 수수료를 합친 왕복 비용이 수익보다 큰지 먼저 확인하세요.</p></details>
+  <p><a href="/yen-sp500/guide/">엔화로 미국 ETF 사면 정말 두 번 벌까? 가이드 자세히 읽기 →</a></p>
+</section>
+
+<!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
+<section class="yn-rel yn-dark" aria-label="예나준의 다른 도구">
+  <a class="yn-guide" href="/yen-sp500/guide/"><span class="e">📖</span><span><b>엔화 투자 가이드 읽기</b><small>환헤지에 따라 달라지는 결과, 종목 코드, 증권사 수수료와 세금</small></span><span class="go">→</span></a>
+  <a class="yn-coffee" href="https://buymeacoffee.com/yenajun" target="_blank" rel="noopener"><span class="e" aria-hidden="true">☕</span><span class="t"><b>도움이 됐다면 커피 한 잔 사 주세요</b><small>예나준은 퇴근 후 밤에 만드는 무료 도구예요. 응원해 주시면 더 좋은 도구로 보답할게요.</small></span><span class="go">후원하기 →</span></a>
+  <h2>이런 도구도 있어요</h2>
+  <div class="yn-grid">
+    <a class="yn-card" href="/lump-sum/"><span class="e">💰</span><b>고금리 투자 비교 계산기</b><span>예금·미국채·S&P500 세후 금액을 비교해요.</span></a>
+    <a class="yn-card" href="/rates/"><span class="e">📈</span><b>주간 금리 동향</b><span>이번 주 금리와 환율이 왜 움직였는지 정리해요.</span></a>
+    <a class="yn-card" href="/avg-down/"><span class="e">📉</span><b>물타기 평단가 계산기</b><span>주가가 얼마면 탈출할 수 있는지 계산해요.</span></a>
+  </div>
+  <a class="yn-home" href="/">← 예나준의 모든 도구 보기</a>
+</section>
+<!-- yn-related:end -->
+
+<footer>예나준 · 엔화 투자 계산기 · 참고용 계산이며 투자 권유나 금융·세무 자문이 아니에요.</footer>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var TAX_CG = 0.22, CG_DED = 2500000;   // 국외 주식 양도소득세(지방소득세 포함), 기본공제 250만 원
+  var M = [
+    { id:'A', name:'엔 헤지 S&P500 ETF', sub:'도쿄 상장 · 예: 2563, 2630', color:'var(--m-a)' },
+    { id:'B', name:'헤지 없는 S&P500 ETF', sub:'도쿄 상장 · 예: 1655, 2558', color:'var(--m-b)' },
+    { id:'C', name:'달러로 직접 매수', sub:'미국 상장 S&P500 ETF', color:'var(--m-c)' },
+    { id:'D', name:'엔화만 보유', sub:'환전만 하고 그대로 둠', color:'var(--m-d)' }
+  ];
+  var S = { yrs:1, tax:1, axis:'jpy', hm:'A' };
+  var FX = { usd:1339.2, jpy:8.4746 };   // 원/달러, 원/엔 (자료를 읽으면 바뀜)
+
+  function num(v){ var n = parseFloat(String(v).replace(/,/g, '')); return isFinite(n) ? n : 0; }
+  function won(v){ return (v < 0 ? '−' : '') + Math.round(Math.abs(v)).toLocaleString('ko-KR') + '원'; }
+  function swon(v){ return (v >= 0 ? '+' : '−') + Math.round(Math.abs(v)).toLocaleString('ko-KR') + '원'; }
+  function spct(r, d){ d = d == null ? 1 : d; var a = Math.abs(r).toFixed(d); return (Number(a) === 0 ? '' : (r > 0 ? '+' : '−')) + a + '%'; }
+  function jong(w){ var c = w.charCodeAt(w.length - 1) - 0xAC00; return c >= 0 && c % 28 > 0; }
+  function iga(w){ return w + (jong(w) ? '이' : '가'); }
+
+  function readC(){
+    var pref = Math.min(100, Math.max(0, num($('pref').value))) / 100;
+    return { sJ: Math.max(0, num($('sJ').value)) / 100 * (1 - pref), sU: Math.max(0, num($('sU').value)) / 100 * (1 - pref),
+      f: Math.max(0, num($('fee').value)) / 100, h: num($('hc').value) / 100, e: Math.max(0, num($('er').value)) / 100, pref: pref };
+  }
+  function readV(){ return { sp: +$('sp').value, jpy: +$('jpy').value, usd: +$('usd').value }; }
+
+  // 한 방법의 결과 (금액은 원). v: 변화율(%) {sp, jpy, usd}
+  function sim(id, P, N, v, C, tax){
+    var sp = 1 + v.sp / 100, j = 1 + v.jpy / 100, u = 1 + v.usd / 100;
+    var o = { id:id, lines:[] }, s = id === 'C' ? C.sU : C.sJ, cur = id === 'C' ? '달러' : '엔화';
+    var a1 = P / (1 + s);                       // 환전하고 남는 돈(원화 환산)
+    o.lines.push(['원화 → ' + cur + ' 환전', '수수료 ' + (s * 100).toFixed(2) + '%', swon(a1 - P)]);
+    if(id === 'D'){
+      var a2 = a1 * j, a3 = a2 * (1 - s);
+      o.lines.push(['원/엔 환율 변화', spct(v.jpy, 0), swon(a2 - a1)]);
+      o.lines.push(['엔화 → 원화 환전', '수수료 ' + (s * 100).toFixed(2) + '%', swon(a3 - a2)]);
+      o.final = a3; o.taxAmt = 0;
+      o.lines.push(['세금', '환차익은 과세하지 않아요', '0원']);
+      o.risk = '이자가 거의 없어요. 엔화가 오르지 않으면 환전 수수료만큼 손해예요.';
+      return o;
+    }
+    var b = a1 * (1 - C.f);
+    o.lines.push(['ETF 매수 수수료', (C.f * 100).toFixed(2) + '%', swon(b - a1)]);
+    var c = b * sp;
+    o.lines.push(['미국 증시 변화', 'S&P500 ' + spct(v.sp, 0) + ' (달러 기준)', swon(c - b)]);
+    var d = c * Math.pow(1 - C.e, N);
+    o.lines.push(['ETF 보수', '연 ' + (C.e * 100).toFixed(2) + '% × ' + N + '년', swon(d - c)]);
+    var e2 = d;
+    if(id === 'A'){
+      e2 = d * Math.pow(1 - C.h, N);
+      o.lines.push(['환헤지 비용', '연 ' + (C.h * 100).toFixed(1) + '% × ' + N + '년 (달러 환율은 지워짐)', swon(e2 - d)]);
+    }
+    var fxv = id === 'A' ? j : u, g = e2 * fxv;
+    o.lines.push([id === 'A' ? '원/엔 환율 변화' : '원/달러 환율 변화',
+      id === 'A' ? spct(v.jpy, 0) + ' · 엔화 강세면 이득' : spct(v.usd, 0) + (id === 'B' ? ' · 엔화는 약분돼 사라져요' : ''), swon(g - e2)]);
+    var out = g * (1 - C.f) * (1 - s);
+    o.lines.push(['매도 수수료 + ' + cur + ' → 원화 환전', (C.f * 100).toFixed(2) + '% + ' + (s * 100).toFixed(2) + '%', swon(out - g)]);
+    var gain = out - P, t = tax ? Math.max(0, gain - CG_DED) * TAX_CG : 0;
+    o.lines.push(['양도소득세 22%', tax ? '차익에서 250만 원 공제 후' : '세금 빼고 보기', t ? '−' + won(t) : '0원']);
+    o.final = out - t; o.taxAmt = t;
+    if(id === 'A') o.risk = '미국 증시와 엔화에 걸어요. 엔화가 약해지면 증시가 올라도 손해일 수 있고, 환헤지 비용이 해마다 빠져요.';
+    if(id === 'B') o.risk = '미국 증시와 달러에 걸어요. 엔화가 오르든 내리든 결과가 같아요.';
+    if(id === 'C') o.risk = '헤지 없는 상품과 같은 곳에 걸어요. 환전 수수료만 달라요.';
+    return o;
+  }
+  function ret(id, P, N, v, C){ return (sim(id, P, N, v, C, S.tax).final / P - 1) * 100; }
+
+  function runAll(P, N, v, C){
+    return M.map(function(m){ var r = sim(m.id, P, N, v, C, S.tax); r.m = m; r.gain = r.final - P; r.pct = r.gain / P * 100; return r; });
+  }
+
+  // ---------- 그래프 ----------
+  var AX = { jpy:{ lo:-25, hi:25, name:'원/엔 환율 변화' }, usd:{ lo:-25, hi:25, name:'원/달러 환율 변화' }, sp:{ lo:-40, hi:60, name:'미국 증시 변화' } };
+  function drawChart(P, N, v, C){
+    var ax = AX[S.axis], W = Math.max(300, Math.round($('chart').getBoundingClientRect().width) || 640), H = W < 480 ? 300 : 340, L = 46, R = W < 480 ? 88 : 100, T = 14, B = 40;
+    $('chart').setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var xs = []; for(var x = ax.lo; x <= ax.hi; x += (ax.hi - ax.lo) / 50) xs.push(x);
+    var series = M.map(function(m){ return xs.map(function(x){ var vv = { sp:v.sp, jpy:v.jpy, usd:v.usd }; vv[S.axis] = x; return ret(m.id, P, N, vv, C); }); });
+    var lo = Math.min(0, Math.min.apply(null, series.map(function(s){ return Math.min.apply(null, s); })));
+    var hi = Math.max(0, Math.max.apply(null, series.map(function(s){ return Math.max.apply(null, s); })));
+    var step = [5, 10, 20, 25, 50].filter(function(s){ return (hi - lo) / s <= 7; })[0] || 50;
+    lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step; if(hi === lo) hi = lo + step;
+    var X = function(x){ return L + (x - ax.lo) / (ax.hi - ax.lo) * (W - L - R); };
+    var Y = function(y){ return T + (hi - y) / (hi - lo) * (H - T - B); };
+    var out = '';
+    for(var y = lo; y <= hi + 1e-9; y += step){
+      out += '<line class="' + (Math.abs(y) < 1e-9 ? 'zero' : 'grid') + '" x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(y) + '" y2="' + Y(y) + '"/>';
+      out += '<text x="' + (L - 8) + '" y="' + (Y(y) + 4) + '" text-anchor="end">' + spct(y, 0) + '</text>';
+    }
+    var tick = S.axis === 'sp' ? 20 : (W < 480 ? 25 : 10);
+    for(var x2 = Math.ceil(ax.lo / tick) * tick; x2 <= ax.hi; x2 += tick){
+      out += '<text x="' + X(x2) + '" y="' + (H - B + 18) + '" text-anchor="middle">' + spct(x2, 0) + '</text>';
+    }
+    out += '<text x="' + (L + (W - L - R) / 2) + '" y="' + (H - 4) + '" text-anchor="middle">' + ax.name + '</text>';
+    var cx = X(v[S.axis]);
+    out += '<line class="now" x1="' + cx + '" x2="' + cx + '" y1="' + T + '" y2="' + (H - B) + '"/>';
+    // 겹치는 선은 뒤의 것이 점선으로 보이게
+    series.forEach(function(s, i){
+      var d = s.map(function(y3, k){ return (k ? 'L' : 'M') + X(xs[k]).toFixed(1) + ' ' + Y(y3).toFixed(1); }).join(' ');
+      out += '<path class="ln" d="' + d + '" style="stroke:' + M[i].color + (i === 2 ? ';stroke-dasharray:2 6' : '') + '"/>';
+    });
+    // 오른쪽 끝 값 라벨 (겹치지 않게 벌림)
+    var ends = series.map(function(s, i){ return { i:i, y:Y(s[s.length - 1]), v:s[s.length - 1] }; }).sort(function(a, b){ return a.y - b.y; });
+    for(var k = 1; k < ends.length; k++) if(ends[k].y - ends[k - 1].y < 15) ends[k].y = ends[k - 1].y + 15;
+    ends.forEach(function(e){ out += '<text class="lab" x="' + (W - R + 8) + '" y="' + (e.y + 4) + '" style="fill:' + M[e.i].color + '">' + ['엔 헤지', '헤지 없음', '달러 직접', '엔화만'][e.i] + ' ' + spct(e.v, 0) + '</text>'; });
+    // 지금 값의 점
+    M.forEach(function(m, i){ out += '<circle cx="' + cx + '" cy="' + Y(ret(m.id, P, N, v, C)) + '" r="4.5" style="fill:' + m.color + ';stroke:var(--panel);stroke-width:1.5"/>'; });
+    $('chart').innerHTML = out;
+
+    var flat = M.filter(function(m, i){ return Math.abs(series[i][0] - series[i][series[i].length - 1]) < 0.05; }).map(function(m){ return m.name; });
+    $('chartDesc').innerHTML = ax.name + '를 ' + spct(ax.lo, 0) + '부터 ' + spct(ax.hi, 0) + '까지 바꿔 본 수익률이에요.' +
+      (flat.length ? ' <b>' + flat.join(', ') + '</b>' + (jong(flat[flat.length - 1]) ? '은' : '는') + ' 수평선이라 이 조건이 바뀌어도 결과가 같아요.' : '');
+  }
+
+  // ---------- 수익률 지도 ----------
+  var ROWS = [40, 30, 20, 10, 0, -10, -20, -30], COLS = [-15, -10, -5, 0, 5, 10, 15];
+  function nearest(arr, x){ return arr.reduce(function(a, b){ return Math.abs(b - x) < Math.abs(a - x) ? b : a; }); }
+  function drawMap(P, N, v, C){
+    var key = S.hm === 'A' ? 'jpy' : 'usd', cn = nearest(COLS, v[key]), rn = nearest(ROWS, v.sp);
+    var head = '<thead><tr><th class="corner">증시 ↓<br>' + (key === 'jpy' ? '원/엔' : '원/달러') + ' →</th>' + COLS.map(function(c){ return '<th class="' + (c === cn ? 'on' : '') + '">' + spct(c, 0) + '</th>'; }).join('') + '</tr></thead>';
+    var body = '<tbody>' + ROWS.map(function(r){
+      return '<tr><th class="' + (r === rn ? 'on' : '') + '">' + spct(r, 0) + '</th>' + COLS.map(function(c){
+        var vv = { sp:r, jpy:v.jpy, usd:v.usd }; vv[key] = c;
+        var p = ret(S.hm, P, N, vv, C), a = Math.min(.85, Math.abs(p) / 45 + .06);
+        return '<td class="' + (r === rn && c === cn ? 'on' : '') + '"><button type="button" data-cell="' + r + ',' + c + '" style="background:rgba(' + (p >= 0 ? 'var(--gain)' : 'var(--loss)') + ',' + a.toFixed(2) + ')" aria-label="증시 ' + spct(r, 0) + ', ' + (key === 'jpy' ? '원/엔 ' : '원/달러 ') + spct(c, 0) + '일 때 수익률 ' + spct(p, 1) + '">' + spct(p, 0) + '</button></td>';
+      }).join('') + '</tr>';
+    }).join('') + '</tbody>';
+    $('hm').innerHTML = head + body;
+    $('hmHint').innerHTML = S.hm === 'A'
+      ? '<b>엔 헤지 S&P500 ETF</b>의 수익률이에요. 세로는 미국 증시, 가로는 <b>원/엔 환율</b>이에요. 원/달러 환율은 이 상품의 결과에 영향을 주지 않아요.'
+      : '<b>헤지 없는 S&P500 ETF</b>의 수익률이에요. 세로는 미국 증시, 가로는 <b>원/달러 환율</b>이에요. 엔화로 샀지만 원/엔 환율은 결과에 영향을 주지 않아요.';
+  }
+
+  function render(){
+    var P = Math.max(0, num($('amt').value)) * 1e4, N = S.yrs, C = readC(), v = readV();
+    $('say-amt').textContent = P ? won(P) : '';
+    $('o-sp').textContent = spct(v.sp, 0); $('o-jpy').textContent = spct(v.jpy, 0); $('o-usd').textContent = spct(v.usd, 0);
+    var j1 = FX.jpy * (1 + v.jpy / 100), u1 = FX.usd * (1 + v.usd / 100), uj0 = FX.usd / FX.jpy, uj1 = u1 / j1;
+    $('cross').innerHTML = '이 가정이면 100엔은 <b>' + (FX.jpy * 100).toFixed(0) + '원 → ' + (j1 * 100).toFixed(0) + '원</b>, 1달러는 <b>' + Math.round(FX.usd).toLocaleString('ko-KR') + '원 → ' + Math.round(u1).toLocaleString('ko-KR') + '원</b>이 돼요. ' +
+      '그러면 달러당 엔 환율은 <b>' + uj0.toFixed(0) + '엔 → ' + uj1.toFixed(0) + '엔</b>이에요.';
+    if(!P){ $('verdict').textContent = '넣을 돈을 입력해 주세요.'; $('verdictSub').textContent = ''; ['bars', 'easy', 'chart', 'hm', 'howto', 'notes'].forEach(function(k){ $(k).innerHTML = ''; }); return; }
+
+    var res = runAll(P, N, v, C), A = res[0], Bm = res[1], Cm = res[2], D = res[3];
+    var best = res.slice().sort(function(a, b){ return b.final - a.final; })[0];
+    var diff = A.final - Bm.final;
+    $('verdict').innerHTML = N + '년 뒤 <em>엔 헤지 S&P500 ETF</em>는 <em>' + won(A.final) + '</em>(' + spct(A.pct) + ')이 돼요.';
+    var sub = '헤지 없는 상품은 <b>' + won(Bm.final) + '</b>(' + spct(Bm.pct) + ')이라, 엔 헤지 쪽이 <b>' + won(Math.abs(diff)) + ' ' + (diff >= 0 ? '많아요' : '적어요') + '</b>. ';
+    sub += '네 방법 중에서는 <b>' + iga(best.m.name) + '</b> 가장 많이 남아요.';
+    $('verdictSub').innerHTML = sub;
+
+    var maxPos = Math.max.apply(null, res.map(function(r){ return Math.max(r.gain, 0); }));
+    var maxNeg = Math.max.apply(null, res.map(function(r){ return Math.max(-r.gain, 0); }));
+    var span = (maxPos + maxNeg) || 1, zeroAt = maxNeg / span * 100;
+    $('bars').innerHTML = res.map(function(r){
+      var w = Math.abs(r.gain) / span * 100, left = r.gain >= 0 ? zeroAt : zeroAt - w;
+      return '<div class="bar"><div class="top"><b><i style="background:' + r.m.color + '"></i>' + r.m.name + ' <small>' + r.m.sub + '</small></b>' +
+        '<span class="amt">' + won(r.final) + '<small class="' + (r.gain >= 0 ? 'up' : 'dn') + '">' + swon(r.gain) + ' · ' + spct(r.pct) + '</small></span></div>' +
+        '<div class="track">' + (maxNeg > 0 ? '<span class="zero" style="left:' + zeroAt + '%"></span>' : '') + '<span class="fill" style="left:' + left + '%;width:' + Math.max(w, .5) + '%;background:' + r.m.color + (r.gain < 0 ? ';opacity:.55' : '') + '"></span></div>' +
+        '<p class="risk">' + r.risk + '</p></div>';
+    }).join('');
+
+    // 숫자 뒤 이야기
+    var zero = { sp:0, jpy:0, usd:0 };
+    var costJ = -ret('B', P, N, zero, Object.assign({}, C, { e:0 })), costHedge = (1 - Math.pow(1 - C.h, N)) * 100;
+    var be = ((1 + v.usd / 100) / Math.pow(1 - C.h, N) - 1) * 100;   // 엔 헤지가 헤지 없음과 같아지는 원/엔 변화
+    var tips = [];
+    tips.push('<b>본전까지 먼저 넘어야 할 비용</b>: 엔화로 사고팔면 환전·매매 수수료만으로 <b>' + costJ.toFixed(1) + '%</b>가 빠져요. 아무 일도 없으면 ' + won(P * costJ / 100) + ' 손해에서 시작해요.' + (C.pref < .5 ? ' 환전 우대 90%를 받으면 이 비용이 ' + (-ret('B', P, N, zero, Object.assign({}, C, { e:0, sJ:num($('sJ').value) / 100 * .1 }))).toFixed(1) + '%로 줄어요.' : ''));
+    tips.push('<b>엔화가 얼마나 올라야 엔 헤지가 유리할까</b>: 환헤지 비용이 ' + N + '년에 ' + costHedge.toFixed(1) + '%라, 원/달러가 ' + spct(v.usd, 0) + '일 때 원/엔이 <b>' + spct(be, 1) + '</b>보다 더 올라야 헤지 없는 상품을 앞서요. 지금 넣은 값은 ' + spct(v.jpy, 0) + '.');
+    tips.push('<b>헤지 없는 상품과 달러 직접 매수</b>: 두 방법은 같은 곳에 걸어요. 차이 ' + swon(Bm.final - Cm.final) + '은 환전 수수료 차이에서만 나와요. 원/엔 슬라이더를 움직여도 두 방법의 결과는 그대로예요.');
+    tips.push('<b>엔화만 들고 있으면</b>: ' + spct(D.pct) + '예요. 엔화 강세만 믿는다면 가장 단순하지만, 엔화가 ' + (((1 + C.sJ) / (1 - C.sJ) - 1) * 100).toFixed(1) + '% 넘게 올라야 수수료를 넘겨요.');
+    $('easy').innerHTML = '<h3>숫자 뒤에 숨은 이야기</h3><ul>' + tips.map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ul>';
+
+    drawChart(P, N, v, C);
+    drawMap(P, N, v, C);
+
+    $('howto').innerHTML = res.map(function(r){
+      var lines = '<div class="ln"><span class="k">넣은 돈</span><span class="v">' + won(P) + '</span></div>' +
+        r.lines.map(function(l){ return '<div class="ln"><span class="k">' + l[0] + '<small>' + l[1] + '</small></span><span class="v">' + l[2] + '</span></div>'; }).join('') +
+        '<div class="ln total"><span class="k">' + N + '년 뒤 받는 돈</span><span class="v">' + won(r.final) + '</span></div>';
+      return '<details><summary><span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;background:' + r.m.color + '"></i>' + r.m.name + ' · ' + won(r.final) + '</span></summary><div class="lines">' + lines + '</div></details>';
+    }).join('');
+
+    var notes = [];
+    notes.push('미국 증시 변화율은 <b>달러 기준, 배당 포함</b>이라고 봐요. 엔 헤지 상품은 실제로는 헤지 시점과 방법에 따라 결과가 조금 달라질 수 있어요.');
+    notes.push('환헤지 비용은 금리 차이가 바뀌면 같이 바뀌어요. 미국 금리가 내리거나 일본 금리가 오르면 비용이 줄어요.');
+    if(S.tax) notes.push('양도소득세는 <b>다음 해 5월에 직접 신고</b>해요. 250만 원 공제는 한 해 동안 판 해외 주식·ETF의 이익과 손실을 모두 합친 뒤 한 번 적용돼요.');
+    notes.push('도쿄 증시는 한국 시간으로 오전 9시부터 오후 3시 30분까지 열리고, 점심시간(11시 30분~12시 30분)에는 쉬어요.');
+    $('notes').innerHTML = notes.map(function(n){ return '<li>' + n + '</li>'; }).join('');
+  }
+
+  // ---------- 이벤트 ----------
+  document.querySelectorAll('.seg').forEach(function(g){
+    g.addEventListener('click', function(e){
+      var b = e.target.closest('button'); if(!b) return;
+      g.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      var k = g.dataset.key, val = b.dataset.v;
+      S[k] = (k === 'axis' || k === 'hm') ? val : Number(val);
+      render();
+    });
+  });
+  function setV(sp, jpy, usd){ $('sp').value = sp; $('jpy').value = jpy; $('usd').value = usd; render(); }
+  $('presets').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if(!b) return;
+    var p = b.dataset.p.split(',').map(Number); setV(p[0], p[1], p[2]);
+  });
+  document.addEventListener('click', function(e){
+    var st = e.target.closest('[data-step]');
+    if(st){ var a = st.dataset.step.split(':'), el = $(a[0]); el.value = Math.min(+el.max, Math.max(+el.min, +el.value + Number(a[1]))); render(); return; }
+    var c = e.target.closest('[data-cell]');
+    if(c){ var rc = c.dataset.cell.split(',').map(Number); $('sp').value = rc[0]; $(S.hm === 'A' ? 'jpy' : 'usd').value = rc[1]; render(); }
+  });
+  document.addEventListener('input', function(e){
+    var t = e.target;
+    if(t.classList && t.classList.contains('money')){
+      var pos = t.selectionStart, left = t.value.slice(0, pos).replace(/\D/g, '').length;
+      var digits = t.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 7);
+      var out = digits ? Number(digits).toLocaleString('ko-KR') : '';
+      t.value = out;
+      var p = 0, seen = 0; while(p < out.length && seen < left){ if(/\d/.test(out[p])) seen++; p++; }
+      t.setSelectionRange(p, p);
+    }
+    render();
+  }, true);
+
+  // 환율·기준금리: 예나준 주간 금리 동향 최신 자료
+  fetch('/rates/data/latest.json', { cache:'no-cache' }).then(function(r){ return r.json(); }).then(function(L){
+    var all = {}; L.groups.forEach(function(g){ g.items.forEach(function(it){ all[it.id] = it; }); });
+    if(all.usdkrw && all.usdkrw.value) FX.usd = all.usdkrw.value;
+    if(all.jpykrw && all.jpykrw.value) FX.jpy = all.jpykrw.value / 100;
+    var p = L.asof.split('-'), when = (+p[1]) + '월 ' + (+p[2]) + '일';
+    if(all.us_fed && all.boj && all.us_fed.value != null && all.boj.value != null){
+      var h = Math.max(0, all.us_fed.value - 0.125 - all.boj.value);
+      $('hc').value = h.toFixed(1);
+      $('hcSrc').textContent = '(연, 미국 ' + (all.us_fed.value - 0.125).toFixed(2) + '% − 일본 ' + all.boj.value.toFixed(2) + '%)';
+    }
+    $('asof').innerHTML = '환율과 환헤지 비용 기본값은 <a href="/rates/">예나준 주간 금리 동향</a> <b>' + when + '</b> 기준이에요. 환헤지 비용은 미국 기준금리(목표 범위 가운데)에서 일본 기준금리를 뺀 값이에요.';
+    render();
+  }).catch(function(){});
+
+  var rz; window.addEventListener('resize', function(){ clearTimeout(rz); rz = setTimeout(render, 150); });
+  render();
+})();
+</script>
+</body>
+</html>

@@ -36,6 +36,7 @@ KST = timezone(timedelta(hours=9))
 # 도구는 None — 열리고 오류가 없는지만 본다.
 TOOLS = {
     '/lump-sum/': '#verdict',
+    '/yen-sp500/': '#verdict',
     '/baby-100days/': '#heroDate',
     '/baby-vaccine/': '#nextWhen',
     '/robotaxi/': '#o4',
