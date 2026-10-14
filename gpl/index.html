@@ -231,7 +231,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
    },
    "image": "https://yenajun.com/assets/og/gpl.png",
    "datePublished": "2026-10-14T14:27:01+09:00",
-   "dateModified": "2026-10-14T16:07:43+09:00",
+   "dateModified": "2026-10-14T16:19:33+09:00",
    "author": {
     "@type": "Person",
     "name": "이동찬",
@@ -442,8 +442,6 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     </div>
     <p class="hint" id="typeHint"></p>
     <div class="grid2" id="typeInputs">
-      <div class="q" data-for="soleL"><label for="other">다른 소득 과세표준 <small>(근로·사업소득 등)</small></label><div class="box"><input type="text" id="other" class="money" inputmode="numeric" value="4,000"><span class="unit">만원</span></div><span class="hint">대부업 이익이 이 위에 얹혀서 세율이 정해져요.</span></div>
-      <div class="q" data-for="corpL"><span class="lab" id="lab-div">법인 돈을 내 손으로</span><div class="seg small" role="group" aria-labelledby="lab-div" data-key="div"><button type="button" data-v="1" aria-pressed="true">배당까지 계산</button><button type="button" data-v="0">법인에 둠</button></div><span class="hint">배당으로 가져가면 배당소득세 15.4%를 한 번 더 내요.</span></div>
       <div class="q" data-for="pledge"><label for="pRate">대부업체가 주는 금리 <small>(연)</small></label><div class="box"><input type="text" id="pRate" inputmode="decimal" value="10"><span class="unit">%</span></div><span class="hint">질권 투자는 차주가 아니라 대부업체에 빌려줘요. 업체가 금리 일부를 가져가요.</span></div>
     </div>
     <details class="opt-in" id="levBox">
@@ -466,7 +464,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
 
 <section id="result" aria-live="polite">
   <div class="card main">
-    <span class="tag">정상 상환 · 세금과 비용 떼고</span>
+    <span class="tag">정상 상환 · 비용과 받을 때 떼는 세금 빼고</span>
     <p class="verdict" id="verdict">–</p>
     <p class="verdict-sub" id="verdictSub"></p>
     <div class="kpis" id="kpis"></div>
@@ -475,7 +473,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
 
   <div class="card">
     <h2>같은 대출, 누가 빌려주느냐에 따라 남는 돈</h2>
-    <p class="hint">같은 금액·금리·기간으로 투자자 유형만 바꿔 본 결과예요. 색칠된 줄이 지금 고른 유형이에요.</p>
+    <p class="hint">같은 금액·금리·기간으로 투자자 유형만 바꿔 본 결과예요. 색칠된 줄이 지금 고른 유형이에요. <b>이 대출로 손에 들어오는 돈</b>까지만 계산하고, 대부업자의 종합소득세·법인세처럼 나중에 다른 소득과 합쳐 신고하는 세금은 오른쪽에 참고로만 보여 줘요.</p>
     <div class="tblwrap"><table class="mx" id="mx"></table></div>
     <h3>세금은 이렇게 계산했어요</h3>
     <div class="taxf" id="taxf"></div>
@@ -514,7 +512,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
   </div>
 
   <ul class="notes" id="notes"></ul>
-  <p class="basis">기준: 세금은 2026년 10월 기준 소득세법·법인세법을 단순화했어요. 개인이 대부업 등록 없이 받는 이자는 비영업대금 이익으로 27.5%(지방소득세 포함) 원천징수, 대부업자는 사업소득·법인 이익으로 보고 비용을 뺀 뒤 종합소득세(6~45%)·법인세(2억 원 이하 10%, 2026년 이후 사업연도)에 지방소득세 10%를 더했어요. 최고금리 연 20%, 대부업 등록 자본금(개인 1억 원·법인 3억 원)은 2025년 7월 시행 대부업법 기준이에요. 낙찰가율은 지지옥션 2026년 9월 경매동향. 건강보험료, 금융소득 종합과세 추가 세액, 법인 운영비는 넣지 않았어요. 입력한 내용은 저장하지 않아요. 실거래가 조회는 국토교통부 공공데이터를 씁니다.</p>
+  <p class="basis">기준: 세금은 2026년 10월 기준 소득세법·법인세법을 단순화했어요. 이 계산기는 <b>이 대출로 손에 들어오는 돈</b>까지만 계산해요. 개인이 대부업 등록 없이 받는 이자는 비영업대금 이익으로 27.5%(지방소득세 포함)를 받을 때 원천징수해요. 대부업자는 받을 때 떼는 세금이 없고, 이익에 대한 종합소득세(6~45%)·법인세(2억 원 이하 10%, 2026년 이후 사업연도)는 나중에 따로 신고하는 세금이라 참고로만 보여 줘요(지방소득세 10% 포함). 최고금리 연 20%, 대부업 등록 자본금(개인 1억 원·법인 3억 원)은 2025년 7월 시행 대부업법 기준이에요. 낙찰가율은 지지옥션 2026년 9월 경매동향. 건강보험료, 금융소득 종합과세 추가 세액, 법인 운영비는 넣지 않았어요. 입력한 내용은 저장하지 않아요. 실거래가 조회는 국토교통부 공공데이터를 씁니다.</p>
 </section>
 
 <section class="guide" aria-labelledby="g-title">
@@ -567,11 +565,11 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
   var HINT = {
     ind:'근저당을 직접 잡고 빌려줘요. 이자의 <b>27.5%</b>를 원천징수로 떼고, 설정비·수수료·질권대출 이자는 세금 계산에서 빼 주지 않아요. 반복해서 빌려주면 대부업 등록 대상이에요.',
     biz:'대부업으로 등록하지 않은 개인사업자는 세금이 일반 개인과 같아요. 이자는 사업소득이 아니라 이자소득이라 <b>27.5%</b>를 떼요.',
-    soleL:'지자체에 대부업을 등록한 개인(자본금 1억 원 이상)이에요. 이자에서 비용과 질권대출 이자를 뺀 이익에 <b>종합소득세 6~45%</b>(지방소득세 별도)를 내요. 원천징수는 없어요.',
-    corpL:'대부업 법인(자본금 3억 원 이상)이에요. 비용을 뺀 이익에 <b>법인세 10%</b>(2억 원 이하, 지방소득세 포함 11%)를 내요. 대표가 배당으로 가져가면 15.4%를 한 번 더 내요.',
+    soleL:'지자체에 대부업을 등록한 개인(자본금 1억 원 이상)이에요. 이자를 받을 때 <b>떼는 세금이 없어요</b>. 대신 이자에서 비용을 뺀 이익을 사업소득으로 다음 해 5월에 <b>종합소득세</b>로 신고해요. 그 세금은 다른 소득에 따라 달라서 여기서는 참고로만 보여 줘요.',
+    corpL:'대부업 법인(자본금 3억 원 이상)이에요. 이자를 받을 때 <b>떼는 세금이 없어요</b>. 비용을 뺀 이익에 사업연도가 끝난 뒤 <b>법인세</b>(2억 원 이하 10%, 지방소득세 포함 11%)를 내요. 대표가 배당으로 가져가면 배당소득세가 따로 붙어요.',
     pledge:'대부업체의 근저당권에 질권을 잡고 업체에 빌려줘요. 비용은 업체가 내지만 금리가 낮고, 이자에 <b>27.5%</b>를 떼요. 차주뿐 아니라 <b>업체가 부실해지는 위험</b>도 져요.'
   };
-  var S = { months:12, type:'ind', div:1, lev:0 };
+  var S = { months:12, type:'ind', lev:0 };
 
   function num(v){ var n = parseFloat(String(v).replace(/,/g, '')); return isFinite(n) ? n : 0; }
   function man(v){
@@ -587,7 +585,6 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
   // 종합소득세 (만원, 2026년) — 지방소득세 별도
   var BR = [[1400, .06, 0], [5000, .15, 126], [8800, .24, 576], [15000, .35, 1544], [30000, .38, 1994], [50000, .40, 2594], [100000, .42, 3594], [Infinity, .45, 6594]];
   function incomeTax(t){ if(t <= 0) return 0; for(var i = 0; i < BR.length; i++) if(t <= BR[i][0]) return t * BR[i][1] - BR[i][2]; return 0; }
-  function soleTax(profit, other){ return Math.max(0, incomeTax(other + profit) - incomeTax(other)) * 1.1; }
   function corpTax(p){ if(p <= 0) return 0; var t = p <= 20000 ? p * .10 : 2000 + (p - 20000) * .20; return t * 1.1; }
 
   function read(){
@@ -596,7 +593,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
       senMax:num($('senMax').value), senBal:num($('senBal').value), tenant:num($('tenant').value), taxes:num($('taxes').value),
       loan:num($('loan').value), rate:num($('rate').value) / 100, months:S.months,
       maxPct:num($('maxPct').value) / 100, od:num($('odRate').value) / 100, setupEtc:num($('setupEtc').value), broker:num($('broker').value) / 100,
-      other:num($('other').value), pRate:num($('pRate').value) / 100,
+      pRate:num($('pRate').value) / 100,
       lev:S.lev, qRatio:num($('qRatio').value) / 100, qRate:num($('qRate').value) / 100,
       paidMo:Math.max(0, num($('paidMo').value)), aucMo:Math.max(1, num($('aucMo').value)), aucCost:num($('aucCost').value), senOd:num($('senOd').value) / 100
     };
@@ -610,12 +607,11 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
       Q:(I.lev ? I.loan * I.qRatio : 0) };
   }
 
-  // 투자자 유형별 세금. kind: 'interest'(이자소득만) 또는 순이익
-  function taxOf(type, interestIncome, profit, I){
-    if(type === 'ind' || type === 'biz' || type === 'pledge') return { tax: Math.max(0, interestIncome) * 0.275, note:'이자의 27.5% 원천징수' };
-    if(type === 'soleL') return { tax: soleTax(profit, I.other), note:'종합소득세(다른 소득 ' + man(I.other) + ' 위에 얹음) + 지방소득세' };
-    var c = corpTax(profit), d = (S.div && profit - c > 0) ? (profit - c) * 0.154 : 0;
-    return { tax: c + d, corp: c, divTax: d, note: '법인세 ' + (profit <= 20000 ? '10%' : '10·20%') + ' + 지방소득세' + (S.div ? ' + 배당소득세 15.4%' : '') };
+  // 이 대출로 받을 때 떼는 세금(원천징수)만 뺀다. 대부업자의 종합소득세·법인세는 나중에 따로 신고하는 세금이라 참고로만 계산
+  function taxOf(type, interestIncome, profit){
+    if(type === 'ind' || type === 'biz' || type === 'pledge') return { tax: Math.max(0, interestIncome) * 0.275, later: 0, note:'이자의 27.5% 원천징수' };
+    if(type === 'soleL') return { tax: 0, later: incomeTax(Math.max(0, profit)) * 1.1, note:'원천징수 없음 · 종합소득세는 따로 신고' };
+    return { tax: 0, later: corpTax(profit), note:'원천징수 없음 · 법인세는 따로 신고' };
   }
 
   // 세금 계산식 설명 (정상 상환)
@@ -624,42 +620,35 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     var b = function(v){ return '<b>' + man(v) + '</b>'; }, li = function(x){ return '<li>' + x + '</li>'; };
     var costTxt = '비용 ' + man(r.cost) + (r.qInt ? ' − 질권대출 이자 ' + man(r.qInt) : '');
     if(r.type === 'ind' || r.type === 'biz')
-      return li('이자 ' + man(r.interest) + ' × 27.5% (소득세 25% + 지방소득세 2.5%) = ' + b(r.tax)) +
-        li('설정비·수수료' + (r.qInt ? '·질권대출 이자' : '') + ' ' + man(r.cost + r.qInt) + '은 빼 주지 않아요 (이자소득은 필요경비가 없어요)');
-    if(r.type === 'pledge') return li('업체에서 받는 이자 ' + man(r.interest) + ' × 27.5% = ' + b(r.tax)) + li('업체가 원천징수하고 나머지를 줘요');
-    if(r.type === 'soleL'){
-      var P = r.profit; if(P <= 0) return li('과세 이익 = 이자 ' + man(r.interest) + ' − ' + costTxt + ' = ' + man(P) + ' → 손실이라 세금 0원');
-      var a = incomeTax(I.other + P), o = incomeTax(I.other), d = a - o;
-      var r1 = rateAt(I.other + P), r0 = rateAt(I.other + 1e-6);
-      return li('과세 이익 = 이자 ' + man(r.interest) + ' − ' + costTxt + ' = ' + b(P)) +
-        li('종합소득세 = (다른 소득 ' + man(I.other) + ' + 이익 ' + man(P) + ')에 대한 세금 ' + man(a) + ' − 다른 소득만의 세금 ' + man(o) + ' = ' + b(d) + ' <small class="hint">(이익에 붙는 세율 ' + (r0 === r1 ? r1 + '%' : r0 + '~' + r1 + '%') + ')</small>') +
-        li('지방소득세 = ' + man(d) + ' × 10% = ' + b(d * 0.1)) + li('합계 ' + b(r.tax));
-    }
-    var P2 = r.profit; if(P2 <= 0) return li('과세 이익 = 이자 ' + man(r.interest) + ' − ' + costTxt + ' = ' + man(P2) + ' → 손실이라 세금 0원');
-    var c = P2 <= 20000 ? P2 * .10 : 2000 + (P2 - 20000) * .20, out = li('과세 이익 = 이자 ' + man(r.interest) + ' − ' + costTxt + ' = ' + b(P2)) +
-      li('법인세 = ' + man(P2) + ' × 10%' + (P2 > 20000 ? ' (2억 원 넘는 부분은 20%)' : '') + ' = ' + b(c)) + li('지방소득세 = ' + man(c) + ' × 10% = ' + b(c * 0.1));
-    if(S.div) out += li('배당소득세 = 법인세 뗀 이익 ' + man(P2 - c * 1.1) + ' × 15.4% = ' + b(r.divTax || 0) + ' <small class="hint">(대표가 배당으로 가져갈 때)</small>');
-    return out + li('합계 ' + b(r.tax));
+      return li('받을 때 떼는 세금 = 이자 ' + man(r.interest) + ' × 27.5% (소득세 25% + 지방소득세 2.5%) = ' + b(r.tax)) +
+        li('설정비·수수료' + (r.qInt ? '·질권대출 이자' : '') + ' ' + man(r.cost + r.qInt) + '은 세금 계산에서 빼 주지 않아요 (이자소득은 필요경비가 없어요)') +
+        li('손에 들어오는 돈 = ' + man(r.interest) + ' − ' + man(r.cost + r.qInt) + ' − ' + man(r.tax) + ' = ' + b(r.net));
+    if(r.type === 'pledge') return li('받을 때 떼는 세금 = 업체에서 받는 이자 ' + man(r.interest) + ' × 27.5% = ' + b(r.tax)) + li('업체가 원천징수하고 나머지 ' + b(r.net) + '을 줘요');
+    var P = r.profit, isSole = r.type === 'soleL';
+    return li('받을 때 떼는 세금 = <b>0원</b> (대부업자에게 주는 이자는 원천징수하지 않아요)') +
+      li('손에 들어오는 돈 = 이자 ' + man(r.interest) + ' − ' + costTxt + ' = ' + b(r.net)) +
+      li(isSole ? '나중에 따로: 이 이익 ' + man(Math.max(0, P)) + '을 사업소득으로 다음 해 5월 종합소득세 신고. 다른 소득이 없다면 약 ' + b(r.later) + '(지방소득세 포함), 다른 소득이 있으면 세율이 올라가요'
+        : '나중에 따로: 법인 이익 ' + man(Math.max(0, P)) + ' × 10%' + (P > 20000 ? '(2억 원 넘는 부분 20%)' : '') + ' + 지방소득세 = 약 ' + b(r.later) + ' 법인세. 대표가 배당으로 가져가면 배당소득세 15.4%가 또 붙어요');
   }
 
   // 정상 상환
   function normal(type, I){
     var C = costs(I), yrs = I.months / 12, o = { type:type, lines:[] };
     if(type === 'pledge'){
-      var ip = I.loan * I.pRate * yrs, tp = taxOf(type, ip, ip, I);
-      o.interest = ip; o.cost = 0; o.qInt = 0; o.tax = tp.tax; o.net = ip - tp.tax; o.equity = I.loan; o.profit = ip;
-      o.lines = [['받는 이자', '대부업체 금리 연 ' + pct(I.pRate * 100) + ' × ' + I.months + '개월', sman(ip)], ['비용', '설정비·수수료는 업체가 부담', '0원'], ['세금', tp.note, '−' + man(tp.tax)]];
+      var ip = I.loan * I.pRate * yrs, tp = taxOf(type, ip, ip);
+      o.interest = ip; o.cost = 0; o.qInt = 0; o.tax = tp.tax; o.later = 0; o.net = ip - tp.tax; o.equity = I.loan; o.profit = ip;
+      o.lines = [['받는 이자', '대부업체 금리 연 ' + pct(I.pRate * 100) + ' × ' + I.months + '개월', sman(ip)], ['비용', '설정비·수수료는 업체가 부담', '0원'], ['받을 때 떼는 세금', tp.note, '−' + man(tp.tax)]];
     } else {
       var interest = I.loan * I.rate * yrs, qInt = C.Q * I.qRate * yrs, cost = C.setup + C.broker;
-      var profit = interest - cost - qInt, t = taxOf(type, interest, profit, I);
-      o.interest = interest; o.cost = cost; o.qInt = qInt; o.tax = t.tax; o.net = interest - cost - qInt - t.tax;
-      o.equity = I.loan - C.Q + cost; o.corp = t.corp; o.divTax = t.divTax; o.profit = profit;
+      var profit = interest - cost - qInt, t = taxOf(type, interest, profit);
+      o.interest = interest; o.cost = cost; o.qInt = qInt; o.tax = t.tax; o.later = t.later; o.net = interest - cost - qInt - t.tax;
+      o.equity = I.loan - C.Q + cost; o.profit = profit;
       o.lines = [['받는 이자', '연 ' + pct(I.rate * 100) + ' × ' + I.months + '개월', sman(interest)],
         ['근저당 설정 세금', '채권최고액 ' + man(C.maxAmt) + ' × 0.24%', '−' + man(C.setupTax)],
         ['설정 기타 비용', '법무사·채권할인 등', '−' + man(I.setupEtc)],
         ['중개·플랫폼 수수료', pct(I.broker * 100) + ' × 빌려준 돈', '−' + man(C.broker)]];
       if(C.Q) o.lines.push(['질권대출 이자', man(C.Q) + ' × 연 ' + pct(I.qRate * 100), '−' + man(qInt)]);
-      o.lines.push(['세금', t.note + ((type === 'ind' || type === 'biz') ? ' · 비용은 빼 주지 않아요' : ' · 비용을 뺀 이익 ' + man(profit) + '에 과세'), '−' + man(t.tax)]);
+      o.lines.push(['받을 때 떼는 세금', t.note + ((type === 'ind' || type === 'biz') ? ' · 비용은 빼 주지 않아요' : ''), t.tax ? '−' + man(t.tax) : '0원']);
     }
     o.yr = o.net / I.loan / yrs * 100;
     o.roe = o.equity > 0 ? o.net / o.equity / yrs * 100 : 0;
@@ -683,7 +672,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     var qInt = C.Q * I.qRate * span / 12, cost = C.setup + C.broker;
     var gain = recInt + myGet - I.loan - cost - qInt;
     var taxable = (type === 'ind' || type === 'biz') ? recInt + Math.max(0, myGet - I.loan) : gain;
-    var t = taxOf(type, taxable, taxable, I).tax;
+    var t = taxOf(type, taxable, taxable).tax;
     return { sale:sale, aucCost:Math.min(sale, I.aucCost), pre:Math.min(a1, I.taxes + I.tenant), senGet:senGet, senClaim:senClaim,
       myClaim:myClaim, myGet:myGet, left:left, short:Math.max(0, myClaim - myGet), recInt:recInt, cost:cost, qInt:qInt,
       gain:gain, tax:t, net:gain - t, span:span, principalBack:myGet >= I.loan - 1e-6 };
@@ -721,9 +710,9 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     var cur = auction(type, I, I.bid);
     out += '<circle cx="' + cx + '" cy="' + Y(cur.net) + '" r="5" style="fill:var(--navy);stroke:var(--panel);stroke-width:1.5"/>';
     svg.innerHTML = out;
-    $('chartDesc').innerHTML = '낙찰가율을 50%부터 110%까지 바꿔 본 <b>세후 순손익</b>이에요(연체 전 받은 이자와 비용 포함). 점선은 지금 넣은 낙찰가율이에요.' +
+    $('chartDesc').innerHTML = '낙찰가율을 50%부터 110%까지 바꿔 본 <b>순손익</b>이에요(연체 전 받은 이자, 비용, 받을 때 떼는 세금 포함). 점선은 지금 넣은 낙찰가율이에요.' +
       (pb ? ' 붉은 점선 <b>' + (pb * 100).toFixed(1) + '%</b> 아래로 낙찰되면 빌려준 원금을 다 못 돌려받아요.' : '') +
-      (be ? ' 세후 손익이 0이 되는 낙찰가율은 <b>' + (be * 100).toFixed(1) + '%</b>예요.' : ' 이 범위에서는 낙찰가율과 상관없이 손실이에요.');
+      (be ? ' 손익이 0이 되는 낙찰가율은 <b>' + (be * 100).toFixed(1) + '%</b>예요.' : ' 이 범위에서는 낙찰가율과 상관없이 손실이에요.');
     return { be:be, pb:pb };
   }
 
@@ -736,13 +725,13 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
 
     var all = TYPES.map(function(t){ var r = normal(t.id, I); r.t = t; return r; });
     var me = all.filter(function(r){ return r.type === T; })[0], name = TYPES.filter(function(t){ return t.id === T; })[0].name;
-    $('verdict').innerHTML = man(I.loan) + '을 ' + (I.months >= 12 ? I.months / 12 + '년' : I.months + '개월') + ' 빌려주면 <em>' + name + '</em>' + (jong(name) ? '은' : '는') + ' 세금·비용을 떼고 <em>' + man(me.net) + '</em>, <em>연 ' + pct(me.yr) + '</em>가 남아요.';
-    var best = all.slice().sort(function(a, b){ return b.net - a.net; })[0];
-    var sub = (T === 'pledge' ? '대부업체 금리 연 ' + pct(I.pRate * 100) : '약정 금리 연 ' + pct(I.rate * 100)) + '에서 세금으로 <b>' + man(me.tax) + '</b>' + (me.cost ? ', 비용으로 <b>' + man(me.cost + me.qInt) + '</b>' : '') + '이 빠져요. ';
-    if(best.type !== T) sub += '같은 조건이면 <b>' + best.t.name + '</b>' + (jong(best.t.name) ? '이' : '가') + ' ' + man(best.net - me.net) + ' 더 남겨요.';
+    $('verdict').innerHTML = man(I.loan) + '을 ' + (I.months >= 12 ? I.months / 12 + '년' : I.months + '개월') + ' 빌려주면 <em>' + name + '</em>' + (jong(name) ? '은' : '는') + ' 비용과 받을 때 떼는 세금을 빼고 <em>' + man(me.net) + '</em>, <em>연 ' + pct(me.yr) + '</em>가 손에 들어와요.';
+    var sub = (T === 'pledge' ? '대부업체 금리 연 ' + pct(I.pRate * 100) : '약정 금리 연 ' + pct(I.rate * 100)) + '에서 ' + (me.tax ? '원천징수 세금 <b>' + man(me.tax) + '</b>' + (me.cost ? ', 비용 <b>' + man(me.cost + me.qInt) + '</b>' : '') + '이 빠져요. ' : '<b>원천징수 없이</b> 비용 <b>' + man(me.cost + me.qInt) + '</b>만 빠져요. ');
+    if(T === 'soleL') sub += '이 이익은 다음 해 종합소득세로 따로 신고해요(다른 소득이 없다면 약 ' + man(me.later) + ').';
+    else if(T === 'corpL') sub += '법인세는 따로 신고해요(약 ' + man(me.later) + ').';
     $('verdictSub').innerHTML = sub;
     var C = costs(I);
-    var kp = [['세후 순이익', man(me.net), (I.months / 12).toFixed(1).replace('.0', '') + '년 합계'], ['연 순이익률', pct(me.yr), '빌려준 돈 기준'],
+    var kp = [['손에 들어오는 돈', man(me.net), (I.months / 12).toFixed(1).replace('.0', '') + '년 합계'], ['연 수익률', pct(me.yr), '빌려준 돈 기준'],
       ['내 돈 기준 수익률', pct(me.roe), S.lev && T !== 'pledge' ? '자기자본 ' + man(me.equity) + ' (질권대출 ' + man(C.Q) + ')' : '들어간 내 돈 ' + man(me.equity)]];
     $('kpis').innerHTML = kp.map(function(k){ return '<div class="kpi"><span>' + k[0] + '</span><b class="' + (k[1].indexOf('−') === 0 ? 'dn' : '') + '">' + k[1] + '</b><small>' + k[2] + '</small></div>'; }).join('');
 
@@ -754,13 +743,13 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     $('warns').innerHTML = w.map(function(x){ return '<p class="warn-box">' + x + '</p>'; }).join('');
 
     // 유형 비교 표
-    $('mx').innerHTML = '<thead><tr><th>투자자 유형</th><th>받는 이자</th><th>비용</th><th>세금</th><th>세후 순이익</th><th>연 순이익률</th></tr></thead><tbody>' +
+    $('mx').innerHTML = '<thead><tr><th>투자자 유형</th><th>받는 이자</th><th>비용</th><th>받을 때 떼는 세금</th><th>손에 들어오는 돈</th><th>연 수익률</th><th>나중에 따로 낼 세금 (참고)</th></tr></thead><tbody>' +
       all.map(function(r){
-        return '<tr class="' + (r.type === T ? 'on' : '') + '"><td>' + r.t.name + '<small>' + r.t.sub + '</small></td><td>' + man(r.interest) + '</td><td>' + (r.cost + r.qInt ? '−' + man(r.cost + r.qInt) : '0원') + '</td><td>−' + man(r.tax) + '</td><td class="' + (r.net < 0 ? 'dn' : '') + '">' + man(r.net) + '</td><td>' + pct(r.yr) + '</td></tr>';
+        return '<tr class="' + (r.type === T ? 'on' : '') + '"><td>' + r.t.name + '<small>' + r.t.sub + '</small></td><td>' + man(r.interest) + '</td><td>' + (r.cost + r.qInt ? '−' + man(r.cost + r.qInt) : '0원') + '</td><td>' + (r.tax ? '−' + man(r.tax) : '0원') + '</td><td class="' + (r.net < 0 ? 'dn' : '') + '">' + man(r.net) + '</td><td>' + pct(r.yr) + '</td><td>' + (r.later ? '약 ' + man(r.later) + '<small>' + (r.type === 'soleL' ? '종합소득세, 다른 소득 없을 때' : '법인세') + '</small>' : '없음<small>금융소득 2천만 원 이하일 때</small>') + '</td></tr>';
       }).join('') + '</tbody>';
 
     $('taxf').innerHTML = all.map(function(r){
-      return '<div class="tx' + (r.type === T ? ' on' : '') + '"><b class="h">' + r.t.name + ' · 세금 ' + man(r.tax) + ' → 세후 ' + man(r.net) + '</b><ol>' + taxSteps(r, I) + '</ol></div>';
+      return '<div class="tx' + (r.type === T ? ' on' : '') + '"><b class="h">' + r.t.name + ' · 떼는 세금 ' + man(r.tax) + ' → 손에 ' + man(r.net) + '</b><ol>' + taxSteps(r, I) + '</ol></div>';
     }).join('') + '<p class="hint">종합소득세율(2026년): 1,400만 원 이하 6%, 5,000만 원 이하 15%, 8,800만 원 이하 24%, 1억 5,000만 원 이하 35%, 3억 원 이하 38%, 5억 원 이하 40%, 10억 원 이하 42%, 그 위 45%. 법인세율(2026년 이후 사업연도): 2억 원 이하 10%, 200억 원 이하 20%. 금융소득이 한 해 2,000만 원을 넘으면 개인도 종합과세로 세금이 달라질 수 있어요. 금액을 만 원 단위로 반올림해서 보여 줘서 합계가 1만 원쯤 다를 수 있어요.</p>';
 
     // 담보 여유
@@ -783,7 +772,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     $('o-bid').textContent = pct(I.bid * 100);
     var A = auction(T === 'pledge' ? 'ind' : T, I, I.bid);
     var line = T === 'pledge' ? '질권 투자는 대부업체가 대신 갚아 주는지가 먼저예요. 아래는 업체가 경매 배당을 그대로 넘겨준다고 보고 <b>개인</b> 기준으로 계산했어요. ' : '';
-    $('dVerdict').innerHTML = line + '낙찰가율 ' + pct(I.bid * 100) + '이면 배당으로 <em>' + man(A.myGet) + '</em>을 돌려받고, 받은 이자까지 합쳐 세후 <span class="' + (A.net < 0 ? 'dn' : '') + '">' + sman(A.net) + '</span>이에요.' + (A.short > 0.5 ? ' 받아야 할 돈 중 <span class="dn">' + man(A.short) + '</span>은 못 받아요.' : '');
+    $('dVerdict').innerHTML = line + '낙찰가율 ' + pct(I.bid * 100) + '이면 배당으로 <em>' + man(A.myGet) + '</em>을 돌려받고, 받은 이자까지 합쳐 <span class="' + (A.net < 0 ? 'dn' : '') + '">' + sman(A.net) + '</span>이에요.' + (A.short > 0.5 ? ' 받아야 할 돈 중 <span class="dn">' + man(A.short) + '</span>은 못 받아요.' : '');
     var tot = Math.max(A.sale, 1);
     var parts = [[A.aucCost, 'var(--w-cost)', '경매 비용'], [A.pre, 'var(--w-short)', '세금·임차보증금'], [A.senGet, 'var(--w-sen)', '1순위'], [A.myGet, 'var(--w-me)', '나'], [A.left, 'var(--w-left)', '남은 돈(다음 순위·채무자)']];
     $('wf').innerHTML = '<div class="hint">낙찰가 ' + man(A.sale) + ' (감정가 ' + man(I.appr) + ' × ' + pct(I.bid * 100) + ')을 나누는 순서</div><div class="stack" role="img" aria-label="낙찰 대금 배당 순서">' +
@@ -806,7 +795,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     $('howto').innerHTML = [['정상 상환 · ' + name, me.lines, man(me.net)], ['연체 → 경매 · ' + (T === 'pledge' ? '개인 기준' : name), aLines, sman(A.net)]].map(function(g){
       return '<details><summary><span>' + g[0] + ' · ' + g[2] + '</span></summary><div class="lines">' + '<div class="ln"><span class="k">빌려준 돈</span><span class="v">' + man(I.loan) + '</span></div>' +
         g[1].map(function(l){ return '<div class="ln"><span class="k">' + l[0] + '<small>' + l[1] + '</small></span><span class="v">' + l[2] + '</span></div>'; }).join('') +
-        '<div class="ln total"><span class="k">세후 손익</span><span class="v">' + g[2] + '</span></div></div></details>';
+        '<div class="ln total"><span class="k">손익</span><span class="v">' + g[2] + '</span></div></div></details>';
     }).join('');
 
     var notes = [];
