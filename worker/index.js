@@ -9,6 +9,8 @@ export default {
       if (request.method !== 'GET') return new Response('Method Not Allowed', { status: 405, headers: { allow: 'GET' } });
       return aptPrice({ request, env, waitUntil: (p) => ctx.waitUntil(p) });
     }
+    // 임시 점검: 환경변수 이름만 보여 준다(값은 절대 내보내지 않음)
+    if (url.pathname === '/api/_env') return new Response(JSON.stringify({ keys: Object.keys(env), molit: typeof env.MOLIT_KEY, len: env.MOLIT_KEY ? String(env.MOLIT_KEY).length : 0 }), { headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
     if (url.pathname.startsWith('/api/')) return new Response('Not Found', { status: 404 });
     return env.ASSETS.fetch(request);
   }
