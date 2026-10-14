@@ -168,6 +168,13 @@ input[type=range]{flex:1;min-width:0;height:36px;margin:0;accent-color:var(--nav
 .easy h3{color:var(--navy)}
 .easy li{font-size:14.5px;line-height:1.7}
 .easy ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.taxf{display:flex;flex-direction:column;gap:8px}
+.taxf .tx{border:1px solid var(--rule);border-radius:10px;padding:10px 14px;background:var(--ground)}
+.taxf .tx.on{border-color:var(--navy);background:var(--navy-soft)}
+.taxf .tx b.h{display:block;font-size:15px;margin-bottom:4px}
+.taxf .tx ol{margin:0;padding-left:18px;font-size:14px;line-height:1.75;font-variant-numeric:tabular-nums}
+.taxf .tx ol li b{white-space:nowrap}
+.taxf .tx p{font-size:13px;color:var(--ink-2);margin-top:4px}
 .notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--ink-2)}
 .notes b{color:var(--ink)}
 .basis{font-size:12.5px;color:var(--ink-2);line-height:1.6}
@@ -224,7 +231,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
    },
    "image": "https://yenajun.com/assets/og/gpl.png",
    "datePublished": "2026-10-14T14:27:01+09:00",
-   "dateModified": "2026-10-14T15:52:53+09:00",
+   "dateModified": "2026-10-14T16:07:43+09:00",
    "author": {
     "@type": "Person",
     "name": "이동찬",
@@ -322,7 +329,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
       <div class="row3">
         <div class="q"><label for="lkRegion">지역 <small>(시군구 + 동)</small></label><input type="text" class="plain" id="lkRegion" placeholder="예: 서울 강북구 미아동"></div>
         <div class="q"><label for="lkApt">아파트 이름</label><input type="text" class="plain" id="lkApt" placeholder="예: 래미안"></div>
-        <div class="q"><label for="lkArea">전용 ㎡</label><input type="text" class="plain" id="lkArea" inputmode="decimal" placeholder="84"></div>
+        <div class="q"><label for="lkArea">전용 ㎡</label><input type="text" class="plain" id="lkArea" inputmode="decimal" placeholder="84"><span class="say" id="say-area"></span></div>
       </div>
       <button type="button" class="btn" id="lkGo">최근 6개월 실거래가 불러오기</button>
       <div class="lk-out" id="lkOut" aria-live="polite"></div>
@@ -470,6 +477,8 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     <h2>같은 대출, 누가 빌려주느냐에 따라 남는 돈</h2>
     <p class="hint">같은 금액·금리·기간으로 투자자 유형만 바꿔 본 결과예요. 색칠된 줄이 지금 고른 유형이에요.</p>
     <div class="tblwrap"><table class="mx" id="mx"></table></div>
+    <h3>세금은 이렇게 계산했어요</h3>
+    <div class="taxf" id="taxf"></div>
   </div>
 
   <div class="card">
@@ -609,18 +618,42 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     return { tax: c + d, corp: c, divTax: d, note: '법인세 ' + (profit <= 20000 ? '10%' : '10·20%') + ' + 지방소득세' + (S.div ? ' + 배당소득세 15.4%' : '') };
   }
 
+  // 세금 계산식 설명 (정상 상환)
+  function rateAt(t){ for(var i = 0; i < BR.length; i++) if(t <= BR[i][0]) return BR[i][1] * 100; return 45; }
+  function taxSteps(r, I){
+    var b = function(v){ return '<b>' + man(v) + '</b>'; }, li = function(x){ return '<li>' + x + '</li>'; };
+    var costTxt = '비용 ' + man(r.cost) + (r.qInt ? ' − 질권대출 이자 ' + man(r.qInt) : '');
+    if(r.type === 'ind' || r.type === 'biz')
+      return li('이자 ' + man(r.interest) + ' × 27.5% (소득세 25% + 지방소득세 2.5%) = ' + b(r.tax)) +
+        li('설정비·수수료' + (r.qInt ? '·질권대출 이자' : '') + ' ' + man(r.cost + r.qInt) + '은 빼 주지 않아요 (이자소득은 필요경비가 없어요)');
+    if(r.type === 'pledge') return li('업체에서 받는 이자 ' + man(r.interest) + ' × 27.5% = ' + b(r.tax)) + li('업체가 원천징수하고 나머지를 줘요');
+    if(r.type === 'soleL'){
+      var P = r.profit; if(P <= 0) return li('과세 이익 = 이자 ' + man(r.interest) + ' − ' + costTxt + ' = ' + man(P) + ' → 손실이라 세금 0원');
+      var a = incomeTax(I.other + P), o = incomeTax(I.other), d = a - o;
+      var r1 = rateAt(I.other + P), r0 = rateAt(I.other + 1e-6);
+      return li('과세 이익 = 이자 ' + man(r.interest) + ' − ' + costTxt + ' = ' + b(P)) +
+        li('종합소득세 = (다른 소득 ' + man(I.other) + ' + 이익 ' + man(P) + ')에 대한 세금 ' + man(a) + ' − 다른 소득만의 세금 ' + man(o) + ' = ' + b(d) + ' <small class="hint">(이익에 붙는 세율 ' + (r0 === r1 ? r1 + '%' : r0 + '~' + r1 + '%') + ')</small>') +
+        li('지방소득세 = ' + man(d) + ' × 10% = ' + b(d * 0.1)) + li('합계 ' + b(r.tax));
+    }
+    var P2 = r.profit; if(P2 <= 0) return li('과세 이익 = 이자 ' + man(r.interest) + ' − ' + costTxt + ' = ' + man(P2) + ' → 손실이라 세금 0원');
+    var c = P2 <= 20000 ? P2 * .10 : 2000 + (P2 - 20000) * .20, out = li('과세 이익 = 이자 ' + man(r.interest) + ' − ' + costTxt + ' = ' + b(P2)) +
+      li('법인세 = ' + man(P2) + ' × 10%' + (P2 > 20000 ? ' (2억 원 넘는 부분은 20%)' : '') + ' = ' + b(c)) + li('지방소득세 = ' + man(c) + ' × 10% = ' + b(c * 0.1));
+    if(S.div) out += li('배당소득세 = 법인세 뗀 이익 ' + man(P2 - c * 1.1) + ' × 15.4% = ' + b(r.divTax || 0) + ' <small class="hint">(대표가 배당으로 가져갈 때)</small>');
+    return out + li('합계 ' + b(r.tax));
+  }
+
   // 정상 상환
   function normal(type, I){
     var C = costs(I), yrs = I.months / 12, o = { type:type, lines:[] };
     if(type === 'pledge'){
       var ip = I.loan * I.pRate * yrs, tp = taxOf(type, ip, ip, I);
-      o.interest = ip; o.cost = 0; o.qInt = 0; o.tax = tp.tax; o.net = ip - tp.tax; o.equity = I.loan;
+      o.interest = ip; o.cost = 0; o.qInt = 0; o.tax = tp.tax; o.net = ip - tp.tax; o.equity = I.loan; o.profit = ip;
       o.lines = [['받는 이자', '대부업체 금리 연 ' + pct(I.pRate * 100) + ' × ' + I.months + '개월', sman(ip)], ['비용', '설정비·수수료는 업체가 부담', '0원'], ['세금', tp.note, '−' + man(tp.tax)]];
     } else {
       var interest = I.loan * I.rate * yrs, qInt = C.Q * I.qRate * yrs, cost = C.setup + C.broker;
       var profit = interest - cost - qInt, t = taxOf(type, interest, profit, I);
       o.interest = interest; o.cost = cost; o.qInt = qInt; o.tax = t.tax; o.net = interest - cost - qInt - t.tax;
-      o.equity = I.loan - C.Q + cost; o.corp = t.corp; o.divTax = t.divTax;
+      o.equity = I.loan - C.Q + cost; o.corp = t.corp; o.divTax = t.divTax; o.profit = profit;
       o.lines = [['받는 이자', '연 ' + pct(I.rate * 100) + ' × ' + I.months + '개월', sman(interest)],
         ['근저당 설정 세금', '채권최고액 ' + man(C.maxAmt) + ' × 0.24%', '−' + man(C.setupTax)],
         ['설정 기타 비용', '법무사·채권할인 등', '−' + man(I.setupEtc)],
@@ -726,6 +759,10 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
         return '<tr class="' + (r.type === T ? 'on' : '') + '"><td>' + r.t.name + '<small>' + r.t.sub + '</small></td><td>' + man(r.interest) + '</td><td>' + (r.cost + r.qInt ? '−' + man(r.cost + r.qInt) : '0원') + '</td><td>−' + man(r.tax) + '</td><td class="' + (r.net < 0 ? 'dn' : '') + '">' + man(r.net) + '</td><td>' + pct(r.yr) + '</td></tr>';
       }).join('') + '</tbody>';
 
+    $('taxf').innerHTML = all.map(function(r){
+      return '<div class="tx' + (r.type === T ? ' on' : '') + '"><b class="h">' + r.t.name + ' · 세금 ' + man(r.tax) + ' → 세후 ' + man(r.net) + '</b><ol>' + taxSteps(r, I) + '</ol></div>';
+    }).join('') + '<p class="hint">종합소득세율(2026년): 1,400만 원 이하 6%, 5,000만 원 이하 15%, 8,800만 원 이하 24%, 1억 5,000만 원 이하 35%, 3억 원 이하 38%, 5억 원 이하 40%, 10억 원 이하 42%, 그 위 45%. 법인세율(2026년 이후 사업연도): 2억 원 이하 10%, 200억 원 이하 20%. 금융소득이 한 해 2,000만 원을 넘으면 개인도 종합과세로 세금이 달라질 수 있어요. 금액을 만 원 단위로 반올림해서 보여 줘서 합계가 1만 원쯤 다를 수 있어요.</p>';
+
     // 담보 여유
     var senAfter = I.senMax + I.tenant + I.taxes;
     var ltvMax = (senAfter + C.maxAmt) / I.price * 100, ltvLoan = (I.senBal + I.tenant + I.taxes + I.loan) / I.price * 100;
@@ -817,10 +854,11 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     var chips = LK.groups.length > 1 ? '<div class="chipbtns" role="group" aria-label="단지 고르기">' + LK.groups.map(function(g){ var p = g.split('|'); return '<button type="button" data-grp="' + g.replace(/"/g, '&quot;') + '" aria-pressed="' + (g === LK.sel) + '" style="' + (g === LK.sel ? 'background:var(--navy);color:var(--panel)' : '') + '">' + p[0] + ' · ' + p[1] + '</button>'; }).join('') + '</div>' : '';
     out.innerHTML = '<p><b>' + j.region + '</b> · 최근 ' + j.months + '개월 거래 ' + j.count + '건' + (LK.groups.length > 1 ? ', 단지 ' + LK.groups.length + '곳. 단지를 골라 주세요.' : '.') + '</p>' + chips +
       '<p><b>' + nm[0] + '</b> 최근 ' + prices.length + '건의 가운데 값은 <b>' + man(med) + '</b>이에요. <button type="button" class="pick" data-price="' + med + '">시세·감정가에 넣기</button></p>' +
-      '<div class="tblwrap"><table><thead><tr><th>계약일</th><th>전용</th><th>층</th><th>거래가</th></tr></thead><tbody>' +
-      list.slice(0, 10).map(function(t){ return '<tr><td>' + t.date.slice(2) + '</td><td>' + t.area.toFixed(1) + '㎡</td><td>' + t.floor + '</td><td>' + man(t.price) + ' <button type="button" class="pick" data-price="' + t.price + '">넣기</button></td></tr>'; }).join('') +
-      '</tbody></table></div><p class="hint">출처: 국토교통부 아파트 매매 실거래가(계약 해제 건 제외). 신고는 계약 후 30일 안에 해서 최근 한두 달은 덜 잡혀요. 전용면적을 넣으면 그 면적(±3㎡)만 보여 줘요.</p>';
+      '<div class="tblwrap"><table><thead><tr><th>계약일</th><th>전용면적</th><th>층</th><th>거래가</th></tr></thead><tbody>' +
+      list.slice(0, 10).map(function(t){ return '<tr><td>' + t.date.slice(2) + '</td><td>' + t.area.toFixed(1) + '㎡ <small class="hint">' + (t.area / 3.3058).toFixed(1) + '평</small></td><td>' + t.floor + '</td><td>' + man(t.price) + ' <button type="button" class="pick" data-price="' + t.price + '">넣기</button></td></tr>'; }).join('') +
+      '</tbody></table></div><p class="hint">출처: 국토교통부 아파트 매매 실거래가(계약 해제 건 제외). 신고는 계약 후 30일 안에 해서 최근 한두 달은 덜 잡혀요. 전용면적을 넣으면 그 면적(±3㎡)만 보여 줘요. 평은 전용면적 ÷ 3.3058로 계산한 전용 평수라, 분양 때 말하는 평형(공급면적)보다 작아요.</p>';
   }
+  $('lkArea').addEventListener('input', function(){ var a = num(this.value); $('say-area').textContent = a ? '전용 ' + (a / 3.3058).toFixed(1) + '평' : ''; });
   $('lkGo').addEventListener('click', lookup);
   ['lkRegion', 'lkApt', 'lkArea'].forEach(function(id){ $(id).addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); lookup(); } }); });
   $('lkOut').addEventListener('click', function(e){
