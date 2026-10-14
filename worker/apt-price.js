@@ -59,8 +59,8 @@ async function findLawd(region, env, ctx, origin) {
   const raw = region.split(/\s+/).filter(Boolean);
   const words = raw.map((w) => SIDO[w] || w);
   const pick = words.find((w) => /(구|군)$/.test(w)) || words.find((w) => /시$/.test(w) && !/특별시|광역시|자치시/.test(w)) || words[words.length - 1];
-  const url = `${REGION}?serviceKey=${keyParam(env.MOLIT_KEY)}&type=json&pageNo=1&numOfRows=100&locatadd_nm=${encodeURIComponent(pick)}`;
-  const text = await cachedText(url, `${origin}/__cache/region/${encodeURIComponent(pick)}`, ctx, 86400 * 7);
+  const url = `${REGION}?serviceKey=${keyParam(env.MOLIT_KEY)}&type=json&pageNo=1&numOfRows=1000&locatadd_nm=${encodeURIComponent(pick)}`;
+  const text = await cachedText(url, `${origin}/__cache/region2/${encodeURIComponent(pick)}`, ctx, 86400 * 7);
   const err = apiError(text);
   if (err) throw new Error('region:' + err);
   let rows = [];
@@ -76,9 +76,9 @@ async function findLawd(region, env, ctx, origin) {
   // 사용자가 쓴 말(광주) 또는 정식 이름(광주광역시) 중 하나라도 들어 있으면 맞는 것으로 본다 — 행정구역 개편으로 이름이 바뀌어도 찾도록
   const hit = (r, t) => squash(r.locatadd_nm).includes(squash(t)) || (SIDO[t] && squash(r.locatadd_nm).includes(squash(SIDO[t])));
   const ok = rows.filter((r) => r.region_cd && raw.every((t) => hit(r, t)));
-  let list = ok;
-  if (!list.length) {
-    list = rows.filter((r) => r.region_cd && squash(r.locatadd_nm).includes(squash(pick)));
+  let list = ok.length ? ok : rows.filter((r) => r.region_cd && squash(r.locatadd_nm).includes(squash(pick)));
+  {
+    // 같은 이름의 구가 여러 시도에 있으면(북구, 중구 등) 하나를 마음대로 고르지 않고 물어본다
     const sgg = [...new Set(list.map((r) => String(r.region_cd).slice(0, 5)))];
     if (sgg.length > 1) {
       const names = [...new Set(list.filter((r) => String(r.region_cd).endsWith('00000')).map((r) => String(r.locatadd_nm).trim()))].slice(0, 8);
