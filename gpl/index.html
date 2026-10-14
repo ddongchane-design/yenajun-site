@@ -492,7 +492,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     <div class="grid2">
       <div class="q"><label for="paidMo">연체 전 이자 받은 기간</label><div class="box"><input type="text" id="paidMo" inputmode="numeric" value="3"><span class="unit">개월</span></div></div>
       <div class="q"><label for="aucMo">연체부터 배당까지</label><div class="box"><input type="text" id="aucMo" inputmode="numeric" value="12"><span class="unit">개월</span></div><span class="hint">경매 신청부터 배당까지 보통 1년 안팎이에요.</span></div>
-      <div class="q"><label for="aucCost">경매 비용</label><div class="box"><input type="text" id="aucCost" class="money" inputmode="numeric" value="300"><span class="unit">만원</span></div><span class="hint">감정료·송달료·수수료 등. 감정가의 0.5% 안팎으로 잡았어요.</span></div>
+      <div class="q"><label for="aucCost">경매 비용</label><div class="box"><input type="text" id="aucCost" class="money" inputmode="numeric" value="300"><span class="unit">만원</span></div><span class="hint" id="aucHint">감정료·매각수수료·송달료·공고료 등. 감정가의 0.5%로 자동 계산해요.</span></div>
       <div class="q"><label for="senOd">1순위 연체이자율 <small>(연)</small></label><div class="box"><input type="text" id="senOd" inputmode="decimal" value="7"><span class="unit">%</span></div><span class="hint">경매 동안 1순위 몫도 연체이자만큼 불어나요.</span></div>
     </div>
     <div class="sl">
@@ -717,7 +717,17 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
     return { be:be, pb:pb };
   }
 
+  // 경매 비용: 직접 고치기 전까지는 감정가의 0.5%로 따라간다
+  var aucAuto = true;
+  function syncAucCost(){
+    if(!aucAuto) return;
+    var v = Math.round(num($('appr').value) * 0.005);
+    $('aucCost').value = v ? v.toLocaleString('ko-KR') : '0';
+  }
   function render(){
+    syncAucCost();
+    $('aucHint').innerHTML = aucAuto ? '감정료·매각수수료·송달료·공고료 등. <b>감정가의 0.5%</b>로 자동 계산해요. 직접 고치면 그 값을 써요.'
+      : '직접 넣은 값이에요. <button type="button" class="pick" id="aucReset">감정가의 0.5%로 되돌리기</button>';
     var I = read(), T = S.type;
     ['price', 'appr', 'senMax', 'senBal', 'loan'].forEach(function(k){ $('say-' + k).textContent = num($(k).value) ? man(num($(k).value)) : ''; });
     document.querySelectorAll('#typeInputs [data-for]').forEach(function(el){ el.hidden = el.dataset.for !== T; });
@@ -851,6 +861,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
   $('lkArea').addEventListener('input', function(){ var a = num(this.value); $('say-area').textContent = a ? '전용 ' + (a / 3.3058).toFixed(1) + '평' : ''; });
   $('lkGo').addEventListener('click', lookup);
   ['lkRegion', 'lkApt', 'lkArea'].forEach(function(id){ $(id).addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); lookup(); } }); });
+  $('aucHint').addEventListener('click', function(e){ if(e.target.id === 'aucReset'){ aucAuto = true; render(); } });
   $('lkOut').addEventListener('click', function(e){
     var g = e.target.closest('[data-grp]'); if(g){ LK.sel = g.dataset.grp; drawLookup(); return; }
     var b = e.target.closest('[data-price]'); if(!b) return;
@@ -871,7 +882,8 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
   $('bidS').addEventListener('input', function(){ $('bid').value = Number(this.value).toFixed(1); render(); });
   document.querySelectorAll('[data-step]').forEach(function(b){ b.addEventListener('click', function(){ var v = Math.min(110, Math.max(50, num($('bid').value) + Number(b.dataset.step))); $('bid').value = v.toFixed(1); render(); }); });
   document.addEventListener('input', function(e){
-    var t = e.target; if(t.id === 'bidS' || (t.closest && t.closest('.lookup'))) return;
+    var t = e.target;
+    if(t.id === 'aucCost') aucAuto = false; if(t.id === 'bidS' || (t.closest && t.closest('.lookup'))) return;
     if(t.classList && t.classList.contains('money')){
       var pos = t.selectionStart, left = t.value.slice(0, pos).replace(/\D/g, '').length;
       var digits = t.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 7);
