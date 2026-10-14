@@ -56,7 +56,8 @@ async function cachedText(url, cacheKey, ctx, ttl) {
 
 // 지역 이름 → 시군구 코드. "서울 강북구 미아동", "수원시 영통구", "강북구" 모두 받는다.
 async function findLawd(region, env, ctx, origin) {
-  const words = region.split(/\s+/).filter(Boolean).map((w) => SIDO[w] || w);
+  const raw = region.split(/\s+/).filter(Boolean);
+  const words = raw.map((w) => SIDO[w] || w);
   const pick = words.find((w) => /(구|군)$/.test(w)) || words.find((w) => /시$/.test(w) && !/특별시|광역시|자치시/.test(w)) || words[words.length - 1];
   const url = `${REGION}?serviceKey=${keyParam(env.MOLIT_KEY)}&type=json&pageNo=1&numOfRows=100&locatadd_nm=${encodeURIComponent(pick)}`;
   const text = await cachedText(url, `${origin}/__cache/region/${encodeURIComponent(pick)}`, ctx, 86400 * 7);
@@ -72,9 +73,18 @@ async function findLawd(region, env, ctx, origin) {
       region_cd: tag(m[1], ['region_cd']), locatadd_nm: tag(m[1], ['locatadd_nm'])
     }));
   }
-  const need = words.map(squash);
-  const ok = rows.filter((r) => r.region_cd && need.every((w) => squash(r.locatadd_nm).includes(w)));
-  const list = ok.length ? ok : rows.filter((r) => r.region_cd && squash(r.locatadd_nm).includes(squash(pick)));
+  // 사용자가 쓴 말(광주) 또는 정식 이름(광주광역시) 중 하나라도 들어 있으면 맞는 것으로 본다 — 행정구역 개편으로 이름이 바뀌어도 찾도록
+  const hit = (r, t) => squash(r.locatadd_nm).includes(squash(t)) || (SIDO[t] && squash(r.locatadd_nm).includes(squash(SIDO[t])));
+  const ok = rows.filter((r) => r.region_cd && raw.every((t) => hit(r, t)));
+  let list = ok;
+  if (!list.length) {
+    list = rows.filter((r) => r.region_cd && squash(r.locatadd_nm).includes(squash(pick)));
+    const sgg = [...new Set(list.map((r) => String(r.region_cd).slice(0, 5)))];
+    if (sgg.length > 1) {
+      const names = [...new Set(list.filter((r) => String(r.region_cd).endsWith('00000')).map((r) => String(r.locatadd_nm).trim()))].slice(0, 8);
+      return { ambiguous: names.length ? names : [...new Set(list.map((r) => String(r.locatadd_nm).trim()))].slice(0, 8) };
+    }
+  }
   if (!list.length) return null;
   // 시군구 단위 행(뒤 5자리가 00000)을 먼저, 없으면 첫 행의 앞 5자리
   list.sort((a, b) => (String(a.region_cd).endsWith('00000') ? 0 : 1) - (String(b.region_cd).endsWith('00000') ? 0 : 1));
@@ -111,6 +121,7 @@ export async function onRequestGet(ctx) {
 
   try {
     const found = await findLawd(region, env, ctx, u.origin);
+    if (found && found.ambiguous) return json({ error: 'ambiguous', message: `'${region}'에 해당하는 곳이 여러 군데예요. 시도까지 넣어 주세요: ${found.ambiguous.join(', ')}` }, 404);
     if (!found) return json({ error: 'no_region', message: `'${region}' 지역을 찾지 못했어요. 시군구 이름(예: 강북구, 수원시 영통구)으로 다시 넣어 주세요.` }, 404);
 
     const now = new Date(Date.now() + 9 * 3600 * 1000);   // 한국 시간

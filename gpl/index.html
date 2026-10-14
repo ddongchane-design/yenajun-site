@@ -87,7 +87,7 @@ details.opt-in[open] summary{margin-bottom:12px}
 .lk-out{font-size:14px;display:flex;flex-direction:column;gap:8px}
 .lk-out table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
 .lk-out th,.lk-out td{padding:6px 6px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
-.lk-out th:first-child,.lk-out td:first-child{text-align:left;white-space:normal}
+.lk-out th:first-child,.lk-out td:first-child{text-align:left}
 .lk-out .pick{font:inherit;font-size:13px;color:var(--navy);background:var(--navy-soft);border:0;border-radius:999px;padding:4px 10px;cursor:pointer}
 .links{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13px}
 .chipbtns{display:flex;flex-wrap:wrap;gap:6px}
@@ -224,7 +224,7 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
    },
    "image": "https://yenajun.com/assets/og/gpl.png",
    "datePublished": "2026-10-14T14:27:01+09:00",
-   "dateModified": "2026-10-14T14:27:01+09:00",
+   "dateModified": "2026-10-14T15:52:53+09:00",
    "author": {
     "@type": "Person",
     "name": "이동찬",
@@ -798,19 +798,33 @@ footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:va
         out.innerHTML = '<p class="hint"><b>' + j.region + '</b>에서 최근 ' + j.months + '개월 동안 맞는 거래를 찾지 못했어요.' + (j.names.length ? ' 비슷한 단지: ' + j.names.join(', ') + (area ? ' (면적을 비우고 다시 찾아보세요)' : '') : '') + (j.suggest && j.suggest.length ? ' 이 동네 단지: ' + j.suggest.join(', ') : '') + '</p>';
         return;
       }
-      var prices = j.trades.slice(0, 5).map(function(t){ return t.price; }).sort(function(a, b){ return a - b; });
-      var med = prices[Math.floor(prices.length / 2)];
-      out.innerHTML = '<p><b>' + j.region + '</b> · 최근 ' + j.months + '개월 <b>' + j.count + '건</b>. 최근 거래 ' + Math.min(5, j.trades.length) + '건의 가운데 값은 <b>' + man(med) + '</b>이에요. <button type="button" class="pick" data-price="' + med + '">시세·감정가에 넣기</button></p>' +
-        '<div class="tblwrap"><table><thead><tr><th>단지</th><th>계약일</th><th>전용</th><th>층</th><th>거래가</th></tr></thead><tbody>' +
-        j.trades.slice(0, 10).map(function(t){ return '<tr><td>' + t.apt + ' <small class="hint">' + t.umd + '</small></td><td>' + t.date.slice(2) + '</td><td>' + t.area.toFixed(1) + '㎡</td><td>' + t.floor + '</td><td>' + man(t.price) + ' <button type="button" class="pick" data-price="' + t.price + '">넣기</button></td></tr>'; }).join('') +
-        '</tbody></table></div><p class="hint">출처: 국토교통부 아파트 매매 실거래가(계약 해제 건 제외). 신고는 계약 후 30일 안에 해서 최근 한두 달은 덜 잡혀요.</p>';
+      LK = j; LK.sel = null;
+      // 거래가 가장 많은 단지를 먼저 고른다
+      var cnt = {}; j.trades.forEach(function(t){ var k = t.apt + '|' + t.umd; cnt[k] = (cnt[k] || 0) + 1; });
+      LK.groups = Object.keys(cnt).sort(function(a, b){ return cnt[b] - cnt[a]; });
+      LK.sel = LK.groups[0];
+      drawLookup();
     }).catch(function(){
       out.innerHTML = '<p class="hint">실거래가 서버에 연결하지 못했어요. 아래 링크에서 직접 확인하고 시세를 넣어 주세요.</p>';
     }).then(function(){ $('lkGo').disabled = false; });
   }
+  var LK = null;
+  function drawLookup(){
+    var j = LK, out = $('lkOut');
+    var list = j.trades.filter(function(t){ return t.apt + '|' + t.umd === LK.sel; });
+    var prices = list.slice(0, 5).map(function(t){ return t.price; }).sort(function(a, b){ return a - b; });
+    var med = prices[Math.floor(prices.length / 2)], nm = LK.sel.split('|');
+    var chips = LK.groups.length > 1 ? '<div class="chipbtns" role="group" aria-label="단지 고르기">' + LK.groups.map(function(g){ var p = g.split('|'); return '<button type="button" data-grp="' + g.replace(/"/g, '&quot;') + '" aria-pressed="' + (g === LK.sel) + '" style="' + (g === LK.sel ? 'background:var(--navy);color:var(--panel)' : '') + '">' + p[0] + ' · ' + p[1] + '</button>'; }).join('') + '</div>' : '';
+    out.innerHTML = '<p><b>' + j.region + '</b> · 최근 ' + j.months + '개월 거래 ' + j.count + '건' + (LK.groups.length > 1 ? ', 단지 ' + LK.groups.length + '곳. 단지를 골라 주세요.' : '.') + '</p>' + chips +
+      '<p><b>' + nm[0] + '</b> 최근 ' + prices.length + '건의 가운데 값은 <b>' + man(med) + '</b>이에요. <button type="button" class="pick" data-price="' + med + '">시세·감정가에 넣기</button></p>' +
+      '<div class="tblwrap"><table><thead><tr><th>계약일</th><th>전용</th><th>층</th><th>거래가</th></tr></thead><tbody>' +
+      list.slice(0, 10).map(function(t){ return '<tr><td>' + t.date.slice(2) + '</td><td>' + t.area.toFixed(1) + '㎡</td><td>' + t.floor + '</td><td>' + man(t.price) + ' <button type="button" class="pick" data-price="' + t.price + '">넣기</button></td></tr>'; }).join('') +
+      '</tbody></table></div><p class="hint">출처: 국토교통부 아파트 매매 실거래가(계약 해제 건 제외). 신고는 계약 후 30일 안에 해서 최근 한두 달은 덜 잡혀요. 전용면적을 넣으면 그 면적(±3㎡)만 보여 줘요.</p>';
+  }
   $('lkGo').addEventListener('click', lookup);
   ['lkRegion', 'lkApt', 'lkArea'].forEach(function(id){ $(id).addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); lookup(); } }); });
   $('lkOut').addEventListener('click', function(e){
+    var g = e.target.closest('[data-grp]'); if(g){ LK.sel = g.dataset.grp; drawLookup(); return; }
     var b = e.target.closest('[data-price]'); if(!b) return;
     var v = Number(b.dataset.price).toLocaleString('ko-KR'); $('price').value = v; $('appr').value = v; render();
     $('price').scrollIntoView({ behavior:'smooth', block:'center' });
