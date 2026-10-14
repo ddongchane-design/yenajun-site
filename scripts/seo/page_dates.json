@@ -64,9 +64,19 @@
   "modified": "2026-10-11T16:02:18+09:00",
   "published": "2026-10-05T19:45:19+09:00"
  },
+ "gpl/guide/index.html": {
+  "hash": "5e8eaaaef5d53e93",
+  "modified": "2026-10-14T14:27:01+09:00",
+  "published": "2026-10-14T14:27:01+09:00"
+ },
+ "gpl/index.html": {
+  "hash": "aba0044c68b6c3da",
+  "modified": "2026-10-14T14:27:01+09:00",
+  "published": "2026-10-14T14:27:01+09:00"
+ },
  "index.html": {
-  "hash": "dbee4e2c559da413",
-  "modified": "2026-10-13T15:00:59+09:00",
+  "hash": "9de57d4d91032795",
+  "modified": "2026-10-14T14:27:01+09:00",
   "published": "2026-09-25T15:44:20+09:00"
  },
  "jeonse-wolse/guide/index.html": {

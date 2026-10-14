@@ -42,6 +42,7 @@ TOOLS = {
     'nub-angle':      ('각도법 판독 도우미', '육아', 'LifestyleApplication', 'icon-calc.png'),
     'lump-sum':       ('고금리 투자 비교 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
     'yen-sp500':      ('엔화 투자 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
+    'gpl':            ('GPL 투자 수익 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
     'robotaxi':       ('로보택시 회수 기간 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
     'jeonse-wolse':   ('전세 반전세 월세 비교 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
     'room-deduction': ('방공제 한도 계산기', '집과 돈', 'FinanceApplication', 'icon-calc.png'),
