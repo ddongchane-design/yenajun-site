@@ -1,6 +1,6 @@
 // 아파트 실거래가 조회 — GPL 계산기(/gpl/)가 부른다.
 //   GET /api/apt-price?region=서울 강북구 미아동&apt=래미안&area=84
-// 공공데이터포털 인증키는 Cloudflare Pages 환경변수 MOLIT_KEY 에 넣는다(Decoding 키).
+// 공공데이터포털 인증키는 Cloudflare Workers 환경변수(Settings → Variables and Secrets) MOLIT_KEY 에 넣는다(Decoding 키).
 // 같은 키로 두 API를 활용신청해야 한다: 국토교통부_아파트 매매 실거래가 자료, 행정안전부_법정동코드.
 // 1) 법정동코드 API로 지역 이름 → 시군구 5자리 코드  2) 실거래가 API를 최근 6개월치 불러 단지 이름으로 거른다.
 

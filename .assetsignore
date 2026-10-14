@@ -1,0 +1,10 @@
+# 사이트에 공개하지 않을 파일 (Workers 정적 파일 업로드에서 제외)
+.git
+.github
+.wrangler
+node_modules
+scripts
+worker
+wrangler.jsonc
+.assetsignore
+README.md
