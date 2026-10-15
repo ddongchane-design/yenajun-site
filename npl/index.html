@@ -645,7 +645,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
     if(!I.prin || !I.appr){ $('verdict').textContent = '감정가와 대출 원금을 입력해 주세요.'; return; }
 
     var r = calc(I, I.bid, I.buyPct);
-    $('verdict').innerHTML = '원금 ' + man(I.prin) + ' 채권을 <em>' + man(r.P) + '</em>(원금의 ' + pct(I.buyPct * 100, 0) + ')에 사서 ' + I.holdTxt + ' 뒤 배당받으면 <em class="' + (r.profit < 0 ? 'dn' : '') + '">' + sman(r.profit) + '</em>, <em>연 ' + pct(metric(r)) + '</em>예요.';
+    $('verdict').innerHTML = '원금 ' + man(I.prin) + ' 채권을 <em>' + man(r.P) + '</em>(원금의 ' + pct(I.buyPct * 100, S.buyMode === 'amt' ? 1 : 0) + ')에 사서 ' + I.holdTxt + ' 뒤 배당받으면 <em class="' + (r.profit < 0 ? 'dn' : '') + '">' + sman(r.profit) + '</em>, <em>' + (S.lev ? '내 돈 기준 연 ' : '연 ') + pct(metric(r)) + '</em>예요.';
     $('verdictSub').innerHTML = '배당으로 <b>' + man(r.myGet) + '</b>을 받아요(받을 돈 ' + man(r.claim) + (r.capped ? ', 채권최고액에서 멈춤' : '') + '). 비용 <b>' + man(r.cost + r.qInt) + '</b>을 빼고 세금은 떼기 전이에요.' + (r.profit > 0 ? ' 법인이라면 법인세 약 ' + man(corpTax(r.profit)) + '을 따로 내요.' : '');
     var kp = [['세전 수익', sman(r.profit), I.holdTxt + ' 뒤 한 번에'], ['기간 수익률', pct(r.ret), '수익 ÷ (매입가 + 비용)'], ['연 수익률', pct(r.ann), '기간 수익률을 1년으로 환산(단리)'],
       ['ROE (내 돈 기준 연)', pct(r.roe), S.lev ? '자기자본 ' + man(r.equity) + ' · 질권대출 ' + man(r.Q) : '질권대출을 쓰면 달라져요']];
