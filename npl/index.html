@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="부실채권(NPL)을 얼마에 사면 배당으로 얼마를 돌려받을까요? 원금·연체이자·채권최고액·선순위로 예상 배당액을 계산하고, 매입가와 낙찰가율 조합별 수익률 지도, 목표 수익률을 맞추는 최대 매입가까지 보여 드려요. 주소로 실거래가도 불러와요.">
+<link rel="canonical" href="https://yenajun.com/npl/">
+<link rel="icon" href="/favicon.png" type="image/png">
+<title>NPL 투자 수익 계산기 — 부실채권 매입가·배당 수익률 | 예나준</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{
+  --ground:#F7F7F4;--panel:#FFFFFF;--ink:#1F2A44;--ink-2:#5A6274;--rule:#DFE1E6;--field:#F1F2F5;
+  --navy:#2A4A7F;--navy-soft:#E2E9F5;--coral:#B8503C;--coral-soft:#F6E2DD;--sage:#3F7A55;--sage-soft:#E0EEE5;
+  --amber:#9A6A12;--amber-soft:#F4E9D2;
+  --w-sen:#8A93A6;--w-cost:#B8A07A;--w-me:#2A4A7F;--w-left:#3F7A55;--w-short:#B8503C;
+  --display:"Gowun Dodum","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#13161D;--panel:#1B2029;--ink:#E7EAF0;--ink-2:#A6ADBB;--rule:#2F3644;--field:#232A36;
+    --navy:#8FB0E8;--navy-soft:#1E2A40;--coral:#E48B78;--coral-soft:#3C2420;--sage:#8FC49C;--sage-soft:#1F3226;
+    --amber:#E1B65E;--amber-soft:#3A2F17;
+    --w-sen:#6E778A;--w-cost:#9C8762;--w-me:#8FB0E8;--w-left:#8FC49C;--w-short:#E48B78;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#13161D;--panel:#1B2029;--ink:#E7EAF0;--ink-2:#A6ADBB;--rule:#2F3644;--field:#232A36;
+  --navy:#8FB0E8;--navy-soft:#1E2A40;--coral:#E48B78;--coral-soft:#3C2420;--sage:#8FC49C;--sage-soft:#1F3226;
+  --amber:#E1B65E;--amber-soft:#3A2F17;
+  --w-sen:#6E778A;--w-cost:#9C8762;--w-me:#8FB0E8;--w-left:#8FC49C;--w-short:#E48B78;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;padding-inline:16px;padding-block:32px 64px;word-break:keep-all}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.3}
+h1{font-family:var(--display);font-size:clamp(26px,5vw,34px);font-weight:400;color:var(--navy)}
+h2{font-size:17px;font-weight:700}
+h3{font-size:15px;font-weight:700}
+p{margin:0}
+a{color:var(--navy)}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--ink-2)}
+header{display:flex;flex-direction:column;gap:12px}
+
+.guide-first{display:flex;align-items:center;gap:12px;background:var(--amber-soft);border:1px solid var(--amber);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--ink);transition:transform .15s}
+.guide-first:hover{transform:translateY(-1px)}
+.gf-ico{font-size:26px;flex:none}
+.gf-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.gf-txt small{font-size:12.5px;font-weight:700;color:var(--amber)}
+.gf-txt b{font-size:16px;line-height:1.4}
+.gf-txt span{font-size:13px;color:var(--ink-2);line-height:1.5}
+.gf-go{margin-left:auto;font-size:20px;color:var(--amber);flex:none}
+
+fieldset{border:1px solid var(--rule);background:var(--panel);border-radius:12px;padding:18px 16px;margin:0;display:flex;flex-direction:column;gap:16px;min-width:0}
+legend{font-weight:700;font-size:16px;padding:0 6px}
+.q{display:flex;flex-direction:column;gap:6px;min-width:0}
+.q > label,.q > .lab{font-weight:500;font-size:14.5px}
+.q > label small,.q > .lab small{font-weight:400;color:var(--ink-2);font-size:12.5px}
+.hint{font-size:13px;color:var(--ink-2);line-height:1.55}
+.box{position:relative;display:flex;align-items:center}
+input[type=text]{font:inherit;font-size:17px;font-weight:700;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:8px;padding:10px 52px 10px 12px;width:100%;font-variant-numeric:tabular-nums}
+input.plain{font-weight:500;font-size:15.5px;padding-right:12px}
+input:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.unit{position:absolute;right:12px;font-size:14px;color:var(--ink-2);pointer-events:none}
+.say{font-size:12.5px;color:var(--navy);font-weight:500;min-height:1em}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:14.5px;font-weight:500;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:999px;padding:7px 14px;cursor:pointer;touch-action:manipulation}
+.seg button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--panel);font-weight:700}
+.seg.small button{font-size:13.5px;padding:5px 12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){ .grid2{grid-template-columns:1fr} }
+details.opt-in{border-top:1px dashed var(--rule);padding-top:12px}
+details.opt-in summary{cursor:pointer;font-weight:700;font-size:15px;color:var(--navy)}
+details.opt-in[open] summary{margin-bottom:12px}
+.btn{font:inherit;font-size:15px;font-weight:700;color:var(--panel);background:var(--navy);border:0;border-radius:8px;padding:11px 16px;cursor:pointer;touch-action:manipulation}
+.btn:disabled{opacity:.6;cursor:wait}
+.lookup{background:var(--field);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.lookup .row3{display:grid;grid-template-columns:1.3fr 1.3fr .7fr;gap:8px}
+@media (max-width:560px){ .lookup .row3{grid-template-columns:1fr 1fr} .lookup .row3 .q:first-child{grid-column:span 2} }
+.lookup input[type=text]{background:var(--panel)}
+.lk-out{font-size:14px;display:flex;flex-direction:column;gap:8px}
+.lk-out table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+.lk-out th,.lk-out td{padding:6px 6px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+.lk-out th:first-child,.lk-out td:first-child{text-align:left}
+.lk-out .pick{font:inherit;font-size:13px;color:var(--navy);background:var(--navy-soft);border:0;border-radius:999px;padding:4px 10px;cursor:pointer}
+.links{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13px}
+.chipbtns{display:flex;flex-wrap:wrap;gap:6px}
+.chipbtns button{font:inherit;font-size:13px;color:var(--navy);background:var(--navy-soft);border:1px solid transparent;border-radius:999px;padding:4px 11px;cursor:pointer;touch-action:manipulation}
+.chipbtns button:hover{border-color:var(--navy)}
+.warn-box{background:var(--coral-soft);color:var(--ink);border-left:4px solid var(--coral);border-radius:0 8px 8px 0;padding:10px 12px;font-size:14px}
+.warn-box b{color:var(--coral)}
+
+/* 결과 */
+#result{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.card.main{border-color:var(--navy);border-width:2px}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;padding:2px 9px;border-radius:999px;align-self:flex-start;background:var(--navy-soft);color:var(--navy)}
+.tag.red{background:var(--coral-soft);color:var(--coral)}
+.verdict{font-family:var(--display);font-size:clamp(21px,4.2vw,27px);line-height:1.45}
+.verdict em{font-style:normal;color:var(--navy)}
+.verdict .dn{color:var(--coral)}
+.verdict-sub{font-size:15px;color:var(--ink-2)}
+.verdict-sub b{color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:560px){ .kpis{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.kpi{background:var(--field);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi span{font-size:12.5px;color:var(--ink-2)}
+.kpi b{font-size:18px;font-variant-numeric:tabular-nums}
+.kpi small{font-size:12px;color:var(--ink-2)}
+.up{color:var(--sage)} .dn{color:var(--coral)}
+
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);border-radius:10px}
+table.mx{border-collapse:collapse;width:100%;min-width:520px;font-size:14px;font-variant-numeric:tabular-nums}
+.mx th,.mx td{padding:9px 10px;border-bottom:1px solid var(--rule);text-align:right;white-space:nowrap}
+.mx th:first-child,.mx td:first-child{text-align:left;white-space:normal}
+.mx thead th{font-size:12.5px;color:var(--ink-2);font-weight:700;background:var(--field)}
+.mx tr.on td{background:var(--navy-soft);font-weight:700}
+.mx tr:last-child td{border-bottom:0}
+.mx td small{display:block;font-size:12px;color:var(--ink-2);font-weight:400;white-space:normal}
+
+/* 배당 순서 막대 */
+.wf{display:flex;flex-direction:column;gap:6px}
+.wf .stack{display:flex;height:30px;border-radius:8px;overflow:hidden;background:var(--field)}
+.wf .stack span{height:100%;transition:width .2s}
+.wf-leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink-2)}
+.wf-leg i{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:-1px}
+.ltvbar{position:relative;height:16px;background:var(--field);border-radius:99px;overflow:hidden}
+.ltvbar span{position:absolute;top:0;bottom:0;left:0}
+.ltvbar .mark{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+
+.sl{display:flex;flex-direction:column;gap:4px}
+.sl .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.sl .top label{font-weight:500;font-size:14.5px}
+.sl .top output{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sl .row{display:flex;align-items:center;gap:8px}
+.sl .row button{font:inherit;font-size:18px;line-height:1;width:36px;height:36px;border-radius:50%;border:1px solid var(--rule);background:var(--field);color:var(--ink);cursor:pointer;flex:none;touch-action:manipulation}
+input[type=range]{flex:1;min-width:0;height:36px;margin:0;accent-color:var(--navy);background:transparent;cursor:pointer}
+
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{font-family:var(--body);fill:var(--ink-2);font-size:12px}
+.chart .grid{stroke:var(--rule);stroke-width:1}
+.chart .zero{stroke:var(--ink-2);stroke-width:1.2;opacity:.7}
+.chart .now{stroke:var(--ink);stroke-width:1.2;stroke-dasharray:4 4;opacity:.6}
+.chart .be{stroke:var(--coral);stroke-width:1.2;stroke-dasharray:2 4}
+.chart .ln{fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.chart .lab{font-weight:700;font-size:12.5px}
+
+.howto{display:flex;flex-direction:column;gap:8px}
+.howto details{border:1px solid var(--rule);border-radius:10px;padding:10px 14px;background:var(--ground)}
+.howto summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;gap:10px}
+.howto summary::-webkit-details-marker{display:none}
+.howto summary::after{content:"펼치기 ▾";font-size:12.5px;font-weight:500;color:var(--navy);white-space:nowrap}
+.howto details[open] summary::after{content:"접기 ▴"}
+.howto .lines{display:flex;flex-direction:column;margin-top:8px}
+.howto .ln{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:7px 0;border-top:1px dashed var(--rule);font-size:14px}
+.howto .ln .k{color:var(--ink-2)}
+.howto .ln .k small{display:block;font-size:12.5px;opacity:.85}
+.howto .ln .v{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.howto .ln.total{border-top:2px solid var(--rule)}
+.howto .ln.total .k,.howto .ln.total .v{color:var(--ink);font-size:15px}
+.easy{background:var(--navy-soft);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.easy h3{color:var(--navy)}
+.easy li{font-size:14.5px;line-height:1.7}
+.easy ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.taxf{display:flex;flex-direction:column;gap:8px}
+.taxf .tx{border:1px solid var(--rule);border-radius:10px;padding:10px 14px;background:var(--ground)}
+.taxf .tx.on{border-color:var(--navy);background:var(--navy-soft)}
+.taxf .tx b.h{display:block;font-size:15px;margin-bottom:4px}
+.taxf .tx ol{margin:0;padding-left:18px;font-size:14px;line-height:1.75;font-variant-numeric:tabular-nums}
+.taxf .tx ol li b{white-space:nowrap}
+.taxf .tx p{font-size:13px;color:var(--ink-2);margin-top:4px}
+.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--ink-2)}
+.notes b{color:var(--ink)}
+.basis{font-size:12.5px;color:var(--ink-2);line-height:1.6}
+
+.guide{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:22px 18px;display:flex;flex-direction:column;gap:12px}
+.guide h2{font-family:var(--display);font-weight:400;font-size:clamp(21px,4vw,25px);color:var(--navy)}
+.guide h3{margin-top:14px}
+.guide p,.guide li{font-size:15px}
+.guide ol,.guide ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.guide details{border:1px solid var(--rule);border-radius:10px;padding:12px 14px}
+.guide details summary{cursor:pointer;font-weight:700;font-size:15px}
+.guide details p{margin-top:8px;font-size:14.5px}
+.guide-note{background:var(--amber-soft);border-left:4px solid var(--amber);padding:12px 14px;font-size:14px!important;border-radius:0 6px 6px 0}
+.guide-note b{color:var(--amber)}
+footer{border-top:1px solid var(--rule);padding-top:16px;font-size:12px;color:var(--ink-2)}
+</style>
+<style>
+table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;font-size:13.5px;font-variant-numeric:tabular-nums}
+.hm th,.hm td{padding:0;text-align:center;white-space:nowrap}
+.hm thead th{font-size:12px;color:var(--ink-2);font-weight:700;background:var(--field);padding:7px 4px;border-bottom:1px solid var(--rule)}
+.hm tbody th{font-size:12px;color:var(--ink-2);font-weight:700;background:var(--field);padding:0 8px;text-align:right;border-right:1px solid var(--rule)}
+.hm thead th.on,.hm tbody th.on{color:var(--navy);background:var(--navy-soft)}
+.hm td button{font:inherit;font-weight:500;width:100%;border:0;margin:0;padding:9px 2px;color:var(--ink);cursor:pointer;background:transparent;display:block;touch-action:manipulation}
+.hm td.on button{font-weight:700;box-shadow:inset 0 0 0 2px var(--ink)}
+.hm td button:hover{box-shadow:inset 0 0 0 1px var(--ink-2)}
+.hm .corner{font-size:11.5px;text-align:left;padding-left:8px;line-height:1.3}
+@media (max-width:480px){ table.hm{min-width:0;font-size:12px} .hm tbody th{padding:0 4px;font-size:11px} .hm thead th{font-size:11px;padding:7px 1px} .hm .corner{font-size:10px;padding-left:4px} .hm td button{padding:9px 0} }
+:root{--gain:63,122,85;--loss:184,80,60}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--gain:143,196,156;--loss:228,139,120} }
+:root[data-theme="dark"]{--gain:143,196,156;--loss:228,139,120}
+.split{display:flex;flex-direction:column;gap:6px}
+.split .row{display:flex;justify-content:space-between;gap:10px;font-size:14.5px;padding:6px 0;border-bottom:1px dashed var(--rule)}
+.split .row b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.split .row.total{border-bottom:0;border-top:2px solid var(--rule);font-weight:700}
+</style>
+<link rel="stylesheet" href="/assets/related.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8574768875205211"
+     crossorigin="anonymous"></script>
+<!-- yn-seo:start (scripts/seo/build_seo.py가 만듦 — 직접 고치지 말 것) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="예나준">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="NPL 투자 수익 계산기 — 매입가·낙찰가율별 배당 수익">
+<meta property="og:description" content="할인 매입 + 연체이자 배당. 매입가와 낙찰가율 조합별 수익률, 목표 수익률을 맞추는 최대 매입가를 계산해요.">
+<meta property="og:url" content="https://yenajun.com/npl/">
+<meta property="og:image" content="https://yenajun.com/assets/og/npl.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script defer src="/assets/ux.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7J20CMXV0R"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-7J20CMXV0R');</script>
+<script defer src="/assets/ga-events.js"></script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebApplication",
+   "name": "NPL 투자 수익 계산기",
+   "alternateName": "NPL 투자 수익 계산기 — 매입가·낙찰가율별 배당 수익",
+   "url": "https://yenajun.com/npl/",
+   "description": "부실채권(NPL)을 얼마에 사면 배당으로 얼마를 돌려받을까요? 원금·연체이자·채권최고액·선순위로 예상 배당액을 계산하고, 매입가와 낙찰가율 조합별 수익률 지도, 목표 수익률을 맞추는 최대 매입가까지 보여 드려요. 주소로 실거래가도 불러와요.",
+   "applicationCategory": "FinanceApplication",
+   "operatingSystem": "Any",
+   "browserRequirements": "JavaScript 필요",
+   "inLanguage": "ko-KR",
+   "isAccessibleForFree": true,
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "KRW"
+   },
+   "image": "https://yenajun.com/assets/og/npl.png",
+   "datePublished": "2026-10-15T10:40:08+09:00",
+   "dateModified": "2026-10-15T10:40:08+09:00",
+   "author": {
+    "@type": "Person",
+    "name": "이동찬",
+    "url": "https://yenajun.com/about"
+   },
+   "publisher": {
+    "@id": "https://yenajun.com/#org"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "예나준",
+     "item": "https://yenajun.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "NPL 투자 수익 계산기",
+     "item": "https://yenajun.com/npl/"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "연체이자는 끝없이 쌓이나요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "계약상으로는 쌓이지만, 경매 배당에서는 등기부의 채권최고액까지만 받아요. 원금 4억 원에 채권최고액이 4억 8,000만 원이면 원금과 연체이자를 합쳐 4억 8,000만 원이 상한이에요. 그 뒤로는 기다릴수록 연 수익률만 떨어져요."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "채무자가 경매 전에 갚으면 어떻게 돼요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "채무자가 빚을 다 갚으면 경매 없이 원금과 연체이자를 받고 끝나요. 보통 배당보다 빨리 회수하니 연 수익률은 더 높아져요. 계산기의 \"사서 배당받기까지\" 기간을 줄여 보면 효과를 볼 수 있어요."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "NPL 매입가는 보통 얼마인가요?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "담보와 선순위에 따라 크게 달라요. 회계법인 보고서에 따르면 2026년 2분기 NPL 전업사의 평균 매입률은 68.2%였지만, 이건 담보가 약한 채권까지 섞인 전체 평균이에요. 1순위 아파트 담보처럼 회수가 확실한 채권은 원금 근처에서 거래되는 경우가 많아요."
+     }
+    }
+   ]
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://yenajun.com/#org",
+   "name": "예나준",
+   "url": "https://yenajun.com/",
+   "logo": "https://yenajun.com/assets/logo-512.png",
+   "email": "ddongchane@gmail.com"
+  }
+ ]
+}
+</script>
+<!-- yn-seo:end -->
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">NPL 투자 수익 계산기 · 부실채권 매입과 경매 배당</div>
+  <h1>NPL, 얼마에 사면 얼마가 남을까?</h1>
+  <p>NPL은 연체된 담보대출 채권을 사서 <b>경매 배당으로 회수</b>하는 투자예요. 이자를 매달 받는 GPL과 달리, 수익은 배당받는 날 한 번에 실현돼요. 결국 <b>얼마나 할인해서 사느냐</b>와 <b>연체이자를 얼마나 배당받느냐</b>가 수익을 정해요. 매입가와 낙찰가율을 바꿔 가며 확인해 보세요.</p>
+  <a class="guide-first" href="/gpl/guide/#npl">
+    <span class="gf-ico" aria-hidden="true">📖</span>
+    <span class="gf-txt"><small>계산기 쓰기 전에 먼저 읽어 보세요 · 8분</small><b>NPL과 GPL, 뭐가 다르고 누가 얼마를 남길까? 가이드</b><span>NPL 수익 구조, 경매 배당 순서, 개인이 NPL에 들어가는 길과 규제</span></span>
+    <span class="gf-go" aria-hidden="true">→</span>
+  </a>
+</header>
+
+<form id="f" autocomplete="off" onsubmit="return false">
+  <fieldset>
+    <legend>① 담보 아파트</legend>
+    <div class="lookup" aria-labelledby="lk-title">
+      <span class="lab" id="lk-title" style="font-weight:700;font-size:14.5px">주소로 실거래가 불러오기</span>
+      <div class="row3">
+        <div class="q"><label for="lkRegion">지역 <small>(시군구 + 동)</small></label><input type="text" class="plain" id="lkRegion" placeholder="예: 서울 강북구 미아동"></div>
+        <div class="q"><label for="lkApt">아파트 이름</label><input type="text" class="plain" id="lkApt" placeholder="예: 래미안"></div>
+        <div class="q"><label for="lkArea">전용 ㎡</label><input type="text" class="plain" id="lkArea" inputmode="decimal" placeholder="84"><span class="say" id="say-area"></span></div>
+      </div>
+      <button type="button" class="btn" id="lkGo">최근 6개월 실거래가 불러오기</button>
+      <div class="lk-out" id="lkOut" aria-live="polite"></div>
+      <div class="links">
+        <span class="hint">직접 확인:</span>
+        <a href="https://rt.molit.go.kr/" target="_blank" rel="noopener">국토부 실거래가 공개시스템</a>
+        <a href="https://land.naver.com/" target="_blank" rel="noopener">네이버 부동산</a>
+        <a href="https://www.courtauction.go.kr/" target="_blank" rel="noopener">법원경매정보</a>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="q"><label for="price">시세 <small>(참고)</small></label><div class="box"><input type="text" id="price" class="money" inputmode="numeric" value="60,000"><span class="unit">만원</span></div><span class="say" id="say-price"></span></div>
+      <div class="q"><label for="appr">감정가 <small>(경매 감정평가액)</small></label><div class="box"><input type="text" id="appr" class="money" inputmode="numeric" value="60,000"><span class="unit">만원</span></div><span class="say" id="say-appr"></span></div>
+    </div>
+    <div class="q">
+      <label for="bid">예상 낙찰가율 <small>(감정가 대비)</small></label>
+      <div class="box"><input type="text" id="bid" inputmode="decimal" value="85.9"><span class="unit">%</span></div>
+      <div class="chipbtns" id="bidPresets" aria-label="지역별 아파트 낙찰가율 (2026년 9월)">
+        <button type="button" data-v="94.7">서울 94.7%</button>
+        <button type="button" data-v="88.8">경기 88.8%</button>
+        <button type="button" data-v="85.9">전국 85.9%</button>
+        <button type="button" data-v="74.2">전북 74.2%</button>
+        <button type="button" data-v="72.9">전남광주 72.9%</button>
+      </div>
+      <span class="hint">2026년 9월 아파트 평균 낙찰가율(지지옥션 경매동향). 같은 단지의 최근 낙찰 사례가 더 정확해요.</span>
+    </div>
+  </fieldset>
+
+  <fieldset style="margin-top:14px">
+    <legend>② 사려는 채권</legend>
+    <div class="grid2">
+      <div class="q"><label for="prin">대출 원금 <small>(채권 잔액)</small></label><div class="box"><input type="text" id="prin" class="money" inputmode="numeric" value="40,000"><span class="unit">만원</span></div><span class="say" id="say-prin"></span></div>
+      <div class="q"><label for="maxPct">채권최고액 <small>(원금의 %)</small></label><div class="box"><input type="text" id="maxPct" inputmode="decimal" value="120"><span class="unit">%</span></div><span class="say" id="say-max"></span></div>
+      <div class="q"><label for="od">연체이자율 <small>(연, 약정 연체금리)</small></label><div class="box"><input type="text" id="od" inputmode="decimal" value="9"><span class="unit">%</span></div><span class="hint">은행 대출은 보통 약정 금리에 3%포인트를 더해요.</span></div>
+      <div class="q"><label for="pastMo">살 때까지 연체된 기간</label><div class="box"><input type="text" id="pastMo" inputmode="numeric" value="6"><span class="unit">개월</span></div><span class="hint">연체이자는 연체가 시작된 날부터 쌓여요.</span></div>
+    </div>
+    <div class="grid2">
+      <div class="q"><label for="sen">나보다 앞선 근저당 <small>(내가 1순위면 0)</small></label><div class="box"><input type="text" id="sen" class="money" inputmode="numeric" value="0"><span class="unit">만원</span></div></div>
+      <div class="q"><label for="pre">세금·임차보증금 중 먼저 받는 돈 <small>(당해세·최우선변제)</small></label><div class="box"><input type="text" id="pre" class="money" inputmode="numeric" value="0"><span class="unit">만원</span></div></div>
+    </div>
+  </fieldset>
+
+  <fieldset style="margin-top:14px">
+    <legend>③ 매입 조건</legend>
+    <div class="grid2">
+      <div class="q"><label for="buyPct">매입가 <small>(원금 대비 %)</small></label><div class="box"><input type="text" id="buyPct" inputmode="decimal" value="100"><span class="unit">%</span></div><span class="say" id="say-buy"></span></div>
+      <div class="q"><label for="holdMo">사서 배당받기까지</label><div class="box"><input type="text" id="holdMo" inputmode="numeric" value="10"><span class="unit">개월</span></div><span class="hint">경매 진행 중인 채권이면 짧고, 경매 전이면 1년 넘게 걸리기도 해요.</span></div>
+    </div>
+    <details class="opt-in" id="costBox">
+      <summary>＋ 매입 비용·질권대출·경매 비용 가정 바꾸기</summary>
+      <p><span class="hint">근저당권 이전에는 등록면허세 0.2%와 지방교육세(등록면허세의 20%)가 채권최고액에 붙어 자동으로 더해요.</span></p>
+      <div class="grid2" style="margin-top:10px">
+        <div class="q"><label for="lawyer">법무사 보수 <small>(근저당 이전)</small></label><div class="box"><input type="text" id="lawyer" class="money" inputmode="numeric" value="5"><span class="unit">만원</span></div></div>
+        <div class="q"><label for="buyFee">매입 수수료 <small>(매입가의 %, 중개·자문)</small></label><div class="box"><input type="text" id="buyFee" inputmode="decimal" value="0.5"><span class="unit">%</span></div></div>
+        <div class="q"><label for="aucCost">경매 비용</label><div class="box"><input type="text" id="aucCost" class="money" inputmode="numeric" value="300"><span class="unit">만원</span></div><span class="hint" id="aucHint"></span></div>
+      </div>
+      <div class="q" style="margin-top:12px">
+        <span class="lab" id="lab-lev">질권대출</span>
+        <div class="seg small" role="group" aria-labelledby="lab-lev" data-key="lev">
+          <button type="button" data-v="0" aria-pressed="true">쓰지 않음</button>
+          <button type="button" data-v="1">씀</button>
+        </div>
+        <span class="hint">산 채권(근저당권)에 질권을 잡고 매입 자금 일부를 빌리는 방식이에요. 한도와 금리는 금융회사·조건마다 달라 가정으로 넣어요.</span>
+      </div>
+      <div class="grid2" style="margin-top:10px">
+        <div class="q"><label for="qRatio">질권대출 한도 <small>(매입가의 %)</small></label><div class="box"><input type="text" id="qRatio" inputmode="decimal" value="80"><span class="unit">%</span></div></div>
+        <div class="q"><label for="qRate">질권대출 금리 <small>(연)</small></label><div class="box"><input type="text" id="qRate" inputmode="decimal" value="7"><span class="unit">%</span></div></div>
+      </div>
+    </details>
+  </fieldset>
+</form>
+
+<section id="result" aria-live="polite">
+  <div class="card main">
+    <span class="tag">배당받는 날 · 비용 빼고 (세전)</span>
+    <p class="verdict" id="verdict">–</p>
+    <p class="verdict-sub" id="verdictSub"></p>
+    <div class="kpis" id="kpis"></div>
+    <div id="warns"></div>
+  </div>
+
+  <div class="card">
+    <h2>수익은 어디서 나왔을까</h2>
+    <p class="hint">NPL 수익은 <b>원금보다 싸게 산 만큼(할인)</b>과 <b>원금 위로 배당받은 연체이자</b>에서 나와요. 원금보다 비싸게 샀다면 할인 칸이 마이너스예요.</p>
+    <div class="split" id="split"></div>
+  </div>
+
+  <div class="card">
+    <h2>배당은 이렇게 나눠요</h2>
+    <div class="wf" id="wf"></div>
+  </div>
+
+  <div class="card">
+    <h2>얼마까지 사도 될까</h2>
+    <div class="q">
+      <label for="target">목표 연 수익률 <small>(세전, 비용 포함)</small></label>
+      <div class="box" style="max-width:220px"><input type="text" id="target" inputmode="decimal" value="15"><span class="unit">%</span></div>
+    </div>
+    <p class="verdict" id="maxBuy" style="font-size:clamp(19px,3.8vw,23px)">–</p>
+    <p class="hint">지금 넣은 낙찰가율·기간·비용으로, 목표 수익률을 맞추는 가장 비싼 매입가예요. 입찰가를 정할 때 이 선을 넘지 않는지 보세요.</p>
+  </div>
+
+  <div class="card">
+    <h2>매입가 × 낙찰가율, 수익률 지도</h2>
+    <p class="hint" id="hmHint">세로는 매입가(원금 대비), 가로는 낙찰가율이에요. 칸 안 숫자는 <b>연 수익률(세전)</b>이고, 누르면 위 가정이 그 조합으로 바뀌어요.</p>
+    <div class="tblwrap"><table class="hm" id="hm"></table></div>
+  </div>
+
+  <div class="card">
+    <h2>낙찰가율이 바뀌면 수익은</h2>
+    <div class="sl">
+      <div class="top"><label for="bidS">낙찰가율</label><output id="o-bid" for="bidS">85.9%</output></div>
+      <div class="row"><button type="button" data-step="-1" aria-label="낙찰가율 1%p 내리기">−</button><input type="range" id="bidS" min="50" max="110" step="0.1" value="85.9"><button type="button" data-step="1" aria-label="낙찰가율 1%p 올리기">+</button></div>
+    </div>
+    <svg class="chart" id="chart" viewBox="0 0 640 300" role="img" aria-labelledby="chartDesc"></svg>
+    <p class="hint" id="chartDesc"></p>
+    <div class="easy" id="easy"></div>
+  </div>
+
+  <div class="card">
+    <h2>이렇게 계산했어요</h2>
+    <div class="howto" id="howto"></div>
+  </div>
+
+  <ul class="notes" id="notes"></ul>
+  <p class="basis">기준: 배당 순서는 경매 비용 → 당해세·최우선변제 → 선순위 근저당 → 내 근저당이고, 내 몫은 원금과 연체이자를 합쳐 <b>채권최고액까지</b>예요. 연체이자는 단리로 쌓인다고 봤어요. 근저당권 이전 등록면허세 0.2%·지방교육세(그 20%)는 채권최고액 기준이에요. 수익은 <b>세금을 떼기 전</b> 금액이에요. 법인이라면 이익에 법인세(2억 원 이하 10%, 지방소득세 포함 11%, 2026년 이후 사업연도)를 따로 내요. 낙찰가율은 지지옥션 2026년 9월 경매동향. 입력한 내용은 저장하지 않아요. 실거래가 조회는 국토교통부 공공데이터를 씁니다.</p>
+</section>
+
+<section class="guide" aria-labelledby="g-title">
+  <h2 id="g-title">이 계산기, 이렇게 보세요</h2>
+  <p>NPL 수익은 <b>배당액 − 매입가 − 비용</b>이에요. 배당액은 경매가 정하고, 매입가는 내가 정해요. 그래서 NPL 투자는 사실상 <b>"얼마에 살까"를 정하는 게임</b>이에요.</p>
+  <ol>
+    <li><b>담보가 충분하면 할인이 작아요</b> — 낙찰가로 원금과 연체이자를 다 받을 수 있는 채권은 파는 쪽도 그걸 알아서 원금 가까이, 때로는 원금보다 비싸게 팔아요. 이때 수익은 주로 <b>연체이자</b>에서 나와요.</li>
+    <li><b>담보가 빠듯하면 할인이 커요</b> — 배당으로 원금을 다 못 받을 수 있는 채권은 싸게 나와요. 대신 낙찰가율이 조금만 빗나가도 손실이에요. 수익률 지도의 아래쪽 붉은 칸이 이 위험이에요.</li>
+    <li><b>시간이 수익률을 깎아요</b> — 같은 수익이라도 배당이 늦어지면 연 수익률이 떨어져요. 연체이자가 쌓여 배당액은 늘지만, 채권최고액에 닿으면 더 늘지 않아요.</li>
+  </ol>
+  <p class="guide-note"><b>꼭 기억할 것</b> — 금융기관의 NPL을 직접 사는 일은 금융위원회에 등록한 대부채권 매입추심업자 몫이고, 개인은 보통 법인·펀드·질권 투자를 거쳐요. "확정 수익", "원금 보장"을 내세우는 NPL 상품은 그 약속을 하는 회사의 신용부터 보세요. 계산기는 참고용이고 투자 판단과 결과의 책임은 본인에게 있어요.</p>
+  <h3>자주 묻는 질문</h3>
+  <details><summary>연체이자는 끝없이 쌓이나요?</summary>
+    <p>계약상으로는 쌓이지만, 경매 배당에서는 등기부의 채권최고액까지만 받아요. 원금 4억 원에 채권최고액이 4억 8,000만 원이면 원금과 연체이자를 합쳐 4억 8,000만 원이 상한이에요. 그 뒤로는 기다릴수록 연 수익률만 떨어져요.</p></details>
+  <details><summary>채무자가 경매 전에 갚으면 어떻게 돼요?</summary>
+    <p>채무자가 빚을 다 갚으면 경매 없이 원금과 연체이자를 받고 끝나요. 보통 배당보다 빨리 회수하니 연 수익률은 더 높아져요. 계산기의 "사서 배당받기까지" 기간을 줄여 보면 효과를 볼 수 있어요.</p></details>
+  <details><summary>NPL 매입가는 보통 얼마인가요?</summary>
+    <p>담보와 선순위에 따라 크게 달라요. 회계법인 보고서에 따르면 2026년 2분기 NPL 전업사의 평균 매입률은 68.2%였지만, 이건 담보가 약한 채권까지 섞인 전체 평균이에요. 1순위 아파트 담보처럼 회수가 확실한 채권은 원금 근처에서 거래되는 경우가 많아요.</p></details>
+  <p><a href="/gpl/guide/#npl">NPL과 GPL 가이드에서 수익 구조 자세히 읽기 →</a></p>
+</section>
+
+<!-- yn-related:start (공통 블록 — 스크립트로 넣음) -->
+<section class="yn-rel yn-dark" aria-label="예나준의 다른 도구">
+  <a class="yn-guide" href="/gpl/guide/"><span class="e">📖</span><span><b>NPL·GPL 가이드 읽기</b><small>NPL 수익 구조, 경매 배당 순서, 개인이 들어가는 길과 규제</small></span><span class="go">→</span></a>
+  <a class="yn-coffee" href="https://buymeacoffee.com/yenajun" target="_blank" rel="noopener"><span class="e" aria-hidden="true">☕</span><span class="t"><b>도움이 됐다면 커피 한 잔 사 주세요</b><small>예나준은 퇴근 후 밤에 만드는 무료 도구예요. 응원해 주시면 더 좋은 도구로 보답할게요.</small></span><span class="go">후원하기 →</span></a>
+  <h2>이런 도구도 있어요</h2>
+  <div class="yn-grid">
+    <a class="yn-card" href="/gpl/"><span class="e">🏦</span><b>GPL 투자 수익 계산기</b><span>후순위 담보대출, 투자자 유형별로 손에 들어오는 돈을 계산해요.</span></a>
+    <a class="yn-card" href="/p2p-invest/"><span class="e">🏢</span><b>P2P 상품 고르기 계산기</b><span>아파트담보 P2P 상품을 안전 등급과 세후 수익률로 골라요.</span></a>
+    <a class="yn-card" href="/rates/"><span class="e">📈</span><b>주간 금리 동향</b><span>이번 주 금리가 왜 움직였는지 정리해요.</span></a>
+  </div>
+  <a class="yn-home" href="/">← 예나준의 모든 도구 보기</a>
+</section>
+<!-- yn-related:end -->
+
+<footer>예나준 · NPL 투자 수익 계산기 · 참고용 계산이며 투자 권유나 금융·세무·법률 자문이 아니에요.</footer>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var S = { lev:0 };
+  function num(v){ var n = parseFloat(String(v).replace(/,/g, '')); return isFinite(n) ? n : 0; }
+  function man(v){
+    var neg = v < 0; v = Math.abs(v);
+    var won = Math.round(v * 1e4), eok = Math.floor(won / 1e8), m = Math.round((won % 1e8) / 1e4);
+    var out = []; if(eok) out.push(eok + '억'); if(m) out.push(m.toLocaleString('ko-KR') + '만');
+    return (neg ? '−' : '') + (out.length ? out.join(' ') + ' 원' : '0원');
+  }
+  function sman(v){ return (v >= 0 ? '+' : '') + man(v); }
+  function pct(r, d){ return (r < 0 ? '−' : '') + Math.abs(r).toFixed(d == null ? 1 : d) + '%'; }
+  function spct(r, d){ return (r >= 0 ? '+' : '−') + Math.abs(r).toFixed(d == null ? 1 : d) + '%'; }
+  function corpTax(p){ if(p <= 0) return 0; var t = p <= 20000 ? p * .10 : 2000 + (p - 20000) * .20; return t * 1.1; }
+
+  function read(){
+    return {
+      price:num($('price').value), appr:num($('appr').value), bid:num($('bid').value) / 100,
+      prin:num($('prin').value), maxPct:num($('maxPct').value) / 100, od:num($('od').value) / 100,
+      pastMo:Math.max(0, num($('pastMo').value)), holdMo:Math.max(1, num($('holdMo').value)),
+      sen:num($('sen').value), pre:num($('pre').value), buyPct:num($('buyPct').value) / 100,
+      lawyer:num($('lawyer').value), buyFee:num($('buyFee').value) / 100, aucCost:num($('aucCost').value),
+      lev:S.lev, qRatio:num($('qRatio').value) / 100, qRate:num($('qRate').value) / 100, target:num($('target').value) / 100
+    };
+  }
+
+  // 한 조합의 결과 (금액은 만원)
+  function calc(I, bid, buyPct){
+    var maxAmt = I.prin * I.maxPct;
+    var months = I.pastMo + I.holdMo;
+    var owed = I.prin * (1 + I.od * months / 12);
+    var claim = Math.min(owed, maxAmt);
+    var sale = I.appr * bid;
+    var a1 = Math.max(0, sale - I.aucCost), a2 = Math.max(0, a1 - I.pre);
+    var senGet = Math.min(a2, I.sen), rest = a2 - senGet;
+    var myGet = Math.min(rest, claim), left = rest - myGet;
+    var P = I.prin * buyPct;
+    var transferTax = maxAmt * 0.002 * 1.2, fee = P * I.buyFee, cost = transferTax + I.lawyer + fee;
+    var Q = I.lev ? P * I.qRatio : 0, qInt = Q * I.qRate * I.holdMo / 12;
+    var profit = myGet - P - cost - qInt;
+    var outlay = P + cost, equity = outlay - Q;
+    return { maxAmt:maxAmt, owed:owed, claim:claim, sale:sale, aucCost:Math.min(sale, I.aucCost), pre:Math.min(a1, I.pre), senGet:senGet,
+      myGet:myGet, left:left, P:P, transferTax:transferTax, fee:fee, cost:cost, Q:Q, qInt:qInt, profit:profit, outlay:outlay, equity:equity,
+      ret:profit / outlay * 100, ann:profit / outlay * 12 / I.holdMo * 100, roe:equity > 0 ? profit / equity * 12 / I.holdMo * 100 : 0,
+      discount:I.prin - P, interestPart:myGet - I.prin, capped:owed > maxAmt + 1e-6, short:Math.max(0, claim - myGet) };
+  }
+  function metric(r){ return S.lev ? r.roe : r.ann; }
+  function solve(lo, hi, f){   // f가 참인 가장 큰 값
+    if(!f(lo)) return null; if(f(hi)) return hi;
+    for(var i = 0; i < 50; i++){ var m = (lo + hi) / 2; if(f(m)) lo = m; else hi = m; }
+    return lo;
+  }
+
+  // 경매 비용: 직접 고치기 전까지는 감정가의 0.5%
+  var aucAuto = true;
+  function syncAucCost(){ if(!aucAuto) return; var v = Math.round(num($('appr').value) * 0.005); $('aucCost').value = v ? v.toLocaleString('ko-KR') : '0'; }
+
+  function drawChart(I){
+    var svg = $('chart'), W = Math.max(300, Math.round(svg.getBoundingClientRect().width) || 640), H = W < 480 ? 280 : 300;
+    var L = 64, R = 16, T = 14, B = 40; svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var xs = []; for(var x = 50; x <= 110.001; x += 1) xs.push(x);
+    var ys = xs.map(function(x){ return calc(I, x / 100, I.buyPct).profit; });
+    var lo = Math.min(0, Math.min.apply(null, ys)), hi = Math.max(0, Math.max.apply(null, ys));
+    var span = hi - lo || 1, raw = span / 5, mag = Math.pow(10, Math.floor(Math.log10(raw))), step = [1, 2, 2.5, 5, 10].map(function(k){ return k * mag; }).filter(function(s){ return s >= raw; })[0];
+    lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step; if(hi === lo) hi = lo + step;
+    var X = function(v){ return L + (v - 50) / 60 * (W - L - R); }, Y = function(v){ return T + (hi - v) / (hi - lo) * (H - T - B); };
+    var lab = function(y){ return y === 0 ? '0' : (y > 0 ? '+' : '−') + (Math.abs(y) >= 10000 ? (Math.abs(y) / 10000).toFixed(Math.abs(y) % 10000 ? 1 : 0) + '억' : Math.round(Math.abs(y)).toLocaleString('ko-KR') + '만'); };
+    var out = '';
+    for(var y = lo; y <= hi + 1e-9; y += step){
+      out += '<line class="' + (Math.abs(y) < 1e-9 ? 'zero' : 'grid') + '" x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(y) + '" y2="' + Y(y) + '"/><text x="' + (L - 8) + '" y="' + (Y(y) + 4) + '" text-anchor="end">' + lab(y) + '</text>';
+    }
+    for(var t = 50; t <= 110; t += (W < 480 ? 20 : 10)) out += '<text x="' + X(t) + '" y="' + (H - B + 18) + '" text-anchor="middle">' + t + '%</text>';
+    out += '<text x="' + (L + (W - L - R) / 2) + '" y="' + (H - 4) + '" text-anchor="middle">낙찰가율 (감정가 대비)</text>';
+    var beX = solve(0.2, 1.6, function(b){ return calc(I, b, I.buyPct).profit < 0; });
+    var beVal = beX != null && beX < 1.6 ? beX * 100 : null;
+    if(beVal != null && beVal >= 50 && beVal <= 110) out += '<line class="be" x1="' + X(beVal) + '" x2="' + X(beVal) + '" y1="' + T + '" y2="' + (H - B) + '"/><text class="lab" x="' + (X(beVal) + 4) + '" y="' + (T + 12) + '" style="fill:var(--coral)">손익 0 · ' + beVal.toFixed(1) + '%</text>';
+    var cx = X(Math.min(110, Math.max(50, I.bid * 100)));
+    out += '<line class="now" x1="' + cx + '" x2="' + cx + '" y1="' + T + '" y2="' + (H - B) + '"/>';
+    out += '<path class="ln" d="' + ys.map(function(v, k2){ return (k2 ? 'L' : 'M') + X(xs[k2]).toFixed(1) + ' ' + Y(v).toFixed(1); }).join(' ') + '" style="stroke:var(--navy)"/>';
+    out += '<circle cx="' + cx + '" cy="' + Y(calc(I, I.bid, I.buyPct).profit) + '" r="5" style="fill:var(--navy);stroke:var(--panel);stroke-width:1.5"/>';
+    svg.innerHTML = out;
+    $('chartDesc').innerHTML = '매입가 ' + man(I.prin * I.buyPct) + '(원금의 ' + pct(I.buyPct * 100, 0) + ')로 샀을 때 낙찰가율에 따른 <b>세전 손익</b>이에요. 점선은 지금 넣은 낙찰가율이에요.' +
+      (beVal != null ? ' 낙찰가율이 <b>' + beVal.toFixed(1) + '%</b> 아래로 내려가면 손실이에요.' : ' 이 범위에서는 낙찰가율과 상관없이 이익이에요.') +
+      ' 오른쪽이 평평해지는 건 원금과 연체이자를 채권최고액까지 다 받아서 더 늘지 않기 때문이에요.';
+    return beVal;
+  }
+
+  var ROWS = [70, 75, 80, 85, 90, 95, 100, 105], COLS = [65, 70, 75, 80, 85, 90, 95];
+  function nearest(arr, x){ return arr.reduce(function(a, b){ return Math.abs(b - x) < Math.abs(a - x) ? b : a; }); }
+  function drawMap(I){
+    var rn = nearest(ROWS, I.buyPct * 100), cn = nearest(COLS, I.bid * 100);
+    var head = '<thead><tr><th class="corner">매입가 ↓<br>낙찰가율 →</th>' + COLS.map(function(c){ return '<th class="' + (c === cn ? 'on' : '') + '">' + c + '%</th>'; }).join('') + '</tr></thead>';
+    var body = '<tbody>' + ROWS.map(function(r){
+      return '<tr><th class="' + (r === rn ? 'on' : '') + '">' + r + '%</th>' + COLS.map(function(c){
+        var v = metric(calc(I, c / 100, r / 100)), a = Math.min(.85, Math.abs(v) / 60 + .06);
+        return '<td class="' + (r === rn && c === cn ? 'on' : '') + '"><button type="button" data-cell="' + r + ',' + c + '" style="background:rgba(' + (v >= 0 ? 'var(--gain)' : 'var(--loss)') + ',' + a.toFixed(2) + ')" aria-label="매입가 원금의 ' + r + '%, 낙찰가율 ' + c + '%일 때 연 수익률 ' + pct(v) + '">' + (Math.abs(v) >= 100 ? (v > 0 ? '+' : '−') + '99%↑' : spct(v, 0)) + '</button></td>';
+      }).join('') + '</tr>';
+    }).join('') + '</tbody>';
+    $('hm').innerHTML = head + body;
+    $('hmHint').innerHTML = '세로는 매입가(원금 대비), 가로는 낙찰가율이에요. 칸 안 숫자는 <b>' + (S.lev ? '내 돈 기준 연 수익률' : '연 수익률') + '(세전)</b>이고, 누르면 위 가정이 그 조합으로 바뀌어요.';
+  }
+
+  function render(){
+    syncAucCost();
+    $('aucHint').innerHTML = aucAuto ? '감정료·매각수수료·송달료·공고료 등. <b>감정가의 0.5%</b>로 자동 계산해요. 경매를 신청한 채권자가 먼저 내고 배당에서 가장 먼저 돌려받아요.'
+      : '직접 넣은 값이에요. <button type="button" class="pick" id="aucReset">감정가의 0.5%로 되돌리기</button>';
+    var I = read();
+    ['price', 'appr', 'prin'].forEach(function(k){ $('say-' + k).textContent = num($(k).value) ? man(num($(k).value)) : ''; });
+    $('say-max').textContent = I.prin ? man(I.prin * I.maxPct) : '';
+    $('say-buy').textContent = I.prin ? '매입가 ' + man(I.prin * I.buyPct) : '';
+    if(!I.prin || !I.appr){ $('verdict').textContent = '감정가와 대출 원금을 입력해 주세요.'; return; }
+
+    var r = calc(I, I.bid, I.buyPct);
+    $('verdict').innerHTML = '원금 ' + man(I.prin) + ' 채권을 <em>' + man(r.P) + '</em>(원금의 ' + pct(I.buyPct * 100, 0) + ')에 사서 ' + I.holdMo + '개월 뒤 배당받으면 <em class="' + (r.profit < 0 ? 'dn' : '') + '">' + sman(r.profit) + '</em>, <em>연 ' + pct(metric(r)) + '</em>예요.';
+    $('verdictSub').innerHTML = '배당으로 <b>' + man(r.myGet) + '</b>을 받아요(받을 돈 ' + man(r.claim) + (r.capped ? ', 채권최고액에서 멈춤' : '') + '). 비용 <b>' + man(r.cost + r.qInt) + '</b>을 빼고 세금은 떼기 전이에요.' + (r.profit > 0 ? ' 법인이라면 법인세 약 ' + man(corpTax(r.profit)) + '을 따로 내요.' : '');
+    var kp = [['세전 수익', sman(r.profit), I.holdMo + '개월 뒤 한 번에'], ['연 수익률', pct(r.ann), '매입가 + 비용 기준'],
+      ['내 돈 기준 연 수익률', pct(r.roe), S.lev ? '자기자본 ' + man(r.equity) + ' (질권대출 ' + man(r.Q) + ')' : '들어간 돈 ' + man(r.outlay)]];
+    $('kpis').innerHTML = kp.map(function(k){ return '<div class="kpi"><span>' + k[0] + '</span><b class="' + (k[1].indexOf('−') === 0 ? 'dn' : '') + '">' + k[1] + '</b><small>' + k[2] + '</small></div>'; }).join('');
+    var w = [];
+    if(r.short > 0.5) w.push('<b>배당으로 받을 돈을 다 못 받아요.</b> 낙찰가가 앞 순위를 채우고 남는 돈이 ' + man(r.myGet) + '이라 ' + man(r.short) + '이 모자라요.');
+    if(r.myGet < r.P) w.push('<b>배당액이 매입가보다 적어요.</b> 이 조건이면 산 가격도 다 못 돌려받아요.');
+    if(I.lev && I.qRate * 100 >= metric(calc(Object.assign({}, I, { lev:0 }), I.bid, I.buyPct))) w.push('<b>질권대출 금리가 이 채권의 연 수익률보다 높거나 같아요.</b> 빌릴수록 내 돈 기준 수익률이 내려가요.');
+    $('warns').innerHTML = w.map(function(x){ return '<p class="warn-box">' + x + '</p>'; }).join('');
+
+    // 수익 분해
+    $('split').innerHTML = [
+      ['할인 (원금 − 매입가)', I.prin + ' − ' + Math.round(r.P), r.discount],
+      ['연체이자 배당 (배당 − 원금)', r.myGet >= I.prin ? '원금 위로 받은 연체이자' : '원금도 다 못 받음', r.myGet - I.prin],
+      ['매입 비용', '이전 세금 ' + man(r.transferTax) + ' + 법무사 ' + man(I.lawyer) + ' + 수수료 ' + man(r.fee), -r.cost]
+    ].concat(r.qInt ? [['질권대출 이자', man(r.Q) + ' × 연 ' + pct(I.qRate * 100) + ' × ' + I.holdMo + '개월', -r.qInt]] : []).map(function(x){
+      return '<div class="row"><span>' + x[0] + '<br><small class="hint">' + (x[0].indexOf('할인') === 0 ? man(I.prin) + ' − ' + man(r.P) : x[1]) + '</small></span><b class="' + (x[2] < 0 ? 'dn' : 'up') + '">' + sman(x[2]) + '</b></div>';
+    }).join('') + '<div class="row total"><span>세전 수익</span><b class="' + (r.profit < 0 ? 'dn' : '') + '">' + sman(r.profit) + '</b></div>';
+
+    // 배당 막대
+    var tot = Math.max(r.sale, 1);
+    var parts = [[r.aucCost, 'var(--w-cost)', '경매 비용'], [r.pre, 'var(--w-short)', '세금·임차보증금'], [r.senGet, 'var(--w-sen)', '선순위'], [r.myGet, 'var(--w-me)', '나'], [r.left, 'var(--w-left)', '남은 돈(다음 순위·채무자)']];
+    $('wf').innerHTML = '<div class="hint">낙찰가 ' + man(r.sale) + ' (감정가 ' + man(I.appr) + ' × ' + pct(I.bid * 100) + ')을 나누는 순서. 내 몫은 원금 + 연체이자 ' + man(r.owed) + '와 채권최고액 ' + man(r.maxAmt) + ' 중 작은 쪽까지예요.</div><div class="stack" role="img" aria-label="낙찰 대금 배당 순서">' +
+      parts.map(function(p){ return '<span style="width:' + (p[0] / tot * 100) + '%;background:' + p[1] + '"></span>'; }).join('') + '</div><div class="wf-leg">' +
+      parts.map(function(p){ return '<span><i style="background:' + p[1] + '"></i>' + p[2] + ' ' + man(p[0]) + '</span>'; }).join('') + '</div>';
+
+    // 최대 매입가
+    var mb = solve(0.05, 2.0, function(b){ return metric(calc(I, I.bid, b)) >= I.target * 100; });
+    $('maxBuy').innerHTML = mb == null ? '이 조건으로는 목표 수익률 연 ' + pct(I.target * 100) + '를 맞추는 매입가가 없어요.'
+      : '연 ' + pct(I.target * 100) + '를 맞추려면 <em>' + man(I.prin * mb) + '</em>(원금의 ' + pct(mb * 100) + ') 이하로 사야 해요.' + (mb >= I.buyPct ? ' 지금 매입가는 그 안에 있어요.' : ' 지금 매입가는 <span class="dn">' + man(I.prin * (I.buyPct - mb)) + ' 비싸요</span>.');
+
+    drawMap(I);
+    $('bidS').value = Math.min(110, Math.max(50, I.bid * 100)); $('o-bid').textContent = pct(I.bid * 100);
+    var be = drawChart(I);
+
+    var tips = [];
+    tips.push('<b>이 채권의 수익원</b>: 할인 ' + sman(r.discount) + ', 연체이자 배당 ' + sman(r.myGet - I.prin) + '. ' + (r.discount <= 0 ? '원금 이상으로 샀기 때문에 수익은 연체이자에서만 나와요.' : (r.myGet - I.prin > r.discount ? '할인보다 연체이자에서 더 많이 벌어요.' : '연체이자보다 할인에서 더 많이 벌어요.')));
+    if(be != null) tips.push('<b>손익 0 낙찰가율 ' + be.toFixed(1) + '%</b>: 지금 넣은 ' + pct(I.bid * 100) + '보다 ' + Math.abs(I.bid * 100 - be).toFixed(1) + '%포인트 ' + (I.bid * 100 >= be ? '여유가 있어요.' : '모자라요.'));
+    var later = calc(Object.assign({}, I, { holdMo:I.holdMo + 6 }), I.bid, I.buyPct);
+    tips.push('<b>배당이 6개월 늦어지면</b>: 수익 ' + sman(later.profit) + ', 연 ' + pct(metric(later)) + '. ' + (r.capped ? '이미 채권최고액에 닿아 연체이자가 더 늘지 않아서 연 수익률만 떨어져요.' : '연체이자가 쌓여 수익은 늘지만 연 수익률은 ' + (metric(later) < metric(r) ? '떨어져요.' : '비슷해요.')));
+    $('easy').innerHTML = '<h3>숫자 뒤에 숨은 이야기</h3><ul>' + tips.map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ul>';
+
+    var L = [['낙찰가', '감정가 ' + man(I.appr) + ' × ' + pct(I.bid * 100), man(r.sale)], ['경매 비용', '가장 먼저', '−' + man(r.aucCost)], ['세금·임차보증금', '당해세·최우선변제', '−' + man(r.pre)], ['선순위', '앞선 근저당', '−' + man(r.senGet)],
+      ['받을 돈', '원금 ' + man(I.prin) + ' + 연체이자 연 ' + pct(I.od * 100) + ' × ' + (I.pastMo + I.holdMo) + '개월 = ' + man(r.owed) + (r.capped ? ' → 최고액 ' + man(r.maxAmt) + '에서 멈춤' : ''), man(r.claim)],
+      ['내 배당', '받을 돈과 남은 낙찰 대금 중 작은 쪽', man(r.myGet)], ['매입가', '원금의 ' + pct(I.buyPct * 100), '−' + man(r.P)],
+      ['근저당 이전 세금', '채권최고액 ' + man(r.maxAmt) + ' × 0.24%', '−' + man(r.transferTax)], ['법무사 보수', '근저당 이전', '−' + man(I.lawyer)], ['매입 수수료', pct(I.buyFee * 100) + ' × 매입가', '−' + man(r.fee)]];
+    if(r.qInt) L.push(['질권대출 이자', man(r.Q) + ' × 연 ' + pct(I.qRate * 100) + ' × ' + I.holdMo + '개월', '−' + man(r.qInt)]);
+    $('howto').innerHTML = '<details open><summary><span>배당 → 수익 · ' + sman(r.profit) + '</span></summary><div class="lines">' +
+      L.map(function(l){ return '<div class="ln"><span class="k">' + l[0] + '<small>' + l[1] + '</small></span><span class="v">' + l[2] + '</span></div>'; }).join('') +
+      '<div class="ln total"><span class="k">세전 수익</span><span class="v">' + sman(r.profit) + '</span></div></div></details>';
+
+    var notes = [];
+    notes.push('경매 대신 <b>직접 낙찰받아 되파는 방식(유입)</b>도 있지만, 취득세·명도·매각 기간이 붙어 계산이 달라요. 이 계산기는 배당으로 회수하는 경우만 계산해요.');
+    notes.push('세입자가 있으면 <b>전입일이 근저당보다 빠른지</b> 꼭 확인하세요. 대항력 있는 임차인의 보증금은 낙찰자가 떠안아서 낙찰가가 그만큼 낮아져요.');
+    notes.push('최우선변제금은 근저당 설정일 당시 기준으로 정해져요. 서울은 지금 기준 보증금 1억 6,500만 원 이하일 때 최대 5,500만 원이에요.');
+    notes.push('연체이자율은 계약서의 약정 연체금리로 넣으세요. 법정 최고금리(연 20%)를 넘는 부분은 받을 수 없어요.');
+    $('notes').innerHTML = notes.map(function(n){ return '<li>' + n + '</li>'; }).join('');
+  }
+
+  // ---------- 실거래가 조회 ----------
+  function lookup(){
+    var region = $('lkRegion').value.trim(), apt = $('lkApt').value.trim(), area = num($('lkArea').value);
+    var out = $('lkOut');
+    if(!region || !apt){ out.innerHTML = '<p class="hint">지역(예: 서울 강북구 미아동)과 아파트 이름을 넣어 주세요.</p>'; return; }
+    $('lkGo').disabled = true; out.innerHTML = '<p class="hint">국토부 실거래가를 불러오는 중이에요…</p>';
+    var qs = 'region=' + encodeURIComponent(region) + '&apt=' + encodeURIComponent(apt) + (area ? '&area=' + area : '');
+    fetch('/api/apt-price?' + qs).then(function(r){ return r.json().then(function(j){ return { ok:r.ok, j:j }; }); }).then(function(res){
+      var j = res.j;
+      if(!res.ok){
+        out.innerHTML = '<p class="hint">' + (j.message || '불러오지 못했어요.') + ' 아래 링크에서 직접 확인하고 시세를 넣어 주세요.</p>' + (j.suggest && j.suggest.length ? '<p class="hint">이 동네 단지: ' + j.suggest.join(', ') + '</p>' : '');
+        return;
+      }
+      if(!j.trades.length){
+        out.innerHTML = '<p class="hint"><b>' + j.region + '</b>에서 최근 ' + j.months + '개월 동안 맞는 거래를 찾지 못했어요.' + (j.names.length ? ' 비슷한 단지: ' + j.names.join(', ') + (area ? ' (면적을 비우고 다시 찾아보세요)' : '') : '') + (j.suggest && j.suggest.length ? ' 이 동네 단지: ' + j.suggest.join(', ') : '') + '</p>';
+        return;
+      }
+      LK = j; LK.sel = null;
+      // 거래가 가장 많은 단지를 먼저 고른다
+      var cnt = {}; j.trades.forEach(function(t){ var k = t.apt + '|' + t.umd; cnt[k] = (cnt[k] || 0) + 1; });
+      LK.groups = Object.keys(cnt).sort(function(a, b){ return cnt[b] - cnt[a]; });
+      LK.sel = LK.groups[0];
+      drawLookup();
+    }).catch(function(){
+      out.innerHTML = '<p class="hint">실거래가 서버에 연결하지 못했어요. 아래 링크에서 직접 확인하고 시세를 넣어 주세요.</p>';
+    }).then(function(){ $('lkGo').disabled = false; });
+  }
+  var LK = null;
+  function drawLookup(){
+    var j = LK, out = $('lkOut');
+    var list = j.trades.filter(function(t){ return t.apt + '|' + t.umd === LK.sel; });
+    var prices = list.slice(0, 5).map(function(t){ return t.price; }).sort(function(a, b){ return a - b; });
+    var med = prices[Math.floor(prices.length / 2)], nm = LK.sel.split('|');
+    var chips = LK.groups.length > 1 ? '<div class="chipbtns" role="group" aria-label="단지 고르기">' + LK.groups.map(function(g){ var p = g.split('|'); return '<button type="button" data-grp="' + g.replace(/"/g, '&quot;') + '" aria-pressed="' + (g === LK.sel) + '" style="' + (g === LK.sel ? 'background:var(--navy);color:var(--panel)' : '') + '">' + p[0] + ' · ' + p[1] + '</button>'; }).join('') + '</div>' : '';
+    out.innerHTML = '<p><b>' + j.region + '</b> · 최근 ' + j.months + '개월 거래 ' + j.count + '건' + (LK.groups.length > 1 ? ', 단지 ' + LK.groups.length + '곳. 단지를 골라 주세요.' : '.') + '</p>' + chips +
+      '<p><b>' + nm[0] + '</b> 최근 ' + prices.length + '건의 가운데 값은 <b>' + man(med) + '</b>이에요. <button type="button" class="pick" data-price="' + med + '">시세·감정가에 넣기</button></p>' +
+      '<div class="tblwrap"><table><thead><tr><th>계약일</th><th>전용면적</th><th>층</th><th>거래가</th></tr></thead><tbody>' +
+      list.slice(0, 10).map(function(t){ return '<tr><td>' + t.date.slice(2) + '</td><td>' + t.area.toFixed(1) + '㎡ <small class="hint">' + (t.area / 3.3058).toFixed(1) + '평</small></td><td>' + t.floor + '</td><td>' + man(t.price) + ' <button type="button" class="pick" data-price="' + t.price + '">넣기</button></td></tr>'; }).join('') +
+      '</tbody></table></div><p class="hint">출처: 국토교통부 아파트 매매 실거래가(계약 해제 건 제외). 신고는 계약 후 30일 안에 해서 최근 한두 달은 덜 잡혀요. 전용면적을 넣으면 그 면적(±3㎡)만 보여 줘요. 평은 전용면적 ÷ 3.3058로 계산한 전용 평수라, 분양 때 말하는 평형(공급면적)보다 작아요.</p>';
+  }
+  $('lkArea').addEventListener('input', function(){ var a = num(this.value); $('say-area').textContent = a ? '전용 ' + (a / 3.3058).toFixed(1) + '평' : ''; });
+  $('lkGo').addEventListener('click', lookup);
+  ['lkRegion', 'lkApt', 'lkArea'].forEach(function(id){ $(id).addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); lookup(); } }); });
+  $('aucHint').addEventListener('click', function(e){ if(e.target.id === 'aucReset'){ aucAuto = true; render(); } });
+  $('lkOut').addEventListener('click', function(e){
+    var g = e.target.closest('[data-grp]'); if(g){ LK.sel = g.dataset.grp; drawLookup(); return; }
+    var b = e.target.closest('[data-price]'); if(!b) return;
+    var v = Number(b.dataset.price).toLocaleString('ko-KR'); $('price').value = v; $('appr').value = v; render();
+    $('price').scrollIntoView({ behavior:'smooth', block:'center' });
+  });
+
+
+  document.querySelectorAll('.seg').forEach(function(g){
+    g.addEventListener('click', function(e){
+      var b = e.target.closest('button'); if(!b) return;
+      g.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      S[g.dataset.key] = Number(b.dataset.v); render();
+    });
+  });
+  $('bidPresets').addEventListener('click', function(e){ var b = e.target.closest('button'); if(!b) return; $('bid').value = b.dataset.v; render(); });
+  $('bidS').addEventListener('input', function(){ $('bid').value = Number(this.value).toFixed(1); render(); });
+  document.querySelectorAll('[data-step]').forEach(function(b){ b.addEventListener('click', function(){ var v = Math.min(110, Math.max(50, num($('bid').value) + Number(b.dataset.step))); $('bid').value = v.toFixed(1); render(); }); });
+  $('hm').addEventListener('click', function(e){ var c = e.target.closest('[data-cell]'); if(!c) return; var rc = c.dataset.cell.split(','); $('buyPct').value = rc[0]; $('bid').value = rc[1]; render(); });
+  document.addEventListener('input', function(e){
+    var t = e.target;
+    if(t.id === 'aucCost') aucAuto = false;
+    if(t.id === 'bidS' || (t.closest && t.closest('.lookup'))) return;
+    if(t.classList && t.classList.contains('money')){
+      var pos = t.selectionStart, left = t.value.slice(0, pos).replace(/\D/g, '').length;
+      var digits = t.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 7);
+      var out = digits ? Number(digits).toLocaleString('ko-KR') : '';
+      t.value = out;
+      var p = 0, seen = 0; while(p < out.length && seen < left){ if(/\d/.test(out[p])) seen++; p++; }
+      t.setSelectionRange(p, p);
+    }
+    render();
+  }, true);
+  var rz; window.addEventListener('resize', function(){ clearTimeout(rz); rz = setTimeout(render, 150); });
+  render();
+})();
+</script>
+</body>
+</html>

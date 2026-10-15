@@ -38,6 +38,7 @@ TOOLS = {
     '/lump-sum/': '#verdict',
     '/yen-sp500/': '#verdict',
     '/gpl/': '#verdict',
+    '/npl/': '#verdict',
     '/baby-100days/': '#heroDate',
     '/baby-vaccine/': '#nextWhen',
     '/robotaxi/': '#o4',

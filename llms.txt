@@ -21,6 +21,7 @@
 - [물타기 평단가 계산기](https://yenajun.com/avg-down/): 여유 자금으로 물을 타면 평단가가 얼마나 내려가는지, 갈아타기와 비교하고 분할 매수도 짜 봐요. 가이드: [물타기 vs 갈아타기 가이드 — 판단 전에 숫자부터](https://yenajun.com/avg-down/guide/)
 - [P2P 상품 고르기 계산기](https://yenajun.com/p2p-invest/): 크플 상품 엑셀을 올리면 담보 안전 등급과 세후 수익률로 투자 상품을 골라드려요. 가이드: [P2P 투자 가이드 — 아파트담보 투자, 이것만 알고 시작하세요](https://yenajun.com/p2p-invest/guide/)
 - [GPL 투자 수익 계산기](https://yenajun.com/gpl/): 아파트 후순위 담보대출에 투자하면 개인·대부업자·법인별로 세후 얼마가 남는지, 연체돼 경매로 가면 원금이 지켜지는지 계산해요. 가이드: [NPL과 GPL, 뭐가 다르고 누가 얼마를 남길까](https://yenajun.com/gpl/guide/)
+- [NPL 투자 수익 계산기](https://yenajun.com/npl/): 부실채권을 얼마에 사면 경매 배당으로 얼마를 돌려받는지, 매입가·낙찰가율별 수익률과 목표 수익률을 맞추는 최대 매입가를 계산해요.
 - [로보택시 회수 기간 계산기](https://yenajun.com/robotaxi/): 하루 95% 주차된 내 차, 갖는 비용과 불러 타는 비용을 비교하고 사이버캡이 차값을 몇 달 만에 버는지 계산해요. 가이드: [자동차, 소유에서 공유로 넘어갈까](https://yenajun.com/robotaxi/guide/)
 
 ## 일상과 관계
@@ -41,4 +42,4 @@
 - [개인정보처리방침](https://yenajun.com/privacy)
 - [이용약관](https://yenajun.com/terms)
 
-마지막 업데이트: 2026-10-14
+마지막 업데이트: 2026-10-15

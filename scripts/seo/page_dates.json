@@ -65,18 +65,18 @@
   "published": "2026-10-05T19:45:19+09:00"
  },
  "gpl/guide/index.html": {
-  "hash": "dd2f846018324e28",
-  "modified": "2026-10-14T17:55:30+09:00",
+  "hash": "cfd5348a51488992",
+  "modified": "2026-10-15T10:40:08+09:00",
   "published": "2026-10-14T14:27:01+09:00"
  },
  "gpl/index.html": {
-  "hash": "5376d3528ffed396",
-  "modified": "2026-10-14T17:55:30+09:00",
+  "hash": "36092ffa6cf649b4",
+  "modified": "2026-10-15T10:40:08+09:00",
   "published": "2026-10-14T14:27:01+09:00"
  },
  "index.html": {
-  "hash": "57b8ee4001218239",
-  "modified": "2026-10-14T15:52:53+09:00",
+  "hash": "6935d7ec3017b7f4",
+  "modified": "2026-10-15T10:40:08+09:00",
   "published": "2026-09-25T15:44:20+09:00"
  },
  "jeonse-wolse/guide/index.html": {
@@ -108,6 +108,11 @@
   "hash": "324259d8c3a71b67",
   "modified": "2026-10-11T16:02:18+09:00",
   "published": "2026-09-25T15:44:20+09:00"
+ },
+ "npl/index.html": {
+  "hash": "b1dfe444f547956d",
+  "modified": "2026-10-15T10:40:08+09:00",
+  "published": "2026-10-15T10:40:08+09:00"
  },
  "nub-angle/guide/index.html": {
   "hash": "9dc4612a8c7c117b",
