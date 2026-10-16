@@ -256,7 +256,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
    },
    "image": "https://yenajun.com/assets/og/npl.png",
    "datePublished": "2026-10-15T10:40:08+09:00",
-   "dateModified": "2026-10-16T09:49:56+09:00",
+   "dateModified": "2026-10-16T11:01:35+09:00",
    "author": {
     "@type": "Person",
     "name": "이동찬",
@@ -288,7 +288,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
    "mainEntity": [
     {
      "@type": "Question",
-     "name": "연체이자는 끝없이 쌓이나요?",
+     "name": "＋ 경매 비용·질권대출 가정 바꾸기 경매 비용만원 질권대출 쓰지 않음 씀 산 채권(근저당권)에 질권을 잡고 매입 자금 일부를 빌리는 방식이에요. 한도와 금리는 금융회사·조건마다 달라 가정으로 넣어요. 질권대출 한도 (매입가의 %)% 질권대출 금리 (연)% 배당받는 날 · 비용 빼고 (세전) – 수익은 어디서 나왔을까 NPL 수익은 원금보다 싸게 산 만큼(할인)과 원금 위로 배당받은 연체이자에서 나와요. 원금보다 비싸게 샀다면 할인 칸이 마이너스예요. 배당은 이렇게 나눠요 낙찰가율이 바뀌면 수익은 낙찰가율85.9% −+ 이렇게 계산했어요 얼마까지 사도 될까 목표 연 수익률 (세전, 비용 포함) % – 지금 넣은 낙찰가율·기간·비용으로, 목표 수익률을 맞추는 가장 비싼 매입가예요. 입찰가를 정할 때 이 선을 넘지 않는지 보세요. 매입가 × 낙찰가율, 수익률 지도 세로는 매입가(원금 대비), 가로는 낙찰가율이에요. 칸 안 숫자는 연 수익률(세전)이고, 누르면 위 가정이 그 조합으로 바뀌어요. 기준: 배당 순서는 경매 비용 → 당해세·최우선변제 → 선순위 근저당 → 내 근저당이고, 내 몫은 원금과 연체이자를 합쳐 채권최고액까지예요. 연체이자는 단리로 쌓인다고 봤어요. 근저당권 이전 등록면허세 0.2%·지방교육세(그 20%)는 채권최고액 기준이에요. 수익은 세금을 떼기 전 금액이에요. 법인이라면 이익에 법인세(2억 원 이하 10%, 지방소득세 포함 11%, 2026년 이후 사업연도)를 따로 내요. 낙찰가율은 지지옥션 2026년 9월 경매동향. 입력한 내용은 저장하지 않아요. 실거래가 조회는 국토교통부 공공데이터를 씁니다. 이 계산기, 이렇게 보세요 NPL 수익은 배당액 − 매입가 − 비용이에요. 배당액은 경매가 정하고, 매입가는 내가 정해요. 그래서 NPL 투자는 사실상 \"얼마에 살까\"를 정하는 게임이에요. 담보가 충분하면 할인이 작아요 — 낙찰가로 원금과 연체이자를 다 받을 수 있는 채권은 파는 쪽도 그걸 알아서 원금 가까이, 때로는 원금보다 비싸게 팔아요. 이때 수익은 주로 연체이자에서 나와요. 담보가 빠듯하면 할인이 커요 — 배당으로 원금을 다 못 받을 수 있는 채권은 싸게 나와요. 대신 낙찰가율이 조금만 빗나가도 손실이에요. 수익률 지도의 아래쪽 붉은 칸이 이 위험이에요. 시간이 수익률을 깎아요 — 같은 수익이라도 배당이 늦어지면 연 수익률이 떨어져요. 연체이자가 쌓여 배당액은 늘지만, 채권최고액에 닿으면 더 늘지 않아요. 꼭 기억할 것 — 금융기관의 NPL을 직접 사는 일은 금융위원회에 등록한 대부채권 매입추심업자 몫이고, 개인은 보통 법인·펀드·질권 투자를 거쳐요. \"확정 수익\", \"원금 보장\"을 내세우는 NPL 상품은 그 약속을 하는 회사의 신용부터 보세요. 계산기는 참고용이고 투자 판단과 결과의 책임은 본인에게 있어요. 자주 묻는 질문 연체이자는 끝없이 쌓이나요?",
      "acceptedAnswer": {
       "@type": "Answer",
       "text": "계약상으로는 쌓이지만, 경매 배당에서는 등기부의 채권최고액까지만 받아요. 원금 4억 원에 채권최고액이 4억 8,000만 원이면 원금과 연체이자를 합쳐 4억 8,000만 원이 상한이에요. 그 뒤로는 기다릴수록 연 수익률만 떨어져요."
@@ -438,12 +438,19 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
         <span class="hint">경매 진행 중인 채권이면 짧고, 경매 전이면 1년 넘게 걸리기도 해요.</span>
       </div>
     </div>
+    <div class="grid2">
+      <div class="q"><label for="transfer">권리이전비용 <small>(근저당 이전 세금·법무사 등)</small></label><div class="box"><input type="text" id="transfer" class="money" inputmode="numeric" value="120"><span class="unit">만원</span></div><span class="hint" id="trHint"></span></div>
+      <div class="q">
+        <span class="lab" id="lab-fee">매입 수수료 <small>(중개·자문)</small></span>
+        <div class="seg small" role="group" aria-labelledby="lab-fee" data-key="feeMode"><button type="button" data-v="pct" aria-pressed="true">매입가의 %</button><button type="button" data-v="amt">금액</button></div>
+        <div data-show="feeMode:pct"><div class="box"><input type="text" id="buyFee" inputmode="decimal" value="0.5" aria-label="매입 수수료 %"><span class="unit">%</span></div></div>
+        <div data-show="feeMode:amt"><div class="box"><input type="text" id="feeAmt" class="money" inputmode="numeric" value="200" aria-label="매입 수수료 금액"><span class="unit">만원</span></div></div>
+      </div>
+    </div>
+    <p><span class="hint">권리이전비용은 처음에 채권최고액 × 0.24%(등록면허세 0.2% + 지방교육세) + 법무사 5만 원으로 채워 두고, 직접 고치면 그 값을 써요.</span></p>
     <details class="opt-in" id="costBox">
-      <summary>＋ 매입 비용·질권대출·경매 비용 가정 바꾸기</summary>
-      <p><span class="hint">권리이전비용은 처음에 채권최고액 × 0.24%(등록면허세 0.2% + 지방교육세) + 법무사 5만 원으로 채워 두고, 직접 고치면 그 값을 써요.</span></p>
+      <summary>＋ 경매 비용·질권대출 가정 바꾸기</summary>
       <div class="grid2" style="margin-top:10px">
-        <div class="q"><label for="transfer">권리이전비용 <small>(근저당 이전 세금·법무사 등)</small></label><div class="box"><input type="text" id="transfer" class="money" inputmode="numeric" value="120"><span class="unit">만원</span></div><span class="hint" id="trHint"></span></div>
-        <div class="q"><label for="buyFee">매입 수수료 <small>(매입가의 %, 중개·자문)</small></label><div class="box"><input type="text" id="buyFee" inputmode="decimal" value="0.5"><span class="unit">%</span></div></div>
         <div class="q" data-show="dep:0"><label for="aucCost">경매 비용</label><div class="box"><input type="text" id="aucCost" class="money" inputmode="numeric" value="300"><span class="unit">만원</span></div><span class="hint" id="aucHint"></span></div>
       </div>
       <div class="q" style="margin-top:12px">
@@ -557,7 +564,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
 <script>
 (function(){
   var $ = function(id){ return document.getElementById(id); };
-  var S = { lev:0, accMode:'mo', buyMode:'pct', holdMode:'mo', dep:0 };
+  var S = { lev:0, accMode:'mo', buyMode:'pct', holdMode:'mo', dep:0, feeMode:'pct' };
   // 금액 단위: 입력칸의 1 = 몇 만원인지. 계산은 모두 만원으로 한다
   var UF = 1, UNAME = { '0.0001':'원', '1':'만원', '100':'백만원', '1000':'천만원', '10000':'억원' };
   function mv(id){ return num($(id).value) * UF; }
@@ -598,7 +605,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
       pastMo:Math.max(0, num($('pastMo').value)), accAmt:Math.max(0, mv('accAmt')),
       holdMo:holdMonths(), holdTxt:holdText(),
       sen:mv('sen'), pre:mv('pre'), buyPct:buyRatio(),
-      dep:S.dep ? Math.min(mv('dep'), mv('adv')) : 0, adv:mv('adv'), transfer:mv('transfer'), buyFee:num($('buyFee').value) / 100, aucCost:mv('aucCost'),
+      dep:S.dep ? Math.min(mv('dep'), mv('adv')) : 0, adv:mv('adv'), transfer:mv('transfer'), buyFee:num($('buyFee').value) / 100, feeAmt:mv('feeAmt'), aucCost:mv('aucCost'),
       lev:S.lev, qRatio:num($('qRatio').value) / 100, qRate:num($('qRate').value) / 100, target:num($('target').value) / 100
     };
   }
@@ -617,7 +624,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
     var senGet = Math.min(a2, I.sen), rest = a2 - senGet;
     var myLien = Math.min(rest, claim), myGet = myExec + myLien, left = rest - myLien;
     var P = I.prin * buyPct;
-    var fee = P * I.buyFee, cost = I.transfer + fee;
+    var fee = S.feeMode === 'amt' ? I.feeAmt : P * I.buyFee, cost = I.transfer + fee;
     var Q = I.lev ? P * I.qRatio : 0, qInt = Q * I.qRate * I.holdMo / 12;
     var profit = myGet - P - cost - qInt;
     var outlay = P + cost, equity = outlay - Q;
@@ -744,7 +751,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
     var L = [['낙찰가', '감정가 ' + man(I.appr) + ' × ' + pct(I.bid * 100), man(r.sale)], (I.dep ? ['집행비용(경매 예납금)', '가장 먼저, 예납한 나에게 돌아와요', '→ 나 ' + man(r.myExec)] : ['경매 비용', '가장 먼저, 신청한 채권자에게', '−' + man(r.aucCost)]), ['세금·임차보증금', '당해세·최우선변제', '−' + man(r.pre)], ['선순위', '앞선 근저당', '−' + man(r.senGet)],
       ['받을 돈', '원금 ' + man(I.prin) + (I.adv ? ' + 가지급금 ' + man(I.adv - I.dep) + (I.dep ? '(예납금 ' + man(I.dep) + ' 제외)' : '') : '') + ' + ' + (S.accMode === 'amt' ? '미수이자 ' + man(r.acc0) : '살 때까지 연체이자 ' + man(r.acc0) + '(' + I.pastMo + '개월)') + ' + 보유 중 연체이자 ' + man(r.accHold) + '(연 ' + pct(I.od * 100) + ' × ' + I.holdTxt + ') = ' + man(r.owed) + (r.capped ? ' → 최고액 ' + man(r.maxAmt) + '에서 멈춤' : ''), man(r.claim)],
       ['내 배당', '받을 돈과 남은 낙찰 대금 중 작은 쪽' + (I.dep ? ' + 집행비용 ' + man(r.myExec) : ''), man(r.myGet)], ['매입가', S.buyMode === 'mix' ? '원금 ' + num($('mixPrin').value) + '% + 가지급금 ' + num($('mixAdv').value) + '% + 미수이자 ' + num($('mixAcc').value) + '%' : (I.adv ? 'OPB' : '원금') + '의 ' + pct(r.P / r.opb * 100), '−' + man(r.P)],
-      ['권리이전비용', '근저당 이전 세금·법무사 등', '−' + man(I.transfer)], ['매입 수수료', pct(I.buyFee * 100) + ' × 매입가', '−' + man(r.fee)]];
+      ['권리이전비용', '근저당 이전 세금·법무사 등', '−' + man(I.transfer)], ['매입 수수료', S.feeMode === 'amt' ? '정액' : pct(I.buyFee * 100) + ' × 매입가', '−' + man(r.fee)]];
     if(r.qInt) L.push(['질권대출 이자', man(r.Q) + ' × 연 ' + pct(I.qRate * 100) + ' × ' + I.holdTxt, '−' + man(r.qInt)]);
     $('howto').innerHTML = '<details open><summary><span>배당 → 수익 · ' + sman(r.profit) + '</span></summary><div class="lines">' +
       L.map(function(l){ return '<div class="ln"><span class="k">' + l[0] + '<small>' + l[1] + '</small></span><span class="v">' + l[2] + '</span></div>'; }).join('') +
@@ -823,6 +830,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
       var k = g.dataset.key, v = b.dataset.v, pr = mv('prin'), fmt = function(x){ return Math.round(x).toLocaleString('ko-KR'); };
       if(k === 'buyMode' && v !== S.buyMode && S.buyMode === 'mix'){ var r0 = buyRatio(); $('buyPct').value = (r0 * 100).toFixed(1).replace(/\.0$/, ''); setM('buyAmt', pr * r0); }
       else if(k === 'buyMode' && v !== S.buyMode && v !== 'mix'){ if(v === 'amt') setM('buyAmt', pr * num($('buyPct').value) / 100); else if(pr) $('buyPct').value = (mv('buyAmt') / pr * 100).toFixed(1).replace(/\.0$/, ''); }
+      if(k === 'feeMode' && v !== S.feeMode){ var P0 = pr * buyRatio(); if(v === 'amt') setM('feeAmt', P0 * num($('buyFee').value) / 100); else if(P0) $('buyFee').value = (mv('feeAmt') / P0 * 100).toFixed(3).replace(/\.?0+$/, ''); }
       if(k === 'holdMode' && v !== S.holdMode){ if(v === 'day') $('holdDays').value = Math.round(num($('holdMo').value) * 365 / 12); else $('holdMo').value = (num($('holdDays').value) / 365 * 12).toFixed(1).replace(/\.0$/, ''); }
       if(k === 'accMode' && v !== S.accMode){ var od = num($('od').value) / 100; if(v === 'amt') setM('accAmt', pr * od * num($('pastMo').value) / 12); else if(pr && od) $('pastMo').value = (mv('accAmt') / (pr * od) * 12).toFixed(1).replace(/\.0$/, ''); }
       S[k] = k === 'lev' ? Number(v) : v; render();
