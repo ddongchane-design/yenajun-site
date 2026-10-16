@@ -208,6 +208,8 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
 :root{--gain:63,122,85;--loss:184,80,60}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--gain:143,196,156;--loss:228,139,120} }
 :root[data-theme="dark"]{--gain:143,196,156;--loss:228,139,120}
+.mix3{display:flex;flex-direction:column;gap:6px}
+.mix3 input[type=text]{padding-right:96px}
 .split{display:flex;flex-direction:column;gap:6px}
 .split .row{display:flex;justify-content:space-between;gap:10px;font-size:14.5px;padding:6px 0;border-bottom:1px dashed var(--rule)}
 .split .row b{font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -253,7 +255,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
    },
    "image": "https://yenajun.com/assets/og/npl.png",
    "datePublished": "2026-10-15T10:40:08+09:00",
-   "dateModified": "2026-10-15T14:15:12+09:00",
+   "dateModified": "2026-10-16T09:16:08+09:00",
    "author": {
     "@type": "Person",
     "name": "이동찬",
@@ -386,6 +388,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
       </div>
     </div>
     <div class="grid2">
+      <div class="q"><label for="adv">가지급금 <small>(대신 낸 경매비용·보험료 등)</small></label><div class="box"><input type="text" id="adv" class="money" inputmode="numeric" value="0"><span class="unit">만원</span></div><span class="hint">원금과 함께 배당받아요. 이자는 붙지 않는다고 봐요.</span></div>
       <div class="q"><label for="sen">나보다 앞선 근저당 <small>(내가 1순위면 0)</small></label><div class="box"><input type="text" id="sen" class="money" inputmode="numeric" value="0"><span class="unit">만원</span></div></div>
       <div class="q"><label for="pre">세금·임차보증금 중 먼저 받는 돈 <small>(당해세·최우선변제)</small></label><div class="box"><input type="text" id="pre" class="money" inputmode="numeric" value="0"><span class="unit">만원</span></div></div>
     </div>
@@ -396,8 +399,13 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
     <div class="grid2">
       <div class="q">
         <span class="lab" id="lab-buy">매입가</span>
-        <div class="seg small" role="group" aria-labelledby="lab-buy" data-key="buyMode"><button type="button" data-v="pct" aria-pressed="true">원금 대비 %</button><button type="button" data-v="amt">금액</button></div>
+        <div class="seg small" role="group" aria-labelledby="lab-buy" data-key="buyMode"><button type="button" data-v="pct" aria-pressed="true">원금 대비 %</button><button type="button" data-v="mix">항목별 %</button><button type="button" data-v="amt">금액</button></div>
         <div data-show="buyMode:pct"><div class="box"><input type="text" id="buyPct" inputmode="decimal" value="100" aria-label="매입가 원금 대비 %"><span class="unit">%</span></div></div>
+        <div data-show="buyMode:mix" class="mix3">
+          <div class="box"><input type="text" id="mixPrin" inputmode="decimal" value="100" aria-label="원금 매입 비율"><span class="unit">% 원금</span></div>
+          <div class="box"><input type="text" id="mixAdv" inputmode="decimal" value="100" aria-label="가지급금 매입 비율"><span class="unit">% 가지급</span></div>
+          <div class="box"><input type="text" id="mixAcc" inputmode="decimal" value="30" aria-label="미수이자 매입 비율"><span class="unit">% 미수이자</span></div>
+        </div>
         <div data-show="buyMode:amt"><div class="box"><input type="text" id="buyAmt" class="money" inputmode="numeric" value="40,000" aria-label="매입가 금액"><span class="unit">만원</span></div></div>
         <span class="say" id="say-buy"></span>
       </div>
@@ -411,9 +419,9 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
     </div>
     <details class="opt-in" id="costBox">
       <summary>＋ 매입 비용·질권대출·경매 비용 가정 바꾸기</summary>
-      <p><span class="hint">근저당권 이전에는 등록면허세 0.2%와 지방교육세(등록면허세의 20%)가 채권최고액에 붙어 자동으로 더해요.</span></p>
+      <p><span class="hint">권리이전비용은 처음에 채권최고액 × 0.24%(등록면허세 0.2% + 지방교육세) + 법무사 5만 원으로 채워 두고, 직접 고치면 그 값을 써요.</span></p>
       <div class="grid2" style="margin-top:10px">
-        <div class="q"><label for="lawyer">법무사 보수 <small>(근저당 이전)</small></label><div class="box"><input type="text" id="lawyer" class="money" inputmode="numeric" value="5"><span class="unit">만원</span></div></div>
+        <div class="q"><label for="transfer">권리이전비용 <small>(근저당 이전 세금·법무사 등)</small></label><div class="box"><input type="text" id="transfer" class="money" inputmode="numeric" value="120"><span class="unit">만원</span></div><span class="hint" id="trHint"></span></div>
         <div class="q"><label for="buyFee">매입 수수료 <small>(매입가의 %, 중개·자문)</small></label><div class="box"><input type="text" id="buyFee" inputmode="decimal" value="0.5"><span class="unit">%</span></div></div>
         <div class="q"><label for="aucCost">경매 비용</label><div class="box"><input type="text" id="aucCost" class="money" inputmode="numeric" value="300"><span class="unit">만원</span></div><span class="hint" id="aucHint"></span></div>
       </div>
@@ -543,7 +551,16 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
 
   function holdMonths(){ return Math.max(0.1, S.holdMode === 'day' ? num($('holdDays').value) / 365 * 12 : num($('holdMo').value)); }
   function holdText(){ return S.holdMode === 'day' ? Math.round(num($('holdDays').value)) + '일' : num($('holdMo').value) + '개월'; }
-  function buyRatio(){ var pr = num($('prin').value); return S.buyMode === 'amt' ? (pr ? num($('buyAmt').value) / pr : 0) : num($('buyPct').value) / 100; }
+  // 매입가 ÷ 원금. 항목별 %는 원금·가지급금·미수이자에 비율을 각각 곱해 더한다
+  function buyRatio(){
+    var pr = num($('prin').value); if(!pr) return 0;
+    if(S.buyMode === 'amt') return num($('buyAmt').value) / pr;
+    if(S.buyMode === 'mix'){
+      var acc = S.accMode === 'amt' ? num($('accAmt').value) : pr * num($('od').value) / 100 * num($('pastMo').value) / 12;
+      return (pr * num($('mixPrin').value) + num($('adv').value) * num($('mixAdv').value) + acc * num($('mixAcc').value)) / 100 / pr;
+    }
+    return num($('buyPct').value) / 100;
+  }
   function accrued(I){ return S.accMode === 'amt' ? I.accAmt : I.prin * I.od * I.pastMo / 12; }
   function read(){
     return {
@@ -552,7 +569,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
       pastMo:Math.max(0, num($('pastMo').value)), accAmt:Math.max(0, num($('accAmt').value)),
       holdMo:holdMonths(), holdTxt:holdText(),
       sen:num($('sen').value), pre:num($('pre').value), buyPct:buyRatio(),
-      lawyer:num($('lawyer').value), buyFee:num($('buyFee').value) / 100, aucCost:num($('aucCost').value),
+      adv:num($('adv').value), transfer:num($('transfer').value), buyFee:num($('buyFee').value) / 100, aucCost:num($('aucCost').value),
       lev:S.lev, qRatio:num($('qRatio').value) / 100, qRate:num($('qRate').value) / 100, target:num($('target').value) / 100
     };
   }
@@ -561,21 +578,21 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
   function calc(I, bid, buyPct){
     var maxAmt = I.prin * I.maxPct;
     var acc0 = accrued(I), accHold = I.prin * I.od * I.holdMo / 12;
-    var owed = I.prin + acc0 + accHold;
+    var owed = I.prin + I.adv + acc0 + accHold, opb = I.prin + I.adv;
     var claim = Math.min(owed, maxAmt);
     var sale = I.appr * bid;
     var a1 = Math.max(0, sale - I.aucCost), a2 = Math.max(0, a1 - I.pre);
     var senGet = Math.min(a2, I.sen), rest = a2 - senGet;
     var myGet = Math.min(rest, claim), left = rest - myGet;
     var P = I.prin * buyPct;
-    var transferTax = maxAmt * 0.002 * 1.2, fee = P * I.buyFee, cost = transferTax + I.lawyer + fee;
+    var fee = P * I.buyFee, cost = I.transfer + fee;
     var Q = I.lev ? P * I.qRatio : 0, qInt = Q * I.qRate * I.holdMo / 12;
     var profit = myGet - P - cost - qInt;
     var outlay = P + cost, equity = outlay - Q;
     return { maxAmt:maxAmt, owed:owed, acc0:acc0, accHold:accHold, claim:claim, sale:sale, aucCost:Math.min(sale, I.aucCost), pre:Math.min(a1, I.pre), senGet:senGet,
-      myGet:myGet, left:left, P:P, transferTax:transferTax, fee:fee, cost:cost, Q:Q, qInt:qInt, profit:profit, outlay:outlay, equity:equity,
-      ret:profit / outlay * 100, ann:profit / outlay * 12 / I.holdMo * 100, roe:equity > 0 ? profit / equity * 12 / I.holdMo * 100 : 0,
-      discount:I.prin - P, interestPart:myGet - I.prin, capped:owed > maxAmt + 1e-6, short:Math.max(0, claim - myGet) };
+      myGet:myGet, left:left, P:P, fee:fee, cost:cost, Q:Q, qInt:qInt, profit:profit, outlay:outlay, equity:equity,
+      ret:P ? profit / P * 100 : 0, ann:P ? profit / P * 12 / I.holdMo * 100 : 0, opb:opb, lcSale:claim + I.pre + I.sen + I.aucCost, roe:equity > 0 ? profit / equity * 12 / I.holdMo * 100 : 0,
+      discount:opb - P, interestPart:myGet - opb, capped:owed > maxAmt + 1e-6, short:Math.max(0, claim - myGet) };
   }
   function metric(r){ return S.lev ? r.roe : r.ann; }
   function solve(lo, hi, f){   // f가 참인 가장 큰 값
@@ -585,7 +602,8 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
   }
 
   // 경매 비용: 직접 고치기 전까지는 감정가의 0.5%
-  var aucAuto = true;
+  var aucAuto = true, trAuto = true;
+  function syncTransfer(){ if(!trAuto) return; var v = Math.round(num($('prin').value) * num($('maxPct').value) / 100 * 0.0024 + 5); $('transfer').value = v.toLocaleString('ko-KR'); }
   function syncAucCost(){ if(!aucAuto) return; var v = Math.round(num($('appr').value) * 0.005); $('aucCost').value = v ? v.toLocaleString('ko-KR') : '0'; }
 
   function drawChart(I){
@@ -634,7 +652,8 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
   }
 
   function render(){
-    syncAucCost();
+    syncAucCost(); syncTransfer();
+    $('trHint').innerHTML = trAuto ? '채권최고액 × 0.24% + 법무사 5만 원으로 자동 계산했어요.' : '직접 넣은 값이에요. <button type="button" class="pick" id="trReset">자동 계산으로 되돌리기</button>';
     $('aucHint').innerHTML = aucAuto ? '감정료·매각수수료·송달료·공고료 등. <b>감정가의 0.5%</b>로 자동 계산해요. 경매를 신청한 채권자가 먼저 내고 배당에서 가장 먼저 돌려받아요.'
       : '직접 넣은 값이에요. <button type="button" class="pick" id="aucReset">감정가의 0.5%로 되돌리기</button>';
     document.querySelectorAll('[data-show]').forEach(function(el){ var kv = el.dataset.show.split(':'); el.hidden = String(S[kv[0]]) !== kv[1]; });
@@ -645,10 +664,10 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
     if(!I.prin || !I.appr){ $('verdict').textContent = '감정가와 대출 원금을 입력해 주세요.'; return; }
 
     var r = calc(I, I.bid, I.buyPct);
-    $('verdict').innerHTML = '원금 ' + man(I.prin) + ' 채권을 <em>' + man(r.P) + '</em>(원금의 ' + pct(I.buyPct * 100, S.buyMode === 'amt' ? 1 : 0) + ')에 사서 ' + I.holdTxt + ' 뒤 배당받으면 <em class="' + (r.profit < 0 ? 'dn' : '') + '">' + sman(r.profit) + '</em>, <em>' + (S.lev ? '내 돈 기준 연 ' : '연 ') + pct(metric(r)) + '</em>예요.';
+    $('verdict').innerHTML = '원금 ' + man(I.prin) + ' 채권을 <em>' + man(r.P) + '</em>(' + (I.adv ? 'OPB' : '원금') + '의 ' + pct(r.P / r.opb * 100, S.buyMode === 'pct' ? 0 : 1) + ')에 사서 ' + I.holdTxt + ' 뒤 배당받으면 <em class="' + (r.profit < 0 ? 'dn' : '') + '">' + sman(r.profit) + '</em>, <em>' + (S.lev ? '내 돈 기준 연 ' : '연 ') + pct(metric(r)) + '</em>예요.';
     $('verdictSub').innerHTML = '배당으로 <b>' + man(r.myGet) + '</b>을 받아요(받을 돈 ' + man(r.claim) + (r.capped ? ', 채권최고액에서 멈춤' : '') + '). 비용 <b>' + man(r.cost + r.qInt) + '</b>을 빼고 세금은 떼기 전이에요.' + (r.profit > 0 ? ' 법인이라면 법인세 약 ' + man(corpTax(r.profit)) + '을 따로 내요.' : '');
-    var kp = [['세전 수익', sman(r.profit), I.holdTxt + ' 뒤 한 번에'], ['기간 수익률', pct(r.ret), '수익 ÷ (매입가 + 비용)'], ['연 수익률', pct(r.ann), '기간 수익률을 1년으로 환산(단리)'],
-      ['ROE (내 돈 기준 연)', pct(r.roe), S.lev ? '자기자본 ' + man(r.equity) + ' · 질권대출 ' + man(r.Q) : '질권대출을 쓰면 달라져요']];
+    var kp = [['세전 수익', sman(r.profit), I.holdTxt + ' 뒤 한 번에'], ['기간 수익률', pct(r.ret), '수익 ÷ 매입가'], ['ROA (연)', pct(r.ann), '수익 ÷ 매입가, 1년 환산'],
+      ['ROE (연)', pct(r.roe), '수익 ÷ (매입가 − 질권대출 + 비용), 1년 환산']];
     $('kpis').innerHTML = kp.map(function(k){ return '<div class="kpi"><span>' + k[0] + '</span><b class="' + (k[1].indexOf('−') === 0 ? 'dn' : '') + '">' + k[1] + '</b><small>' + k[2] + '</small></div>'; }).join('');
     var w = [];
     if(r.short > 0.5) w.push('<b>배당으로 받을 돈을 다 못 받아요.</b> 낙찰가가 앞 순위를 채우고 남는 돈이 ' + man(r.myGet) + '이라 ' + man(r.short) + '이 모자라요.');
@@ -658,17 +677,17 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
 
     // 수익 분해
     $('split').innerHTML = [
-      ['할인 (원금 − 매입가)', I.prin + ' − ' + Math.round(r.P), r.discount],
-      ['연체이자 배당 (배당 − 원금)', r.myGet >= I.prin ? '원금 위로 받은 연체이자' : '원금도 다 못 받음', r.myGet - I.prin],
-      ['매입 비용', '이전 세금 ' + man(r.transferTax) + ' + 법무사 ' + man(I.lawyer) + ' + 수수료 ' + man(r.fee), -r.cost]
+      [I.adv ? '할인 (OPB − 매입가)' : '할인 (원금 − 매입가)', '', r.discount],
+      [I.adv ? '연체이자 배당 (배당 − OPB)' : '연체이자 배당 (배당 − 원금)', r.myGet >= r.opb ? '원금' + (I.adv ? '·가지급금' : '') + ' 위로 받은 연체이자' : '원금도 다 못 받음', r.myGet - r.opb],
+      ['매입 비용', '권리이전비용 ' + man(I.transfer) + ' + 수수료 ' + man(r.fee), -r.cost]
     ].concat(r.qInt ? [['질권대출 이자', man(r.Q) + ' × 연 ' + pct(I.qRate * 100) + ' × ' + I.holdTxt, -r.qInt]] : []).map(function(x){
-      return '<div class="row"><span>' + x[0] + '<br><small class="hint">' + (x[0].indexOf('할인') === 0 ? man(I.prin) + ' − ' + man(r.P) : x[1]) + '</small></span><b class="' + (x[2] < 0 ? 'dn' : 'up') + '">' + sman(x[2]) + '</b></div>';
+      return '<div class="row"><span>' + x[0] + '<br><small class="hint">' + (x[0].indexOf('할인') === 0 ? man(r.opb) + ' − ' + man(r.P) + (I.adv ? ' (OPB = 원금 + 가지급금)' : '') : x[1]) + '</small></span><b class="' + (x[2] < 0 ? 'dn' : 'up') + '">' + sman(x[2]) + '</b></div>';
     }).join('') + '<div class="row total"><span>세전 수익</span><b class="' + (r.profit < 0 ? 'dn' : '') + '">' + sman(r.profit) + '</b></div>';
 
     // 배당 막대
     var tot = Math.max(r.sale, 1);
     var parts = [[r.aucCost, 'var(--w-cost)', '경매 비용'], [r.pre, 'var(--w-short)', '세금·임차보증금'], [r.senGet, 'var(--w-sen)', '선순위'], [r.myGet, 'var(--w-me)', '나'], [r.left, 'var(--w-left)', '남은 돈(다음 순위·채무자)']];
-    $('wf').innerHTML = '<div class="hint">낙찰가 ' + man(r.sale) + ' (감정가 ' + man(I.appr) + ' × ' + pct(I.bid * 100) + ')을 나누는 순서. 내 몫은 원금 + 연체이자 ' + man(r.owed) + '와 채권최고액 ' + man(r.maxAmt) + ' 중 작은 쪽까지예요.</div><div class="stack" role="img" aria-label="낙찰 대금 배당 순서">' +
+    $('wf').innerHTML = '<div class="hint">낙찰가 ' + man(r.sale) + ' (감정가 ' + man(I.appr) + ' × ' + pct(I.bid * 100) + ')을 나누는 순서. 내 몫은 원금' + (I.adv ? ' + 가지급금' : '') + ' + 연체이자 ' + man(r.owed) + '과 채권최고액 ' + man(r.maxAmt) + ' 중 작은 쪽까지예요. 받을 돈을 <b>전부</b> 받으려면 낙찰가가 <b>' + man(r.lcSale) + '(감정가의 ' + pct(r.lcSale / I.appr * 100) + ')</b> 이상이어야 해요(받을 돈 + 앞 순위 + 경매 비용).</div><div class="stack" role="img" aria-label="낙찰 대금 배당 순서">' +
       parts.map(function(p){ return '<span style="width:' + (p[0] / tot * 100) + '%;background:' + p[1] + '"></span>'; }).join('') + '</div><div class="wf-leg">' +
       parts.map(function(p){ return '<span><i style="background:' + p[1] + '"></i>' + p[2] + ' ' + man(p[0]) + '</span>'; }).join('') + '</div>';
 
@@ -684,14 +703,15 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
     var tips = [];
     tips.push('<b>이 채권의 수익원</b>: 할인 ' + sman(r.discount) + ', 연체이자 배당 ' + sman(r.myGet - I.prin) + '. ' + (r.discount <= 0 ? '원금 이상으로 샀기 때문에 수익은 연체이자에서만 나와요.' : (r.myGet - I.prin > r.discount ? '할인보다 연체이자에서 더 많이 벌어요.' : '연체이자보다 할인에서 더 많이 벌어요.')));
     if(be != null) tips.push('<b>손익 0 낙찰가율 ' + be.toFixed(1) + '%</b>: 지금 넣은 ' + pct(I.bid * 100) + '보다 ' + Math.abs(I.bid * 100 - be).toFixed(1) + '%포인트 ' + (I.bid * 100 >= be ? '여유가 있어요.' : '모자라요.'));
+    tips.push('<b>전액 회수 낙찰가 ' + pct(r.lcSale / I.appr * 100) + '</b>: 이 아래로 낙찰되면 받을 돈 중 일부를 못 받아요. 손익 0 낙찰가율' + (be != null ? '(' + be.toFixed(1) + '%)' : '') + '과의 사이가 연체이자를 덜 받는 구간이에요.');
     var later = calc(Object.assign({}, I, { holdMo:I.holdMo + 6 }), I.bid, I.buyPct);   // 6개월 늦어질 때
     tips.push('<b>배당이 6개월 늦어지면</b>: 수익 ' + sman(later.profit) + ', 연 ' + pct(metric(later)) + '. ' + (r.capped ? '이미 채권최고액에 닿아 연체이자가 더 늘지 않아서 연 수익률만 떨어져요.' : '연체이자가 쌓여 수익은 늘지만 연 수익률은 ' + (metric(later) < metric(r) ? '떨어져요.' : '비슷해요.')));
     $('easy').innerHTML = '<h3>숫자 뒤에 숨은 이야기</h3><ul>' + tips.map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ul>';
 
     var L = [['낙찰가', '감정가 ' + man(I.appr) + ' × ' + pct(I.bid * 100), man(r.sale)], ['경매 비용', '가장 먼저', '−' + man(r.aucCost)], ['세금·임차보증금', '당해세·최우선변제', '−' + man(r.pre)], ['선순위', '앞선 근저당', '−' + man(r.senGet)],
-      ['받을 돈', '원금 ' + man(I.prin) + ' + ' + (S.accMode === 'amt' ? '미수이자 ' + man(r.acc0) : '살 때까지 연체이자 ' + man(r.acc0) + '(' + I.pastMo + '개월)') + ' + 보유 중 연체이자 ' + man(r.accHold) + '(연 ' + pct(I.od * 100) + ' × ' + I.holdTxt + ') = ' + man(r.owed) + (r.capped ? ' → 최고액 ' + man(r.maxAmt) + '에서 멈춤' : ''), man(r.claim)],
-      ['내 배당', '받을 돈과 남은 낙찰 대금 중 작은 쪽', man(r.myGet)], ['매입가', '원금의 ' + pct(I.buyPct * 100), '−' + man(r.P)],
-      ['근저당 이전 세금', '채권최고액 ' + man(r.maxAmt) + ' × 0.24%', '−' + man(r.transferTax)], ['법무사 보수', '근저당 이전', '−' + man(I.lawyer)], ['매입 수수료', pct(I.buyFee * 100) + ' × 매입가', '−' + man(r.fee)]];
+      ['받을 돈', '원금 ' + man(I.prin) + (I.adv ? ' + 가지급금 ' + man(I.adv) : '') + ' + ' + (S.accMode === 'amt' ? '미수이자 ' + man(r.acc0) : '살 때까지 연체이자 ' + man(r.acc0) + '(' + I.pastMo + '개월)') + ' + 보유 중 연체이자 ' + man(r.accHold) + '(연 ' + pct(I.od * 100) + ' × ' + I.holdTxt + ') = ' + man(r.owed) + (r.capped ? ' → 최고액 ' + man(r.maxAmt) + '에서 멈춤' : ''), man(r.claim)],
+      ['내 배당', '받을 돈과 남은 낙찰 대금 중 작은 쪽', man(r.myGet)], ['매입가', S.buyMode === 'mix' ? '원금 ' + num($('mixPrin').value) + '% + 가지급금 ' + num($('mixAdv').value) + '% + 미수이자 ' + num($('mixAcc').value) + '%' : (I.adv ? 'OPB' : '원금') + '의 ' + pct(r.P / r.opb * 100), '−' + man(r.P)],
+      ['권리이전비용', '근저당 이전 세금·법무사 등', '−' + man(I.transfer)], ['매입 수수료', pct(I.buyFee * 100) + ' × 매입가', '−' + man(r.fee)]];
     if(r.qInt) L.push(['질권대출 이자', man(r.Q) + ' × 연 ' + pct(I.qRate * 100) + ' × ' + I.holdTxt, '−' + man(r.qInt)]);
     $('howto').innerHTML = '<details open><summary><span>배당 → 수익 · ' + sman(r.profit) + '</span></summary><div class="lines">' +
       L.map(function(l){ return '<div class="ln"><span class="k">' + l[0] + '<small>' + l[1] + '</small></span><span class="v">' + l[2] + '</span></div>'; }).join('') +
@@ -762,7 +782,8 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
       var b = e.target.closest('button'); if(!b) return;
       g.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
       var k = g.dataset.key, v = b.dataset.v, pr = num($('prin').value), fmt = function(x){ return Math.round(x).toLocaleString('ko-KR'); };
-      if(k === 'buyMode' && v !== S.buyMode){ if(v === 'amt') $('buyAmt').value = fmt(pr * num($('buyPct').value) / 100); else if(pr) $('buyPct').value = (num($('buyAmt').value) / pr * 100).toFixed(1).replace(/\.0$/, ''); }
+      if(k === 'buyMode' && v !== S.buyMode && S.buyMode === 'mix'){ var r0 = buyRatio(); $('buyPct').value = (r0 * 100).toFixed(1).replace(/\.0$/, ''); $('buyAmt').value = fmt(pr * r0); }
+      else if(k === 'buyMode' && v !== S.buyMode && v !== 'mix'){ if(v === 'amt') $('buyAmt').value = fmt(pr * num($('buyPct').value) / 100); else if(pr) $('buyPct').value = (num($('buyAmt').value) / pr * 100).toFixed(1).replace(/\.0$/, ''); }
       if(k === 'holdMode' && v !== S.holdMode){ if(v === 'day') $('holdDays').value = Math.round(num($('holdMo').value) * 365 / 12); else $('holdMo').value = (num($('holdDays').value) / 365 * 12).toFixed(1).replace(/\.0$/, ''); }
       if(k === 'accMode' && v !== S.accMode){ var od = num($('od').value) / 100; if(v === 'amt') $('accAmt').value = fmt(pr * od * num($('pastMo').value) / 12); else if(pr && od) $('pastMo').value = (num($('accAmt').value) / (pr * od) * 12).toFixed(1).replace(/\.0$/, ''); }
       S[k] = k === 'lev' ? Number(v) : v; render();
@@ -771,10 +792,12 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
   $('bidPresets').addEventListener('click', function(e){ var b = e.target.closest('button'); if(!b) return; $('bid').value = b.dataset.v; render(); });
   $('bidS').addEventListener('input', function(){ $('bid').value = Number(this.value).toFixed(1); render(); });
   document.querySelectorAll('[data-step]').forEach(function(b){ b.addEventListener('click', function(){ var v = Math.min(110, Math.max(50, num($('bid').value) + Number(b.dataset.step))); $('bid').value = v.toFixed(1); render(); }); });
+  $('trHint').addEventListener('click', function(e){ if(e.target.id === 'trReset'){ trAuto = true; render(); } });
   $('hm').addEventListener('click', function(e){ var c = e.target.closest('[data-cell]'); if(!c) return; var rc = c.dataset.cell.split(','); $('buyPct').value = rc[0]; $('buyAmt').value = Math.round(num($('prin').value) * rc[0] / 100).toLocaleString('ko-KR'); $('bid').value = rc[1]; render(); });
   document.addEventListener('input', function(e){
     var t = e.target;
     if(t.id === 'aucCost') aucAuto = false;
+    if(t.id === 'transfer') trAuto = false;
     if(t.id === 'bidS' || (t.closest && t.closest('.lookup'))) return;
     if(t.classList && t.classList.contains('money')){
       var pos = t.selectionStart, left = t.value.slice(0, pos).replace(/\D/g, '').length;
