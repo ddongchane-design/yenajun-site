@@ -208,6 +208,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
 :root{--gain:63,122,85;--loss:184,80,60}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){--gain:143,196,156;--loss:228,139,120} }
 :root[data-theme="dark"]{--gain:143,196,156;--loss:228,139,120}
+select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);border:1px solid var(--rule);border-radius:8px;padding:9px 10px;width:100%}
 .mix3{display:flex;flex-direction:column;gap:6px}
 .mix3 input[type=text]{padding-right:96px}
 .split{display:flex;flex-direction:column;gap:6px}
@@ -255,7 +256,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
    },
    "image": "https://yenajun.com/assets/og/npl.png",
    "datePublished": "2026-10-15T10:40:08+09:00",
-   "dateModified": "2026-10-16T09:16:08+09:00",
+   "dateModified": "2026-10-16T09:43:34+09:00",
    "author": {
     "@type": "Person",
     "name": "이동찬",
@@ -389,6 +390,15 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
     </div>
     <div class="grid2">
       <div class="q"><label for="adv">가지급금 <small>(대신 낸 경매비용·보험료 등)</small></label><div class="box"><input type="text" id="adv" class="money" inputmode="numeric" value="0"><span class="unit">만원</span></div><span class="hint">원금과 함께 배당받아요. 이자는 붙지 않는다고 봐요.</span></div>
+      <div class="q">
+        <label for="depSel">가지급금에 경매 예납금이 있나요?</label>
+        <select id="depSel">
+          <option value="0">없음 · 다른 채권자가 경매를 신청했어요</option>
+          <option value="1">있음 · 이 채권으로 경매를 신청했어요</option>
+        </select>
+        <div data-show="dep:1" style="margin-top:6px"><div class="box"><input type="text" id="dep" class="money" inputmode="numeric" value="300" aria-label="가지급금 중 경매 예납금"><span class="unit">만원</span></div><span class="hint">경매 예납금은 배당 때 집행비용으로 <b>가장 먼저</b> 돌려받아요. 채권최고액 한도에도 묶이지 않아요. 가지급금보다 클 수 없어요.</span></div>
+        <span class="hint" data-show="dep:0">다른 채권자가 낸 경매 비용은 배당에서 먼저 빠져 내 몫이 줄어요. 아래 '경매 비용'에 넣어요.</span>
+      </div>
       <div class="q"><label for="sen">나보다 앞선 근저당 <small>(내가 1순위면 0)</small></label><div class="box"><input type="text" id="sen" class="money" inputmode="numeric" value="0"><span class="unit">만원</span></div></div>
       <div class="q"><label for="pre">세금·임차보증금 중 먼저 받는 돈 <small>(당해세·최우선변제)</small></label><div class="box"><input type="text" id="pre" class="money" inputmode="numeric" value="0"><span class="unit">만원</span></div></div>
     </div>
@@ -423,7 +433,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
       <div class="grid2" style="margin-top:10px">
         <div class="q"><label for="transfer">권리이전비용 <small>(근저당 이전 세금·법무사 등)</small></label><div class="box"><input type="text" id="transfer" class="money" inputmode="numeric" value="120"><span class="unit">만원</span></div><span class="hint" id="trHint"></span></div>
         <div class="q"><label for="buyFee">매입 수수료 <small>(매입가의 %, 중개·자문)</small></label><div class="box"><input type="text" id="buyFee" inputmode="decimal" value="0.5"><span class="unit">%</span></div></div>
-        <div class="q"><label for="aucCost">경매 비용</label><div class="box"><input type="text" id="aucCost" class="money" inputmode="numeric" value="300"><span class="unit">만원</span></div><span class="hint" id="aucHint"></span></div>
+        <div class="q" data-show="dep:0"><label for="aucCost">경매 비용</label><div class="box"><input type="text" id="aucCost" class="money" inputmode="numeric" value="300"><span class="unit">만원</span></div><span class="hint" id="aucHint"></span></div>
       </div>
       <div class="q" style="margin-top:12px">
         <span class="lab" id="lab-lev">질권대출</span>
@@ -536,7 +546,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
 <script>
 (function(){
   var $ = function(id){ return document.getElementById(id); };
-  var S = { lev:0, accMode:'mo', buyMode:'pct', holdMode:'mo' };
+  var S = { lev:0, accMode:'mo', buyMode:'pct', holdMode:'mo', dep:0 };
   function num(v){ var n = parseFloat(String(v).replace(/,/g, '')); return isFinite(n) ? n : 0; }
   function man(v){
     var neg = v < 0; v = Math.abs(v);
@@ -569,7 +579,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
       pastMo:Math.max(0, num($('pastMo').value)), accAmt:Math.max(0, num($('accAmt').value)),
       holdMo:holdMonths(), holdTxt:holdText(),
       sen:num($('sen').value), pre:num($('pre').value), buyPct:buyRatio(),
-      adv:num($('adv').value), transfer:num($('transfer').value), buyFee:num($('buyFee').value) / 100, aucCost:num($('aucCost').value),
+      dep:S.dep ? Math.min(num($('dep').value), num($('adv').value)) : 0, adv:num($('adv').value), transfer:num($('transfer').value), buyFee:num($('buyFee').value) / 100, aucCost:num($('aucCost').value),
       lev:S.lev, qRatio:num($('qRatio').value) / 100, qRate:num($('qRate').value) / 100, target:num($('target').value) / 100
     };
   }
@@ -578,21 +588,24 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
   function calc(I, bid, buyPct){
     var maxAmt = I.prin * I.maxPct;
     var acc0 = accrued(I), accHold = I.prin * I.od * I.holdMo / 12;
-    var owed = I.prin + I.adv + acc0 + accHold, opb = I.prin + I.adv;
+    // 경매 예납금(집행비용)은 맨 앞에서 나에게 돌아오고, 나머지 가지급금만 채권최고액 안의 내 채권에 들어간다
+    var execCost = I.dep ? I.dep : I.aucCost;
+    var owed = I.prin + (I.adv - I.dep) + acc0 + accHold, opb = I.prin + I.adv;
     var claim = Math.min(owed, maxAmt);
     var sale = I.appr * bid;
-    var a1 = Math.max(0, sale - I.aucCost), a2 = Math.max(0, a1 - I.pre);
+    var execPaid = Math.min(sale, execCost), myExec = I.dep ? execPaid : 0;
+    var a1 = sale - execPaid, a2 = Math.max(0, a1 - I.pre);
     var senGet = Math.min(a2, I.sen), rest = a2 - senGet;
-    var myGet = Math.min(rest, claim), left = rest - myGet;
+    var myLien = Math.min(rest, claim), myGet = myExec + myLien, left = rest - myLien;
     var P = I.prin * buyPct;
     var fee = P * I.buyFee, cost = I.transfer + fee;
     var Q = I.lev ? P * I.qRatio : 0, qInt = Q * I.qRate * I.holdMo / 12;
     var profit = myGet - P - cost - qInt;
     var outlay = P + cost, equity = outlay - Q;
-    return { maxAmt:maxAmt, owed:owed, acc0:acc0, accHold:accHold, claim:claim, sale:sale, aucCost:Math.min(sale, I.aucCost), pre:Math.min(a1, I.pre), senGet:senGet,
+    return { maxAmt:maxAmt, owed:owed, acc0:acc0, accHold:accHold, claim:claim, sale:sale, aucCost:execPaid, myExec:myExec, myLien:myLien, pre:Math.min(a1, I.pre), senGet:senGet,
       myGet:myGet, left:left, P:P, fee:fee, cost:cost, Q:Q, qInt:qInt, profit:profit, outlay:outlay, equity:equity,
-      ret:P ? profit / P * 100 : 0, ann:P ? profit / P * 12 / I.holdMo * 100 : 0, opb:opb, lcSale:claim + I.pre + I.sen + I.aucCost, roe:equity > 0 ? profit / equity * 12 / I.holdMo * 100 : 0,
-      discount:opb - P, interestPart:myGet - opb, capped:owed > maxAmt + 1e-6, short:Math.max(0, claim - myGet) };
+      ret:P ? profit / P * 100 : 0, ann:P ? profit / P * 12 / I.holdMo * 100 : 0, opb:opb, lcSale:claim + I.pre + I.sen + execCost, roe:equity > 0 ? profit / equity * 12 / I.holdMo * 100 : 0,
+      discount:opb - P, interestPart:myGet - opb, capped:owed > maxAmt + 1e-6, short:Math.max(0, claim - myLien) + Math.max(0, I.dep - myExec) };
   }
   function metric(r){ return S.lev ? r.roe : r.ann; }
   function solve(lo, hi, f){   // f가 참인 가장 큰 값
@@ -654,7 +667,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
   function render(){
     syncAucCost(); syncTransfer();
     $('trHint').innerHTML = trAuto ? '채권최고액 × 0.24% + 법무사 5만 원으로 자동 계산했어요.' : '직접 넣은 값이에요. <button type="button" class="pick" id="trReset">자동 계산으로 되돌리기</button>';
-    $('aucHint').innerHTML = aucAuto ? '감정료·매각수수료·송달료·공고료 등. <b>감정가의 0.5%</b>로 자동 계산해요. 경매를 신청한 채권자가 먼저 내고 배당에서 가장 먼저 돌려받아요.'
+    if(S.dep) $('aucHint').innerHTML = ''; else $('aucHint').innerHTML = aucAuto ? '감정료·매각수수료·송달료·공고료 등. <b>감정가의 0.5%</b>로 자동 계산해요. 경매를 신청한 채권자가 먼저 내고 배당에서 가장 먼저 돌려받아요.'
       : '직접 넣은 값이에요. <button type="button" class="pick" id="aucReset">감정가의 0.5%로 되돌리기</button>';
     document.querySelectorAll('[data-show]').forEach(function(el){ var kv = el.dataset.show.split(':'); el.hidden = String(S[kv[0]]) !== kv[1]; });
     var I = read();
@@ -686,7 +699,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
 
     // 배당 막대
     var tot = Math.max(r.sale, 1);
-    var parts = [[r.aucCost, 'var(--w-cost)', '경매 비용'], [r.pre, 'var(--w-short)', '세금·임차보증금'], [r.senGet, 'var(--w-sen)', '선순위'], [r.myGet, 'var(--w-me)', '나'], [r.left, 'var(--w-left)', '남은 돈(다음 순위·채무자)']];
+    var parts = [[r.aucCost, I.dep ? 'var(--w-me)' : 'var(--w-cost)', I.dep ? '집행비용(예납금, 나에게)' : '경매 비용'], [r.pre, 'var(--w-short)', '세금·임차보증금'], [r.senGet, 'var(--w-sen)', '선순위'], [r.myLien, 'var(--w-me)', I.dep ? '나(채권)' : '나'], [r.left, 'var(--w-left)', '남은 돈(다음 순위·채무자)']];
     $('wf').innerHTML = '<div class="hint">낙찰가 ' + man(r.sale) + ' (감정가 ' + man(I.appr) + ' × ' + pct(I.bid * 100) + ')을 나누는 순서. 내 몫은 원금' + (I.adv ? ' + 가지급금' : '') + ' + 연체이자 ' + man(r.owed) + '과 채권최고액 ' + man(r.maxAmt) + ' 중 작은 쪽까지예요. 받을 돈을 <b>전부</b> 받으려면 낙찰가가 <b>' + man(r.lcSale) + '(감정가의 ' + pct(r.lcSale / I.appr * 100) + ')</b> 이상이어야 해요(받을 돈 + 앞 순위 + 경매 비용).</div><div class="stack" role="img" aria-label="낙찰 대금 배당 순서">' +
       parts.map(function(p){ return '<span style="width:' + (p[0] / tot * 100) + '%;background:' + p[1] + '"></span>'; }).join('') + '</div><div class="wf-leg">' +
       parts.map(function(p){ return '<span><i style="background:' + p[1] + '"></i>' + p[2] + ' ' + man(p[0]) + '</span>'; }).join('') + '</div>';
@@ -708,9 +721,9 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
     tips.push('<b>배당이 6개월 늦어지면</b>: 수익 ' + sman(later.profit) + ', 연 ' + pct(metric(later)) + '. ' + (r.capped ? '이미 채권최고액에 닿아 연체이자가 더 늘지 않아서 연 수익률만 떨어져요.' : '연체이자가 쌓여 수익은 늘지만 연 수익률은 ' + (metric(later) < metric(r) ? '떨어져요.' : '비슷해요.')));
     $('easy').innerHTML = '<h3>숫자 뒤에 숨은 이야기</h3><ul>' + tips.map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ul>';
 
-    var L = [['낙찰가', '감정가 ' + man(I.appr) + ' × ' + pct(I.bid * 100), man(r.sale)], ['경매 비용', '가장 먼저', '−' + man(r.aucCost)], ['세금·임차보증금', '당해세·최우선변제', '−' + man(r.pre)], ['선순위', '앞선 근저당', '−' + man(r.senGet)],
-      ['받을 돈', '원금 ' + man(I.prin) + (I.adv ? ' + 가지급금 ' + man(I.adv) : '') + ' + ' + (S.accMode === 'amt' ? '미수이자 ' + man(r.acc0) : '살 때까지 연체이자 ' + man(r.acc0) + '(' + I.pastMo + '개월)') + ' + 보유 중 연체이자 ' + man(r.accHold) + '(연 ' + pct(I.od * 100) + ' × ' + I.holdTxt + ') = ' + man(r.owed) + (r.capped ? ' → 최고액 ' + man(r.maxAmt) + '에서 멈춤' : ''), man(r.claim)],
-      ['내 배당', '받을 돈과 남은 낙찰 대금 중 작은 쪽', man(r.myGet)], ['매입가', S.buyMode === 'mix' ? '원금 ' + num($('mixPrin').value) + '% + 가지급금 ' + num($('mixAdv').value) + '% + 미수이자 ' + num($('mixAcc').value) + '%' : (I.adv ? 'OPB' : '원금') + '의 ' + pct(r.P / r.opb * 100), '−' + man(r.P)],
+    var L = [['낙찰가', '감정가 ' + man(I.appr) + ' × ' + pct(I.bid * 100), man(r.sale)], (I.dep ? ['집행비용(경매 예납금)', '가장 먼저, 예납한 나에게 돌아와요', '→ 나 ' + man(r.myExec)] : ['경매 비용', '가장 먼저, 신청한 채권자에게', '−' + man(r.aucCost)]), ['세금·임차보증금', '당해세·최우선변제', '−' + man(r.pre)], ['선순위', '앞선 근저당', '−' + man(r.senGet)],
+      ['받을 돈', '원금 ' + man(I.prin) + (I.adv ? ' + 가지급금 ' + man(I.adv - I.dep) + (I.dep ? '(예납금 ' + man(I.dep) + ' 제외)' : '') : '') + ' + ' + (S.accMode === 'amt' ? '미수이자 ' + man(r.acc0) : '살 때까지 연체이자 ' + man(r.acc0) + '(' + I.pastMo + '개월)') + ' + 보유 중 연체이자 ' + man(r.accHold) + '(연 ' + pct(I.od * 100) + ' × ' + I.holdTxt + ') = ' + man(r.owed) + (r.capped ? ' → 최고액 ' + man(r.maxAmt) + '에서 멈춤' : ''), man(r.claim)],
+      ['내 배당', '받을 돈과 남은 낙찰 대금 중 작은 쪽' + (I.dep ? ' + 집행비용 ' + man(r.myExec) : ''), man(r.myGet)], ['매입가', S.buyMode === 'mix' ? '원금 ' + num($('mixPrin').value) + '% + 가지급금 ' + num($('mixAdv').value) + '% + 미수이자 ' + num($('mixAcc').value) + '%' : (I.adv ? 'OPB' : '원금') + '의 ' + pct(r.P / r.opb * 100), '−' + man(r.P)],
       ['권리이전비용', '근저당 이전 세금·법무사 등', '−' + man(I.transfer)], ['매입 수수료', pct(I.buyFee * 100) + ' × 매입가', '−' + man(r.fee)]];
     if(r.qInt) L.push(['질권대출 이자', man(r.Q) + ' × 연 ' + pct(I.qRate * 100) + ' × ' + I.holdTxt, '−' + man(r.qInt)]);
     $('howto').innerHTML = '<details open><summary><span>배당 → 수익 · ' + sman(r.profit) + '</span></summary><div class="lines">' +
@@ -792,6 +805,7 @@ table.hm{border-collapse:separate;border-spacing:0;width:100%;min-width:470px;fo
   $('bidPresets').addEventListener('click', function(e){ var b = e.target.closest('button'); if(!b) return; $('bid').value = b.dataset.v; render(); });
   $('bidS').addEventListener('input', function(){ $('bid').value = Number(this.value).toFixed(1); render(); });
   document.querySelectorAll('[data-step]').forEach(function(b){ b.addEventListener('click', function(){ var v = Math.min(110, Math.max(50, num($('bid').value) + Number(b.dataset.step))); $('bid').value = v.toFixed(1); render(); }); });
+  $('depSel').addEventListener('change', function(){ S.dep = Number(this.value); render(); });
   $('trHint').addEventListener('click', function(e){ if(e.target.id === 'trReset'){ trAuto = true; render(); } });
   $('hm').addEventListener('click', function(e){ var c = e.target.closest('[data-cell]'); if(!c) return; var rc = c.dataset.cell.split(','); $('buyPct').value = rc[0]; $('buyAmt').value = Math.round(num($('prin').value) * rc[0] / 100).toLocaleString('ko-KR'); $('bid').value = rc[1]; render(); });
   document.addEventListener('input', function(e){
