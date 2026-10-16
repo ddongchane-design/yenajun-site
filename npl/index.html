@@ -256,7 +256,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
    },
    "image": "https://yenajun.com/assets/og/npl.png",
    "datePublished": "2026-10-15T10:40:08+09:00",
-   "dateModified": "2026-10-16T09:43:34+09:00",
+   "dateModified": "2026-10-16T09:49:56+09:00",
    "author": {
     "@type": "Person",
     "name": "이동찬",
@@ -339,6 +339,17 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
 </header>
 
 <form id="f" autocomplete="off" onsubmit="return false">
+  <fieldset style="margin-bottom:14px">
+    <legend>금액 단위</legend>
+    <div class="seg small" role="group" aria-label="금액 입력 단위" data-key="unit">
+      <button type="button" data-v="0.0001">원</button>
+      <button type="button" data-v="1" aria-pressed="true">만원</button>
+      <button type="button" data-v="100">백만원</button>
+      <button type="button" data-v="1000">천만원</button>
+      <button type="button" data-v="10000">억원</button>
+    </div>
+    <span class="hint">물건 크기에 맞게 먼저 골라 주세요. 단위를 바꾸면 이미 넣은 금액도 그 단위로 바뀌어요. 백만원·천만원·억원은 소수점도 넣을 수 있어요(예: 17.8억원).</span>
+  </fieldset>
   <fieldset>
     <legend>① 담보 아파트</legend>
     <div class="lookup" aria-labelledby="lk-title">
@@ -547,6 +558,14 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
 (function(){
   var $ = function(id){ return document.getElementById(id); };
   var S = { lev:0, accMode:'mo', buyMode:'pct', holdMode:'mo', dep:0 };
+  // 금액 단위: 입력칸의 1 = 몇 만원인지. 계산은 모두 만원으로 한다
+  var UF = 1, UNAME = { '0.0001':'원', '1':'만원', '100':'백만원', '1000':'천만원', '10000':'억원' };
+  function mv(id){ return num($(id).value) * UF; }
+  function fmtM(manwon){
+    var x = manwon / UF;
+    return UF <= 1 ? Math.round(x).toLocaleString('ko-KR') : Number(x.toFixed(4)).toLocaleString('ko-KR', { maximumFractionDigits:4 });
+  }
+  function setM(id, manwon){ $(id).value = fmtM(manwon); }
   function num(v){ var n = parseFloat(String(v).replace(/,/g, '')); return isFinite(n) ? n : 0; }
   function man(v){
     var neg = v < 0; v = Math.abs(v);
@@ -563,23 +582,23 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
   function holdText(){ return S.holdMode === 'day' ? Math.round(num($('holdDays').value)) + '일' : num($('holdMo').value) + '개월'; }
   // 매입가 ÷ 원금. 항목별 %는 원금·가지급금·미수이자에 비율을 각각 곱해 더한다
   function buyRatio(){
-    var pr = num($('prin').value); if(!pr) return 0;
-    if(S.buyMode === 'amt') return num($('buyAmt').value) / pr;
+    var pr = mv('prin'); if(!pr) return 0;
+    if(S.buyMode === 'amt') return mv('buyAmt') / pr;
     if(S.buyMode === 'mix'){
-      var acc = S.accMode === 'amt' ? num($('accAmt').value) : pr * num($('od').value) / 100 * num($('pastMo').value) / 12;
-      return (pr * num($('mixPrin').value) + num($('adv').value) * num($('mixAdv').value) + acc * num($('mixAcc').value)) / 100 / pr;
+      var acc = S.accMode === 'amt' ? mv('accAmt') : pr * num($('od').value) / 100 * num($('pastMo').value) / 12;
+      return (pr * num($('mixPrin').value) + mv('adv') * num($('mixAdv').value) + acc * num($('mixAcc').value)) / 100 / pr;
     }
     return num($('buyPct').value) / 100;
   }
   function accrued(I){ return S.accMode === 'amt' ? I.accAmt : I.prin * I.od * I.pastMo / 12; }
   function read(){
     return {
-      price:num($('price').value), appr:num($('appr').value), bid:num($('bid').value) / 100,
-      prin:num($('prin').value), maxPct:num($('maxPct').value) / 100, od:num($('od').value) / 100,
-      pastMo:Math.max(0, num($('pastMo').value)), accAmt:Math.max(0, num($('accAmt').value)),
+      price:mv('price'), appr:mv('appr'), bid:num($('bid').value) / 100,
+      prin:mv('prin'), maxPct:num($('maxPct').value) / 100, od:num($('od').value) / 100,
+      pastMo:Math.max(0, num($('pastMo').value)), accAmt:Math.max(0, mv('accAmt')),
       holdMo:holdMonths(), holdTxt:holdText(),
-      sen:num($('sen').value), pre:num($('pre').value), buyPct:buyRatio(),
-      dep:S.dep ? Math.min(num($('dep').value), num($('adv').value)) : 0, adv:num($('adv').value), transfer:num($('transfer').value), buyFee:num($('buyFee').value) / 100, aucCost:num($('aucCost').value),
+      sen:mv('sen'), pre:mv('pre'), buyPct:buyRatio(),
+      dep:S.dep ? Math.min(mv('dep'), mv('adv')) : 0, adv:mv('adv'), transfer:mv('transfer'), buyFee:num($('buyFee').value) / 100, aucCost:mv('aucCost'),
       lev:S.lev, qRatio:num($('qRatio').value) / 100, qRate:num($('qRate').value) / 100, target:num($('target').value) / 100
     };
   }
@@ -616,8 +635,8 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
 
   // 경매 비용: 직접 고치기 전까지는 감정가의 0.5%
   var aucAuto = true, trAuto = true;
-  function syncTransfer(){ if(!trAuto) return; var v = Math.round(num($('prin').value) * num($('maxPct').value) / 100 * 0.0024 + 5); $('transfer').value = v.toLocaleString('ko-KR'); }
-  function syncAucCost(){ if(!aucAuto) return; var v = Math.round(num($('appr').value) * 0.005); $('aucCost').value = v ? v.toLocaleString('ko-KR') : '0'; }
+  function syncTransfer(){ if(!trAuto) return; var v = Math.round(mv('prin') * num($('maxPct').value) / 100 * 0.0024 + 5); setM('transfer', v); }
+  function syncAucCost(){ if(!aucAuto) return; var v = Math.round(mv('appr') * 0.005); setM('aucCost', v); }
 
   function drawChart(I){
     var svg = $('chart'), W = Math.max(300, Math.round(svg.getBoundingClientRect().width) || 640), H = W < 480 ? 280 : 300;
@@ -671,7 +690,8 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
       : '직접 넣은 값이에요. <button type="button" class="pick" id="aucReset">감정가의 0.5%로 되돌리기</button>';
     document.querySelectorAll('[data-show]').forEach(function(el){ var kv = el.dataset.show.split(':'); el.hidden = String(S[kv[0]]) !== kv[1]; });
     var I = read();
-    ['price', 'appr', 'prin'].forEach(function(k){ $('say-' + k).textContent = num($(k).value) ? man(num($(k).value)) : ''; });
+    ['price', 'appr', 'prin'].forEach(function(k){ $('say-' + k).textContent = mv(k) ? man(mv(k)) : ''; });
+    document.querySelectorAll('input.money').forEach(function(inp){ var u = inp.parentNode.querySelector('.unit'); if(u) u.textContent = UNAME[String(UF)]; });
     $('say-max').textContent = I.prin ? man(I.prin * I.maxPct) : '';
     $('say-buy').textContent = I.prin ? '매입가 ' + man(I.prin * I.buyPct) : '';
     if(!I.prin || !I.appr){ $('verdict').textContent = '감정가와 대출 원금을 입력해 주세요.'; return; }
@@ -785,7 +805,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
   $('lkOut').addEventListener('click', function(e){
     var g = e.target.closest('[data-grp]'); if(g){ LK.sel = g.dataset.grp; drawLookup(); return; }
     var b = e.target.closest('[data-price]'); if(!b) return;
-    var v = Number(b.dataset.price).toLocaleString('ko-KR'); $('price').value = v; $('appr').value = v; render();
+    var v = Number(b.dataset.price); setM('price', v); setM('appr', v); render();
     $('price').scrollIntoView({ behavior:'smooth', block:'center' });
   });
 
@@ -794,11 +814,17 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
     g.addEventListener('click', function(e){
       var b = e.target.closest('button'); if(!b) return;
       g.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      var k = g.dataset.key, v = b.dataset.v, pr = num($('prin').value), fmt = function(x){ return Math.round(x).toLocaleString('ko-KR'); };
-      if(k === 'buyMode' && v !== S.buyMode && S.buyMode === 'mix'){ var r0 = buyRatio(); $('buyPct').value = (r0 * 100).toFixed(1).replace(/\.0$/, ''); $('buyAmt').value = fmt(pr * r0); }
-      else if(k === 'buyMode' && v !== S.buyMode && v !== 'mix'){ if(v === 'amt') $('buyAmt').value = fmt(pr * num($('buyPct').value) / 100); else if(pr) $('buyPct').value = (num($('buyAmt').value) / pr * 100).toFixed(1).replace(/\.0$/, ''); }
+      if(g.dataset.key === 'unit'){
+        var vals = {}; document.querySelectorAll('input.money').forEach(function(inp){ vals[inp.id] = num(inp.value) * UF; });
+        UF = Number(b.dataset.v);
+        Object.keys(vals).forEach(function(id){ setM(id, vals[id]); });
+        render(); return;
+      }
+      var k = g.dataset.key, v = b.dataset.v, pr = mv('prin'), fmt = function(x){ return Math.round(x).toLocaleString('ko-KR'); };
+      if(k === 'buyMode' && v !== S.buyMode && S.buyMode === 'mix'){ var r0 = buyRatio(); $('buyPct').value = (r0 * 100).toFixed(1).replace(/\.0$/, ''); setM('buyAmt', pr * r0); }
+      else if(k === 'buyMode' && v !== S.buyMode && v !== 'mix'){ if(v === 'amt') setM('buyAmt', pr * num($('buyPct').value) / 100); else if(pr) $('buyPct').value = (mv('buyAmt') / pr * 100).toFixed(1).replace(/\.0$/, ''); }
       if(k === 'holdMode' && v !== S.holdMode){ if(v === 'day') $('holdDays').value = Math.round(num($('holdMo').value) * 365 / 12); else $('holdMo').value = (num($('holdDays').value) / 365 * 12).toFixed(1).replace(/\.0$/, ''); }
-      if(k === 'accMode' && v !== S.accMode){ var od = num($('od').value) / 100; if(v === 'amt') $('accAmt').value = fmt(pr * od * num($('pastMo').value) / 12); else if(pr && od) $('pastMo').value = (num($('accAmt').value) / (pr * od) * 12).toFixed(1).replace(/\.0$/, ''); }
+      if(k === 'accMode' && v !== S.accMode){ var od = num($('od').value) / 100; if(v === 'amt') setM('accAmt', pr * od * num($('pastMo').value) / 12); else if(pr && od) $('pastMo').value = (mv('accAmt') / (pr * od) * 12).toFixed(1).replace(/\.0$/, ''); }
       S[k] = k === 'lev' ? Number(v) : v; render();
     });
   });
@@ -807,18 +833,22 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--field);bord
   document.querySelectorAll('[data-step]').forEach(function(b){ b.addEventListener('click', function(){ var v = Math.min(110, Math.max(50, num($('bid').value) + Number(b.dataset.step))); $('bid').value = v.toFixed(1); render(); }); });
   $('depSel').addEventListener('change', function(){ S.dep = Number(this.value); render(); });
   $('trHint').addEventListener('click', function(e){ if(e.target.id === 'trReset'){ trAuto = true; render(); } });
-  $('hm').addEventListener('click', function(e){ var c = e.target.closest('[data-cell]'); if(!c) return; var rc = c.dataset.cell.split(','); $('buyPct').value = rc[0]; $('buyAmt').value = Math.round(num($('prin').value) * rc[0] / 100).toLocaleString('ko-KR'); $('bid').value = rc[1]; render(); });
+  $('hm').addEventListener('click', function(e){ var c = e.target.closest('[data-cell]'); if(!c) return; var rc = c.dataset.cell.split(','); $('buyPct').value = rc[0]; setM('buyAmt', mv('prin') * rc[0] / 100); $('bid').value = rc[1]; render(); });
   document.addEventListener('input', function(e){
     var t = e.target;
     if(t.id === 'aucCost') aucAuto = false;
     if(t.id === 'transfer') trAuto = false;
     if(t.id === 'bidS' || (t.closest && t.closest('.lookup'))) return;
     if(t.classList && t.classList.contains('money')){
-      var pos = t.selectionStart, left = t.value.slice(0, pos).replace(/\D/g, '').length;
-      var digits = t.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 7);
-      var out = digits ? Number(digits).toLocaleString('ko-KR') : '';
+      var dot = UF > 1, keep = dot ? /[\d.]/ : /\d/;
+      var pos = t.selectionStart, left = t.value.slice(0, pos).split('').filter(function(ch){ return keep.test(ch); }).length;
+      var raw = t.value.split('').filter(function(ch){ return keep.test(ch); }).join('');
+      var di = raw.indexOf('.'), ip = di >= 0 ? raw.slice(0, di) : raw, fp = di >= 0 ? raw.slice(di + 1).replace(/\./g, '').slice(0, 4) : null;
+      ip = ip.replace(/^0+(?=\d)/, '').slice(0, 13);
+      var out = ip ? Number(ip).toLocaleString('ko-KR') : (fp !== null ? '0' : '');
+      if(fp !== null) out += '.' + fp;
       t.value = out;
-      var p = 0, seen = 0; while(p < out.length && seen < left){ if(/\d/.test(out[p])) seen++; p++; }
+      var p = 0, seen = 0; while(p < out.length && seen < left){ if(keep.test(out[p])) seen++; p++; }
       t.setSelectionRange(p, p);
     }
     render();
