@@ -60,7 +60,7 @@
 
 /* 쿠팡 파트너스 배너 (assets/coupang.js가 내용을 채움) — 다른 카드와 같은 얇은 테두리, 배경만 살짝 다르게 */
 .yn-cp { --yn-card: #FAF6EF; --yn-line: #EAE2D4; --yn-muted: #5B5F6B;
-  max-width: 760px; margin: 32px auto 0; padding: 14px 16px 12px; background: var(--yn-card); border: 1px solid var(--yn-line); border-radius: 16px;
+  width: 100%; max-width: 760px; margin: 32px auto 0; padding: 14px 16px 12px; background: var(--yn-card); border: 1px solid var(--yn-line); border-radius: 16px;
   font-family: 'IBM Plex Sans KR', 'Noto Sans KR', system-ui, sans-serif; box-sizing: border-box; text-align: left; }
 .yn-cp:empty { display: none; }
 .yn-cp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font-size: 13px; font-weight: 600; color: var(--yn-muted); }
