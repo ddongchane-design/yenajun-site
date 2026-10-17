@@ -10,6 +10,7 @@
  *   file_upload       파일 올리기 (엑셀·사진)
  *   cross_promo_click 결과 아래 "다음 단계" 추천 카드 클릭 (link_url, link_text)
  *   related_click     하단 "이런 도구도 있어요" 클릭 (link_url, link_text)
+ *   affiliate_click   광고 칸의 제휴 링크(애드픽 알리 등) 클릭 (partner, tool) — assets/coupang.js에서 보냄
  *   guide_click       가이드 글로 가는 링크 클릭 (link_url)
  *   home_tool_click   홈에서 계산기 카드 클릭 (link_url, link_text)
  *   donate_click      후원하기 클릭

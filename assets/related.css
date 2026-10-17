@@ -73,3 +73,12 @@
 }
 :root[data-theme="dark"] .yn-cp.yn-dark { --yn-card: #1F221F; --yn-line: #3A3D38; --yn-muted: #9A9590; }
 @media (max-width: 480px) { .yn-cp { --yn-pad: 12px; } }
+.yn-cp-ali { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 11px 12px; border: 1px solid var(--yn-line); border-radius: 12px;
+  background: rgba(255,255,255,.55); color: inherit; text-decoration: none; transition: border-color .15s; }
+.yn-cp-ali:hover { border-color: #E5432A; }
+.yn-cp-ali .e { font-size: 20px; flex: none; }
+.yn-cp-ali .t { flex: 1; min-width: 0; }
+.yn-cp-ali b { display: block; font-size: 14px; font-weight: 600; }
+.yn-cp-ali small { display: block; font-size: 12px; color: var(--yn-muted); margin-top: 1px; }
+.yn-cp-ali .go { flex: none; font-size: 16px; color: #E5432A; }
+.yn-cp.yn-dark .yn-cp-ali { background: rgba(255,255,255,.04); }

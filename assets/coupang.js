@@ -5,6 +5,10 @@
 (function () {
   var BANNER = 'https://ads-partners.coupang.com/widgets.html?id=1040301&template=carousel&trackingCode=AF8079847&subId={SUB}&tsource=';
   var NOTE = '이 페이지는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.';
+  // 애드픽 알리익스프레스 링크 — ALI_PAGES에 있는 도구에서만 배너 아래 한 줄로 보여요 (육아 도구엔 넣지 않음)
+  var ALI_URL = 'https://bitl.bz/mh0y8p';
+  var ALI_PAGES = ['robotaxi'];
+  var NOTE_ALI = '이 페이지는 쿠팡 파트너스 및 애드픽 제휴 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.';
   var MIN_W = 280, MAX_W = 726;
   // 휴대폰 폭(420 미만)은 쿠팡이 상품 2개를 위에, 로고를 아래에 두는 모양이라 높이 180.
   // 그보다 넓으면 상품이 높이만큼 정사각형으로 가로로 늘어서고 오른쪽에 로고 칸(약 120px)이 붙음
@@ -40,10 +44,18 @@
     box.dataset.ynCpDone = '1';
     if (document.querySelector('.yn-rel.yn-dark')) box.classList.add('yn-dark');
     box.setAttribute('aria-label', '광고');
+    var ali = ALI_PAGES.indexOf(SUB) !== -1;
     box.innerHTML =
       '<div class="yn-cp-head"><span>함께 보면 좋은 상품</span><em>광고</em></div>' +
       '<div class="yn-cp-frame"></div>' +
-      '<p class="yn-cp-note">' + NOTE + '</p>';
+      (ali ? '<a class="yn-cp-ali" href="' + ALI_URL + '" target="_blank" rel="sponsored nofollow noopener">' +
+        '<span class="e" aria-hidden="true">🛒</span><span class="t"><b>알리익스프레스에서 찾아보기</b>' +
+        '<small>해외 직구 쇼핑몰 · 처음이면 신규 회원 혜택이 있어요</small></span><span class="go">→</span></a>' : '') +
+      '<p class="yn-cp-note">' + (ali ? NOTE_ALI : NOTE) + '</p>';
+    var a = box.querySelector('.yn-cp-ali');
+    if (a) a.addEventListener('click', function () {
+      try { if (typeof window.gtag === 'function') window.gtag('event', 'affiliate_click', { partner: 'aliexpress', tool: SUB }); } catch (e) {}
+    });
     load(box);
   }
 
