@@ -31,7 +31,7 @@
     return (el.innerText || el.getAttribute('aria-label') || el.value || '').replace(/\s+/g, ' ').trim().slice(0, 40);
   }
   // 사이트 공통 머리말·메뉴·하단·추천 블록 안은 도구 사용이 아니라서 뺀다 (도구 자체 <header> 안 버튼은 셈)
-  function outside(el) { return !!el.closest('.yn-rel, .site-header, .mobile-nav, .site-footer, .footer-nav'); }
+  function outside(el) { return !!el.closest('.yn-rel, .yn-cp, .site-header, .mobile-nav, .site-footer, .footer-nav'); }
 
   // 1) 입력 칸을 처음 건드리면 tool_use (값은 보내지 않음)
   var used = false;
